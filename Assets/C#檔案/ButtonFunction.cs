@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class ButtonFunction : MonoBehaviour
 {
     // Start is called before the first frame update
-
     [SerializeField] GameObject WhiteBack;
     [SerializeField] GameObject Continue; 
     [SerializeField] GameObject Replay; 
@@ -59,12 +58,12 @@ public class ButtonFunction : MonoBehaviour
         Continue.SetActive(true);
         Replay.SetActive(true);
         Exit.SetActive(true);
+        GameIsStart=false;
     }
     public void setting()
     {
         Time.timeScale=0f;
     }
-
     public void ContinueButton()
     {
         Time.timeScale=1f;
@@ -72,6 +71,7 @@ public class ButtonFunction : MonoBehaviour
         Continue.SetActive(false);
         Replay.SetActive(false);
         Exit.SetActive(false);
+        GameIsStart=true;
     }
     public void replay()
     {
@@ -80,6 +80,8 @@ public class ButtonFunction : MonoBehaviour
         Continue.SetActive(false);
         Replay.SetActive(false);
         Exit.SetActive(false);
+        Time.timeScale=1f;
+        SceneManager.LoadScene("Background");
     }
     public void exit()
     {
@@ -97,15 +99,10 @@ public class ButtonFunction : MonoBehaviour
         StartButton.SetActive(false);
         Time.timeScale=1f;
         GameIsStart=true;
-        //minute-=Time.deltaTime;
-        /**/
-        //Debug.Log(minute);
-
     }
     
     void countDown()
     {
-        
         minute-=Time.deltaTime;
         sec=(int)minute;
         if(minute<=0f)
@@ -125,16 +122,11 @@ public class ButtonFunction : MonoBehaviour
         if(GameIsStart)
         {
             StopWatch.text=ShowMinute.ToString()+":"+((int)minute).ToString();
-            //Debug.Log(minute);
         }
-        
-        
-        
     }
     void energy()
     {
         pastTime+=Time.deltaTime;
-        //Debug.Log(pastTime);
         if(pastTime>=1f)
         {
             pastTime=0f;
@@ -147,8 +139,6 @@ public class ButtonFunction : MonoBehaviour
             {
                 Energy.text="#200/200";
             }
-
         }
-
     }
 }
