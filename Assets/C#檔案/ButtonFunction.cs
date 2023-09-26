@@ -18,10 +18,13 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Tool;
     [SerializeField] GameObject Upgrade;
     [SerializeField] GameObject StartButton;
+    [SerializeField] TextMeshProUGUI Energy;
     float minute;
     bool GameIsStart;
     int ShowMinute;
     int sec;
+    float pastTime;
+    int currentEnergy;
 
     void Start()
     {
@@ -33,7 +36,8 @@ public class ButtonFunction : MonoBehaviour
         GameIsStart=false;
         ShowMinute=3;
         sec=0;
-
+        pastTime=0f;
+        currentEnergy=100;
     }
 
     // Update is called once per frame
@@ -42,6 +46,8 @@ public class ButtonFunction : MonoBehaviour
         if(GameIsStart)
         {
             countDown();
+            energy();
+
         }
     }
 
@@ -123,5 +129,25 @@ public class ButtonFunction : MonoBehaviour
         
         
         
+    }
+    void energy()
+    {
+        pastTime+=Time.deltaTime;
+        //Debug.Log(pastTime);
+        if(pastTime>=1f)
+        {
+            pastTime=0f;
+            currentEnergy+=15;
+            if(currentEnergy<=200)
+            {
+                Energy.text="#"+currentEnergy.ToString()+"/200";
+            }
+            else
+            {
+                Energy.text="#200/200";
+            }
+
+        }
+
     }
 }
