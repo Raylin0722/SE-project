@@ -31,7 +31,7 @@ public class ButtonFunction : MonoBehaviour
         Time.timeScale=0f;
         minute=60f;
         GameIsStart=false;
-        ShowMinute=0;
+        ShowMinute=3;
         sec=0;
 
     }
