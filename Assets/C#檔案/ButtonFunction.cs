@@ -31,10 +31,11 @@ public class ButtonFunction : MonoBehaviour
         WhiteBack.SetActive(false);
         BlackBackground.SetActive(true);
         StartButton.SetActive(true);
+        Tool.SetActive(false);
         Time.timeScale=0f;
         minute=60f;
         GameIsStart=false;
-        ShowMinute=3;
+        ShowMinute=2;
         sec=0;
         pastTime=0f;
         currentEnergy=100;
