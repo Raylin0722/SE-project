@@ -31,6 +31,7 @@ public class ButtonFunction : MonoBehaviour
         BlackBackground.SetActive(true);
         StartButton.SetActive(true);
         Tool.SetActive(false);
+        Upgrade.SetActive(false);
         Time.timeScale=0f;
         minute=60f;
         GameIsStart=false;
@@ -133,7 +134,7 @@ public class ButtonFunction : MonoBehaviour
             currentEnergy+=15;
             if(currentEnergy<=200)
             {
-                Energy.text="#"+currentEnergy.ToString()+"/200";
+                Energy.text=currentEnergy.ToString()+"/200";
             }
             else
             {
