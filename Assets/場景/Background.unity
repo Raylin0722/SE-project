@@ -905,7 +905,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 268a1846e655e41f2be07b2db30191b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2007,7 +2007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 337, y: 249}
+  m_AnchoredPosition: {x: 326.4, y: 249}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &690703275
@@ -2365,7 +2365,7 @@ GameObject:
   - component: {fileID: 754167028}
   - component: {fileID: 754167027}
   m_Layer: 0
-  m_Name: "\u80FD\u91CF"
+  m_Name: "\u80FD\u91CFicon"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2495,7 +2495,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: d6a772bcd47e14bb3be93c67ed3daf45, type: 3}
   m_Color: {r: 0.16981131, g: 0.15939835, b: 0.15939835, a: 1}
   m_FlipX: 0
@@ -2834,7 +2834,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 3ed0db2c228654ed485bb96929faec3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4aa6ebe47f6dc4c1fa9ba00f513fb090, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2855,7 +2855,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.08, y: -0.13, z: 0}
-  m_LocalScale: {x: 1.3657833, y: 1.3657833, z: 1.3657833}
+  m_LocalScale: {x: 0.5931733, y: 0.5931733, z: 0.5931733}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3578,7 +3578,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 3ed0db2c228654ed485bb96929faec3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4aa6ebe47f6dc4c1fa9ba00f513fb090, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -3599,7 +3599,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.08, y: -0.13, z: 0}
-  m_LocalScale: {x: 1.3657833, y: 1.3657833, z: 1.3657833}
+  m_LocalScale: {x: 0.598313, y: 0.598313, z: 0.598313}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
