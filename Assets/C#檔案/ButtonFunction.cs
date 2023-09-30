@@ -18,12 +18,24 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Upgrade;
     [SerializeField] GameObject StartButton;
     [SerializeField] TextMeshProUGUI Energy;
+    [SerializeField] GameObject W1;
+    [SerializeField] GameObject W2;
+    [SerializeField] GameObject W3;
+    [SerializeField] GameObject W4;
+    [SerializeField] GameObject W5;
+    [SerializeField] GameObject[] WatermelonCharacters;
+    [SerializeField] float[] speed;
+    
+
+
     float minute;
     bool GameIsStart;
     int ShowMinute;
     int sec;
     float pastTime;
     int currentEnergy;
+    //float timer;
+    bool[] characterIsMoving = new bool[5]; 
 
     void Start()
     {
@@ -32,6 +44,12 @@ public class ButtonFunction : MonoBehaviour
         StartButton.SetActive(true);
         Tool.SetActive(false);
         Upgrade.SetActive(false);
+        W1.SetActive(false);
+        W2.SetActive(false);
+        W3.SetActive(false);
+        W4.SetActive(false);
+        W5.SetActive(false);
+        //WatermelonCharacters=new GameObject[5];
         Time.timeScale=0f;
         minute=60f;
         GameIsStart=false;
@@ -39,6 +57,7 @@ public class ButtonFunction : MonoBehaviour
         sec=0;
         pastTime=0f;
         currentEnergy=100;
+        //timer=0;
     }
 
     // Update is called once per frame
@@ -48,6 +67,48 @@ public class ButtonFunction : MonoBehaviour
         {
             countDown();
             energy();
+            //int temp1=Timer();
+            //Debug.Log(Timer());
+            
+            /*if(Timer()>=5)
+            {
+                W1.SetActive(true);
+                W1.transform.Translate(W1speed*Time.deltaTime, 0, 0);
+            }*/
+            microComputer();
+            if(characterIsMoving[0]==true)
+            {
+                W1.transform.Translate(speed[0]*Time.deltaTime, 0, 0);
+                characterStop(0);
+            }
+                
+            if(characterIsMoving[1]==true)
+            {
+                W2.transform.Translate(speed[1]*Time.deltaTime, 0, 0);
+                characterStop(1);
+
+            }
+                
+            if(characterIsMoving[2]==true)
+            {
+                W3.transform.Translate(speed[2]*Time.deltaTime, 0, 0);
+                characterStop(2);
+
+            }
+                
+            if(characterIsMoving[3]==true)
+            {
+                W4.transform.Translate(speed[3]*Time.deltaTime, 0, 0);
+                characterStop(3);
+            }
+                
+            if(characterIsMoving[4]==true)
+            {
+                W5.transform.Translate(speed[4]*Time.deltaTime, 0, 0);
+                characterStop(4);
+            }
+                
+
 
         }
     }
@@ -142,4 +203,54 @@ public class ButtonFunction : MonoBehaviour
             }
         }
     }
+
+    /*float Timer()
+    {
+        timer+=Time.deltaTime;
+        //Debug.Log((int)timer);
+
+        return timer;
+    }*/
+    int count=0;
+    float ttemp=0;
+    public Vector3 initialPosition = new Vector3(7.09f, -0.87f, 0f); 
+
+    void microComputer()
+    {
+        ttemp+=Time.deltaTime;
+        
+        if(ttemp>=5f)
+        {
+            ttemp=0f;
+            count++;
+            Debug.Log("count:"+count);
+
+            if(count>=1)
+            {
+                Debug.Log("count:"+count);
+                int temp=count%5;
+                WatermelonCharacters[temp].transform.position=initialPosition;
+                WatermelonCharacters[temp].SetActive(true);
+                characterIsMoving[temp]=true;
+                Debug.Log("character is moving "+characterIsMoving[0]+characterIsMoving[1]+characterIsMoving[2]+characterIsMoving[3]+characterIsMoving[4]);
+                //WatermelonCharacters[count%5].transform.Translate(speed[count%5]*Time.deltaTime, 0, 0);
+                //return count%5;
+            }
+        }
+        
+        
+        
+    }
+
+    void characterStop(int a)
+    {
+        if (WatermelonCharacters[a].transform.position.x<-7.08)
+        {
+            WatermelonCharacters[a].SetActive(false);
+            characterIsMoving[a]=false;
+        }
+    }
+    
+    
+
 }
