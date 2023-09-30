@@ -49,7 +49,6 @@ public class ButtonFunction : MonoBehaviour
         W3.SetActive(false);
         W4.SetActive(false);
         W5.SetActive(false);
-        //WatermelonCharacters=new GameObject[5];
         Time.timeScale=0f;
         minute=60f;
         GameIsStart=false;
@@ -57,7 +56,6 @@ public class ButtonFunction : MonoBehaviour
         sec=0;
         pastTime=0f;
         currentEnergy=100;
-        //timer=0;
     }
 
     // Update is called once per frame
@@ -67,14 +65,6 @@ public class ButtonFunction : MonoBehaviour
         {
             countDown();
             energy();
-            //int temp1=Timer();
-            //Debug.Log(Timer());
-            
-            /*if(Timer()>=5)
-            {
-                W1.SetActive(true);
-                W1.transform.Translate(W1speed*Time.deltaTime, 0, 0);
-            }*/
             microComputer();
             if(characterIsMoving[0]==true)
             {
@@ -204,13 +194,6 @@ public class ButtonFunction : MonoBehaviour
         }
     }
 
-    /*float Timer()
-    {
-        timer+=Time.deltaTime;
-        //Debug.Log((int)timer);
-
-        return timer;
-    }*/
     int count=0;
     float ttemp=0;
     public Vector3 initialPosition = new Vector3(7.09f, -0.87f, 0f); 
@@ -233,8 +216,6 @@ public class ButtonFunction : MonoBehaviour
                 WatermelonCharacters[temp].SetActive(true);
                 characterIsMoving[temp]=true;
                 Debug.Log("character is moving "+characterIsMoving[0]+characterIsMoving[1]+characterIsMoving[2]+characterIsMoving[3]+characterIsMoving[4]);
-                //WatermelonCharacters[count%5].transform.Translate(speed[count%5]*Time.deltaTime, 0, 0);
-                //return count%5;
             }
         }
         
