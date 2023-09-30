@@ -2,21 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
-  /*  public enum  RockState
-    {
-        BeforeThrown,
-        Thrown
-    }
-    public enum SlingshotState
-    {
-        Idle,
-        Pulling,
-        Flying
-    }
-*/
-namespace Assets.Scripts
-{
-    public class Rock : MonoBehaviour
+using Assets.Scripts;
+
+public class Rock : MonoBehaviour
 {
     public RockState State
     {
@@ -40,5 +28,5 @@ namespace Assets.Scripts
     
 }
 
-}
+
 

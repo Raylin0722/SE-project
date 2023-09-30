@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Assets.Scripts
-{
+using Assets.Scripts;
+
 public class Slingshot : MonoBehaviour
 {
     public Transform LeftSlingshotOrigin,RightSlingshotOrigin;
@@ -123,4 +123,4 @@ public class Slingshot : MonoBehaviour
         Rock.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x,velocity.y)*ThrowSpeed*distance;
     }
 }
-}
+
