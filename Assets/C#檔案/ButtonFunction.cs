@@ -25,6 +25,7 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject W5;
     [SerializeField] GameObject[] WatermelonCharacters;
     [SerializeField] float[] speed;
+    [SerializeField] int level;
     
 
 
@@ -56,6 +57,7 @@ public class ButtonFunction : MonoBehaviour
         sec=0;
         pastTime=0f;
         currentEnergy=100;
+        level=1;
     }
 
     // Update is called once per frame
@@ -218,9 +220,6 @@ public class ButtonFunction : MonoBehaviour
                 Debug.Log("character is moving "+characterIsMoving[0]+characterIsMoving[1]+characterIsMoving[2]+characterIsMoving[3]+characterIsMoving[4]);
             }
         }
-        
-        
-        
     }
 
     void characterStop(int a)
