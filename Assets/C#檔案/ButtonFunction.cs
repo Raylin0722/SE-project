@@ -24,8 +24,16 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject W4;
     [SerializeField] GameObject W5;
     [SerializeField] GameObject[] WatermelonCharacters;
+    [SerializeField] GameObject[] frames;
     [SerializeField] float[] speed;
     [SerializeField] int level;
+    //[SerializeField] GameObject Wicon1;
+    //[SerializeField] GameObject Wicon2;
+    [SerializeField] GameObject Wicon3;
+    [SerializeField] GameObject Wicon4;
+    [SerializeField] GameObject Wicon5;
+
+
     
 
 
@@ -35,8 +43,12 @@ public class ButtonFunction : MonoBehaviour
     int sec;
     float pastTime;
     int currentEnergy;
-    //float timer;
+    int energyLimit;
+    int initialEnergy;
     bool[] characterIsMoving = new bool[5]; 
+    float threeSec;
+    int InsideGameUpgrade;
+    int recovery;
 
     void Start()
     {
@@ -50,6 +62,15 @@ public class ButtonFunction : MonoBehaviour
         W3.SetActive(false);
         W4.SetActive(false);
         W5.SetActive(false);
+        //Wicon1.SetActive(false);
+        //Wicon2.SetActive(false);
+        Wicon3.SetActive(false);
+        Wicon4.SetActive(false);
+        Wicon5.SetActive(false);
+        for(int i=0;i<5;i++)
+        {
+            frames[i].SetActive(false);
+        }
         Time.timeScale=0f;
         minute=60f;
         GameIsStart=false;
@@ -58,6 +79,12 @@ public class ButtonFunction : MonoBehaviour
         pastTime=0f;
         currentEnergy=100;
         level=1;
+        energyLimit=140+level*60;
+        initialEnergy=energyLimit/2;
+        threeSec=0f;
+        InsideGameUpgrade=0;
+        recovery=3*level;
+
     }
 
     // Update is called once per frame
@@ -99,9 +126,19 @@ public class ButtonFunction : MonoBehaviour
                 W5.transform.Translate(speed[4]*Time.deltaTime, 0, 0);
                 characterStop(4);
             }
-                
-
-
+        }
+        if(toolIsActive)
+        {
+            threeSec+=Time.deltaTime;
+            if(threeSec>=3)
+            {
+                toolIsActive=false;
+                threeSec=0f;
+                for(int i=0;i<5;i++)
+                {
+                    speed[i]*=2;
+                }
+            }
         }
     }
 
@@ -151,6 +188,15 @@ public class ButtonFunction : MonoBehaviour
         Tool.SetActive(true);
         Upgrade.SetActive(true);
         StartButton.SetActive(false);
+        //Wicon1.SetActive(true);
+        //Wicon2.SetActive(true);
+        Wicon3.SetActive(true);
+        Wicon4.SetActive(true);
+        Wicon5.SetActive(true);
+        for(int i=0;i<5;i++)
+        {
+            frames[i].SetActive(true);
+        }
         Time.timeScale=1f;
         GameIsStart=true;
     }
@@ -184,14 +230,14 @@ public class ButtonFunction : MonoBehaviour
         if(pastTime>=1f)
         {
             pastTime=0f;
-            currentEnergy+=15;
-            if(currentEnergy<=200)
+            currentEnergy=currentEnergy+12+level*3+5/7*InsideGameUpgrade;
+            if(currentEnergy<=energyLimit)
             {
-                Energy.text=currentEnergy.ToString()+"/200";
+                Energy.text=currentEnergy.ToString()+"/"+energyLimit.ToString();
             }
             else
             {
-                Energy.text="#200/200";
+                Energy.text=energyLimit.ToString()+"/"+energyLimit.ToString();
             }
         }
     }
@@ -230,7 +276,27 @@ public class ButtonFunction : MonoBehaviour
             characterIsMoving[a]=false;
         }
     }
-    
-    
 
+    bool toolIsActive=false;
+    public void tool()
+    {
+        toolIsActive=true;
+        for(int i=0;i<5;i++)
+        {
+            speed[i]*=0.5f;
+        }
+    }
+
+    public void upgrade()
+    {
+        if(currentEnergy>=(110+5*InsideGameUpgrade))
+        {
+            currentEnergy=currentEnergy-(110+5*InsideGameUpgrade);
+            energyLimit+=(160/7);
+            InsideGameUpgrade++;
+        }
+        
+
+    }
+    
 }
