@@ -18,17 +18,17 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Upgrade;
     [SerializeField] GameObject StartButton;
     [SerializeField] TextMeshProUGUI Energy;
-    [SerializeField] GameObject W1;
-    [SerializeField] GameObject W2;
-    [SerializeField] GameObject W3;
-    [SerializeField] GameObject W4;
-    [SerializeField] GameObject W5;
-    [SerializeField] GameObject[] WatermelonCharacters;
+    //[SerializeField] GameObject W1;
+    //[SerializeField] GameObject W2;
+    //[SerializeField] GameObject W3;
+    //[SerializeField] GameObject W4;
+    //[SerializeField] GameObject W5;
+    //[SerializeField] GameObject[] WatermelonCharacters;
     [SerializeField] GameObject[] frames;
-    [SerializeField] float[] speed;
+    //[SerializeField] float[] speed;
     [SerializeField] int level;
-    //[SerializeField] GameObject Wicon1;
-    //[SerializeField] GameObject Wicon2;
+    [SerializeField] GameObject Wicon1;
+    [SerializeField] GameObject Wicon2;
     [SerializeField] GameObject Wicon3;
     [SerializeField] GameObject Wicon4;
     [SerializeField] GameObject Wicon5;
@@ -45,7 +45,7 @@ public class ButtonFunction : MonoBehaviour
     int currentEnergy;
     int energyLimit;
     int initialEnergy;
-    bool[] characterIsMoving = new bool[5]; 
+    //bool[] characterIsMoving = new bool[5]; 
     float threeSec;
     int InsideGameUpgrade;
     int recovery;
@@ -57,13 +57,13 @@ public class ButtonFunction : MonoBehaviour
         StartButton.SetActive(true);
         Tool.SetActive(false);
         Upgrade.SetActive(false);
-        W1.SetActive(false);
-        W2.SetActive(false);
-        W3.SetActive(false);
-        W4.SetActive(false);
-        W5.SetActive(false);
-        //Wicon1.SetActive(false);
-        //Wicon2.SetActive(false);
+        //W1.SetActive(false);
+        //W2.SetActive(false);
+        //W3.SetActive(false);
+        //W4.SetActive(false);
+        //W5.SetActive(false);
+        Wicon1.SetActive(false);
+        Wicon2.SetActive(false);
         Wicon3.SetActive(false);
         Wicon4.SetActive(false);
         Wicon5.SetActive(false);
@@ -94,8 +94,8 @@ public class ButtonFunction : MonoBehaviour
         {
             countDown();
             energy();
-            microComputer();
-            if(characterIsMoving[0]==true)
+            //microComputer();
+            /*if(characterIsMoving[0]==true)
             {
                 W1.transform.Translate(speed[0]*Time.deltaTime, 0, 0);
                 characterStop(0);
@@ -125,7 +125,7 @@ public class ButtonFunction : MonoBehaviour
             {
                 W5.transform.Translate(speed[4]*Time.deltaTime, 0, 0);
                 characterStop(4);
-            }
+            }*/
         }
         if(toolIsActive)
         {
@@ -136,7 +136,7 @@ public class ButtonFunction : MonoBehaviour
                 threeSec=0f;
                 for(int i=0;i<5;i++)
                 {
-                    speed[i]*=2;
+                    //speed[i]*=2;
                 }
             }
         }
@@ -188,8 +188,8 @@ public class ButtonFunction : MonoBehaviour
         Tool.SetActive(true);
         Upgrade.SetActive(true);
         StartButton.SetActive(false);
-        //Wicon1.SetActive(true);
-        //Wicon2.SetActive(true);
+        Wicon1.SetActive(true);
+        Wicon2.SetActive(true);
         Wicon3.SetActive(true);
         Wicon4.SetActive(true);
         Wicon5.SetActive(true);
@@ -242,11 +242,11 @@ public class ButtonFunction : MonoBehaviour
         }
     }
 
-    int count=0;
-    float ttemp=0;
-    public Vector3 initialPosition = new Vector3(7.09f, -0.87f, 0f); 
+    //int count=0;
+    //float ttemp=0;
+    //public Vector3 initialPosition = new Vector3(7.09f, -0.87f, 0f); 
 
-    void microComputer()
+    /*void microComputer()
     {
         ttemp+=Time.deltaTime;
         
@@ -254,16 +254,16 @@ public class ButtonFunction : MonoBehaviour
         {
             ttemp=0f;
             count++;
-            Debug.Log("count:"+count);
+            //Debug.Log("count:"+count);
 
             if(count>=1)
             {
-                Debug.Log("count:"+count);
+                //Debug.Log("count:"+count);
                 int temp=count%5;
                 WatermelonCharacters[temp].transform.position=initialPosition;
                 WatermelonCharacters[temp].SetActive(true);
                 characterIsMoving[temp]=true;
-                Debug.Log("character is moving "+characterIsMoving[0]+characterIsMoving[1]+characterIsMoving[2]+characterIsMoving[3]+characterIsMoving[4]);
+                //Debug.Log("character is moving "+characterIsMoving[0]+characterIsMoving[1]+characterIsMoving[2]+characterIsMoving[3]+characterIsMoving[4]);
             }
         }
     }
@@ -275,7 +275,7 @@ public class ButtonFunction : MonoBehaviour
             WatermelonCharacters[a].SetActive(false);
             characterIsMoving[a]=false;
         }
-    }
+    }*/
 
     bool toolIsActive=false;
     public void tool()
@@ -283,7 +283,7 @@ public class ButtonFunction : MonoBehaviour
         toolIsActive=true;
         for(int i=0;i<5;i++)
         {
-            speed[i]*=0.5f;
+            //speed[i]*=0.5f;
         }
     }
 
@@ -294,6 +294,7 @@ public class ButtonFunction : MonoBehaviour
             currentEnergy=currentEnergy-(110+5*InsideGameUpgrade);
             energyLimit+=(160/7);
             InsideGameUpgrade++;
+            Debug.Log(InsideGameUpgrade);
         }
         
 
