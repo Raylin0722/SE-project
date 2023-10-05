@@ -18,24 +18,12 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Upgrade;
     [SerializeField] GameObject StartButton;
     [SerializeField] TextMeshProUGUI Energy;
-    //[SerializeField] GameObject W1;
-    //[SerializeField] GameObject W2;
-    //[SerializeField] GameObject W3;
-    //[SerializeField] GameObject W4;
-    //[SerializeField] GameObject W5;
-    //[SerializeField] GameObject[] WatermelonCharacters;
     [SerializeField] GameObject[] frames;
-    //[SerializeField] float[] speed;
-    [SerializeField] int level;
     [SerializeField] GameObject Wicon1;
     [SerializeField] GameObject Wicon2;
     [SerializeField] GameObject Wicon3;
     [SerializeField] GameObject Wicon4;
     [SerializeField] GameObject Wicon5;
-
-
-    
-
 
     float minute;
     bool GameIsStart;
@@ -45,7 +33,6 @@ public class ButtonFunction : MonoBehaviour
     int currentEnergy;
     int energyLimit;
     int initialEnergy;
-    //bool[] characterIsMoving = new bool[5]; 
     float threeSec;
     int InsideGameUpgrade;
     int recovery;
@@ -57,11 +44,6 @@ public class ButtonFunction : MonoBehaviour
         StartButton.SetActive(true);
         Tool.SetActive(false);
         Upgrade.SetActive(false);
-        //W1.SetActive(false);
-        //W2.SetActive(false);
-        //W3.SetActive(false);
-        //W4.SetActive(false);
-        //W5.SetActive(false);
         Wicon1.SetActive(false);
         Wicon2.SetActive(false);
         Wicon3.SetActive(false);
@@ -78,12 +60,11 @@ public class ButtonFunction : MonoBehaviour
         sec=0;
         pastTime=0f;
         currentEnergy=100;
-        level=1;
-        energyLimit=140+level*60;
+        energyLimit=140+(GameManage.level)*60;
         initialEnergy=energyLimit/2;
         threeSec=0f;
         InsideGameUpgrade=0;
-        recovery=3*level;
+        recovery=3*GameManage.level;
 
     }
 
@@ -94,50 +75,20 @@ public class ButtonFunction : MonoBehaviour
         {
             countDown();
             energy();
-            //microComputer();
-            /*if(characterIsMoving[0]==true)
-            {
-                W1.transform.Translate(speed[0]*Time.deltaTime, 0, 0);
-                characterStop(0);
-            }
-                
-            if(characterIsMoving[1]==true)
-            {
-                W2.transform.Translate(speed[1]*Time.deltaTime, 0, 0);
-                characterStop(1);
-
-            }
-                
-            if(characterIsMoving[2]==true)
-            {
-                W3.transform.Translate(speed[2]*Time.deltaTime, 0, 0);
-                characterStop(2);
-
-            }
-                
-            if(characterIsMoving[3]==true)
-            {
-                W4.transform.Translate(speed[3]*Time.deltaTime, 0, 0);
-                characterStop(3);
-            }
-                
-            if(characterIsMoving[4]==true)
-            {
-                W5.transform.Translate(speed[4]*Time.deltaTime, 0, 0);
-                characterStop(4);
-            }*/
         }
-        if(toolIsActive)
+        if(GameManage.toolIsActive)
         {
             threeSec+=Time.deltaTime;
             if(threeSec>=3)
             {
-                toolIsActive=false;
+                GameManage.toolIsActive=false;
                 threeSec=0f;
-                for(int i=0;i<5;i++)
-                {
-                    //speed[i]*=2;
-                }
+                Watermelon1.speed*=2;
+                Watermelon2.speed*=2;
+                Watermelon3.speed*=2;
+                Watermelon4.speed*=2;
+                Watermelon5.speed*=2;
+
             }
         }
     }
@@ -230,71 +181,46 @@ public class ButtonFunction : MonoBehaviour
         if(pastTime>=1f)
         {
             pastTime=0f;
-            currentEnergy=currentEnergy+12+level*3+5/7*InsideGameUpgrade;
+            currentEnergy=currentEnergy+12+GameManage.level*3+5/7*InsideGameUpgrade;
             if(currentEnergy<=energyLimit)
             {
                 Energy.text=currentEnergy.ToString()+"/"+energyLimit.ToString();
             }
             else
             {
+                currentEnergy=energyLimit;
                 Energy.text=energyLimit.ToString()+"/"+energyLimit.ToString();
             }
         }
     }
-
-    //int count=0;
-    //float ttemp=0;
-    //public Vector3 initialPosition = new Vector3(7.09f, -0.87f, 0f); 
-
-    /*void microComputer()
-    {
-        ttemp+=Time.deltaTime;
-        
-        if(ttemp>=5f)
-        {
-            ttemp=0f;
-            count++;
-            //Debug.Log("count:"+count);
-
-            if(count>=1)
-            {
-                //Debug.Log("count:"+count);
-                int temp=count%5;
-                WatermelonCharacters[temp].transform.position=initialPosition;
-                WatermelonCharacters[temp].SetActive(true);
-                characterIsMoving[temp]=true;
-                //Debug.Log("character is moving "+characterIsMoving[0]+characterIsMoving[1]+characterIsMoving[2]+characterIsMoving[3]+characterIsMoving[4]);
-            }
-        }
-    }
-
-    void characterStop(int a)
-    {
-        if (WatermelonCharacters[a].transform.position.x<-7.08)
-        {
-            WatermelonCharacters[a].SetActive(false);
-            characterIsMoving[a]=false;
-        }
-    }*/
-
-    bool toolIsActive=false;
+    
     public void tool()
     {
-        toolIsActive=true;
-        for(int i=0;i<5;i++)
-        {
-            //speed[i]*=0.5f;
-        }
+        GameManage.toolIsActive=true;
+        Watermelon1.speed*=0.5f;
+        Watermelon2.speed*=0.5f;
+        Watermelon3.speed*=0.5f;
+        Watermelon4.speed*=0.5f;
+        Watermelon5.speed*=0.5f;
     }
 
     public void upgrade()
     {
-        if(currentEnergy>=(110+5*InsideGameUpgrade))
+        if(currentEnergy>=(110+5*InsideGameUpgrade) && InsideGameUpgrade<7)
         {
             currentEnergy=currentEnergy-(110+5*InsideGameUpgrade);
-            energyLimit+=(160/7);
+            
+            if(InsideGameUpgrade==6)
+            {
+                energyLimit=360;
+            }
+            else
+            {
+                energyLimit+=(160/7);
+            }
             InsideGameUpgrade++;
             Debug.Log(InsideGameUpgrade);
+            
         }
         
 

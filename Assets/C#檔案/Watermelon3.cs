@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class Watermelon3 : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField] float speed;
+    static public float speed=-2f;
     
     void Start()
     {
-        
+    
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if(transform.position.x>(-7.08))
         {
             transform.Translate(speed*Time.deltaTime, 0, 0);
         }
-
     }
 }
