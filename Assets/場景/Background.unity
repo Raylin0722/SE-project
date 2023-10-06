@@ -1089,15 +1089,15 @@ RectTransform:
   m_GameObject: {fileID: 283866259}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9.2807, y: 4.140187, z: 1.4313782}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 692535651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3, y: -205}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 3, y: -215}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &283866261
 MonoBehaviour:
@@ -1120,7 +1120,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 7f689bbc7398d4390b147a6c67b6612a, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1128,7 +1128,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 100
 --- !u!222 &283866262
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1164,15 +1164,15 @@ RectTransform:
   m_GameObject: {fileID: 292468772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9.2807, y: 4.140187, z: 1.4313782}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 692535651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 186, y: -205}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 186, y: -215}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &292468774
 MonoBehaviour:
@@ -1195,7 +1195,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 7f689bbc7398d4390b147a6c67b6612a, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1203,7 +1203,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 100
 --- !u!222 &292468775
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1382,7 +1382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -183, y: -214.8}
+  m_AnchoredPosition: {x: -183, y: -216}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &328499923
@@ -1428,7 +1428,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 328499924}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1378890969}
+        m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
+        m_MethodName: watermelon2Product
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &328499924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3137,7 +3149,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3277c0abcf1f84ad784a81f8d218e8a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3380,7 +3392,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 915369516}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1378890969}
+        m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
+        m_MethodName: watermelon5Product
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &915369516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3634,7 +3658,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 973212200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1378890969}
+        m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
+        m_MethodName: watermelon1Product
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &973212200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3700,15 +3736,15 @@ RectTransform:
   m_GameObject: {fileID: 974729496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9.2807, y: 4.140187, z: 1.4313782}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 692535651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -363, y: -205}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -363, y: -215}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &974729498
 MonoBehaviour:
@@ -3731,15 +3767,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 7f689bbc7398d4390b147a6c67b6612a, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
+  m_Type: 1
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 100
 --- !u!222 &974729499
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4042,15 +4078,15 @@ RectTransform:
   m_GameObject: {fileID: 1113438867}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9.2807, y: 4.140187, z: 1.4313782}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 692535651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -180, y: -205}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -180, y: -215}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113438869
 MonoBehaviour:
@@ -4073,7 +4109,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 7f689bbc7398d4390b147a6c67b6612a, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4081,7 +4117,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 100
 --- !u!222 &1113438870
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4469,16 +4505,16 @@ RectTransform:
   m_GameObject: {fileID: 1371194814}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.2759213, y: 12.060175, z: 12.060175}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.48783883, y: 0.48783883, z: 0.48783883}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1594748142}
   m_Father: {fileID: 692535651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -331, y: -212}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -532, y: -213}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1371194816
 MonoBehaviour:
@@ -4557,7 +4593,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 498032d4cd922474bbfaf25dc1455986, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4565,7 +4601,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 100
 --- !u!222 &1371194818
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4609,6 +4645,12 @@ MonoBehaviour:
   - {fileID: 1992696058341951454, guid: 6a102625606af4a3490f8ab1418b192a, type: 3}
   - {fileID: 2220071811436597158, guid: 4008c8018cbf44c5a8de7ee16903d1c0, type: 3}
   - {fileID: 8029471426085349155, guid: 4995b2fa44d0641b6a5f7e6173fc14b7, type: 3}
+  MyWatermelonPrefabs:
+  - {fileID: 6694193030101232113, guid: dc7df804a0d074e47b59c3b0b7719d48, type: 3}
+  - {fileID: 376488866136081581, guid: 29fb1a271c34c4906b0b9b78747144ae, type: 3}
+  - {fileID: 5805145295273743750, guid: 997f2b7991ccf460fac81e961a082b27, type: 3}
+  - {fileID: 8445628716422489674, guid: 77cabd02df6814a4f91522dc098d8bb9, type: 3}
+  - {fileID: 5862840294405006216, guid: f7b03231e47fd48b69dd1aff80e6672d, type: 3}
 --- !u!4 &1378890970
 Transform:
   m_ObjectHideFlags: 0
@@ -4660,7 +4702,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: -216}
+  m_AnchoredPosition: {x: 2, y: -216}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1557490164
@@ -4706,7 +4748,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1557490165}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1378890969}
+        m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
+        m_MethodName: watermelon3Product
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1557490165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4827,7 +4881,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591840936}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1378890969}
+        m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
+        m_MethodName: watermelon4Product
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1591840936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5249,15 +5315,15 @@ RectTransform:
   m_GameObject: {fileID: 1719912447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9.2807, y: 4.140187, z: 1.4313782}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 692535651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 369, y: -205}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 369, y: -215}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1719912449
 MonoBehaviour:
@@ -5280,7 +5346,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 7f689bbc7398d4390b147a6c67b6612a, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5288,7 +5354,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 100
 --- !u!222 &1719912450
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class CharacterManage : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] GameObject[] WatermelonPrefabs;
+    [SerializeField] GameObject[] MyWatermelonPrefabs;
     float passtime;
     int record;
 
@@ -100,8 +101,31 @@ public class CharacterManage : MonoBehaviour
         }
     }
 
-
-    
+    public void watermelon1Product()
+    {
+        GameObject Watermelon1=Instantiate(MyWatermelonPrefabs[0], transform);
+        Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
+    }
+    public void watermelon2Product()
+    {
+        GameObject Watermelon2=Instantiate(MyWatermelonPrefabs[1], transform);
+        Watermelon2.transform.position=new Vector3(-7.08f, -1f, 0f);
+    }
+    public void watermelon3Product()
+    {
+        GameObject Watermelon3=Instantiate(MyWatermelonPrefabs[2], transform);
+        Watermelon3.transform.position=new Vector3(-7.08f, -1f, 0f);
+    }
+    public void watermelon4Product()
+    {
+        GameObject Watermelon4=Instantiate(MyWatermelonPrefabs[3], transform);
+        Watermelon4.transform.position=new Vector3(-7.08f, -1f, 0f);
+    }
+    public void watermelon5Product()
+    {
+        GameObject Watermelon5=Instantiate(MyWatermelonPrefabs[4], transform);
+        Watermelon5.transform.position=new Vector3(-7.08f, -1f, 0f);
+    }
 
     
 }
