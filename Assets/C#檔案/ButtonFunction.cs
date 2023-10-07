@@ -30,7 +30,7 @@ public class ButtonFunction : MonoBehaviour
     int ShowMinute;
     int sec;
     float pastTime;
-    int currentEnergy;
+    static public int currentEnergy;
     int energyLimit;
     int initialEnergy;
     float threeSec;
@@ -196,12 +196,17 @@ public class ButtonFunction : MonoBehaviour
     
     public void tool()
     {
-        GameManage.toolIsActive=true;
-        Watermelon1.speed*=0.5f;
-        Watermelon2.speed*=0.5f;
-        Watermelon3.speed*=0.5f;
-        Watermelon4.speed*=0.5f;
-        Watermelon5.speed*=0.5f;
+        if(GameManage.toolIsUseable)
+        {
+            GameManage.toolIsUseable=false;
+            GameManage.toolIsActive=true;
+            Watermelon1.speed*=0.5f;
+            Watermelon2.speed*=0.5f;
+            Watermelon3.speed*=0.5f;
+            Watermelon4.speed*=0.5f;
+            Watermelon5.speed*=0.5f;
+        }
+        
     }
 
     public void upgrade()
