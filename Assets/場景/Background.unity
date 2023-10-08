@@ -1224,6 +1224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: watermelon3
       objectReference: {fileID: 0}
+    - target: {fileID: 1992696058341951454, guid: 6a102625606af4a3490f8ab1418b192a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4241647730800661552, guid: 6a102625606af4a3490f8ab1418b192a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.62
@@ -1547,6 +1551,10 @@ PrefabInstance:
     - target: {fileID: 2220071811436597158, guid: 4008c8018cbf44c5a8de7ee16903d1c0, type: 3}
       propertyPath: m_Name
       value: watermelon4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2220071811436597158, guid: 4008c8018cbf44c5a8de7ee16903d1c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3289133233410163638, guid: 4008c8018cbf44c5a8de7ee16903d1c0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2006,6 +2014,10 @@ PrefabInstance:
     - target: {fileID: 5862840294405006216, guid: f7b03231e47fd48b69dd1aff80e6672d, type: 3}
       propertyPath: m_Name
       value: MyW5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862840294405006216, guid: f7b03231e47fd48b69dd1aff80e6672d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4428,6 +4440,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: watermelon2
       objectReference: {fileID: 0}
+    - target: {fileID: 2718356232258373744, guid: 6eaa1f422726a433b9456c7ee36946ff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4885406704264627265, guid: 6eaa1f422726a433b9456c7ee36946ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.31
@@ -4484,6 +4500,10 @@ PrefabInstance:
     - target: {fileID: 376488866136081581, guid: 29fb1a271c34c4906b0b9b78747144ae, type: 3}
       propertyPath: m_Name
       value: MyW2
+      objectReference: {fileID: 0}
+    - target: {fileID: 376488866136081581, guid: 29fb1a271c34c4906b0b9b78747144ae, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4855359746934464557, guid: 29fb1a271c34c4906b0b9b78747144ae, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5455,6 +5475,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MyW3
       objectReference: {fileID: 0}
+    - target: {fileID: 5805145295273743750, guid: 997f2b7991ccf460fac81e961a082b27, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5807,6 +5831,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MyW1
       objectReference: {fileID: 0}
+    - target: {fileID: 6694193030101232113, guid: dc7df804a0d074e47b59c3b0b7719d48, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6090,6 +6118,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MyW4
       objectReference: {fileID: 0}
+    - target: {fileID: 8445628716422489674, guid: 77cabd02df6814a4f91522dc098d8bb9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6146,6 +6178,10 @@ PrefabInstance:
     - target: {fileID: 8029471426085349155, guid: 4995b2fa44d0641b6a5f7e6173fc14b7, type: 3}
       propertyPath: m_Name
       value: watermelon5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8029471426085349155, guid: 4995b2fa44d0641b6a5f7e6173fc14b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6583,6 +6619,10 @@ PrefabInstance:
     - target: {fileID: 9158795049729738243, guid: 9e805d240c55c41e6a0b9793c0668b71, type: 3}
       propertyPath: m_Name
       value: watermelon1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9158795049729738243, guid: 9e805d240c55c41e6a0b9793c0668b71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
