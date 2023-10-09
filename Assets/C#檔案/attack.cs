@@ -19,13 +19,14 @@ public class attack : MonoBehaviour{
         animator.SetBool("isAttack", false);
     }
 
-    private void Update() {
+private void Update() {
         // Implement attack logic here, such as detecting enemies entering attack range and performing attacks
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
         bool judgeMove=true;
         foreach (Collider2D col in hitColliders) {
-            if (gameObject.tag!=col.tag) {
+            if (gameObject.tag!=col.tag&&col.tag!="Untagged") {
                 judgeMove=false;
+                Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
                 AttackTarget(col.gameObject);
                 break;
             }

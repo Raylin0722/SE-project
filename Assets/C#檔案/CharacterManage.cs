@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using Assets.Scripts;
 public class CharacterManage : MonoBehaviour
 {
     // Start is called before the first frame update
 
     [SerializeField] GameObject[] WatermelonPrefabs;
     [SerializeField] GameObject[] MyWatermelonPrefabs;
+    public GameObject castle1;
     float passtime;
     int record;
 
@@ -175,12 +176,21 @@ public class CharacterManage : MonoBehaviour
 
     public void watermelon1Product()
     {
+
         if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w1isUseable)
         {
+
+
             w1isUseable=false;
             ButtonFunction.currentEnergy-=150;
             GameObject Watermelon1=Instantiate(MyWatermelonPrefabs[0], transform);
-            Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
+            //Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            shot.Rock=Watermelon1;
+            if (shot != null)
+            {
+                shot.slingshotState = SlingshotState.Idle;
+            }
         }
         
     }
@@ -191,18 +201,31 @@ public class CharacterManage : MonoBehaviour
             w2isUseable=false;
             ButtonFunction.currentEnergy-=70;
             GameObject Watermelon2=Instantiate(MyWatermelonPrefabs[1], transform);
-            Watermelon2.transform.position=new Vector3(-7.08f, -1f, 0f);
+            //Watermelon2.transform.position=new Vector3(-7.08f, -1f, 0f);
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            shot.Rock=Watermelon2;
+            if (shot != null)
+            {
+                shot.slingshotState = SlingshotState.Idle;
+            }
         }
        
     }
     public void watermelon3Product()
     {
+
         if(ButtonFunction.currentEnergy>=250*Math.Pow(1.4, GameManage.level-1) && w3isUseable)
         {
             w3isUseable=false;
             ButtonFunction.currentEnergy-=250;
             GameObject Watermelon3=Instantiate(MyWatermelonPrefabs[2], transform);
-            Watermelon3.transform.position=new Vector3(-7.08f, -1f, 0f);
+            //Watermelon3.transform.position=new Vector3(-7.08f, -1f, 0f);
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            shot.Rock=Watermelon3;
+            if (shot != null)
+            {
+                shot.slingshotState = SlingshotState.Idle;
+            }
         }
         
     }
@@ -213,7 +236,13 @@ public class CharacterManage : MonoBehaviour
             w4isUseable=false;
             ButtonFunction.currentEnergy-=150;
             GameObject Watermelon4=Instantiate(MyWatermelonPrefabs[3], transform);
-            Watermelon4.transform.position=new Vector3(-7.08f, -1f, 0f);
+            //Watermelon4.transform.position=new Vector3(-7.08f, -1f, 0f);
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            shot.Rock=Watermelon4;
+            if (shot != null)
+            {
+                shot.slingshotState = SlingshotState.Idle;
+            }
         }
         
     }
@@ -224,7 +253,13 @@ public class CharacterManage : MonoBehaviour
             w5isUseable=false;
             ButtonFunction.currentEnergy-=200;
             GameObject Watermelon5=Instantiate(MyWatermelonPrefabs[4], transform);
-            Watermelon5.transform.position=new Vector3(-7.08f, -1f, 0f);
+            //Watermelon5.transform.position=new Vector3(-7.08f, -1f, 0f);
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            shot.Rock=Watermelon5;
+            if (shot != null)
+            {
+                shot.slingshotState = SlingshotState.Idle;
+            }
         }
         
     }

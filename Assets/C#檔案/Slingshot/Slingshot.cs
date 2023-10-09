@@ -16,10 +16,9 @@ public class Slingshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slingshotState = SlingshotState.Idle;
+        slingshotState =SlingshotState.do_nothing;
         SlingshotLeftRubber.SetPosition(0,LeftSlingshotOrigin.position);
         SlingshotRightRubber.SetPosition(0,RightSlingshotOrigin.position);
-
         SlingshotMiddleVector = new Vector3((LeftSlingshotOrigin.position.x + RightSlingshotOrigin.position.x)/2,(LeftSlingshotOrigin.position.y + RightSlingshotOrigin.position.y)/2,0);
 
     }
@@ -50,6 +49,8 @@ public class Slingshot : MonoBehaviour
     {
         switch(slingshotState)
         {
+            case SlingshotState.do_nothing:
+                break;
             case SlingshotState.Idle:
                 InitializeThrow();
                 DisplaySlingshtRubbers();
@@ -94,6 +95,7 @@ public class Slingshot : MonoBehaviour
                         ThrowRock(distance);
                     }
                 }
+                
                 break;
         }
     }
