@@ -13,7 +13,10 @@ public class attack : MonoBehaviour{
     private float lastAttackTime = 0.0f;
     public int currentHealth;
     private Animator animator; 
+    private Rigidbody2D rb;
     private void Start() {
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("Tower2Layer"),true);
+        rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth; // Initialize health
         animator = GetComponent<Animator>();
         animator.SetBool("isAttack", false);
@@ -23,19 +26,28 @@ private void Update() {
         // Implement attack logic here, such as detecting enemies entering attack range and performing attacks
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
         bool judgeMove=true;
+        if(gameObject.tag=="Untagged")
+        {
+            return;
+        }
         foreach (Collider2D col in hitColliders) {
-            if (gameObject.tag!=col.tag&&col.tag!="Untagged") {
+            //加上碰到地板-蔡松豪
+            if (gameObject.tag!=col.tag&&col.tag!="Untagged"&&col.tag!="ground"&&col.tag!="bullet") {
                 judgeMove=false;
-                Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
+                //Debug.Log("判斷是否移動"+judgeMove);
+                //Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
                 AttackTarget(col.gameObject);
                 break;
             }
         }
         if(judgeMove){
+            //Debug.Log("移動");
             animator.SetBool("isAttack", false);
             MoveCharacter();
         }
         else{
+            rb.velocity = Vector2.zero;
+            //Debug.Log("不移動");
             animator.SetBool("isAttack", true);
         }
     }
@@ -62,6 +74,26 @@ private void Update() {
         }
     }
 
+    //加上落地之後改tag為player
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("碰到"+collision.gameObject.tag);
+        if (collision.gameObject.CompareTag("ground")) // 假设Ground是地面的标签
+        {
+            Debug.Log("減速囉");
+            // 更改Rock的标签为"Player"
+            if(gameObject.tag=="Untagged"){
+                gameObject.tag = "Player";
+                Debug.Log("便標籤囉");
+            }
+            
+            collision.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            
+            //rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+        }
+    }
+    //
 
     /*public void TakeDamage(int damage) {
         // Reduce health

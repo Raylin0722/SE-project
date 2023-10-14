@@ -35,17 +35,18 @@ public class CharacterManage : MonoBehaviour
     void Update()
     {
         passtime+=Time.deltaTime;
+        
         if(passtime>=6f&&record==0)
         {
             GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
-            Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
+            Watermelon2.transform.position=new Vector3(15.0f, 0.0f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
         else if(passtime>=19&&record==1)
         {
             GameObject Watermelon4=Instantiate(WatermelonPrefabs[3], transform);
-            Watermelon4.transform.position=new Vector3(7.09f, -0.87f, 0f);
+            Watermelon4.transform.position=new Vector3(13.0f, 0.0f, 0f);
             Watermelon4.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }

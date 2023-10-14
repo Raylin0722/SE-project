@@ -6,6 +6,9 @@ TagManager:
   tags:
   - attack_range
   - enemy
+  - ground
+  - judge_if_ground
+  - bullet
   layers:
   - Default
   - TransparentFX
@@ -13,10 +16,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Tower1Layer
+  - PlayerLayer
+  - Tower2Layer
+  - EnemyLayer
   - 
   - 
   - 
