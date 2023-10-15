@@ -90,7 +90,7 @@ private void Update() {
             collision.gameObject.GetComponent<BoxCollider2D>().enabled = true;
             
             //rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
+            //rb.isKinematic = true;
         }
     }
     //
