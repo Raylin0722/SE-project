@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 1744509758564841900}
   - component: {fileID: 7081087967149702484}
   - component: {fileID: 1925979568841356700}
-  m_Layer: 0
+  - component: {fileID: 397705919166993198}
+  m_Layer: 9
   m_Name: watermelon3
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -163,7 +164,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10.8, y: 6.07}
+  m_Size: {x: 3, y: 2.5}
   m_EdgeRadius: 0
 --- !u!95 &1925979568841356700
 Animator:
@@ -186,3 +187,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &397705919166993198
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992696058341951454}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

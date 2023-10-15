@@ -18,8 +18,14 @@ public class Health : MonoBehaviour{
     }
 
     private IEnumerator Die() {
-        yield return null;
+        //主塔死亡並觸發動畫
+        GetComponent<Animator>().SetTrigger("crash");
+        yield return new WaitForSeconds(2.0f);
+
+        
         // Implement death logic here, such as playing death animation or removing the object
+        
+
         Destroy(gameObject);
     }
 }

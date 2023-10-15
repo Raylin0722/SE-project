@@ -9,6 +9,7 @@ namespace Assets.Scripts
     {
         Idle,
         Pulling,
+        do_nothing,
         Flying
     }
 }

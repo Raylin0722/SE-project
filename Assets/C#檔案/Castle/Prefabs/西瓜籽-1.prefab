@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 9138976241354799144}
   - component: {fileID: 8677031558479008964}
-  - component: {fileID: 2064514680942720045}
   - component: {fileID: -2615869922115183856}
   - component: {fileID: 3759280046863181545}
+  - component: {fileID: 38523648871310353}
   m_Layer: 0
   m_Name: "\u897F\u74DC\u7C7D-1"
-  m_TagString: Untagged
+  m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 43b2cd7aed8c60c4cb73d04574ec8a8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -87,19 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2064514680942720045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544235282072782740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0bea63f860fed469147b1cf1033f9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  force: 5
 --- !u!50 &-2615869922115183856
 Rigidbody2D:
   serializedVersion: 4
@@ -126,7 +113,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &3759280046863181545
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -170,5 +157,18 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0654486, y: 0.5804494}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &38523648871310353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544235282072782740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6a9b5d122c623847a015e76db5c785e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 150
