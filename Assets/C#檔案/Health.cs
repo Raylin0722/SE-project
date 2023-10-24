@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : MonoBehaviour{
-    static public int maxHealth = 100;
-    private int currentHealth=100;
+    public int maxHealth = 100;
+    static public int currentHealth=100;
+    
 
     private void Start(){
         currentHealth = maxHealth;
@@ -27,6 +28,8 @@ public class Health : MonoBehaviour{
         
 
         Destroy(gameObject);
+        Time.timeScale=0f;
+        
 
     }
 }

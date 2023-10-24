@@ -106,10 +106,6 @@ public class ButtonFunction : MonoBehaviour
         Exit.SetActive(true);
         GameIsStart=false;
     }
-    public void setting()
-    {
-        Time.timeScale=0f;
-    }
     public void ContinueButton()
     {
         Time.timeScale=1f;
