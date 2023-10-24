@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : MonoBehaviour{
-    public int maxHealth = 100;
+    static public int maxHealth = 100;
     private int currentHealth=100;
 
     private void Start(){
@@ -27,5 +27,6 @@ public class Health : MonoBehaviour{
         
 
         Destroy(gameObject);
+
     }
 }

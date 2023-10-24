@@ -24,6 +24,8 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Wicon3;
     [SerializeField] GameObject Wicon4;
     [SerializeField] GameObject Wicon5;
+    [SerializeField] GameObject toolFrame;
+    [SerializeField] GameObject energyIcon;
 
     float minute;
     bool GameIsStart;
@@ -49,6 +51,8 @@ public class ButtonFunction : MonoBehaviour
         Wicon3.SetActive(false);
         Wicon4.SetActive(false);
         Wicon5.SetActive(false);
+        toolFrame.SetActive(false);
+        energyIcon.SetActive(false);
         for(int i=0;i<5;i++)
         {
             frames[i].SetActive(false);
@@ -144,6 +148,8 @@ public class ButtonFunction : MonoBehaviour
         Wicon3.SetActive(true);
         Wicon4.SetActive(true);
         Wicon5.SetActive(true);
+        toolFrame.SetActive(true);
+        energyIcon.SetActive(true);
         for(int i=0;i<5;i++)
         {
             frames[i].SetActive(true);

@@ -1026,6 +1026,8 @@ MonoBehaviour:
   Wicon3: {fileID: 1557490162}
   Wicon4: {fileID: 1591840933}
   Wicon5: {fileID: 915369513}
+  toolFrame: {fileID: 509211145}
+  energyIcon: {fileID: 45525632}
 --- !u!212 &267466594
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3754,7 +3756,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.6000001, y: 0.09, z: 0}
-  m_LocalScale: {x: 3.3675008, y: 3.0017579, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
