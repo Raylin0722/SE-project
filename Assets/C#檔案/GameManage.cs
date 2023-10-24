@@ -9,11 +9,14 @@ public class GameManage : MonoBehaviour
     static public bool toolIsActive=false;
     static public int level=1;
     static public bool toolIsUseable=true;
+    //[SerializeField] GameObject toolFrame;
+
 
     void Start()
     {
         //toolIsActive=false;
         //level=1;
+        //toolFrame.SetActive(false);
     }
 
     float fifteen=0f;
@@ -29,5 +32,9 @@ public class GameManage : MonoBehaviour
                 toolIsActive=true;
             }
         }
+        // if(Health.currentHealth==0)
+        // {
+        //     Time.timeScale=0f;
+        // }
     }
 }
