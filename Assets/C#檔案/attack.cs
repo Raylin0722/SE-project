@@ -15,6 +15,7 @@ public class attack : MonoBehaviour{
     private Animator animator; 
     private Rigidbody2D rb;
     private void Start() {
+        gameObject.tag="Untagged";
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("Tower2Layer"),true);
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth; // Initialize health
@@ -82,8 +83,12 @@ private void Update() {
         {
             Debug.Log("減速囉");
             // 更改Rock的标签为"Player"
-            if(gameObject.tag=="Untagged"){
+            if(gameObject.layer==7){
                 gameObject.tag = "Player";
+                Debug.Log("便標籤囉");
+            }
+            else if(gameObject.layer==9){
+                gameObject.tag = "enenmy";
                 Debug.Log("便標籤囉");
             }
             

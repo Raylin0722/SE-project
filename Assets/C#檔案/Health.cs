@@ -28,7 +28,7 @@ public class Health : MonoBehaviour{
         
 
         Destroy(gameObject);
-        Time.timeScale=0f;
+        //Time.timeScale=0f;
         
 
     }

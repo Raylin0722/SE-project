@@ -5,6 +5,7 @@ using Assets.Scripts;
 
 public class Slingshot : MonoBehaviour
 {
+    private Vector3 rockHoldPosition;
     public Transform LeftSlingshotOrigin,RightSlingshotOrigin;
     public LineRenderer SlingshotLeftRubber,SlingshotRightRubber;
     public Transform RockRestPositon;
@@ -43,6 +44,7 @@ public class Slingshot : MonoBehaviour
     }
     void InitializeThrow()
     {
+        rockHoldPosition = Vector3.zero;
         Rock.transform.position =new Vector3(RockRestPositon.position.x,RockRestPositon.position.y,0);
         slingshotState = SlingshotState.Idle;
         SetSlingshotRubbersActive(true); 
@@ -88,18 +90,24 @@ public class Slingshot : MonoBehaviour
                 {
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z=0;
-                    float judge_front= Rock.transform.position.x -Input.mousePosition.x; 
-                    if(judge_front<0)
+                    float judge_front = SlingshotMiddleVector.x - Input.mousePosition.x;
+                    if (judge_front < 0)
                     {
-                        Rock.transform.position = RockRestPositon.position;
+                        if (rockHoldPosition == Vector3.zero)
+                        {
+                            rockHoldPosition = Rock.transform.position;
+                        }
+                        Rock.transform.position = rockHoldPosition;
                     }
                     else if( Vector3.Distance(location,SlingshotMiddleVector)>3.0f)
                     {
+                        rockHoldPosition = Vector3.zero; 
                         var maxPosition = (location -SlingshotMiddleVector).normalized*2.0f + SlingshotMiddleVector;
                         Rock.transform.position = maxPosition;
                     }
                     else
                     {
+                        rockHoldPosition = Vector3.zero; 
                         Rock.transform.position = location;
                     }
 
@@ -126,7 +134,7 @@ public class Slingshot : MonoBehaviour
     {
         SetTrajectoryActive(true);
         Vector3 diff = SlingshotMiddleVector - Rock.transform.position;
-        int segmentCount = 25;
+        int segmentCount = 20;
         Vector2[] segments = new Vector2[segmentCount];
         segments[0] = Rock.transform.position;
         Vector2 segVelocity = new Vector2(diff.x , diff.y)*ThrowSpeed*distance;
