@@ -5026,7 +5026,7 @@ MonoBehaviour:
   SlingshotRightRubber: {fileID: 704980335}
   RockRestPositon: {fileID: 379942981}
   Rock: {fileID: 0}
-  ThrowSpeed: 2
+  ThrowSpeed: 3
   slingshotState: 2
   Trajectory: {fileID: 753929193}
 --- !u!114 &1117045834

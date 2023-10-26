@@ -88,8 +88,8 @@ private void Update() {
                 Debug.Log("便標籤囉");
             }
             else if(gameObject.layer==9){
-                gameObject.tag = "enenmy";
-                Debug.Log("便標籤囉");
+                gameObject.tag = "enemy";
+                Debug.Log("便敵人囉");
             }
             
             collision.gameObject.GetComponent<BoxCollider2D>().enabled = true;
