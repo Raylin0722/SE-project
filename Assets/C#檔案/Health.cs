@@ -29,7 +29,10 @@ public class Health : MonoBehaviour{
         
 
         Destroy(gameObject);
-        //Time.timeScale=0f;
+        if(gameObject.layer==6||gameObject.layer==8)
+        {
+            Time.timeScale=0f;
+        }
         
 
     }

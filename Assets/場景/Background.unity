@@ -5057,7 +5057,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 2000
+  currentHealth: 100
 --- !u!61 &1117045836
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6848,6 +6849,7 @@ GameObject:
   - component: {fileID: 1700648067}
   - component: {fileID: 1700648070}
   - component: {fileID: 1700648069}
+  - component: {fileID: 1700648071}
   m_Layer: 8
   m_Name: WatermelonCastle2
   m_TagString: enemy
@@ -6935,6 +6937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 100
 --- !u!61 &1700648070
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6980,6 +6983,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.0584292, y: 6.07}
   m_EdgeRadius: 0
+--- !u!95 &1700648071
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700648066}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97d6d7e2fdb12c34daa1977f3bce7c3b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1719912447
 GameObject:
   m_ObjectHideFlags: 0
