@@ -27,10 +27,10 @@ public class Game : MonoBehaviour
         form.AddField("username", DBManager.username);
         form.AddField("score", DBManager.score);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:80/sqlconnect/savedata.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/savedata", form);
         yield return www.SendWebRequest();
 
-        if(www.downloadHandler.text == "0") {
+        if(www.downloadHandler.text == "score updated success") {
             Debug.Log("Game Saved");
         }else {
             Debug.Log("Save failed. Error #" + www.downloadHandler.text);

@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class WebTest : MonoBehaviour {
     IEnumerator Start() {
-        UnityWebRequest request = UnityWebRequest.Get("http://localhost:80/sqlconnect/webtest.php");
+        UnityWebRequest request = UnityWebRequest.Get("http://localhost:80/sqlconnect/server.py");
         yield return request.SendWebRequest();
         string[] webResults = request.downloadHandler.text.Split('\t');
         Debug.Log(webResults[0]);
