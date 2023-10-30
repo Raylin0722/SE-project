@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour{
     public int maxHealth = 100;
-     public int currentHealth=100;
+    public int currentHealth=100;
     
 
     private void Start(){
@@ -26,8 +26,6 @@ public class Health : MonoBehaviour{
 
         
         // Implement death logic here, such as playing death animation or removing the object
-        
-
         Destroy(gameObject);
         if(gameObject.layer==6||gameObject.layer==8)
         {

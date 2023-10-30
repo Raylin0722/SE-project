@@ -26,7 +26,15 @@ public class Bullets : MonoBehaviour
             Debug.Log("進入子彈C#檔案");
             // 计算子弹的方向
             Vector2 direction = (target.position - transform.position).normalized;
-
+            // 旋转子弹的Sprite Renderer以面向移动方向
+            if(target.tag=="Player")
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(1, 1, 1);   
+            }
             // 更新子弹的位置，以追踪目标位置
             transform.Translate(direction * speed * Time.deltaTime);
         }
@@ -42,12 +50,21 @@ public class Bullets : MonoBehaviour
         if (collision.CompareTag("enemy"))
         {
             AttackTarget(collision.gameObject);
-            Debug.Log("碰到囉！");
+            Debug.Log("碰到囉ENEMY");
+            // 处理子弹与敌人碰撞的逻辑
+            // 例如，可以造成伤害或者直接销毁子弹
+            Destroy(gameObject);
+        }
+       else if (collision.CompareTag("Player"))
+        {
+            AttackTarget(collision.gameObject);
+            Debug.Log("碰到囉PLAYER");
             // 处理子弹与敌人碰撞的逻辑
             // 例如，可以造成伤害或者直接销毁子弹
             Destroy(gameObject);
         }
     }
+
     void AttackTarget(GameObject enemy)
     {
         //get current health

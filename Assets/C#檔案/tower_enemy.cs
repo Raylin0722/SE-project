@@ -2,29 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class tower : MonoBehaviour
+public class tower_enemy : MonoBehaviour
 {
     public int attackDamage = 150;
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
     private float attackRange = 20.0f;
     private float timer; // 计时器
-
     public float bulletSpeed;
 
     void Update()
     {
         timer += Time.deltaTime;
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
-        
-        
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Player");
 
         foreach (GameObject enemy in enemies)
         {
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
             float judge_front = enemy.transform.position.x - transform.position.x;
 
-            if (judge_front > 0)
+            if (judge_front < 0)
             {
                 if (distance < attackRange)
                 {

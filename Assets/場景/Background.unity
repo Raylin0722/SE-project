@@ -4923,10 +4923,10 @@ GameObject:
   - component: {fileID: 1117045832}
   - component: {fileID: 1117045831}
   - component: {fileID: 1117045833}
-  - component: {fileID: 1117045834}
   - component: {fileID: 1117045835}
   - component: {fileID: 1117045836}
   - component: {fileID: 1117045837}
+  - component: {fileID: 1117045838}
   m_Layer: 6
   m_Name: WatermelonCastle1
   m_TagString: Player
@@ -5029,22 +5029,6 @@ MonoBehaviour:
   ThrowSpeed: 3
   slingshotState: 2
   Trajectory: {fileID: 753929193}
---- !u!114 &1117045834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117045830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcccdea7894ac834abb7cfcb45081f13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackDamage: 150
-  bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
-  bulletSpawnPoint: {fileID: 1016310111}
-  bulletSpeed: 4
 --- !u!114 &1117045835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5125,6 +5109,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1117045838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117045830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcccdea7894ac834abb7cfcb45081f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 150
+  bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
+  bulletSpawnPoint: {fileID: 1016310111}
+  bulletSpeed: 4
 --- !u!1001 &1137236257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6848,6 +6848,7 @@ GameObject:
   - component: {fileID: 1700648068}
   - component: {fileID: 1700648067}
   - component: {fileID: 1700648070}
+  - component: {fileID: 1700648072}
   - component: {fileID: 1700648069}
   - component: {fileID: 1700648071}
   m_Layer: 8
@@ -6921,7 +6922,8 @@ Transform:
   m_LocalPosition: {x: 15, y: -1.8, z: 0}
   m_LocalScale: {x: 0.598313, y: 0.598313, z: 0.598313}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2050530205}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1700648069
@@ -6936,7 +6938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 20000
   currentHealth: 100
 --- !u!61 &1700648070
 BoxCollider2D:
@@ -7004,6 +7006,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1700648072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700648066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412b1236afaee764f8f4c35bf1dfa942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 150
+  bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
+  bulletSpawnPoint: {fileID: 2050530205}
+  bulletSpeed: 2
 --- !u!1 &1719912447
 GameObject:
   m_ObjectHideFlags: 0
@@ -7920,6 +7938,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048787877}
   m_CullTransparentMesh: 1
+--- !u!1 &2050530204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2050530205}
+  m_Layer: 8
+  m_Name: bullposition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2050530205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050530204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1, y: 1.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1700648068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2122676266
 PrefabInstance:
   m_ObjectHideFlags: 0
