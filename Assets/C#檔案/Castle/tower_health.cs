@@ -6,23 +6,24 @@ using UnityEngine.UI;
 
 public class tower_health : MonoBehaviour
 {
-    public float health;
-    public float maxhealth;
-    public Image healthbar;
-    // Start is called before the first frame update
-    void Start()
-    {
-        maxhealth = health;
+    public int maxHealth = 100;
+    private int currentHealth=100;
+
+    private void Start(){
+        currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        healthbar.fillAmount = Mathf.Clamp(health/maxhealth,0,1);
-        if(health<=0)
-        {
-            
-            Destroy(gameObject);
+    public void TakeDamage(int damage){
+        currentHealth -= damage;
+        if (currentHealth <= 0){
+            StartCoroutine(Die());
         }
+    }
+
+    private IEnumerator Die() {
+        yield return null;
+        // Implement death logic here, such as playing death animation or removing the object
+
+        Destroy(gameObject);
     }
 }

@@ -16,10 +16,13 @@ public class Slingshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slingshotState = SlingshotState.Idle;
+        /*nt towerLayerIndex = LayerMask.NameToLayer("Tower1Layer");
+        int playerLayerIndex = LayerMask.NameToLayer("PlayerLayer");*/
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("PlayerLayer"), LayerMask.NameToLayer("Tower1Layer"),true);
+        SetSlingshotRubbersActive(false);
+        slingshotState =SlingshotState.do_nothing;
         SlingshotLeftRubber.SetPosition(0,LeftSlingshotOrigin.position);
         SlingshotRightRubber.SetPosition(0,RightSlingshotOrigin.position);
-
         SlingshotMiddleVector = new Vector3((LeftSlingshotOrigin.position.x + RightSlingshotOrigin.position.x)/2,(LeftSlingshotOrigin.position.y + RightSlingshotOrigin.position.y)/2,0);
 
     }
@@ -50,28 +53,49 @@ public class Slingshot : MonoBehaviour
     {
         switch(slingshotState)
         {
+            case SlingshotState.do_nothing:
+                
+                break;
             case SlingshotState.Idle:
+                Rock.tag = "Untagged";
+                //Rock.GetComponent<BoxCollider2D>().enabled = false;
+                SetSlingshotRubbersActive(true);
                 InitializeThrow();
                 DisplaySlingshtRubbers();
                 if(Input.GetMouseButtonDown(0))
                 {
+                    float MouseToRock = Vector3.Distance(Input.mousePosition, Rock.transform.position);
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    if(Rock.GetComponent<CircleCollider2D>() == Physics2D.OverlapPoint(location))
+                    Debug.Log("要拉了沒");
+                    Debug.Log(MouseToRock);
+                    if ( MouseToRock < 400.0f)
                     {
+                        
+                        Debug.Log("要拉了");
                         slingshotState = SlingshotState.Pulling;
                     }
+                    /*if(Rock.GetComponent<CircleCollider2D>() == Physics2D.OverlapPoint(location))
+                    {
+                        slingshotState = SlingshotState.Pulling;
+                    }*/
                 }
                 break;
             
             case SlingshotState.Pulling:
+                
                 DisplaySlingshtRubbers();
                 if(Input.GetMouseButton(0))
                 {
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z=0;
-                    if( Vector3.Distance(location,SlingshotMiddleVector)>2.5f)
+                    float judge_front= Rock.transform.position.x -Input.mousePosition.x; 
+                    if(judge_front<0)
                     {
-                        var maxPosition = (location -SlingshotMiddleVector).normalized*2.5f + SlingshotMiddleVector;
+                        Rock.transform.position = RockRestPositon.position;
+                    }
+                    else if( Vector3.Distance(location,SlingshotMiddleVector)>3.0f)
+                    {
+                        var maxPosition = (location -SlingshotMiddleVector).normalized*2.0f + SlingshotMiddleVector;
                         Rock.transform.position = maxPosition;
                     }
                     else
@@ -94,6 +118,7 @@ public class Slingshot : MonoBehaviour
                         ThrowRock(distance);
                     }
                 }
+                
                 break;
         }
     }

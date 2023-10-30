@@ -24,13 +24,15 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Wicon3;
     [SerializeField] GameObject Wicon4;
     [SerializeField] GameObject Wicon5;
+    [SerializeField] GameObject toolFrame;
+    [SerializeField] GameObject energyIcon;
 
     float minute;
-    bool GameIsStart;
+    static public bool GameIsStart;
     int ShowMinute;
     int sec;
     float pastTime;
-    int currentEnergy;
+    static public int currentEnergy;
     int energyLimit;
     int initialEnergy;
     float threeSec;
@@ -49,6 +51,8 @@ public class ButtonFunction : MonoBehaviour
         Wicon3.SetActive(false);
         Wicon4.SetActive(false);
         Wicon5.SetActive(false);
+        toolFrame.SetActive(false);
+        energyIcon.SetActive(false);
         for(int i=0;i<5;i++)
         {
             frames[i].SetActive(false);
@@ -102,10 +106,6 @@ public class ButtonFunction : MonoBehaviour
         Exit.SetActive(true);
         GameIsStart=false;
     }
-    public void setting()
-    {
-        Time.timeScale=0f;
-    }
     public void ContinueButton()
     {
         Time.timeScale=1f;
@@ -144,6 +144,8 @@ public class ButtonFunction : MonoBehaviour
         Wicon3.SetActive(true);
         Wicon4.SetActive(true);
         Wicon5.SetActive(true);
+        toolFrame.SetActive(true);
+        energyIcon.SetActive(true);
         for(int i=0;i<5;i++)
         {
             frames[i].SetActive(true);
@@ -196,12 +198,17 @@ public class ButtonFunction : MonoBehaviour
     
     public void tool()
     {
-        GameManage.toolIsActive=true;
-        Watermelon1.speed*=0.5f;
-        Watermelon2.speed*=0.5f;
-        Watermelon3.speed*=0.5f;
-        Watermelon4.speed*=0.5f;
-        Watermelon5.speed*=0.5f;
+        if(GameManage.toolIsUseable)
+        {
+            GameManage.toolIsUseable=false;
+            GameManage.toolIsActive=true;
+            Watermelon1.speed*=0.5f;
+            Watermelon2.speed*=0.5f;
+            Watermelon3.speed*=0.5f;
+            Watermelon4.speed*=0.5f;
+            Watermelon5.speed*=0.5f;
+        }
+        
     }
 
     public void upgrade()

@@ -24,8 +24,18 @@ public class Rock : MonoBehaviour
         rb.isKinematic = false;
         State = RockState.Thrown;
     }
-    // Update is called once per frame
     
+    // Update is called once per frame
+      /*  private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("碰到"+collision.gameObject.tag);
+        if (collision.gameObject.CompareTag("ground")) // 假设Ground是地面的标签
+        {
+            // 更改Rock的标签为"Player"
+            gameObject.tag = "Player";
+            //collision.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }*/
 }
 
 
