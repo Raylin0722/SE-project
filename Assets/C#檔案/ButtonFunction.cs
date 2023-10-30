@@ -28,7 +28,7 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject energyIcon;
 
     float minute;
-    bool GameIsStart;
+    static public bool GameIsStart;
     int ShowMinute;
     int sec;
     float pastTime;
