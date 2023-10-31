@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,11 +19,11 @@ public class Registration : MonoBehaviour {
         form.AddField("username", nameField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:80/sqlconnect/register.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/register", form);
         
         yield return www.SendWebRequest();
 
-        if(www.downloadHandler.text == "0") {
+        if(www.downloadHandler.text == "User register success") {
             Debug.Log("User Created Successfully.");
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }else {

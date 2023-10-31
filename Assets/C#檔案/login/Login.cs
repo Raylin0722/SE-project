@@ -19,11 +19,12 @@ public class Login : MonoBehaviour {
         form.AddField("username", nameField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:80/sqlconnect/login.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/login", form);
         
         yield return www.SendWebRequest();
 
         if(www.downloadHandler.text[0] == '0') {
+            Debug.Log("User login success. #" + www.downloadHandler.text);
             DBManager.username = nameField.text;
             DBManager.score = int.Parse(www.downloadHandler.text.Split('\t')[1]);
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
