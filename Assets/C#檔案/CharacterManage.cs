@@ -169,7 +169,7 @@ public class CharacterManage : MonoBehaviour
             temp2+=Time.deltaTime;
             if(temp2>=(3f*Math.Pow(1.15, GameManage.level-1))*0.25f)
             {
-                w2coolbar[w2i].SetActive(false);
+                w2coolbar[w2i%4].SetActive(false);
                 temp2=0f;
                 w2i++;
             }
