@@ -17,8 +17,6 @@ public class Slingshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*nt towerLayerIndex = LayerMask.NameToLayer("Tower1Layer");
-        int playerLayerIndex = LayerMask.NameToLayer("PlayerLayer");*/
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("PlayerLayer"), LayerMask.NameToLayer("Tower1Layer"),true);
         SetSlingshotRubbersActive(false);
         slingshotState =SlingshotState.do_nothing;
@@ -84,50 +82,52 @@ public class Slingshot : MonoBehaviour
                 break;
             
             case SlingshotState.Pulling:
-                
-                DisplaySlingshtRubbers();
-                if(Input.GetMouseButton(0))
-                {
-                    Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    location.z=0;
-                    float judge_front = SlingshotMiddleVector.x - Input.mousePosition.x;
-                    if (judge_front < 0)
-                    {
-                        if (rockHoldPosition == Vector3.zero)
-                        {
-                            rockHoldPosition = Rock.transform.position;
-                        }
-                        Rock.transform.position = rockHoldPosition;
-                    }
-                    else if( Vector3.Distance(location,SlingshotMiddleVector)>3.0f)
-                    {
-                        rockHoldPosition = Vector3.zero; 
-                        var maxPosition = (location -SlingshotMiddleVector).normalized*2.0f + SlingshotMiddleVector;
-                        Rock.transform.position = maxPosition;
-                    }
-                    else
-                    {
-                        rockHoldPosition = Vector3.zero; 
-                        Rock.transform.position = location;
-                    }
+    Debug.Log("拉当中");
+    DisplaySlingshtRubbers();
+    if (Input.GetMouseButton(0))
+    {
+        Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        location.z = 0;
 
-                    float pullDistace = Vector3.Distance(SlingshotMiddleVector,Rock.transform.position);
-                    ShowTrajectory(pullDistace);
+        float judge_front = SlingshotMiddleVector.x - location.x;
+        if (judge_front < 0)
+        {
+            if (rockHoldPosition == Vector3.zero)
+            {
+                rockHoldPosition = Rock.transform.position;
+            }
+            Rock.transform.position = rockHoldPosition;
+        }
+        else if (Vector3.Distance(location, SlingshotMiddleVector) > 3.0f)
+        {
+            rockHoldPosition = Vector3.zero;
+            var maxPosition = (location - SlingshotMiddleVector).normalized * 2.0f + SlingshotMiddleVector;
+            Rock.transform.position = maxPosition;
+        }
+        else
+        {
+            Debug.Log("正常使用中");
+            rockHoldPosition = Vector3.zero;
+            Rock.transform.position = location;
+        }
 
-                }
-                else
-                {
-                    SetTrajectoryActive(false);
-                    float distance = Vector3.Distance(SlingshotMiddleVector,Rock.transform.position);
-                    if(distance > 0.5)
-                    {
-                        SetSlingshotRubbersActive(false);
-                        slingshotState = SlingshotState.Flying;
-                        ThrowRock(distance);
-                    }
-                }
-                
-                break;
+        float pullDistance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
+        ShowTrajectory(pullDistance);
+
+    }
+    else
+    {
+        SetTrajectoryActive(false);
+        float distance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
+        if (distance > 0.5)
+        {
+            SetSlingshotRubbersActive(false);
+            slingshotState = SlingshotState.Flying;
+            ThrowRock(distance);
+        }
+    }
+
+    break;
         }
     }
     void ShowTrajectory(float distance)
