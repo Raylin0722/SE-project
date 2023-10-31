@@ -9,6 +9,12 @@ public class CharacterManage : MonoBehaviour
 
     [SerializeField] GameObject[] WatermelonPrefabs;
     [SerializeField] GameObject[] MyWatermelonPrefabs;
+    [SerializeField] GameObject[] w1coolbar;
+    [SerializeField] GameObject[] w2coolbar;
+    [SerializeField] GameObject[] w3coolbar;
+    [SerializeField] GameObject[] w4coolbar;
+    [SerializeField] GameObject[] w5coolbar;
+
     public GameObject castle1;
     float passtime;
     int record;
@@ -30,7 +36,17 @@ public class CharacterManage : MonoBehaviour
     float w3CoolTime=0f;
     float w4CoolTime=0f;
     float w5CoolTime=0f;
+    float temp1=0f;
+    float temp2=0f;
+    float temp3=0f;
+    float temp4=0f;
+    float temp5=0f;
 
+    int w1i=0;
+    int w2i=0;
+    int w3i=0;
+    int w4i=0;
+    int w5i=0;
 
     void Update()
     {
@@ -131,45 +147,87 @@ public class CharacterManage : MonoBehaviour
         if(!w1isUseable)
         {
             w1CoolTime+=Time.deltaTime;
-            if(w1CoolTime>=4.77f)
+            temp1+=Time.deltaTime;
+
+            if(temp1>=(4.77f*Math.Pow(1.15, GameManage.level-1))*0.25f)
+            {
+                w1coolbar[w1i].SetActive(false);
+                temp1=0f;
+                w1i++;
+            }
+            if(w1CoolTime>=4.77f*Math.Pow(1.15, GameManage.level-1))
             {
                 w1CoolTime=0f;
+                w1coolbar[3].SetActive(false);
                 w1isUseable=true;
             }
+            
         }
         if(!w2isUseable)
         {
             w2CoolTime+=Time.deltaTime;
-            if(w2CoolTime>=3f)
+            temp2+=Time.deltaTime;
+            if(temp2>=(3f*Math.Pow(1.15, GameManage.level-1))*0.25f)
+            {
+                w2coolbar[w2i].SetActive(false);
+                temp2=0f;
+                w2i++;
+            }
+            if(w2CoolTime>=3f*Math.Pow(1.15, GameManage.level-1))
             {
                 w2CoolTime=0f;
+                w2coolbar[3].SetActive(false);
                 w2isUseable=true;
             }
         }
         if(!w3isUseable)
         {
             w3CoolTime+=Time.deltaTime;
-            if(w3CoolTime>=7f)
+            temp3+=Time.deltaTime;
+            if(temp3>=(7f*Math.Pow(1.15, GameManage.level-1))*0.25f)
+            {
+                w3coolbar[w3i].SetActive(false);
+                temp3=0f;
+                w3i++;
+            }
+            if(w3CoolTime>=7f*Math.Pow(1.15, GameManage.level-1))
             {
                 w3CoolTime=0f;
+                w3coolbar[3].SetActive(false);
                 w3isUseable=true;
             }
         }
         if(!w4isUseable)
         {
             w4CoolTime+=Time.deltaTime;
-            if(w4CoolTime>=5.5f)
+            temp4+=Time.deltaTime;
+            if(temp4>=(4.77f*Math.Pow(1.15, GameManage.level-1))*0.25f)
+            {
+                w4coolbar[w4i].SetActive(false);
+                temp4=0f;
+                w4i++;
+            }
+            if(w4CoolTime>=4.77f*Math.Pow(1.15, GameManage.level-1))
             {
                 w4CoolTime=0f;
+                w4coolbar[3].SetActive(false);
                 w4isUseable=true;
             }
         }
         if(!w5isUseable)
         {
             w5CoolTime+=Time.deltaTime;
-            if(w5CoolTime>=4f)
+            temp5+=Time.deltaTime;
+            if(temp5>=(5.88f*Math.Pow(1.15, GameManage.level-1))*0.25f)
+            {
+                w5coolbar[w5i].SetActive(false);
+                temp5=0f;
+                w5i++;
+            }
+            if(w5CoolTime>=5.88f*Math.Pow(1.15, GameManage.level-1))
             {
                 w5CoolTime=0f;
+                w5coolbar[3].SetActive(false);
                 w5isUseable=true;
             }
         }
@@ -177,11 +235,8 @@ public class CharacterManage : MonoBehaviour
 
     public void watermelon1Product()
     {
-
         if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w1isUseable)
         {
-
-
             w1isUseable=false;
             ButtonFunction.currentEnergy-=150;
             GameObject Watermelon1=Instantiate(MyWatermelonPrefabs[0], transform);
@@ -192,6 +247,11 @@ public class CharacterManage : MonoBehaviour
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
+
+            w1coolbar[0].SetActive(true);
+            w1coolbar[2].SetActive(true);
+            w1coolbar[3].SetActive(true);
+            w1coolbar[1].SetActive(true);
         }
         
     }
@@ -209,6 +269,10 @@ public class CharacterManage : MonoBehaviour
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
+            w2coolbar[0].SetActive(true);
+            w2coolbar[2].SetActive(true);
+            w2coolbar[3].SetActive(true);
+            w2coolbar[1].SetActive(true);
         }
        
     }
@@ -227,6 +291,10 @@ public class CharacterManage : MonoBehaviour
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
+            w3coolbar[0].SetActive(true);
+            w3coolbar[2].SetActive(true);
+            w3coolbar[3].SetActive(true);
+            w3coolbar[1].SetActive(true);
         }
         
     }
@@ -244,6 +312,10 @@ public class CharacterManage : MonoBehaviour
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
+            w4coolbar[0].SetActive(true);
+            w4coolbar[2].SetActive(true);
+            w4coolbar[3].SetActive(true);
+            w4coolbar[1].SetActive(true);
         }
         
     }
@@ -261,6 +333,10 @@ public class CharacterManage : MonoBehaviour
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
+            w5coolbar[0].SetActive(true);
+            w5coolbar[2].SetActive(true);
+            w5coolbar[3].SetActive(true);
+            w5coolbar[1].SetActive(true);
         }
         
     }
