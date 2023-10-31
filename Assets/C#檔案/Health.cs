@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour{
     public int maxHealth = 100;
-    static public int currentHealth=100;
+    public int currentHealth=100;
     
 
     private void Start(){
@@ -20,15 +20,17 @@ public class Health : MonoBehaviour{
 
     private IEnumerator Die() {
         //主塔死亡並觸發動畫
+        Debug.Log("爆掉囉");
         GetComponent<Animator>().SetTrigger("crash");
         yield return new WaitForSeconds(2.0f);
 
         
         // Implement death logic here, such as playing death animation or removing the object
-        
-
         Destroy(gameObject);
-        Time.timeScale=0f;
+        if(gameObject.layer==6||gameObject.layer==8)
+        {
+            Time.timeScale=0f;
+        }
         
 
     }
