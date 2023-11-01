@@ -4,11 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - attack_range
   - enemy
-  - ground
-  - judge_if_ground
   - bullet
+  - ground
   layers:
   - Default
   - TransparentFX
