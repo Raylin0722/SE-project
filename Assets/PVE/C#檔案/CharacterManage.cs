@@ -151,7 +151,7 @@ public class CharacterManage : MonoBehaviour
 
             if(temp1>=(4.77f*Math.Pow(1.15, GameManage.level-1))*0.25f)
             {
-                w1coolbar[w1i%4].SetActive(false);
+                w1coolbar[w1i].SetActive(false);
                 temp1=0f;
                 w1i++;
             }
@@ -163,13 +163,17 @@ public class CharacterManage : MonoBehaviour
             }
             
         }
+        else
+        {
+            w1i = 0;
+        }
         if(!w2isUseable)
         {
             w2CoolTime+=Time.deltaTime;
             temp2+=Time.deltaTime;
             if(temp2>=(3f*Math.Pow(1.15, GameManage.level-1))*0.25f)
             {
-                w2coolbar[w2i%4].SetActive(false);
+                w2coolbar[w2i].SetActive(false);
                 temp2=0f;
                 w2i++;
             }
@@ -180,13 +184,17 @@ public class CharacterManage : MonoBehaviour
                 w2isUseable=true;
             }
         }
+        else
+        {
+            w2i = 0;
+        }
         if(!w3isUseable)
         {
             w3CoolTime+=Time.deltaTime;
             temp3+=Time.deltaTime;
             if(temp3>=(7f*Math.Pow(1.15, GameManage.level-1))*0.25f)
             {
-                w3coolbar[w3i%4].SetActive(false);
+                w3coolbar[w3i].SetActive(false);
                 temp3=0f;
                 w3i++;
             }
@@ -197,13 +205,17 @@ public class CharacterManage : MonoBehaviour
                 w3isUseable=true;
             }
         }
+        else
+        {
+            w3i = 0;
+        }
         if(!w4isUseable)
         {
             w4CoolTime+=Time.deltaTime;
             temp4+=Time.deltaTime;
             if(temp4>=(4.77f*Math.Pow(1.15, GameManage.level-1))*0.25f)
             {
-                w4coolbar[w4i%4].SetActive(false);
+                w4coolbar[w4i].SetActive(false);
                 temp4=0f;
                 w4i++;
             }
@@ -214,13 +226,17 @@ public class CharacterManage : MonoBehaviour
                 w4isUseable=true;
             }
         }
+        else
+        {
+            w4i = 0;
+        }
         if(!w5isUseable)
         {
             w5CoolTime+=Time.deltaTime;
             temp5+=Time.deltaTime;
             if(temp5>=(5.88f*Math.Pow(1.15, GameManage.level-1))*0.25f)
             {
-                w5coolbar[w5i%4].SetActive(false);
+                w5coolbar[w5i].SetActive(false);
                 temp5=0f;
                 w5i++;
             }
@@ -230,6 +246,10 @@ public class CharacterManage : MonoBehaviour
                 w5coolbar[3].SetActive(false);
                 w5isUseable=true;
             }
+        }
+        else
+        {
+            w5i = 0;
         }
     }
 

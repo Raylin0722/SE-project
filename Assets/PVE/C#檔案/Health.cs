@@ -12,7 +12,6 @@ public class Health : MonoBehaviour{
     }
 
     public void TakeDamage(int damage){
-        Debug.Log("屎蛋");
         currentHealth -= damage;
         if (currentHealth <= 0){
             StartCoroutine(Die());
