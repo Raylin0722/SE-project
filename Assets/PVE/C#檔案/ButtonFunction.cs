@@ -176,7 +176,7 @@ public class ButtonFunction : MonoBehaviour
 
         if(GameIsStart)
         {
-            StopWatch.text=ShowMinute.ToString()+":"+((int)minute).ToString();
+            StopWatch.text=ShowMinute.ToString("00")+":"+((int)minute).ToString("00");
         }
     }
     void energy()
