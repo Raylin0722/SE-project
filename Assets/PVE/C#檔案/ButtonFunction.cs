@@ -42,8 +42,8 @@ public class ButtonFunction : MonoBehaviour
     void Start()
     {
         WhiteBack.SetActive(false);
-        //BlackBackground.SetActive(true);
-        //StartButton.SetActive(true);
+        BlackBackground.SetActive(true);
+        StartButton.SetActive(true);
         Tool.SetActive(false);
         Upgrade.SetActive(false);
         Wicon1.SetActive(false);
@@ -69,24 +69,6 @@ public class ButtonFunction : MonoBehaviour
         threeSec=0f;
         InsideGameUpgrade=0;
         recovery=3*GameManage.level;
-        //
-        BlackBackground.SetActive(false);
-        Tool.SetActive(true);
-        Upgrade.SetActive(true);
-        StartButton.SetActive(false);
-        Wicon1.SetActive(true);
-        Wicon2.SetActive(true);
-        Wicon3.SetActive(true);
-        Wicon4.SetActive(true);
-        Wicon5.SetActive(true);
-        toolFrame.SetActive(true);
-        energyIcon.SetActive(true);
-        for(int i=0;i<5;i++)
-        {
-            frames[i].SetActive(true);
-        }
-        Time.timeScale=1f;
-        GameIsStart=true;
 
     }
 
@@ -152,7 +134,6 @@ public class ButtonFunction : MonoBehaviour
         Exit.SetActive(false);
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
-        SceneManager.LoadScene("mapp", LoadSceneMode.Single);
     }
     public void StartGame()
     {
@@ -171,7 +152,7 @@ public class ButtonFunction : MonoBehaviour
         {
             frames[i].SetActive(true);
         }
-        //Time.timeScale=1f;
+        Time.timeScale=1f;
         GameIsStart=true;
     }
     
@@ -192,6 +173,7 @@ public class ButtonFunction : MonoBehaviour
                 Upgrade.SetActive(false);
             }
         }
+
         if(GameIsStart)
         {
             StopWatch.text=ShowMinute.ToString("00")+":"+((int)minute).ToString("00");

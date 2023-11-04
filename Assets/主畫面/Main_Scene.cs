@@ -1,8 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
 
 public class ButtonManager : MonoBehaviour
 {
@@ -18,7 +16,7 @@ public class ButtonManager : MonoBehaviour
     public GameObject Level_up; // Prerpare for the war
     public GameObject page_Level_up; // the page for Level up
     public GameObject Starts; // Select level to PVE
-    //public GameObject page_Start; // the page for PVE
+    public GameObject page_Start; // the page for PVE
     public GameObject Setting; // Settings
     public GameObject page_Setting; // the page for Settings
     public GameObject Friends; // Friends
@@ -36,7 +34,7 @@ public class ButtonManager : MonoBehaviour
         page_Level_up.SetActive(false);
         page_Setting.SetActive(false);
         page_Friends.SetActive(false);
-        //page_Start.SetActive(false);
+        page_Start.SetActive(false);
         Play_Music();
     }
 
@@ -71,9 +69,7 @@ public class ButtonManager : MonoBehaviour
     // Click < Start > 
     public void Button_Start()
     {
-        //page_Start.SetActive(true);
-        Debug.Log("pn click");
-        SceneManager.LoadScene("mapp", LoadSceneMode.Single);
+        page_Start.SetActive(true);
         ALL_Button.SetActive(false); // Close All button in Main_Scene
     }
 
