@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public int attackDamage = 150;
+    private int attackDamage;
     private Vector2 velocity;  // 子弹的速度
     private Transform target;  // 追踪的目标
     private float speed = 4.0f;  // 子弹速度
@@ -18,12 +18,15 @@ public class Bullets : MonoBehaviour
     {
         target = newTarget;
     }
-
+    public void SetAttackDamage(int newAttackDamage)
+    {
+        attackDamage = newAttackDamage;
+    }
     void Update()
     {
         if (target != null)
         {
-            Debug.Log("進入子彈C#檔案");
+
             // 计算子弹的方向
             Vector2 direction = (target.position - transform.position).normalized;
             // 旋转子弹的Sprite Renderer以面向移动方向
@@ -47,21 +50,27 @@ public class Bullets : MonoBehaviour
     // 当子弹碰撞到其他碰撞器时触发碰撞事件
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("enemy"))
+        if(target.tag=="enemy")
         {
-            AttackTarget(collision.gameObject);
-            Debug.Log("碰到囉ENEMY");
-            // 处理子弹与敌人碰撞的逻辑
-            // 例如，可以造成伤害或者直接销毁子弹
-            Destroy(gameObject);
+            if (collision.CompareTag("enemy"))
+            {
+                AttackTarget(collision.gameObject);
+                //Debug.Log("碰到囉ENEMY");
+                // 处理子弹与敌人碰撞的逻辑
+                // 例如，可以造成伤害或者直接销毁子弹
+                Destroy(gameObject);
+            }
         }
-       else if (collision.CompareTag("Player"))
+        else if(target.tag=="Player")
         {
-            AttackTarget(collision.gameObject);
-            Debug.Log("碰到囉PLAYER");
-            // 处理子弹与敌人碰撞的逻辑
-            // 例如，可以造成伤害或者直接销毁子弹
-            Destroy(gameObject);
+            if (collision.CompareTag("Player"))
+            {
+                AttackTarget(collision.gameObject);
+                //Debug.Log("碰到囉PLAYER");
+                // 处理子弹与敌人碰撞的逻辑
+                // 例如，可以造成伤害或者直接销毁子弹
+                Destroy(gameObject);
+            }
         }
     }
 
