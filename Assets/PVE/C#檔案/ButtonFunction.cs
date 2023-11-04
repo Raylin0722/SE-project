@@ -26,7 +26,15 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Wicon5;
     [SerializeField] GameObject toolFrame;
     [SerializeField] GameObject energyIcon;
-
+    [SerializeField] GameObject Victory_1;
+    [SerializeField] GameObject Victory_2;
+    [SerializeField] GameObject Defeat;
+    [SerializeField] GameObject Close;
+    [SerializeField] GameObject Next;
+    //
+    static public int judge_victory=0;
+    static public int judge_defeat=0;
+    // 
     float minute;
     static public bool GameIsStart;
     int ShowMinute;
@@ -53,6 +61,13 @@ public class ButtonFunction : MonoBehaviour
         Wicon5.SetActive(false);
         toolFrame.SetActive(false);
         energyIcon.SetActive(false);
+        //
+        Victory_1.SetActive(false);
+        Victory_2.SetActive(false);
+        Defeat.SetActive(false);
+        Close.SetActive(false);
+        Next.SetActive(false);
+        //
         for(int i=0;i<5;i++)
         {
             frames[i].SetActive(false);
@@ -95,8 +110,40 @@ public class ButtonFunction : MonoBehaviour
 
             }
         }
+        if(judge_victory==1)
+        {
+            Victory_1_End();
+        }
+        if(judge_defeat==1)
+        {
+            Defeat_End();
+        }
     }
-
+    public void Victory_1_End()
+    {
+        Time.timeScale=0f;
+        Victory_1.SetActive(true);
+        Next.SetActive(true);
+        judge_victory=0;
+    }
+    public void Victory_2_End()
+    {
+        Victory_1.SetActive(false);
+        Next.SetActive(false);
+        Victory_2.SetActive(true);
+        Close.SetActive(true);
+    }
+    public void go_Lobby()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+    public void Defeat_End()
+    {
+        judge_defeat=0;
+        Time.timeScale=0f;
+        Defeat.SetActive(true);
+        Close.SetActive(true);
+    }
     public void pause()
     {
         Time.timeScale=0f;

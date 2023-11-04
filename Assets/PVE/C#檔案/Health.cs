@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Health : MonoBehaviour{
+    //ButtonFunction buttonFunction = new ButtonFunction(); 
+    //public ButtonFunction buttonFunction;   
     public int maxHealth = 100;
     public int currentHealth=100;
-    
-
     private void Start(){
         currentHealth = maxHealth;
     }
@@ -26,14 +25,23 @@ public class Health : MonoBehaviour{
 
         // Implement death logic here, such as playing death animation or removing the object
         
-        if(gameObject.layer==6||gameObject.layer==8)
+        if(gameObject.layer==6)
         {
             //主塔死亡並觸發動畫
-            Debug.Log("爆掉囉");
             GetComponent<Animator>().SetTrigger("crash");
             yield return new WaitForSeconds(1.2f);
-            Destroy(gameObject);
-            Time.timeScale=0f;
+            ButtonFunction.judge_defeat=1;
+            //Time.timeScale=0f;
+            
+        }
+        else if(gameObject.layer==8)
+        {
+            //主塔死亡並觸發動畫
+            Debug.Log("敵方主堡爆掉");
+            GetComponent<Animator>().SetTrigger("crash");
+            yield return new WaitForSeconds(1.2f);
+            ButtonFunction.judge_victory=1;
+            //Time.timeScale=0f;
         }
         else 
         {
