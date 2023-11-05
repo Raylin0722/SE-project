@@ -11,6 +11,7 @@ public class GameManage : MonoBehaviour
     static public bool toolIsActive=false;
     static public int level=1;
     static public bool toolIsUseable=true;
+
     //[SerializeField] GameObject toolFrame;
     [SerializeField] GameObject W1B;
     [SerializeField] GameObject W2B;

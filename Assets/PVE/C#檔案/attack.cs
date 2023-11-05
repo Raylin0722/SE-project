@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class attack : MonoBehaviour{
+
+
+public class Attack : MonoBehaviour{
     public int attackDamage = 150; // Attack damage
     public int maxHealth = 700; // Maximum health
     public float moveSpeed = 1.7f; // Movement speed
+    public float windMoveSpeed ;
+    public float unwindMoveSpeed ;
+
     public float attackRange = 7.0f; // Attack range
     public float attackCooldown = 2.0f; // Attack cooldown
     public int cost = 0; // Cost required
@@ -15,6 +20,8 @@ public class attack : MonoBehaviour{
     private Animator animator; 
     private Rigidbody2D rb;
     private void Start() {
+        unwindMoveSpeed=moveSpeed;
+        windMoveSpeed=moveSpeed*0.5f;
         gameObject.tag="Untagged";
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("Tower2Layer"),true);
         rb = GetComponent<Rigidbody2D>();
@@ -23,7 +30,7 @@ public class attack : MonoBehaviour{
         animator.SetBool("isAttack", false);
     }
 
-private void Update() {
+    private void Update() {
         // Implement attack logic here, such as detecting enemies entering attack range and performing attacks
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
         bool judgeMove=true;
@@ -33,7 +40,8 @@ private void Update() {
         }
         foreach (Collider2D col in hitColliders) {
             //加上碰到地板-蔡松豪
-            if (gameObject.tag!=col.tag&&col.tag!="Untagged"&&col.tag!="ground"&&col.tag!="bullet") {
+            if (gameObject.tag!=col.tag&&col.tag!="Untagged"&&col.tag!="ground"&&col.tag!="bullet"
+            &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
                 judgeMove=false;
                 //Debug.Log("判斷是否移動"+judgeMove);
                 //Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
@@ -97,19 +105,6 @@ private void Update() {
             //rb.isKinematic = true;
         }
     }
-    //
 
-    /*public void TakeDamage(int damage) {
-        // Reduce health
-        currentHealth -= damage;
-        if (currentHealth <= 0) {
-            Die(); // Execute death logic when health is less than or equal to 0
-        }
-    }
-
-    private IEnumerator Die() {
-        yield return null;
-        // Implement death logic here, such as playing death animation or removing the object
-        Destroy(gameObject);
-    }*/
 }
+

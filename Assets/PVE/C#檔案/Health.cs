@@ -6,6 +6,8 @@ public class Health : MonoBehaviour{
     //public ButtonFunction buttonFunction;   
     public int maxHealth = 100;
     public int currentHealth=100;
+    
+
     private void Start(){
         currentHealth = maxHealth;
     }
