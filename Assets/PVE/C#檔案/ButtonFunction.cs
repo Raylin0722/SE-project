@@ -25,6 +25,7 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Wicon5;
     [SerializeField] GameObject toolFrame;
     [SerializeField] GameObject energyIcon;
+    public FadeOutEffect fadeOutEffect; 
     [SerializeField] GameObject Victory_1;
     [SerializeField] GameObject Victory_2;
     [SerializeField] GameObject Defeat;
