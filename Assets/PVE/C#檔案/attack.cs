@@ -86,18 +86,17 @@ public class Attack : MonoBehaviour{
     //加上落地之後改tag為player
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("碰到"+collision.gameObject.tag);
+        //Debug.Log("碰到"+collision.gameObject.tag);
         if (collision.gameObject.CompareTag("ground")) // 假设Ground是地面的标签
         {
-            Debug.Log("減速囉");
             // 更改Rock的标签为"Player"
             if(gameObject.layer==7){
                 gameObject.tag = "Player";
-                Debug.Log("便標籤囉");
+                //Debug.Log("便標籤囉");
             }
             else if(gameObject.layer==9){
                 gameObject.tag = "enemy";
-                Debug.Log("便敵人囉");
+                //Debug.Log("便敵人囉");
             }
             
             collision.gameObject.GetComponent<BoxCollider2D>().enabled = true;

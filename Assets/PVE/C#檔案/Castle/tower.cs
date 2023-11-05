@@ -32,10 +32,10 @@ public class tower : MonoBehaviour
                     //Debug.Log("有人囉 timer 是" + timer);
 
                     // 判断是否满足攻击条件（例如，每秒攻击一次）
-                    if (timer >= 1.0f)
+                    if (timer >= 1.3f)
                     {
                         timer = 0; // 重置计时器
-                        Debug.Log("開扁囉");
+                        //Debug.Log("開扁囉");
                         Shoot(enemy.transform); // 传递敌人的位置
                     }
                 }
@@ -50,20 +50,21 @@ public class tower : MonoBehaviour
 
     void Shoot(Transform target)
     {
-        Debug.Log("射出");
+      
         // 创建子弹的实例
         GameObject newBullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-        Debug.Log("目標位置"+target.position);
+       
         // 计算子弹的方向，以便追踪敌人的未来位置
         Vector2 direction = (target.position - bulletSpawnPoint.position).normalized;
-        Debug.Log("方向"+direction);
+        
         // 设置子弹速度
         Bullets bulletScript = newBullet.GetComponent<Bullets>();
         if (bulletScript != null)
         {
-            Debug.Log("創建子彈");
+            
             bulletScript.SetVelocity(direction * bulletSpeed);
             bulletScript.SetTarget(target);
+            bulletScript.SetAttackDamage(attackDamage);
         
         }
     

@@ -13,10 +13,12 @@ public class Slingshot : MonoBehaviour
     public float ThrowSpeed;
     public SlingshotState slingshotState;
     private Vector3 SlingshotMiddleVector;
+    private int energy;
     public LineRenderer Trajectory;
     // Start is called before the first frame update
     void Start()
     {
+        Rock=null;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("PlayerLayer"), LayerMask.NameToLayer("Tower1Layer"),true);
         SetSlingshotRubbersActive(false);
         slingshotState =SlingshotState.do_nothing;
@@ -25,7 +27,10 @@ public class Slingshot : MonoBehaviour
         SlingshotMiddleVector = new Vector3((LeftSlingshotOrigin.position.x + RightSlingshotOrigin.position.x)/2,(LeftSlingshotOrigin.position.y + RightSlingshotOrigin.position.y)/2,0);
 
     }
-
+    public void SetEnergy(int newEnergy)
+    {
+        energy = newEnergy;
+    }
     void SetTrajectoryActive(bool active)
     {
         Trajectory.enabled = active;
@@ -51,12 +56,15 @@ public class Slingshot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         switch(slingshotState)
         {
             case SlingshotState.do_nothing:
-                
+                //Debug.Log(Rock.tag);
+
                 break;
             case SlingshotState.Idle:
+                
                 Rock.tag = "Untagged";
                 //Rock.GetComponent<BoxCollider2D>().enabled = false;
                 SetSlingshotRubbersActive(true);
@@ -64,13 +72,14 @@ public class Slingshot : MonoBehaviour
                 DisplaySlingshtRubbers();
                 if(Input.GetMouseButtonDown(0))
                 {
-                    float MouseToRock = Vector3.Distance(Input.mousePosition, Rock.transform.position);
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Debug.Log("要拉了沒");
+                    location.z=0f;
+                    float MouseToRock = Vector3.Distance(location, Rock.transform.position);
                     Debug.Log(MouseToRock);
-                    if ( MouseToRock < 400.0f)
+                    Debug.Log("mouse"+location);
+                    Debug.Log("rock"+Rock.transform.position);
+                    if ( MouseToRock < 1.0f)
                     {
-                        
                         Debug.Log("要拉了");
                         slingshotState = SlingshotState.Pulling;
                     }
@@ -82,53 +91,54 @@ public class Slingshot : MonoBehaviour
                 break;
             
             case SlingshotState.Pulling:
-    Debug.Log("拉当中");
-    DisplaySlingshtRubbers();
-    if (Input.GetMouseButton(0))
-    {
-        Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        location.z = 0;
+                //Debug.Log("拉当中");
+                DisplaySlingshtRubbers();
+                if (Input.GetMouseButton(0))
+                {
+                    Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    location.z = 0;
+                    float judge_front = SlingshotMiddleVector.x - location.x;
+                    Debug.Log("ditance"+Vector3.Distance(location, SlingshotMiddleVector));
+                    if (judge_front < 0)
+                    {
+                        if (rockHoldPosition == Vector3.zero)
+                        {
+                            rockHoldPosition = Rock.transform.position;
+                        }
+                        Rock.transform.position = rockHoldPosition;
+                    }
+                    else if (Vector3.Distance(location, SlingshotMiddleVector) > 2.0f)
+                    {
+                        rockHoldPosition = Vector3.zero;
+                        var maxPosition = (location - SlingshotMiddleVector).normalized * 2.0f + SlingshotMiddleVector;
+                        Rock.transform.position = maxPosition;
+                    }
+                    else
+                    {
+                        //Debug.Log("正常使用中");
+                        rockHoldPosition = Vector3.zero;
+                        Rock.transform.position = location;
+                    }
 
-        float judge_front = SlingshotMiddleVector.x - location.x;
-        if (judge_front < 0)
-        {
-            if (rockHoldPosition == Vector3.zero)
-            {
-                rockHoldPosition = Rock.transform.position;
-            }
-            Rock.transform.position = rockHoldPosition;
-        }
-        else if (Vector3.Distance(location, SlingshotMiddleVector) > 3.0f)
-        {
-            rockHoldPosition = Vector3.zero;
-            var maxPosition = (location - SlingshotMiddleVector).normalized * 2.0f + SlingshotMiddleVector;
-            Rock.transform.position = maxPosition;
-        }
-        else
-        {
-            Debug.Log("正常使用中");
-            rockHoldPosition = Vector3.zero;
-            Rock.transform.position = location;
-        }
+                    float pullDistance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
+                    ShowTrajectory(pullDistance);
 
-        float pullDistance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
-        ShowTrajectory(pullDistance);
-
-    }
-    else
-    {
-        SetTrajectoryActive(false);
-        float distance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
-        if (distance > 0.5)
-        {
-            SetSlingshotRubbersActive(false);
-            slingshotState = SlingshotState.Flying;
-            ThrowRock(distance);
-        }
-    }
-
-    break;
-        }
+                }
+                else
+                {
+                    SetTrajectoryActive(false);
+                    float distance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
+                    if (distance > 0.5)
+                    {
+                        SetSlingshotRubbersActive(false);
+                        slingshotState = SlingshotState.Flying;
+                        ThrowRock(distance);
+                        Rock=null;
+                        ButtonFunction.currentEnergy-=energy;
+                    }
+                }
+                break;
+        }       
     }
     void ShowTrajectory(float distance)
     {
