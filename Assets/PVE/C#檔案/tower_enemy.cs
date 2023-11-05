@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class tower_enemy : MonoBehaviour
 {
     public int attackDamage = 150;
@@ -10,9 +9,22 @@ public class tower_enemy : MonoBehaviour
     private float attackRange = 20.0f;
     private float timer; // 计时器
     public float bulletSpeed;
-
+    public static float windCooldown=0.0f;
+    static public bool enemyToolIsActive=false;
+    static public bool enemyToolIsUseable=true;
     void Update()
     {
+        //判斷敵人的冷風
+        if(windCooldown>0.0f){
+            float last=windCooldown;
+            windCooldown-=Time.deltaTime;
+            if(last>7.0f&&windCooldown<=7.0f) {
+                ButtonFunction.itemWind(false,true);
+                enemyToolIsActive=false;
+            }
+            if(windCooldown<0) windCooldown=0.0f;
+        }
+        else enemyToolIsUseable=true;
         timer += Time.deltaTime;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Player");
 
@@ -20,7 +32,19 @@ public class tower_enemy : MonoBehaviour
         {
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
             float judge_front = enemy.transform.position.x - transform.position.x;
-
+            //啟用冷風,如果距離小於5
+            if (distance <= 5.0f&&enemyToolIsUseable) {
+                ButtonFunction.itemWind(false,false);
+                Wind[] Winds = FindObjectsOfType<Wind>();
+                foreach (Wind Wind in Winds)
+                {
+                    if(Wind.who)
+                        Wind.ActivateWind();
+                }
+                windCooldown=10.0f;
+                enemyToolIsUseable=false;
+                enemyToolIsActive=true;
+            }
             if (judge_front < 0)
             {
                 if (distance < attackRange)
