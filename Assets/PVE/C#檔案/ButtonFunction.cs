@@ -63,7 +63,7 @@ public class ButtonFunction : MonoBehaviour
         ShowMinute=2;
         sec=0;
         pastTime=0f;
-        currentEnergy=100;
+        currentEnergy=100+12+GameManage.level*3+5/7*InsideGameUpgrade;
         energyLimit=140+(GameManage.level)*60;
         initialEnergy=energyLimit/2;
         threeSec=0f;
