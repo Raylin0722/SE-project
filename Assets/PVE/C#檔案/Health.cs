@@ -13,10 +13,7 @@ public class Health : MonoBehaviour{
     }
 
     public void TakeDamage(int damage){
-        if(gameObject.layer==6||gameObject.layer==8)
-        {
-            Debug.Log("被打了");
-        }
+
         currentHealth -= damage;
         if (currentHealth <= 0){
             StartCoroutine(Die());

@@ -7,10 +7,10 @@ public class tower : MonoBehaviour
     public int attackDamage = 150;
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
-    private float attackRange = 20.0f;
+    public float attackRange = 13.0f;
     private float timer; // 计时器
 
-    public float bulletSpeed;
+    public float bulletSpeed=7.0f;
 
     void Update()
     {
@@ -40,11 +40,6 @@ public class tower : MonoBehaviour
                     }
                 }
             }
-            //跑出地图把它删掉
-            else if (judge_front < -5)
-            {
-                Destroy(enemy);
-            }
         }
     }
 
@@ -65,7 +60,7 @@ public class tower : MonoBehaviour
             bulletScript.SetVelocity(direction * bulletSpeed);
             bulletScript.SetTarget(target);
             bulletScript.SetAttackDamage(attackDamage);
-        
+            bulletScript.SetBulletSpeed(bulletSpeed);
         }
     
     }

@@ -15,6 +15,7 @@ public class Slingshot : MonoBehaviour
     private Vector3 SlingshotMiddleVector;
     private int energy;
     public LineRenderer Trajectory;
+    public GameObject cancel_shoot_bottom;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,10 +62,15 @@ public class Slingshot : MonoBehaviour
         {
             case SlingshotState.do_nothing:
                 //Debug.Log(Rock.tag);
-
+                SetSlingshotRubbersActive(false);
+                if(Rock!=null)
+                {
+                    Destroy(Rock);
+                }
+                
                 break;
             case SlingshotState.Idle:
-                
+                show_bottom();
                 Rock.tag = "Untagged";
                 //Rock.GetComponent<BoxCollider2D>().enabled = false;
                 SetSlingshotRubbersActive(true);
@@ -91,14 +97,14 @@ public class Slingshot : MonoBehaviour
                 break;
             
             case SlingshotState.Pulling:
-                //Debug.Log("拉当中");
+                show_bottom();
                 DisplaySlingshtRubbers();
                 if (Input.GetMouseButton(0))
                 {
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z = 0;
                     float judge_front = SlingshotMiddleVector.x - location.x;
-                    Debug.Log("ditance"+Vector3.Distance(location, SlingshotMiddleVector));
+                    //Debug.Log("ditance"+Vector3.Distance(location, SlingshotMiddleVector));
                     if (judge_front < 0)
                     {
                         if (rockHoldPosition == Vector3.zero)
@@ -115,6 +121,7 @@ public class Slingshot : MonoBehaviour
                     }
                     else
                     {
+                        
                         //Debug.Log("正常使用中");
                         rockHoldPosition = Vector3.zero;
                         Rock.transform.position = location;
@@ -126,6 +133,7 @@ public class Slingshot : MonoBehaviour
                 }
                 else
                 {
+                    cancel_shoot_bottom.SetActive(false);
                     SetTrajectoryActive(false);
                     float distance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
                     if (distance > 0.5)
@@ -139,6 +147,15 @@ public class Slingshot : MonoBehaviour
                 }
                 break;
         }       
+    }
+    void show_bottom()
+    {
+        cancel_shoot_bottom.SetActive(true);
+    }
+    public void cancel_shoot()
+    {
+        slingshotState = SlingshotState.do_nothing;
+        cancel_shoot_bottom.SetActive(false);
     }
     void ShowTrajectory(float distance)
     {
@@ -166,4 +183,3 @@ public class Slingshot : MonoBehaviour
         Rock.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x,velocity.y)*ThrowSpeed*distance;
     }
 }
-

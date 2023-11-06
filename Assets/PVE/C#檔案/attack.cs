@@ -89,6 +89,9 @@ public class Attack : MonoBehaviour{
         //Debug.Log("碰到"+collision.gameObject.tag);
         if (collision.gameObject.CompareTag("ground")) // 假设Ground是地面的标签
         {
+            rb.velocity = Vector2.zero;
+            
+            //moveSpeed=unwindMoveSpeed;
             // 更改Rock的标签为"Player"
             if(gameObject.layer==7){
                 gameObject.tag = "Player";

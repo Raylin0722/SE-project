@@ -260,7 +260,8 @@ public class CharacterManage : MonoBehaviour
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
-                return;
+                Destroy(shot.Rock);
+                shot.slingshotState = SlingshotState.do_nothing;
             }
             w1isUseable=false;
             shot.SetEnergy(150);
@@ -288,7 +289,8 @@ public class CharacterManage : MonoBehaviour
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
-                return;
+                Destroy(shot.Rock);
+                shot.slingshotState = SlingshotState.do_nothing;
             }
             w2isUseable=false;
             shot.SetEnergy(70);
@@ -307,8 +309,8 @@ public class CharacterManage : MonoBehaviour
             w2coolbar[3].SetActive(true);
             w2coolbar[1].SetActive(true);
         }
-       
-    }
+       }
+    
     public void watermelon3Product()
     {
 
@@ -317,7 +319,8 @@ public class CharacterManage : MonoBehaviour
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
-                return;
+                Destroy(shot.Rock);
+                shot.slingshotState = SlingshotState.do_nothing;
             }
             w3isUseable=false;
             shot.SetEnergy(250);
@@ -344,7 +347,8 @@ public class CharacterManage : MonoBehaviour
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
-                return;
+                Destroy(shot.Rock);
+                shot.slingshotState = SlingshotState.do_nothing;
             }
             w4isUseable=false;
             shot.SetEnergy(150);
@@ -371,7 +375,8 @@ public class CharacterManage : MonoBehaviour
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
-                return;
+                Destroy(shot.Rock);
+                shot.slingshotState = SlingshotState.do_nothing;
             }
             w5isUseable=false;
             shot.SetEnergy(200);
