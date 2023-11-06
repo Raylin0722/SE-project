@@ -7,7 +7,7 @@ public class Bullets : MonoBehaviour
     private int attackDamage;
     private Vector2 velocity;  // 子弹的速度
     private Transform target;  // 追踪的目标
-    private float speed = 4.0f;  // 子弹速度
+    private float speed = 5.0f;  // 子弹速度
 
     public void SetVelocity(Vector2 newVelocity)
     {
@@ -21,6 +21,10 @@ public class Bullets : MonoBehaviour
     public void SetAttackDamage(int newAttackDamage)
     {
         attackDamage = newAttackDamage;
+    }
+    public void SetBulletSpeed(float newSpeed)
+    {
+        speed = newSpeed;
     }
     void Update()
     {

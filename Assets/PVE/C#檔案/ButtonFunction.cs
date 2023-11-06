@@ -31,6 +31,8 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Defeat;
     [SerializeField] GameObject Close;
     [SerializeField] GameObject Next;
+    [SerializeField] GameObject Close_bottom;
+    [SerializeField] GameObject Next_bottom;
     //
     static public int judge_victory=0;
     static public int judge_defeat=0;
@@ -119,14 +121,17 @@ public class ButtonFunction : MonoBehaviour
         Time.timeScale=0f;
         Victory_1.SetActive(true);
         Next.SetActive(true);
+        Next_bottom.SetActive(true);
         judge_victory=0;
     }
     public void Victory_2_End()
     {
         Victory_1.SetActive(false);
         Next.SetActive(false);
+        Next_bottom.SetActive(false);
         Victory_2.SetActive(true);
         Close.SetActive(true);
+        Close_bottom.SetActive(true);
     }
     public void go_Lobby()
     {
@@ -138,6 +143,7 @@ public class ButtonFunction : MonoBehaviour
         Time.timeScale=0f;
         Defeat.SetActive(true);
         Close.SetActive(true);
+        Close_bottom.SetActive(true);
     }
     public void pause()
     {

@@ -6,9 +6,9 @@ public class tower_enemy : MonoBehaviour
     public int attackDamage = 150;
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
-    private float attackRange = 20.0f;
+    public float attackRange = 15.0f;
     private float timer; // 计时器
-    public float bulletSpeed;
+    public float bulletSpeed=7;
     public static float windCooldown=0.0f;
     static public bool enemyToolIsActive=false;
     static public bool enemyToolIsUseable=true;
@@ -86,6 +86,7 @@ public class tower_enemy : MonoBehaviour
             bulletScript.SetVelocity(direction * bulletSpeed);
             bulletScript.SetTarget(target);
             bulletScript.SetAttackDamage(attackDamage);
+            bulletScript.SetBulletSpeed(bulletSpeed);
         }
     
     }
