@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-
 public class ButtonFunction : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -26,7 +25,16 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Wicon5;
     [SerializeField] GameObject toolFrame;
     [SerializeField] GameObject energyIcon;
-
+    public FadeOutEffect fadeOutEffect; 
+    [SerializeField] GameObject Victory_1;
+    [SerializeField] GameObject Victory_2;
+    [SerializeField] GameObject Defeat;
+    [SerializeField] GameObject Close;
+    [SerializeField] GameObject Next;
+    //
+    static public int judge_victory=0;
+    static public int judge_defeat=0;
+    // 
     float minute;
     static public bool GameIsStart;
     int ShowMinute;
@@ -35,10 +43,9 @@ public class ButtonFunction : MonoBehaviour
     static public int currentEnergy;
     int energyLimit;
     int initialEnergy;
-    float threeSec;
     int InsideGameUpgrade;
     int recovery;
-
+    float windCooldown=0.0f;
     void Start()
     {
         WhiteBack.SetActive(false);
@@ -53,6 +60,13 @@ public class ButtonFunction : MonoBehaviour
         Wicon5.SetActive(false);
         toolFrame.SetActive(false);
         energyIcon.SetActive(false);
+        //
+        Victory_1.SetActive(false);
+        Victory_2.SetActive(false);
+        Defeat.SetActive(false);
+        Close.SetActive(false);
+        Next.SetActive(false);
+        //
         for(int i=0;i<5;i++)
         {
             frames[i].SetActive(false);
@@ -66,7 +80,6 @@ public class ButtonFunction : MonoBehaviour
         currentEnergy=100+12+GameManage.level*3+5/7*InsideGameUpgrade;
         energyLimit=140+(GameManage.level)*60;
         initialEnergy=energyLimit/2;
-        threeSec=0f;
         InsideGameUpgrade=0;
         recovery=3*GameManage.level;
 
@@ -97,23 +110,52 @@ public class ButtonFunction : MonoBehaviour
             countDown();
             energy();
         }
-        if(GameManage.toolIsActive)
-        {
-            threeSec+=Time.deltaTime;
-            if(threeSec>=3)
-            {
+        //判斷我方冷風能不能用以及冷風使用時間過3秒要將移動速度調整回來
+        if(windCooldown>0.0f){
+            float last=windCooldown;
+            windCooldown-=Time.deltaTime;
+            if(last>7.0f&&windCooldown<=7.0f){
+                itemWind(true,true);
                 GameManage.toolIsActive=false;
-                threeSec=0f;
-                Watermelon1.speed*=2;
-                Watermelon2.speed*=2;
-                Watermelon3.speed*=2;
-                Watermelon4.speed*=2;
-                Watermelon5.speed*=2;
-
             }
+            if(windCooldown<0) windCooldown=0.0f;
+        }
+        else GameManage.toolIsUseable=true;
+
+        if(judge_victory==1)
+        {
+            Victory_1_End();
+        }
+        if(judge_defeat==1)
+        {
+            Defeat_End();
         }
     }
-
+    public void Victory_1_End()
+    {
+        Time.timeScale=0f;
+        Victory_1.SetActive(true);
+        Next.SetActive(true);
+        judge_victory=0;
+    }
+    public void Victory_2_End()
+    {
+        Victory_1.SetActive(false);
+        Next.SetActive(false);
+        Victory_2.SetActive(true);
+        Close.SetActive(true);
+    }
+    public void go_Lobby()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+    public void Defeat_End()
+    {
+        judge_defeat=0;
+        Time.timeScale=0f;
+        Defeat.SetActive(true);
+        Close.SetActive(true);
+    }
     public void pause()
     {
         Time.timeScale=0f;
@@ -215,17 +257,34 @@ public class ButtonFunction : MonoBehaviour
         }
     }
     
+    //itemWind(True,True) --> player use and enemy moveSpeed recovery
+    public static void itemWind(bool whoUse,bool divOrMul){
+        string objectTag = (whoUse) ?"enemy" :"Player" ;
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(objectTag);
+            foreach (GameObject enemy in enemies) {
+                Attack enemyAttack = enemy.GetComponent<Attack>();
+                if (enemyAttack != null) {
+                    enemyAttack.moveSpeed = (divOrMul) ?enemyAttack.unwindMoveSpeed : enemyAttack.windMoveSpeed;
+                }
+            }
+    }
+
     public void tool()
     {
         if(GameManage.toolIsUseable)
         {
             GameManage.toolIsUseable=false;
             GameManage.toolIsActive=true;
-            Watermelon1.speed*=0.5f;
-            Watermelon2.speed*=0.5f;
-            Watermelon3.speed*=0.5f;
-            Watermelon4.speed*=0.5f;
-            Watermelon5.speed*=0.5f;
+            itemWind(true,false);
+            fadeOutEffect.StartCooldown();
+
+            Wind[] Winds = FindObjectsOfType<Wind>();
+            foreach (Wind Wind in Winds)
+            {
+                if(!Wind.who)
+                    Wind.ActivateWind();
+            }
+            windCooldown=10.0f;
         }
         
     }
@@ -253,3 +312,5 @@ public class ButtonFunction : MonoBehaviour
     }
     
 }
+
+

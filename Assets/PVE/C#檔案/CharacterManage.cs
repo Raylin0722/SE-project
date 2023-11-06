@@ -257,11 +257,17 @@ public class CharacterManage : MonoBehaviour
     {
         if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w1isUseable)
         {
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            if(shot.Rock!=null)
+            {
+                return;
+            }
             w1isUseable=false;
-            ButtonFunction.currentEnergy-=150;
+            shot.SetEnergy(150);
+            //ButtonFunction.currentEnergy-=150;
             GameObject Watermelon1=Instantiate(MyWatermelonPrefabs[0], transform);
             //Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
-            Slingshot shot = castle1.GetComponent<Slingshot>();
+            
             shot.Rock=Watermelon1;
             if (shot != null)
             {
@@ -279,11 +285,18 @@ public class CharacterManage : MonoBehaviour
     {
         if(ButtonFunction.currentEnergy>=70*Math.Pow(1.4, GameManage.level-1) && w2isUseable)
         {
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            if(shot.Rock!=null)
+            {
+                return;
+            }
             w2isUseable=false;
-            ButtonFunction.currentEnergy-=70;
+            shot.SetEnergy(70);
+            //ButtonFunction.currentEnergy-=70;
             GameObject Watermelon2=Instantiate(MyWatermelonPrefabs[1], transform);
             //Watermelon2.transform.position=new Vector3(-7.08f, -1f, 0f);
-            Slingshot shot = castle1.GetComponent<Slingshot>();
+            
+
             shot.Rock=Watermelon2;
             if (shot != null)
             {
@@ -301,11 +314,17 @@ public class CharacterManage : MonoBehaviour
 
         if(ButtonFunction.currentEnergy>=250*Math.Pow(1.4, GameManage.level-1) && w3isUseable)
         {
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            if(shot.Rock!=null)
+            {
+                return;
+            }
             w3isUseable=false;
-            ButtonFunction.currentEnergy-=250;
+            shot.SetEnergy(250);
+            //ButtonFunction.currentEnergy-=250;
             GameObject Watermelon3=Instantiate(MyWatermelonPrefabs[2], transform);
             //Watermelon3.transform.position=new Vector3(-7.08f, -1f, 0f);
-            Slingshot shot = castle1.GetComponent<Slingshot>();
+            
             shot.Rock=Watermelon3;
             if (shot != null)
             {
@@ -322,11 +341,17 @@ public class CharacterManage : MonoBehaviour
     {
         if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w4isUseable)
         {
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            if(shot.Rock!=null)
+            {
+                return;
+            }
             w4isUseable=false;
-            ButtonFunction.currentEnergy-=150;
+            shot.SetEnergy(150);
+            //ButtonFunction.currentEnergy-=150;
             GameObject Watermelon4=Instantiate(MyWatermelonPrefabs[3], transform);
             //Watermelon4.transform.position=new Vector3(-7.08f, -1f, 0f);
-            Slingshot shot = castle1.GetComponent<Slingshot>();
+            
             shot.Rock=Watermelon4;
             if (shot != null)
             {
@@ -343,11 +368,17 @@ public class CharacterManage : MonoBehaviour
     {
         if(ButtonFunction.currentEnergy>=200*Math.Pow(1.4, GameManage.level-1) && w5isUseable)
         {
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            if(shot.Rock!=null)
+            {
+                return;
+            }
             w5isUseable=false;
-            ButtonFunction.currentEnergy-=200;
+            shot.SetEnergy(200);
+            //ButtonFunction.currentEnergy-=200;
             GameObject Watermelon5=Instantiate(MyWatermelonPrefabs[4], transform);
             //Watermelon5.transform.position=new Vector3(-7.08f, -1f, 0f);
-            Slingshot shot = castle1.GetComponent<Slingshot>();
+            
             shot.Rock=Watermelon5;
             if (shot != null)
             {

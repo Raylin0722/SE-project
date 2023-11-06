@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Health : MonoBehaviour{
+    //ButtonFunction buttonFunction = new ButtonFunction(); 
+    //public ButtonFunction buttonFunction;   
     public int maxHealth = 100;
     public int currentHealth=100;
     
@@ -12,6 +13,10 @@ public class Health : MonoBehaviour{
     }
 
     public void TakeDamage(int damage){
+        if(gameObject.layer==6||gameObject.layer==8)
+        {
+            Debug.Log("被打了");
+        }
         currentHealth -= damage;
         if (currentHealth <= 0){
             StartCoroutine(Die());
@@ -19,17 +24,30 @@ public class Health : MonoBehaviour{
     }
 
     private IEnumerator Die() {
-        //主塔死亡並觸發動畫
-        Debug.Log("爆掉囉");
-        GetComponent<Animator>().SetTrigger("crash");
-        yield return new WaitForSeconds(2.0f);
 
-        
         // Implement death logic here, such as playing death animation or removing the object
-        Destroy(gameObject);
-        if(gameObject.layer==6||gameObject.layer==8)
+        
+        if(gameObject.layer==6)
         {
-            Time.timeScale=0f;
+            //主塔死亡並觸發動畫
+            GetComponent<Animator>().SetTrigger("crash");
+            yield return new WaitForSeconds(1.2f);
+            ButtonFunction.judge_defeat=1;
+            //Time.timeScale=0f;
+            
+        }
+        else if(gameObject.layer==8)
+        {
+            //主塔死亡並觸發動畫
+            Debug.Log("敵方主堡爆掉");
+            GetComponent<Animator>().SetTrigger("crash");
+            yield return new WaitForSeconds(1.2f);
+            ButtonFunction.judge_victory=1;
+            //Time.timeScale=0f;
+        }
+        else 
+        {
+            Destroy(gameObject);
         }
         
 
