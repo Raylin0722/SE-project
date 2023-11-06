@@ -51,8 +51,8 @@ public class ButtonFunction : MonoBehaviour
     void Start()
     {
         WhiteBack.SetActive(false);
-        BlackBackground.SetActive(true);
-        StartButton.SetActive(true);
+        //BlackBackground.SetActive(true);
+        //StartButton.SetActive(true);
         Tool.SetActive(false);
         Upgrade.SetActive(false);
         Wicon1.SetActive(false);
@@ -79,12 +79,29 @@ public class ButtonFunction : MonoBehaviour
         ShowMinute=2;
         sec=0;
         pastTime=0f;
-        currentEnergy=100;
+        currentEnergy=100+12+GameManage.level*3+5/7*InsideGameUpgrade;
         energyLimit=140+(GameManage.level)*60;
         initialEnergy=energyLimit/2;
         InsideGameUpgrade=0;
         recovery=3*GameManage.level;
 
+        //BlackBackground.SetActive(false);
+        Tool.SetActive(true);
+        Upgrade.SetActive(true);
+        //StartButton.SetActive(false);
+        Wicon1.SetActive(true);
+        Wicon2.SetActive(true);
+        Wicon3.SetActive(true);
+        Wicon4.SetActive(true);
+        Wicon5.SetActive(true);
+        toolFrame.SetActive(true);
+        energyIcon.SetActive(true);
+        for(int i=0;i<5;i++)
+        {
+            frames[i].SetActive(true);
+        }
+        Time.timeScale=1f;
+        GameIsStart=true;
     }
 
     // Update is called once per frame
