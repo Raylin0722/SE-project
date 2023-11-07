@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Login : MonoBehaviour {
@@ -35,5 +36,9 @@ public class Login : MonoBehaviour {
 
     public void VerifyInputs() {
         submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
+    }
+
+    public void GoToMain() {
+        SceneManager.LoadScene(0);
     }
 }
