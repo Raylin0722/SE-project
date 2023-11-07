@@ -39,6 +39,6 @@ public class Login : MonoBehaviour {
     }
 
     public void GoToMain() {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }

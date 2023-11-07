@@ -37,6 +37,6 @@ public class Registration : MonoBehaviour {
     }
 
     public void GoToMain() {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
