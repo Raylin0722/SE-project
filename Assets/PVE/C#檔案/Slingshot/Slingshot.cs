@@ -15,10 +15,13 @@ public class Slingshot : MonoBehaviour
     private Vector3 SlingshotMiddleVector;
     private int energy;
     public LineRenderer Trajectory;
-    public GameObject cancel_shoot_bottom;
+    public GameObject Cancel_Area;
+    public GameObject Cancel_Area_UI;
+    public int CharacterIdInCd_shoot;
     // Start is called before the first frame update
     void Start()
     {
+        
         Rock=null;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("PlayerLayer"), LayerMask.NameToLayer("Tower1Layer"),true);
         SetSlingshotRubbersActive(false);
@@ -70,7 +73,7 @@ public class Slingshot : MonoBehaviour
                 
                 break;
             case SlingshotState.Idle:
-                show_bottom();
+
                 Rock.tag = "Untagged";
                 //Rock.GetComponent<BoxCollider2D>().enabled = false;
                 SetSlingshotRubbersActive(true);
@@ -81,12 +84,12 @@ public class Slingshot : MonoBehaviour
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z=0f;
                     float MouseToRock = Vector3.Distance(location, Rock.transform.position);
-                    Debug.Log(MouseToRock);
-                    Debug.Log("mouse"+location);
-                    Debug.Log("rock"+Rock.transform.position);
+                    //Debug.Log(MouseToRock);
+                    //Debug.Log("mouse"+location);
+                    //Debug.Log("rock"+Rock.transform.position);
                     if ( MouseToRock < 1.0f)
                     {
-                        Debug.Log("要拉了");
+                        //Debug.Log("要拉了");
                         slingshotState = SlingshotState.Pulling;
                     }
                     /*if(Rock.GetComponent<CircleCollider2D>() == Physics2D.OverlapPoint(location))
@@ -97,12 +100,15 @@ public class Slingshot : MonoBehaviour
                 break;
             
             case SlingshotState.Pulling:
-                show_bottom();
                 DisplaySlingshtRubbers();
+                Debug.Log("我要拉了");
+                Cancel_Area_UI.SetActive(true);
                 if (Input.GetMouseButton(0))
                 {
+                    
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z = 0;
+                    
                     float judge_front = SlingshotMiddleVector.x - location.x;
                     //Debug.Log("ditance"+Vector3.Distance(location, SlingshotMiddleVector));
                     if (judge_front < 0)
@@ -133,7 +139,16 @@ public class Slingshot : MonoBehaviour
                 }
                 else
                 {
-                    cancel_shoot_bottom.SetActive(false);
+                    Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    location.z = 0;
+                    float CancelDistance = Vector3.Distance(location, Cancel_Area.transform.position);
+                    Debug.Log(CancelDistance);
+                    if(CancelDistance<1.2f)
+                    {
+                        slingshotState = SlingshotState.do_nothing;
+                        Cancel_Area_UI.SetActive(false);
+                        break;
+                    }
                     SetTrajectoryActive(false);
                     float distance = Vector3.Distance(SlingshotMiddleVector, Rock.transform.position);
                     if (distance > 0.5)
@@ -143,19 +158,18 @@ public class Slingshot : MonoBehaviour
                         ThrowRock(distance);
                         Rock=null;
                         ButtonFunction.currentEnergy-=energy;
+                        CharacterManage.CharacterIdInCd=CharacterIdInCd_shoot;
                     }
+                    Cancel_Area_UI.SetActive(false);
                 }
                 break;
         }       
     }
-    void show_bottom()
-    {
-        cancel_shoot_bottom.SetActive(true);
-    }
+
     public void cancel_shoot()
     {
         slingshotState = SlingshotState.do_nothing;
-        cancel_shoot_bottom.SetActive(false);
+        
     }
     void ShowTrajectory(float distance)
     {

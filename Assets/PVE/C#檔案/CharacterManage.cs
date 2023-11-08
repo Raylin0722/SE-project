@@ -14,11 +14,11 @@ public class CharacterManage : MonoBehaviour
     [SerializeField] GameObject[] w3coolbar;
     [SerializeField] GameObject[] w4coolbar;
     [SerializeField] GameObject[] w5coolbar;
-
     public GameObject castle1;
     float passtime;
     int record;
-
+    static public int CharacterIdInCd=0;
+    int GoOnShoot = 0;
     void Start()
     {
         passtime=0f;
@@ -50,6 +50,36 @@ public class CharacterManage : MonoBehaviour
 
     void Update()
     {
+        //判斷是否進入CD
+        switch(CharacterIdInCd)
+        {
+            case 0:
+                break;
+            case 1:
+                watermelon1Product();
+                CharacterIdInCd=0;
+                break;
+            case 2:
+                Debug.Log("我要進去2");
+                watermelon2Product();
+                CharacterIdInCd=0;
+                break;
+            case 3:
+                watermelon3Product();
+                CharacterIdInCd=0;
+                break;
+            case 4:
+                
+                watermelon4Product();
+                CharacterIdInCd=0;
+                
+                break;
+            case 5:
+                watermelon5Product();
+                CharacterIdInCd=0;
+                break;
+        }
+        //
         passtime+=Time.deltaTime;
         
         if(passtime>=6f&&record==0)
@@ -255,7 +285,17 @@ public class CharacterManage : MonoBehaviour
 
     public void watermelon1Product()
     {
-        if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w1isUseable)
+        if(w1isUseable&&GoOnShoot==1&&CharacterIdInCd==1)
+        {
+            w1isUseable=false;
+            w1coolbar[0].SetActive(true);
+            w1coolbar[2].SetActive(true);
+            w1coolbar[3].SetActive(true);
+            w1coolbar[1].SetActive(true);
+            CharacterIdInCd=0;
+            GoOnShoot=0;
+        }
+        else if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w1isUseable)
         {
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
@@ -263,58 +303,70 @@ public class CharacterManage : MonoBehaviour
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
             }
-            w1isUseable=false;
             shot.SetEnergy(150);
             //ButtonFunction.currentEnergy-=150;
             GameObject Watermelon1=Instantiate(MyWatermelonPrefabs[0], transform);
             //Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
-            
+            shot.CharacterIdInCd_shoot=1;
             shot.Rock=Watermelon1;
             if (shot != null)
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
-
-            w1coolbar[0].SetActive(true);
-            w1coolbar[2].SetActive(true);
-            w1coolbar[3].SetActive(true);
-            w1coolbar[1].SetActive(true);
+            GoOnShoot=1;
         }
         
     }
     public void watermelon2Product()
     {
-        if(ButtonFunction.currentEnergy>=70*Math.Pow(1.4, GameManage.level-1) && w2isUseable)
+        Debug.Log("進來二了");
+        if(w2isUseable&&GoOnShoot==1&&CharacterIdInCd==2)
         {
+            Debug.Log("近來CD了");
+            w2isUseable=false;
+            w2coolbar[0].SetActive(true);
+            w2coolbar[2].SetActive(true);
+            w2coolbar[3].SetActive(true);
+            w2coolbar[1].SetActive(true);
+            CharacterIdInCd=0;
+            GoOnShoot=0;
+        }
+        else if(ButtonFunction.currentEnergy>=70*Math.Pow(1.4, GameManage.level-1) && w2isUseable)
+        {
+            Debug.Log("要射了");
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
             }
-            w2isUseable=false;
             shot.SetEnergy(70);
             //ButtonFunction.currentEnergy-=70;
             GameObject Watermelon2=Instantiate(MyWatermelonPrefabs[1], transform);
             //Watermelon2.transform.position=new Vector3(-7.08f, -1f, 0f);
-            
-
+            shot.CharacterIdInCd_shoot=2;
             shot.Rock=Watermelon2;
             if (shot != null)
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
-            w2coolbar[0].SetActive(true);
-            w2coolbar[2].SetActive(true);
-            w2coolbar[3].SetActive(true);
-            w2coolbar[1].SetActive(true);
+            GoOnShoot=1;
         }
        }
     
     public void watermelon3Product()
     {
-
-        if(ButtonFunction.currentEnergy>=250*Math.Pow(1.4, GameManage.level-1) && w3isUseable)
+        if(w3isUseable&&GoOnShoot==1&&CharacterIdInCd==3)
+        {
+            w3isUseable=false;
+            w3coolbar[0].SetActive(true);
+            w3coolbar[2].SetActive(true);
+            w3coolbar[3].SetActive(true);
+            w3coolbar[1].SetActive(true);
+            CharacterIdInCd=0;
+            GoOnShoot=0;
+        }
+        else if(ButtonFunction.currentEnergy>=250*Math.Pow(1.4, GameManage.level-1) && w3isUseable)
         {
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
@@ -322,55 +374,72 @@ public class CharacterManage : MonoBehaviour
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
             }
-            w3isUseable=false;
+            
             shot.SetEnergy(250);
             //ButtonFunction.currentEnergy-=250;
             GameObject Watermelon3=Instantiate(MyWatermelonPrefabs[2], transform);
             //Watermelon3.transform.position=new Vector3(-7.08f, -1f, 0f);
-            
+            shot.CharacterIdInCd_shoot=3;
             shot.Rock=Watermelon3;
             if (shot != null)
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
-            w3coolbar[0].SetActive(true);
-            w3coolbar[2].SetActive(true);
-            w3coolbar[3].SetActive(true);
-            w3coolbar[1].SetActive(true);
+            GoOnShoot=1;
         }
         
     }
     public void watermelon4Product()
     {
-        if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w4isUseable)
+        Debug.Log("我進4了阿然後勒");
+        if( w4isUseable&&GoOnShoot==1&&CharacterIdInCd==4)
         {
+            Debug.Log("進CD");
+            w4isUseable=false;
+            w4coolbar[0].SetActive(true);
+            w4coolbar[2].SetActive(true);
+            w4coolbar[3].SetActive(true);
+            w4coolbar[1].SetActive(true);
+            CharacterIdInCd=0;
+            GoOnShoot=0;
+        }
+        else if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w4isUseable)
+        {
+            Debug.Log("射了");
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
             }
-            w4isUseable=false;
+ 
             shot.SetEnergy(150);
             //ButtonFunction.currentEnergy-=150;
             GameObject Watermelon4=Instantiate(MyWatermelonPrefabs[3], transform);
             //Watermelon4.transform.position=new Vector3(-7.08f, -1f, 0f);
-            
+            shot.CharacterIdInCd_shoot=4;
             shot.Rock=Watermelon4;
             if (shot != null)
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
-            w4coolbar[0].SetActive(true);
-            w4coolbar[2].SetActive(true);
-            w4coolbar[3].SetActive(true);
-            w4coolbar[1].SetActive(true);
+            GoOnShoot=1;
         }
         
     }
     public void watermelon5Product()
     {
-        if(ButtonFunction.currentEnergy>=200*Math.Pow(1.4, GameManage.level-1) && w5isUseable)
+        if( w5isUseable&&GoOnShoot==1&&CharacterIdInCd==5)
+        {
+            w5isUseable=false;
+            w5coolbar[0].SetActive(true);
+            w5coolbar[2].SetActive(true);
+            w5coolbar[3].SetActive(true);
+            w5coolbar[1].SetActive(true);
+            CharacterIdInCd=0;
+            GoOnShoot=0;
+        }
+        else if(ButtonFunction.currentEnergy>=200*Math.Pow(1.4, GameManage.level-1) && w5isUseable)
         {
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
@@ -378,24 +447,21 @@ public class CharacterManage : MonoBehaviour
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
             }
-            w5isUseable=false;
+            
             shot.SetEnergy(200);
             //ButtonFunction.currentEnergy-=200;
             GameObject Watermelon5=Instantiate(MyWatermelonPrefabs[4], transform);
             //Watermelon5.transform.position=new Vector3(-7.08f, -1f, 0f);
-            
+            shot.CharacterIdInCd_shoot=5;
             shot.Rock=Watermelon5;
             if (shot != null)
             {
                 shot.slingshotState = SlingshotState.Idle;
             }
-            w5coolbar[0].SetActive(true);
-            w5coolbar[2].SetActive(true);
-            w5coolbar[3].SetActive(true);
-            w5coolbar[1].SetActive(true);
-        }
-        
+            GoOnShoot=1;
+        }   
     }
+    
 
     
 }
