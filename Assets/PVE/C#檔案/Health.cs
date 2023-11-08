@@ -44,6 +44,7 @@ public class Health : MonoBehaviour{
         }
         else 
         {
+            yield return null;
             Destroy(gameObject);
         }
         

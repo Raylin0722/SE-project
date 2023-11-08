@@ -49,25 +49,25 @@ public class Setting : MonoBehaviour
     // When click < Vibration >
     public void Button_Vibration()
     {
-        // 水平翻轉按紐
+        // Modify position
         Vector3 currentScale = Vibration.transform.localScale;
         currentScale.x = -currentScale.x;
         Vibration.transform.localScale = currentScale;
 
         if (picture_Vibration_ON.activeSelf)
         {
-            picture_Vibration_ON.SetActive(false); // ON => 關閉
-            picture_Vibration_OFF.SetActive(true); // OFF => 開啟
+            picture_Vibration_ON.SetActive(false); // ON => false
+            picture_Vibration_OFF.SetActive(true); // OFF => true
             Vector3 currentPosition = Vibration.transform.localPosition;
-            currentPosition.x = currentPosition.x - 15; // 位置調整
+            currentPosition.x = currentPosition.x - 15;
             Vibration.transform.localPosition = currentPosition;
         }
         else
         {
-            picture_Vibration_ON.SetActive(true); // ON => 開啟
-            picture_Vibration_OFF.SetActive(false); // OFF => 關閉
+            picture_Vibration_ON.SetActive(true); // ON => true
+            picture_Vibration_OFF.SetActive(false); // OFF => false
             Vector3 currentPosition = Vibration.transform.localPosition;
-            currentPosition.x = currentPosition.x + 15; // 位置調整
+            currentPosition.x = currentPosition.x + 15;
             Vibration.transform.localPosition = currentPosition;
         }
     }
@@ -75,25 +75,25 @@ public class Setting : MonoBehaviour
     // When click < Notification >
     public void Button_Notification()
     {
-        // 水平翻轉按紐
+        // Modify position
         Vector3 currentScale = Notification.transform.localScale;
         currentScale.x = -currentScale.x;
         Notification.transform.localScale = currentScale;
 
         if (picture_Notification_ON.activeSelf)
         {
-            picture_Notification_ON.SetActive(false); // ON => 關閉
-            picture_Notification_OFF.SetActive(true); // OFF => 開啟
+            picture_Notification_ON.SetActive(false); // ON => false
+            picture_Notification_OFF.SetActive(true); // OFF => true
             Vector3 currentPosition = Notification.transform.localPosition;
-            currentPosition.x = currentPosition.x - 15; // 位置調整
+            currentPosition.x = currentPosition.x - 15;
             Notification.transform.localPosition = currentPosition;
         }
         else
         {
-            picture_Notification_ON.SetActive(true); // ON => 開啟
-            picture_Notification_OFF.SetActive(false); // OFF => 關閉
+            picture_Notification_ON.SetActive(true); // ON => true
+            picture_Notification_OFF.SetActive(false); // OFF => false
             Vector3 currentPosition = Notification.transform.localPosition;
-            currentPosition.x = currentPosition.x + 15; // 位置調整
+            currentPosition.x = currentPosition.x + 15;
             Notification.transform.localPosition = currentPosition;
         }
     }
