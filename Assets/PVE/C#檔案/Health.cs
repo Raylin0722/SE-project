@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 public class Health : MonoBehaviour{
     //ButtonFunction buttonFunction = new ButtonFunction(); 
     //public ButtonFunction buttonFunction;   
     public int maxHealth = 100;
     public int currentHealth=100;
-    
+    [SerializeField] GameObject HpBar;
 
     private void Start(){
         currentHealth = maxHealth;
@@ -14,7 +16,14 @@ public class Health : MonoBehaviour{
 
     public void TakeDamage(int damage){
 
-        currentHealth -= damage;
+        if(gameObject.layer==6||gameObject.layer==8){
+            currentHealth -= damage;
+            HpBar.GetComponent<Image>().fillAmount = (float)currentHealth/maxHealth;
+        }
+        else{
+            currentHealth -= damage;
+        }
+        
         if (currentHealth <= 0){
             StartCoroutine(Die());
         }
