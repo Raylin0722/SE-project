@@ -195,7 +195,37 @@ def openChest(type:bool):
     elif (not type) and choice == 5:
         return {"rareCharacter" : [ secrets.choice(resultofOpen["rareCharacter"][0]), 200]}
 
-
+@app.route("/returnData")
+def returnData(token:str):
+    # 確定 token 合法 這邊先默認都合法等資料庫OK再來改
+    data = {
+            "sussess": False,
+            "token": None, 
+            "money": None, 
+            "exp" : None, # 前為等級 後為total
+            "character": None, 
+            "lineup": None, 
+            "tear": None,
+            "castlelevel": None, 
+            "slingshotlevel": None, 
+            "clearance": None, 
+            "energy": None, 
+            "setting": None, 
+            "chesttime": None 
+    }
+    if(True):
+        data["sussess"]  = True
+        data["token"] = token
+        
+        # 執行玩家資料搜尋把資料填到上面的 data
+        
+        
+    
+    return data
+    
+    
+    return data
+    
 
 
 if __name__ == "__main__":
