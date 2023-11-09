@@ -19,14 +19,10 @@ public class MainMenu : MonoBehaviour {
         playButton.interactable = DBManager.LoggedIn;
     }
     public void GoToRegister() {
-        SceneManager.LoadScene(1);
-    }
-
-    public void GoToLogin() {
         SceneManager.LoadScene(2);
     }
 
-    public void GoToGame() {
+    public void GoToLogin() {
         SceneManager.LoadScene(3);
     }
 }

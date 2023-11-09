@@ -12,7 +12,7 @@ public class Shop : MonoBehaviour
     public GameObject Ordinary_Open; // Ordinary Open Button
     public GameObject Special_Open; // Special Open Button
     public Image White_Image; // White image
-    public float Time_White = 2.0f; // the duration of White image
+    private float Time_White = 1.0f; // the duration of the picture becomes larger
 
     // Start is called before the first frame update
     void Start()
@@ -42,23 +42,26 @@ public class Shop : MonoBehaviour
     }
 
     // When click SPECIAL < OPEN > 
-    public void Button_secial_OPEN()
+    public void Button_special_OPEN()
     {
         White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
         StartCoroutine(Fade_Screen()); // the fading animation before the drawing
     }
 
-    // 
+    // the animation of drawing 
     private IEnumerator Fade_Screen()
     {
         float Elapsed_Time = 0f; // the time elpased now
         Color startColor = new Color(1f, 1f, 1f, 0f); // Transparent Color
         Color targetColor = White_Image.color;
+        Vector3 Start_Scale = new Vector3(0.1f, 0.1f, 0.1f); // min
+        Vector3 End_Scale = new Vector3(1.7f, 1.7f, 1.7f); // max
 
-        while (Elapsed_Time < Time_White)
+        while(Elapsed_Time<Time_White)
         {
             White_Image.color = Color.Lerp(startColor, targetColor, Elapsed_Time / Time_White);
+            White_Image.transform.localScale = Vector3.Lerp(Start_Scale, End_Scale, Elapsed_Time / Time_White);
             Elapsed_Time = Elapsed_Time + Time.deltaTime;
             yield return null;
         }
