@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': 'password',        
+    'password': 'gpgpr87693',        
     'database': 'mysql',        
     'host': 'localhost',        
     'port': '3306'        
