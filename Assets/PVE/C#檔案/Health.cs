@@ -1,23 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class Health : MonoBehaviour{
     //ButtonFunction buttonFunction = new ButtonFunction(); 
     //public ButtonFunction buttonFunction;   
+    [SerializeField] GameObject HPbar;
+
     public int maxHealth = 100;
     public int currentHealth=100;
+    
     
 
     private void Start(){
         currentHealth = maxHealth;
+        
     }
 
     public void TakeDamage(int damage){
         if(gameObject.layer==6||gameObject.layer==8)
         {
             Debug.Log("被打了");
+            HPbar.GetComponent<Image>().fillAmount=currentHealth/maxHealth;
         }
         currentHealth -= damage;
+        
+
         if (currentHealth <= 0){
             StartCoroutine(Die());
         }
