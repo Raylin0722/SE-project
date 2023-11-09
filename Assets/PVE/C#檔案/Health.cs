@@ -39,8 +39,8 @@ public class Health : MonoBehaviour{
             Debug.Log("敵方主堡爆掉");
             GetComponent<Animator>().SetTrigger("crash");
             yield return new WaitForSeconds(1.2f);
+
             ButtonFunction.judge_victory=1;
-            //Time.timeScale=0f;
         }
         else 
         {
