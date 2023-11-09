@@ -2,13 +2,15 @@ from flask import Flask, request
 import mysql.connector
 import secrets
 import hashlib
+from datetime import datetime
+
 
 app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': 'gpgpr87693',        
-    'database': 'mysql',        
+    'password': 'test',        
+    'database': 'SE_project',        
     'host': 'localhost',        
     'port': '3306'        
 }
@@ -119,12 +121,56 @@ def savedata():
 
     return msg
 
-@app.route("/open")
+@app.route("/openChest", methods=['GET', 'POST'])
 def checkLegal():#判斷是否可開啟寶箱
     
-    return
+    type = request.form.get('type')
+    token = request.form.get('token')
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    
+    checkquery = "SELECT token FROM users WHERE token='{0}'".format(token)
+    
+    cur.execute(checkquery)
+    
+    data = {"susses" : False , "situation" : -1}
+    
+    result = cur.fetchall()
+    
+    if len(result) == 1 and type: #normal
+        timequery = "SELECT chestTime FROM usersdata WHERE token='{0}'".format(token)
+        cur.execute(timequery)
+        timeresult = cur.fetchall()
+        
+        if len(timeresult) == 1 :
+            currentDatetime = datetime.now()
+            if timeresult[0][0] <= currentDatetime:
+                data.update(openChest(type))
+                data["susses"] = True
+                data["situation"] = 1
+                alterquery = "UPDATE usersdata SET chestTime='{0}' WHERE token='{1}';".format(currentDatetime, token)
+                cur.execute(alterquery)
+                cnx.commit()
+            
+    elif len(result) == 1 and (not type): # rare
+        tearcheck = "SELECT tear FROM usersdata WHERE token='{0}'".format(token)
+        cur.execute(tearcheck)
+        tearresult = cur.fetchall()
+        
+        if len(tearresult) == 1 and tearresult[0][0] > 10:
+            data.update(openChest(type))
+            data["susses"] = True
+            data["situation"] = 1
+            alterquery = "UPDATE usersdata SET tear='{0}' WHERE token='{1}';".format(tearresult[0][0] - 10, token)
+            cur.execute(alterquery)
+            cnx.commit()
 
-def openChest(type:bool):
+    cur.close()
+    cnx.close() 
+    return data
+
+def openChest(type:bool): # type true : normal type : false rare
     normalChoice = [50, 85, 90, 95, 100] # 錢 經驗 淚水 道具 普通
     normalItemofChest = {
         0 : {"money" : 250}, 
@@ -184,8 +230,6 @@ def openChest(type:bool):
             resultofOpen = (normalItemofChest[i] if type else rareItemofChest[i])
             break
 
-
-
     if choice < 3: #錢 經驗 淚水 直接回傳
         return resultofOpen
     elif choice == 3: #道具
@@ -213,18 +257,42 @@ def returnData(token:str):
             "setting": None, 
             "chesttime": None 
     }
-    if(True):
-        data["sussess"]  = True
-        data["token"] = token
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    
+    checkquery = "SELECT token FROM users WHERE token='{0}'".format(token)
+    searchquery = "SELECT * FROM uesrdata WHERE token='{0}'".format(token)
+    cur.execute(checkquery)
+
+    result = cur.fetchall()
+    result_num = len(result)
+    
+    
+    if(result_num == 1):
+        cur.execute(searchquery)
+        result = cur.fetchall()
+        if(len(result) == 1):
+            data["sussess"]  = True
+            data["token"] = result[2]
+            data["money"] = result[3]
+            data["exp"] = [result[4], result[5]]
+            data["character"] = result[6]
+            data["lineup"] = result[7]
+            data["tear"] = result[8]
+            data["castlelevel"] = result[9]
+            data["slingshotlevel"] = result[10]
+            data["clearance"] = result[11]
+            data["setting"] = {"volume" : result[12], "backVolume" : result[13], "shock" : result[14], "remind" : result[15]}
+            data["chesttime"] = result[16]
         
         # 執行玩家資料搜尋把資料填到上面的 data
         
-        
+    cur.close()
+    cnx.close()
     
     return data
     
-    
-    return data
     
 
 
