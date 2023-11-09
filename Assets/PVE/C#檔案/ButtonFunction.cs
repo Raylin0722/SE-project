@@ -111,6 +111,7 @@ public class ButtonFunction : MonoBehaviour
         {
             countDown();
             energy();
+            //currentEnergy=200;
         }
         //判斷我方冷風能不能用以及冷風使用時間過3秒要將移動速度調整回來
         if(windCooldown>0.0f){
@@ -135,6 +136,7 @@ public class ButtonFunction : MonoBehaviour
     }
     public void Victory_1_End()
     {
+        WhiteBack.SetActive(true);
         Time.timeScale=0f;
         Victory_1.SetActive(true);
         Next.SetActive(true);
@@ -143,6 +145,7 @@ public class ButtonFunction : MonoBehaviour
     }
     public void Victory_2_End()
     {
+        WhiteBack.SetActive(true);
         Victory_1.SetActive(false);
         Next.SetActive(false);
         Next_bottom.SetActive(false);
@@ -156,6 +159,7 @@ public class ButtonFunction : MonoBehaviour
     }
     public void Defeat_End()
     {
+        WhiteBack.SetActive(true);
         judge_defeat=0;
         Time.timeScale=0f;
         Defeat.SetActive(true);
