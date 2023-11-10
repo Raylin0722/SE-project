@@ -23,7 +23,11 @@ def register():
     email    = request.form.get("email")
     password = request.form.get("password")
 
-    name_check_query = "SELECT username FROM users WHERE username='{0}' OR email='{1}';".format(username, email)
+    print(type(password))
+
+    # name_check_query = f"SELECT username FROM users WHERE username='{username}' OR email='{email}';"
+    name_check_query = "SELECT username FROM users WHERE username='{username}' OR email='{email}';".format(username=username, email=email)
+    print(name_check_query)
 
     msg = ''
 
@@ -38,11 +42,13 @@ def register():
         msg = 'User or email already existed'
         return msg
 
-    token = secrets.token_bytes(32) # 256 bits token
+    token = secrets.token_hex(32) # 256 bits token
 
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-    user_insert_query = "INSERT INTO users(username, email, token, hash) VALUES ('{0}', '{1}', '{2}', '{3}');".format(username, email, token, hashed_password)
+    # user_insert_query = f"INSERT INTO users(username, email, token, hash) VALUES ('{username}', '{email}', '{token}', '{hashed_password}');"
+    user_insert_query = "INSERT INTO users(username, email, token, hash) VALUES ('{username}', '{email}', '{token}', '{hashed_password}');".format(username=username, email=email, token=token, hashed_password=hashed_password)
+    print(user_insert_query)
     cur.execute(user_insert_query)
     cnx.commit()
     msg = 'User register success'
@@ -60,7 +66,7 @@ def login():
 
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-    name_check_query = "SELECT username, hash FROM users WHERE username='{}' OR email='{}';".format(username, email)
+    name_check_query = "SELECT username, token, hash FROM users WHERE username='{username}' OR email='{email}';".format(username=username, email=email)
     
     msg = ''
 
@@ -78,11 +84,12 @@ def login():
         return msg
 
     queried_hash = result[0]['hash']
+    token = result[0]['token']
 
     if hashed_password != queried_hash:
         msg = 'Incorrect password'
     else:
-        msg = '0 User login success\t{}'.format(token)
+        msg = '0 User login success\t{token}'.format(token=token)
 
     cur.close()
     cnx.close()

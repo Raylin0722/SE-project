@@ -37,7 +37,7 @@ public class Login : MonoBehaviour {
     }
 
     public void VerifyInputs() {
-        submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
+        submitButton.interactable = (nameField.text.Length >= 3 && emailField.text.Length > 0 && passwordField.text.Length >= 8);
     }
 
     public void GoToMain() {
