@@ -135,8 +135,8 @@ def checkLegal():#判斷是否可開啟寶箱
     
     cur.execute(checkquery)
     
-    data = {"susses" : False , "situation" : -1}
-    
+    data = {}
+
     result = cur.fetchall()
     
     if len(result) == 1 and type: #normal
@@ -148,8 +148,6 @@ def checkLegal():#判斷是否可開啟寶箱
             currentDatetime = datetime.now()
             if timeresult[0][0] <= currentDatetime:
                 data.update(openChest(type))
-                data["susses"] = True
-                data["situation"] = 1
                 alterquery = "UPDATE usersdata SET chestTime='{0}' WHERE token='{1}';".format(currentDatetime, token)
                 cur.execute(alterquery)
                 cnx.commit()
@@ -161,15 +159,13 @@ def checkLegal():#判斷是否可開啟寶箱
         
         if len(tearresult) == 1 and tearresult[0][0] > 10:
             data.update(openChest(type))
-            data["susses"] = True
-            data["situation"] = 1
             alterquery = "UPDATE usersdata SET tear='{0}' WHERE token='{1}';".format(tearresult[0][0] - 10, token)
             cur.execute(alterquery)
             cnx.commit()
 
     cur.close()
     cnx.close() 
-    return data
+    return 
 
 def openChest(type:bool): # type true : normal type : false rare
     normalChoice = [50, 85, 90, 95, 100] # 錢 經驗 淚水 道具 普通
