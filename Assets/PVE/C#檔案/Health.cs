@@ -17,13 +17,12 @@ public class Health : MonoBehaviour{
     public void TakeDamage(int damage){
 
         if(gameObject.layer==6||gameObject.layer==8){
-            currentHealth -= damage;
+            currentHealth =(currentHealth-damage<=maxHealth) ? currentHealth-damage : maxHealth ;
             HpBar.GetComponent<Image>().fillAmount = (float)currentHealth/maxHealth;
         }
         else{
-            currentHealth -= damage;
+            currentHealth =(currentHealth-damage<=maxHealth) ? currentHealth-damage : maxHealth ;
         }
-        
         if (currentHealth <= 0){
             StartCoroutine(Die());
         }
