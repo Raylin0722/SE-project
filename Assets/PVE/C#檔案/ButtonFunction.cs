@@ -48,6 +48,10 @@ public class ButtonFunction : MonoBehaviour
     int InsideGameUpgrade;
     int recovery;
     float windCooldown=0.0f;
+    float oneSec;
+    float temp;
+    float increment;
+
     void Start()
     {
         WhiteBack.SetActive(false);
@@ -79,7 +83,10 @@ public class ButtonFunction : MonoBehaviour
         ShowMinute=2;
         sec=0;
         pastTime=0f;
-        currentEnergy=100+12+GameManage.level*3+5/7*InsideGameUpgrade;
+        oneSec=0f;
+        increment=12+GameManage.level*3+(5/7)*InsideGameUpgrade;
+        currentEnergy=100+(int)increment;
+        temp=currentEnergy;
         energyLimit=140+(GameManage.level)*60;
         initialEnergy=energyLimit/2;
         InsideGameUpgrade=0;
@@ -251,10 +258,13 @@ public class ButtonFunction : MonoBehaviour
     void energy()
     {
         pastTime+=Time.deltaTime;
-        if(pastTime>=1f)
+        oneSec+=Time.deltaTime;
+        int detect=0;
+        if(oneSec>1f)
         {
-            pastTime=0f;
-            currentEnergy=currentEnergy+12+GameManage.level*3+5/7*InsideGameUpgrade;
+            oneSec=0f;
+            currentEnergy=currentEnergy+(int)increment;
+            temp=currentEnergy;
             if(currentEnergy<=energyLimit)
             {
                 Energy.text=currentEnergy.ToString()+"/"+energyLimit.ToString();
@@ -264,7 +274,28 @@ public class ButtonFunction : MonoBehaviour
                 currentEnergy=energyLimit;
                 Energy.text=energyLimit.ToString()+"/"+energyLimit.ToString();
             }
+            detect=1;
         }
+        if(pastTime>0.1f)
+        {
+            pastTime=0f;
+            if(detect==0){
+                temp=temp+increment/10f;
+                Debug.Log(temp);
+
+                if(temp<=energyLimit)
+                {
+                    Energy.text=((int)temp).ToString()+"/"+energyLimit.ToString();
+                }
+                else
+                {
+                    temp=energyLimit;
+                    Energy.text=energyLimit.ToString()+"/"+energyLimit.ToString();
+                }
+            }
+            detect=0;
+        }
+        
     }
     
     //itemWind(True,True) --> player use and enemy moveSpeed recovery
