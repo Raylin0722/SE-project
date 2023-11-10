@@ -4268,9 +4268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f884196269dff624994b1a9e9ea5f148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioSource: {fileID: 0}
-  First_bgm: {fileID: 0}
-  Last_bgm: {fileID: 0}
+  AudioSource: {fileID: 267466596}
+  First_bgm: {fileID: 8300000, guid: 30e07f6bcbba5a14fae0a596a815bf9d, type: 3}
+  Last_bgm: {fileID: 8300000, guid: ab32137e1253a6b41b9c773d6796cab1, type: 3}
 --- !u!4 &724593733
 Transform:
   m_ObjectHideFlags: 0

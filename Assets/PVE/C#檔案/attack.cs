@@ -51,8 +51,7 @@ public class Attack : MonoBehaviour{
                 if(col.tag=="enemy" &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
                     hasObject=true;
                 }
-                if (col.tag == gameObject.tag || col.gameObject == gameObject
-                &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)){
+                if (col.tag == gameObject.tag &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)){
                     if(!tmp){
                         tmp = col;
                         continue;
@@ -68,7 +67,9 @@ public class Attack : MonoBehaviour{
             
             float targetX = (gameObject.tag == "Player") ? -850.5f : -880.5926f;
             float distanceX = Mathf.Abs(transform.position.x - targetX);
-            if (object.ReferenceEquals(tmp, gameObject) || ( tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth)) {
+            if ((object.ReferenceEquals(tmp, gameObject) 
+            || ( tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth))
+            &&tmp.gameObject.layer!=6&&tmp.gameObject.layer!=8) {
                 judgeMove = false;
                 AttackTarget(tmp.gameObject);
             }
