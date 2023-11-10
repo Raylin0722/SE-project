@@ -8,6 +8,7 @@ using TMPro;
 
 public class Login : MonoBehaviour {
     public TMP_InputField nameField;
+    public TMP_InputField emailField;
     public TMP_InputField passwordField;
     public Button submitButton;
 
@@ -18,6 +19,7 @@ public class Login : MonoBehaviour {
     IEnumerator LoginPlayer() {
         WWWForm form = new WWWForm();
         form.AddField("username", nameField.text);
+        form.AddField("email", emailField.text);
         form.AddField("password", passwordField.text);
 
         UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/login", form);
@@ -25,9 +27,9 @@ public class Login : MonoBehaviour {
         yield return www.SendWebRequest();
 
         if(www.downloadHandler.text[0] == '0') {
-            Debug.Log("User login success. #" + www.downloadHandler.text);
+            Debug.Log(www.downloadHandler.text.Split('\t')[0]);
             DBManager.username = nameField.text;
-            DBManager.score = int.Parse(www.downloadHandler.text.Split('\t')[1]);
+            DBManager.token = www.downloadHandler.text.Split('\t')[1];
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }else {
             Debug.Log("User login failed. Error #" + www.downloadHandler.text);
