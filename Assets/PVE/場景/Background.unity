@@ -9030,10 +9030,6 @@ PrefabInstance:
       value: MyW1
       objectReference: {fileID: 0}
     - target: {fileID: 6694193030101232113, guid: dc7df804a0d074e47b59c3b0b7719d48, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6694193030101232113, guid: dc7df804a0d074e47b59c3b0b7719d48, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

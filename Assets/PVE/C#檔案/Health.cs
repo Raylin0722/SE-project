@@ -14,7 +14,7 @@ public class Health : MonoBehaviour{
 
     public void TakeDamage(int damage){
 
-        currentHealth -= damage;
+        currentHealth =(currentHealth-damage<=maxHealth) ? currentHealth-damage : maxHealth ;
         if (currentHealth <= 0){
             StartCoroutine(Die());
         }
