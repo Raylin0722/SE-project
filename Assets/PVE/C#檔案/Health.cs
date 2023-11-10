@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 public class Health : MonoBehaviour{
     //ButtonFunction buttonFunction = new ButtonFunction(); 
     //public ButtonFunction buttonFunction;   
     public int maxHealth = 100;
     public int currentHealth=100;
-    
+    [SerializeField] GameObject HpBar;
 
     private void Start(){
         currentHealth = maxHealth;
@@ -14,7 +16,14 @@ public class Health : MonoBehaviour{
 
     public void TakeDamage(int damage){
 
-        currentHealth -= damage;
+        if(gameObject.layer==6||gameObject.layer==8){
+            currentHealth -= damage;
+            HpBar.GetComponent<Image>().fillAmount = (float)currentHealth/maxHealth;
+        }
+        else{
+            currentHealth -= damage;
+        }
+        
         if (currentHealth <= 0){
             StartCoroutine(Die());
         }
@@ -24,6 +33,27 @@ public class Health : MonoBehaviour{
 
         // Implement death logic here, such as playing death animation or removing the object
         
+        float disappearDuration = 0.5f;     //消失的時間
+        float timer = 0f;
+        
+        //if(gameObject.layer == 4) 
+        //{
+            while (timer < disappearDuration) {
+            
+                Color currentColor = GetComponent<SpriteRenderer>().color;              // 變透明
+                currentColor.a = Mathf.Lerp(1f, 0f, timer / disappearDuration);
+                GetComponent<SpriteRenderer>().color = currentColor;
+
+                if (timer < disappearDuration - 0.1f) {
+                    gameObject.tag = "Untagged";
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+
+            }
+        //}
+
         if(gameObject.layer==6)
         {
             //主塔死亡並觸發動畫
