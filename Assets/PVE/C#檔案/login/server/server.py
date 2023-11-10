@@ -3,6 +3,7 @@ import mysql.connector
 import secrets
 import hashlib
 from datetime import datetime
+import json
 
 
 app = Flask(__name__)
@@ -239,9 +240,10 @@ def openChest(type:bool): # type true : normal type : false rare
     elif (not type) and choice == 5:
         return {"rareCharacter" : [ secrets.choice(resultofOpen["rareCharacter"][0]), 200]}
 
-@app.route("/returnData")
-def returnData(token:str):
+@app.route("/updateData", methods=['GET', 'POST'])
+def updateData():
     # 確定 token 合法 這邊先默認都合法等資料庫OK再來改
+    token = request.form.get("token")
     data = {
             "sussess": False,
             "token": None, 
@@ -262,7 +264,7 @@ def returnData(token:str):
     cur = cnx.cursor()
     
     checkquery = "SELECT token FROM users WHERE token='{0}'".format(token)
-    searchquery = "SELECT * FROM uesrdata WHERE token='{0}'".format(token)
+    searchquery = "SELECT * FROM usersdata WHERE token='{0}'".format(token)
     cur.execute(checkquery)
 
     result = cur.fetchall()
@@ -273,18 +275,20 @@ def returnData(token:str):
         cur.execute(searchquery)
         result = cur.fetchall()
         if(len(result) == 1):
+            
             data["sussess"]  = True
-            data["token"] = result[2]
-            data["money"] = result[3]
-            data["exp"] = [result[4], result[5]]
-            data["character"] = result[6]
-            data["lineup"] = result[7]
-            data["tear"] = result[8]
-            data["castlelevel"] = result[9]
-            data["slingshotlevel"] = result[10]
-            data["clearance"] = result[11]
-            data["setting"] = {"volume" : result[12], "backVolume" : result[13], "shock" : result[14], "remind" : result[15]}
-            data["chesttime"] = result[16]
+            data["token"] = result[0][2]
+            data["money"] = result[0][3]
+            data["exp"] = [result[0][4], result[0][5]]
+            data["character"] = json.loads(result[0][6])
+            data["lineup"] = json.loads(result[0][7][1:-1])
+            data["tear"] = result[0][8]
+            data["castlelevel"] = result[0][9]
+            data["slingshotlevel"] = result[0][10]
+            data["clearance"] = json.loads(result[0][11])
+            data["energy"] = [(result[0][0].strftime('%Y-%m-%d %H:%M:%S')) , result[0][12]]
+            data["setting"] = {"volume" : result[0][13], "backVolume" : result[0][14], "shock" : result[0][15], "remind" : result[0][16]}
+            data["chesttime"] = (result[0][17].strftime('%Y-%m-%d %H:%M:%S'))
         
         # 執行玩家資料搜尋把資料填到上面的 data
         

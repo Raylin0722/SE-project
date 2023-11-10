@@ -5,6 +5,22 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
+public class data{
+    public bool success;
+    public string token;
+    public int money;
+    public int[] exp;
+    public Dictionary<string, string> character;
+    public List<int> lineup;
+    public int tear;
+    public int castlelevel;
+    public int slingshotlevel;
+    public Dictionary<string, string> clearance;
+    public Dictionary<string, string>energy;
+    public Dictionary<string, string> setting;
+    public string chesttime;
+}
+
 
 public class server : MonoBehaviour
 {
@@ -22,20 +38,34 @@ public class server : MonoBehaviour
     public Dictionary<string, string> setting;
     public string chesttime;
 
+    public void CallUpdate() {
+        StartCoroutine(updateData());
+    }
+
     
-    IEnumerator openChest(){
+    IEnumerator updateData(){
 
         WWWForm form = new WWWForm();
         form.AddField("token", token);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/openChest", form);
+        byte[] formDataBytes = form.data;
+
+        // 将表单数据转换为字符串
+        string formDataString = System.Text.Encoding.UTF8.GetString(formDataBytes);
+
+        // 输出表单数据字符串
+        Debug.Log(formDataString);
+
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
         
         yield return www.SendWebRequest();
 
         if(www.result == UnityWebRequest.Result.Success){
             string response = www.downloadHandler.text;
 
-            server playerData = JsonUtility.FromJson<server>(response);
+            Debug.Log(response);
+
+            data playerData = JsonUtility.FromJson<data>(response);
 
             success = playerData.success;
             money = playerData.money;
@@ -52,9 +82,17 @@ public class server : MonoBehaviour
 
         }
         else{
-            SceneManager.LoadScene("MainScene");
+            //SceneManager.LoadScene("MainScene");
         }
+
+        UnityWebRequest aaa = UnityWebRequest.Get("http://localhost:5000/");
+        yield return aaa.SendWebRequest();
+        if(aaa.result == UnityWebRequest.Result.Success){
+            Debug.Log("Susses");
+        }
+
     }
     
+   
 
 }
