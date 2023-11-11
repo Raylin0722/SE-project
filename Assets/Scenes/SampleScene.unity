@@ -16020,11 +16020,21 @@ MonoBehaviour:
   token: 7739ffd0837b0e2d07310d5a298356f94de9e7321a636593912804b16aad6967
   money: 0
   exp: 
+  character: 
   lineup: 
   tear: 0
-  castlelevel: 0
-  slingshotlevel: 0
-  chesttime: 
+  castleLevel: 0
+  slingshotLevel: 0
+  clearance: 
+  energy: 0
+  updateTime: 
+  volume: 0
+  backVolume: 0
+  shock: 0
+  remind: 0
+  chestTime: 
+  faction: 0
+  props: 
 --- !u!4 &2104943743
 Transform:
   m_ObjectHideFlags: 0

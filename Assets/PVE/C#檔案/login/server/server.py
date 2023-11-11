@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': 'gpgpr87693',        
+    'password': 'test',        
     'database': 'SE_project',        
     'host': 'localhost',        
     'port': '3306'        
@@ -26,11 +26,9 @@ def register():
     email    = request.form.get("email")
     password = request.form.get("password")
 
-    print(type(password))
 
     # name_check_query = f"SELECT username FROM users WHERE username='{username}' OR email='{email}';"
     name_check_query = "SELECT username FROM users WHERE username='{username}' OR email='{email}';".format(username=username, email=email)
-    print(name_check_query)
 
     msg = ''
 
@@ -39,7 +37,6 @@ def register():
 
     cur.execute(name_check_query)
     result_num = cur.rowcount
-    print(result_num)
 
     if result_num != 0:
         msg = 'User or email already existed'
@@ -80,20 +77,30 @@ def login():
 
     result = cur.fetchall()
     result_num = len(result)
-    print(result_num)
 
     if result_num != 1:
         msg = '{} Either no user with name, or more than one'.format(result_num)
         return msg
 
     queried_hash = result[0]['hash']
-    token = result[0]['token']
+    token = secrets.token_hex(32)
+    
+    print(token)
 
     if hashed_password != queried_hash:
         msg = 'Incorrect password'
     else:
         msg = '0 User login success\t{token}'.format(token=token)
-
+    
+    updateQuery = "UPDATE users SET token='{0}' WHERE username='{1}';".format(token, username)
+    print(updateQuery)
+    cur.execute(updateQuery)
+    cnx.commit()
+    
+    cur.execute(name_check_query)
+    result = cur.fetchall()
+    print(result)
+    
     cur.close()
     cnx.close()
 
@@ -229,7 +236,6 @@ def openChest(type:bool): # type true : normal type : false rare
 
 @app.route("/updateData", methods=['GET', 'POST'])
 def updateData():
-    # 確定 token 合法 這邊先默認都合法等資料庫OK再來改
     token = request.form.get("token")
     data = {
             "success": False,
@@ -257,8 +263,9 @@ def updateData():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
     
-    checkquery = "SELECT token FROM users WHERE token='{0}'".format(token)
-    searchquery = "SELECT * FROM usersdata WHERE token='{0}'".format(token)
+    checkquery = "SELECT token FROM users WHERE token='{0}';".format(token)
+    searchquery = "SELECT * FROM usersdata WHERE token='{0}';".format(token)
+    updateTimequery = "UPDATE usersdata SET updateTime=NOW() WHERE token='{0}';".format(token)
     cur.execute(checkquery)
 
     result = cur.fetchall()
@@ -290,35 +297,29 @@ def updateData():
                 chestTime datetime,
                 faction varchar(200)
             );'''
+            if (datetime.now() - result[0][0]).total_seconds() < 3:
+                data["success"]  = True
+                data["updateTime"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                data["token"] = result[0][2]
+                data["money"] = result[0][3]
+                data["exp"] = [result[0][4], result[0][5]]
+                data["character"] =  [value for key, value in json.loads(result[0][6]).items()]
+                data["lineup"] = json.loads(result[0][7])
+                data["tear"] = result[0][8]
+                data["castleLevel"] = result[0][9]
+                data["slingshotLevel"] = result[0][10]
+                data["clearance"] = [value for key, value in json.loads(result[0][11]).items()]
+                data["energy"] = result[0][12]
+                data["volume"] = result[0][13]
+                data["backVolume"] = result[0][14]
+                data["shock"] = result[0][15]
+                data["remind"] = result[0][16]
+                data["chestTime"] = result[0][17].strftime('%Y-%m-%d %H:%M:%S')
+                data["props"] = [value for key, value in json.loads(result[0][18]).items()]
+                data["faction"] = result[0][19] 
+                cur.execute(updateTimequery)
+                cnx.commit()
 
-            data["success"]  = True
-            data["updateTime"] = result[0][0].strftime('%Y-%m-%d %H:%M:%S')
-            data["token"] = result[0][2]
-            data["money"] = result[0][3]
-            data["exp"] = [result[0][4], result[0][5]]
-            data["character"] =  [value for key, value in json.loads(result[0][6]).items()]
-            data["lineup"] = json.loads(result[0][7])
-            data["tear"] = result[0][8]
-            data["castleLevel"] = result[0][9]
-            data["slingshotLevel"] = result[0][10]
-            data["clearance"] = [value for key, value in json.loads(result[0][11]).items()]
-            data["energy"] = result[0][12]
-            data["volume"] = result[0][13]
-            data["backVolume"] = result[0][14]
-            data["shock"] = result[0][15]
-            data["remind"] = result[0][16]
-            data["chestTime"] = result[0][17].strftime('%Y-%m-%d %H:%M:%S')
-            data["props"] = [value for key, value in json.loads(result[0][18]).items()]
-            data["faction"] = result[0][19] 
-
-            print(data["character"])
-            print(data["clearance"])
-            print(data["props"])
-            
-
-
-            
-        
     cur.close()
     cnx.close()
     

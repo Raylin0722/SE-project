@@ -95,9 +95,17 @@ public class server : MonoBehaviour
 
         }
         else{ //非法token需跳回登入頁面
-            //SceneManager.LoadScene("MainScene");
-            Debug.Log("Error");
+            SceneManager.LoadScene("MainMenu");
+            //Debug.Log("Error");
         }
+
+        if(success == false){
+            SceneManager.LoadScene("MainMenu");
+            //Debug.Log("Error");
+        }
+
+        
+
     }
     
     IEnumerator openChest(bool type) {
