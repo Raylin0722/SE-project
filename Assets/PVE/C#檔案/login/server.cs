@@ -5,38 +5,49 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
+
 public class data{
     public bool success;
     public string token;
     public int money;
     public int[] exp;
-    public Dictionary<string, string> character;
-    public List<int> lineup;
+    public int[] character;
+    public int[] lineup;
     public int tear;
-    public int castlelevel;
-    public int slingshotlevel;
-    public Dictionary<string, string> clearance;
-    public Dictionary<string, string>energy;
-    public Dictionary<string, string> setting;
-    public string chesttime;
+    public int castleLevel;
+    public int slingshotLevel;
+    public int[] clearance;
+    public int energy;
+    public string updateTime;
+    public int volume;
+    public int backVolume;
+    public bool shock;
+    public bool remind;
+    public string chestTime;
+    public int faction;
+    public int[] props;
 }
-
-
 public class server : MonoBehaviour
 {
     public bool success;
     public string token;
     public int money;
     public int[] exp;
-    public Dictionary<string, string> character;
-    public List<int> lineup;
+    public int[] character;
+    public int[] lineup;
     public int tear;
-    public int castlelevel;
-    public int slingshotlevel;
-    public Dictionary<string, string> clearance;
-    public Dictionary<string, string>energy;
-    public Dictionary<string, string> setting;
-    public string chesttime;
+    public int castleLevel;
+    public int slingshotLevel;
+    public int[] clearance;
+    public int energy;
+    public string updateTime;
+    public int volume;
+    public int backVolume;
+    public bool shock;
+    public bool remind;
+    public string chestTime;
+    public int faction;
+    public int[] props;
 
     public void CallUpdate() {
         StartCoroutine(updateData());
@@ -57,8 +68,11 @@ public class server : MonoBehaviour
 
         if(www.result == UnityWebRequest.Result.Success){
             string response = www.downloadHandler.text;
-
+            
             data playerData = JsonUtility.FromJson<data>(response);
+
+            Debug.Log(response);
+            Debug.Log(JsonUtility.ToJson(playerData));
 
             success = playerData.success;
             money = playerData.money;
@@ -66,39 +80,48 @@ public class server : MonoBehaviour
             character = playerData.character;
             lineup = playerData.lineup;
             tear = playerData.tear;
-            castlelevel = playerData.castlelevel;
-            slingshotlevel = playerData.slingshotlevel;
+            castleLevel = playerData.castleLevel;
+            slingshotLevel = playerData.slingshotLevel;
             clearance = playerData.clearance;
             energy = playerData.energy;
-            setting = playerData.setting;
-            chesttime = playerData.chesttime;
+            updateTime = playerData.updateTime;
+            volume = playerData.volume;
+            backVolume = playerData.backVolume;
+            shock = playerData.shock;
+            remind = playerData.remind;
+            chestTime = playerData.chestTime;
+            faction = playerData.faction;
+            props = playerData.props;
 
         }
         else{ //非法token需跳回登入頁面
             //SceneManager.LoadScene("MainScene");
+            Debug.Log("Error");
         }
-
-
     }
     
     IEnumerator openChest(bool type) {
         WWWForm form = new WWWForm();
 
         form.AddField("token", token);
-        form.AddField("type", type);
+        if(type)
+            form.AddField("type", "True");
+        else
+            form.AddField("type", "False");
 
         UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
         
         yield return www.SendWebRequest();
 
         if(www.result == UnityWebRequest.Result.Success){
-            string response = www.downloadHandler.text;
-            
+            CallUpdate();
         }
         else{ // 非法操作
 
         }
 
     }
+
+    
 
 }

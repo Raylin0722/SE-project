@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': 'test',        
+    'password': 'gpgpr87693',        
     'database': 'SE_project',        
     'host': 'localhost',        
     'port': '3306'        
@@ -101,7 +101,6 @@ def login():
 
 @app.route("/openChest", methods=['GET', 'POST'])
 def checkLegal():#判斷是否可開啟寶箱
-    
     type = request.form.get('type')
     token = request.form.get('token')
     
@@ -109,36 +108,51 @@ def checkLegal():#判斷是否可開啟寶箱
     cur = cnx.cursor()
     
     checkquery = "SELECT token FROM users WHERE token='{0}'".format(token)
-    
     cur.execute(checkquery)
-    
-    data = {}
 
     result = cur.fetchall()
     
     if len(result) == 1 and type: #normal
-        timequery = "SELECT chestTime FROM usersdata WHERE token='{0}'".format(token)
+        timequery = "SELECT money, exp, tear, props, `character` FROM usersdata WHERE token='{0}'".format(token)
         cur.execute(timequery)
         timeresult = cur.fetchall()
         
         if len(timeresult) == 1 :
+            timeresult[0][1] = json.loads(timeresult[0][1][1:-1])
             currentDatetime = datetime.now()
             if timeresult[0][0] <= currentDatetime:
-                data.update(openChest(type))
-                alterquery = "UPDATE usersdata SET chestTime='{0}' WHERE token='{1}';".format(currentDatetime, token)
-                cur.execute(alterquery)
-                cnx.commit()
+                data = openChest(type)
+                if data['result'] == 0:
+                    ()
+                elif data['result'] == 1:
+                    ()
+                elif data['result'] == 2:
+                    ()
+                elif data['result'] == 3:
+                    ()
+                elif data['result'] == 4:
+                    ()
+
+                
+
             
     elif len(result) == 1 and (not type): # rare
-        tearcheck = "SELECT tear FROM usersdata WHERE token='{0}'".format(token)
+        tearcheck = "SELECT money, exp, tear, props, `character` FROM usersdata WHERE token='{0}'".format(token) # 要調整
         cur.execute(tearcheck)
         tearresult = cur.fetchall()
         
         if len(tearresult) == 1 and tearresult[0][0] > 10:
-            data.update(openChest(type))
-            alterquery = "UPDATE usersdata SET tear='{0}' WHERE token='{1}';".format(tearresult[0][0] - 10, token)
-            cur.execute(alterquery)
-            cnx.commit()
+            data = openChest(type)
+            if data['result'] == 0:
+                    ()
+            elif data['result'] == 1:
+                ()
+            elif data['result'] == 2:
+                ()
+            elif data['result'] == 3:
+                ()
+            elif data['result'] == 4:
+                ()
 
     cur.close()
     cnx.close() 
@@ -205,32 +219,39 @@ def openChest(type:bool): # type true : normal type : false rare
             break
 
     if choice < 3: #錢 經驗 淚水 直接回傳
-        return resultofOpen
+        return {"result" : choice, "num" : resultofOpen}
     elif choice == 3: #道具
-        return {"props" : [ secrets.choice(resultofOpen["props"][0]), 200]}
+        return {"result" : choice, "props" : [ secrets.choice(resultofOpen["props"][0]), 200]}
     elif choice == 4: #角色 
-        return {"normalCharacter" : [ secrets.choice(resultofOpen["normalCharacter"][0]), 200]}
+        return {"result" : choice, "normalCharacter" : [ secrets.choice(resultofOpen["normalCharacter"][0]), 200]}
     elif (not type) and choice == 5:
-        return {"rareCharacter" : [ secrets.choice(resultofOpen["rareCharacter"][0]), 200]}
+        return {"result" : choice, "rareCharacter" : [ secrets.choice(resultofOpen["rareCharacter"][0]), 200]}
 
 @app.route("/updateData", methods=['GET', 'POST'])
 def updateData():
     # 確定 token 合法 這邊先默認都合法等資料庫OK再來改
     token = request.form.get("token")
     data = {
-            "sussess": False,
+            "success": False,
             "token": None, 
             "money": None, 
             "exp" : None, # 前為等級 後為total
             "character": None, 
             "lineup": None, 
             "tear": None,
-            "castlelevel": None, 
-            "slingshotlevel": None, 
+            "castleLevel": None, 
+            "slingshotLevel": None, 
             "clearance": None, 
             "energy": None, 
-            "setting": None, 
-            "chesttime": None 
+            "updateTime": None,
+            "volume": None,
+            "backVolume": None,
+            "shock": None,
+            "remind": None,
+            "chestTime": None, 
+            "faction": None,
+            "props": None,
+            "updateTime": None
     }
     
     cnx = mysql.connector.connect(**config)
@@ -248,29 +269,88 @@ def updateData():
         cur.execute(searchquery)
         result = cur.fetchall()
         if(len(result) == 1):
-            
-            data["sussess"]  = True
+            '''create table usersdata(
+                updateTime datetime, 
+                playerName varchar(50),
+                token  varchar(64),
+                money integer,
+                expLevel integer,
+                expTotal integer,
+                `character` varchar(200),
+                lineup varchar(100),
+                tear integer,
+                castleLevel integer,
+                slingshotLevel integer,
+                clearance varchar(200),
+                energy integer,
+                volume integer,
+                backVolume integer,
+                shock bool,
+                remind bool,
+                chestTime datetime,
+                faction varchar(200)
+            );'''
+
+            data["success"]  = True
+            data["updateTime"] = result[0][0].strftime('%Y-%m-%d %H:%M:%S')
             data["token"] = result[0][2]
             data["money"] = result[0][3]
             data["exp"] = [result[0][4], result[0][5]]
-            data["character"] = json.loads(result[0][6])
-            data["lineup"] = json.loads(result[0][7][1:-1])
+            data["character"] =  [value for key, value in json.loads(result[0][6]).items()]
+            data["lineup"] = json.loads(result[0][7])
             data["tear"] = result[0][8]
-            data["castlelevel"] = result[0][9]
-            data["slingshotlevel"] = result[0][10]
-            data["clearance"] = json.loads(result[0][11])
-            data["energy"] = [(result[0][0].strftime('%Y-%m-%d %H:%M:%S')) , result[0][12]]
-            data["setting"] = {"volume" : result[0][13], "backVolume" : result[0][14], "shock" : result[0][15], "remind" : result[0][16]}
-            data["chesttime"] = (result[0][17].strftime('%Y-%m-%d %H:%M:%S'))
-        
-        # 執行玩家資料搜尋把資料填到上面的 data
+            data["castleLevel"] = result[0][9]
+            data["slingshotLevel"] = result[0][10]
+            data["clearance"] = [value for key, value in json.loads(result[0][11]).items()]
+            data["energy"] = result[0][12]
+            data["volume"] = result[0][13]
+            data["backVolume"] = result[0][14]
+            data["shock"] = result[0][15]
+            data["remind"] = result[0][16]
+            data["chestTime"] = result[0][17].strftime('%Y-%m-%d %H:%M:%S')
+            data["props"] = [value for key, value in json.loads(result[0][18]).items()]
+            data["faction"] = result[0][19] 
+
+            print(data["character"])
+            print(data["clearance"])
+            print(data["props"])
+            
+
+
+            
         
     cur.close()
     cnx.close()
     
     return data
     
+@app.route("/updateCard", methods=['GET', 'POST'])
+def updateCard():
+    token = request.form.get('token')
+    target = request.form.get("target")
+    orginLevel = request.form.get("originLevel")
+    newLevel = request.form.get("newLevel")
+    mode = request.form.get("mode")
+
+
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
     
+    checkquery = "SELECT token FROM users WHERE token='{0}'".format(token)
+    cur.execute(checkquery)
+    result = cur.fetchall()
+
+    if len(result) == 1:
+        moneyquery = "SELECT money, character, castleLevel, slingshotLevel FROM usersdata WHERE token='{0}'".format(token)
+        cur.execute(moneyquery)
+        moneyResult = cur.fetchall()
+        if len(moneyResult) == 1:
+            # 這邊需要升級時所需的經驗值 還要區分是卡片(應該有id 1-7 mode 1)  還是彈弓主堡 (mode 2) 存在陣列 target 0 mode 1 目標
+            ()
+
+    cur.close()
+    cnx.close() 
+    return 
 
 
 if __name__ == "__main__":
