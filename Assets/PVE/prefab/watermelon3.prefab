@@ -104,10 +104,13 @@ MonoBehaviour:
   attackDamage: 300
   maxHealth: 1000
   moveSpeed: 2
+  windMoveSpeed: 0
+  unwindMoveSpeed: 0
   attackRange: 7
   attackCooldown: 1
   cost: 0
   currentHealth: 0
+  isAngel: 0
 --- !u!114 &1744509758564841900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
+  currentHealth: 100
+  HpBar: {fileID: 0}
 --- !u!61 &7081087967149702484
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,7 +169,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 2.5}
+  m_Size: {x: 1.98, y: 1.93}
   m_EdgeRadius: 0
 --- !u!95 &1925979568841356700
 Animator:
