@@ -64,9 +64,7 @@ private IEnumerator Die() {
                 timer += Time.deltaTime;
                 yield return null;
             }
-            yield return null;
-            yield return null;
-            yield return null;
+            yield return new WaitForEndOfFrame();
             gameObject.tag = "Untagged";
             Destroy(gameObject);
         }
