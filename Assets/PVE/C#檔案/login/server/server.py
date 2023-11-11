@@ -20,9 +20,14 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     username = request.form.get("username")
+    email    = request.form.get("email")
     password = request.form.get("password")
 
-    name_check_query = "SELECT username FROM users WHERE username='{0}';".format(username)
+    print(type(password))
+
+    # name_check_query = f"SELECT username FROM users WHERE username='{username}' OR email='{email}';"
+    name_check_query = "SELECT username FROM users WHERE username='{username}' OR email='{email}';".format(username=username, email=email)
+    print(name_check_query)
 
     msg = ''
 
@@ -34,12 +39,16 @@ def register():
     print(result_num)
 
     if result_num != 0:
-        msg = 'User already existed'
+        msg = 'User or email already existed'
         return msg
+
+    token = secrets.token_hex(32) # 256 bits token
 
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-    user_insert_query = "INSERT INTO users(username, hash) VALUES ('{0}', '{1}');".format(username, hashed_password)
+    # user_insert_query = f"INSERT INTO users(username, email, token, hash) VALUES ('{username}', '{email}', '{token}', '{hashed_password}');"
+    user_insert_query = "INSERT INTO users(username, email, token, hash) VALUES ('{username}', '{email}', '{token}', '{hashed_password}');".format(username=username, email=email, token=token, hashed_password=hashed_password)
+    print(user_insert_query)
     cur.execute(user_insert_query)
     cnx.commit()
     msg = 'User register success'
@@ -52,11 +61,12 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     username = request.form.get('username')
+    email    = request.form.get('email')
     password = request.form.get('password')
 
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-    name_check_query = "SELECT username, hash, score FROM users WHERE username='{0}';".format(username)
+    name_check_query = "SELECT username, token, hash FROM users WHERE username='{username}' OR email='{email}';".format(username=username, email=email)
     
     msg = ''
 
@@ -74,45 +84,12 @@ def login():
         return msg
 
     queried_hash = result[0]['hash']
-    queried_score = result[0]['score']
+    token = result[0]['token']
 
     if hashed_password != queried_hash:
         msg = 'Incorrect password'
     else:
-        msg = '0\t{0}'.format(queried_score)
-
-    cur.close()
-    cnx.close()
-
-    return msg
-
-@app.route('/savedata', methods=['GET', 'POST'])
-def savedata():
-    username = request.form.get('username')
-    new_score = request.form.get('score')
-
-    name_check_query = "SELECT username FROM users WHERE username='{0}';".format(username)
-    
-    msg = ''
-
-    cnx = mysql.connector.connect(**config)
-    cur = cnx.cursor()
-
-    cur.execute(name_check_query)
-
-    result = cur.fetchall()
-    result_num = len(result)
-    print(result_num)
-
-    if result_num != 1:
-        msg = 'Either no user with name, or more than one'
-        return msg
-
-    score_update_query = "UPDATE users SET score='{0}' WHERE username='{1}';".format(new_score, username)
-    cur.execute(score_update_query)
-    cnx.commit()
-
-    msg = 'score updated success'
+        msg = '0 User login success\t{token}'.format(token=token)
 
     cur.close()
     cnx.close()
