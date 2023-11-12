@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/PVE/\u5834\u666F/LoginMenu.unity"
     guid: 6e2740070ef114f9290d972a123d2849
+  - enabled: 0
+    path: "Assets/PVE/\u5834\u666F/Game.unity"
+    guid: e5299cb56b9194e459a55a8a536b7747
   - enabled: 1
     path: "Assets/PVE/\u5834\u666F/Background.unity"
     guid: aaf981f3fba31487981882ceec6e3a4f
