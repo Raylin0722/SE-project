@@ -19,7 +19,7 @@ public class FadeOutEffect : MonoBehaviour
         if (isFadingOut)
         {
             timer += Time.deltaTime;
-            float progress = timer / fadeOutDuration;
+            float progress = (timer / fadeOutDuration)/2;
             image.color = new Color(image.color.r, image.color.g, image.color.b, 1 - progress);
 
             if (timer >= fadeOutDuration)

@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-
+using UnityEngine.UI;
 public class Wind : MonoBehaviour
 {
     public static GameObject ColdWindObject;
-    private SpriteRenderer spriteRenderer;
+    private Image image; // 使用 Image 來設置顏色
     private bool isActivated = false;
     private float startTime;
-    private float duration = 3f; // 持续时间为3秒
-    public bool who;//0是我方的風 1是敵人的風
+    private float duration = 3f;
+    public bool who;
+
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = false; // 初始时不可见
+        image = GetComponent<Image>(); // 獲取 Image 組件
+        Color newColor = image.color;
+        newColor.a = 0f; // 初始時透明度為0
+        image.color = newColor;
+        //gameObject.SetActive(false); // 初始時物件不可見
     }
 
     void Update()
@@ -24,21 +27,26 @@ public class Wind : MonoBehaviour
             float timePassed = Time.time - startTime;
             if (timePassed < duration)
             {
-                // 在淡化过程中，逐渐降低透明度
-                float alpha = 1f - (timePassed / duration); // 计算透明度
-                spriteRenderer.color = new Color(1f, 1f, 1f, alpha); // 更新透明度
+                float alpha = 1f - (timePassed / duration);
+                Color newColor = image.color;
+                newColor.a = alpha;
+                image.color = newColor; // 修改透明度
             }
             else
             {
                 isActivated = false;
-                spriteRenderer.enabled = false; // 淡化结束后隐藏对象
+                Color newColor = image.color;
+                newColor.a = 0f;
+                image.color = newColor;
+                //gameObject.SetActive(false); // 隱藏物件
             }
         }
     }
+
     public void ActivateWind()
     {
         isActivated = true;
-        spriteRenderer.enabled = true; // 显示对象
         startTime = Time.time;
+        //gameObject.SetActive(true); // 顯示物件
     }
 }
