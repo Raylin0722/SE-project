@@ -208,7 +208,7 @@ public class ButtonFunction : MonoBehaviour
         Continue.SetActive(false);
         Replay.SetActive(false);
         Exit.SetActive(false);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
     public void StartGame()
