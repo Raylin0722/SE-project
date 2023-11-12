@@ -90,6 +90,9 @@ public class CharacterManage : MonoBehaviour
                 case 11:
                     Level1_1(passtime);
                     break;
+                case 12:
+                    Level1_2(passtime);
+                    break;
             }
         }
         
@@ -476,127 +479,131 @@ public class CharacterManage : MonoBehaviour
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
+        passtime=0;
+        record=0;
     }
     void Level1_2(float passtime)
     {
         if(passtime>=6f&&record==0)
         {
-            GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
+            GameObject Watermelon2=Instantiate(WatermelonPrefabs[0], transform);
             Watermelon2.transform.position=new Vector3(15.0f, 0.0f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=19&&record==1)
+        else if(passtime>=12&&record==1)//sling shot
         {
-            GameObject Watermelon4=Instantiate(WatermelonPrefabs[3], transform);
-            Watermelon4.transform.position=new Vector3(13.0f, 0.0f, 0f);
-            Watermelon4.transform.rotation = Quaternion.Euler(0, 180f, 0);
+            //GameObject Watermelon4=Instantiate(WatermelonPrefabs[3], transform);
+            //Watermelon4.transform.position=new Vector3(13.0f, 0.0f, 0f);
+            //Watermelon4.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=35&&record==2)
+        else if(passtime>=22&&record==2)
         {
-            GameObject Watermelon3=Instantiate(WatermelonPrefabs[2], transform);
+            GameObject Watermelon3=Instantiate(WatermelonPrefabs[3], transform);
             Watermelon3.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon3.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=54&&record==3)
+        else if(passtime>=34&&record==3)
         {
-            GameObject Watermelon4=Instantiate(WatermelonPrefabs[3], transform);
+            GameObject Watermelon4=Instantiate(WatermelonPrefabs[4], transform);
             Watermelon4.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon4.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=64&&record==4)
+        else if(passtime>=44&&record==4)
         {
             GameObject Watermelon1=Instantiate(WatermelonPrefabs[0], transform);
             Watermelon1.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon1.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=66&&record==5)
+        else if(passtime>=54&&record==5)
+        {
+            GameObject Watermelon2=Instantiate(WatermelonPrefabs[3], transform);
+            Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
+            Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
+            record++;
+        }
+        else if(passtime>=58&&record==6)
         {
             GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=72&&record==6)
+        else if(passtime>=80&&record==7)
         {
-            GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
-            Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
-            Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
-            record++;
-        }
-        else if(passtime>=85&&record==7)
-        {
-            GameObject Watermelon3=Instantiate(WatermelonPrefabs[2], transform);
+            GameObject Watermelon3=Instantiate(WatermelonPrefabs[1], transform);
             Watermelon3.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon3.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=105&&record==8)
+        else if(passtime>=90&&record==8)
         {
-            GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
+            GameObject Watermelon2=Instantiate(WatermelonPrefabs[2], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=122&&record==9)
+        else if(passtime>=100&&record==9)
         {
             GameObject Watermelon1=Instantiate(WatermelonPrefabs[0], transform);
             Watermelon1.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon1.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=132&&record==10)
+        else if(passtime>=110&&record==10)
         {
-            GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
+            GameObject Watermelon2=Instantiate(WatermelonPrefabs[3], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=148&&record==11)
+        else if(passtime>=130&&record==11)
         {
-            GameObject Watermelon4=Instantiate(WatermelonPrefabs[3], transform);
+            GameObject Watermelon4=Instantiate(WatermelonPrefabs[4], transform);
             Watermelon4.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon4.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=162&&record==12)
+        else if(passtime>=140&&record==12)
         {
             GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=162&&record==13)
+        else if(passtime>=141&&record==13)
         {
             GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=162&&record==14)
+        else if(passtime>=151&&record==14)
         {
-            GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
+            GameObject Watermelon2=Instantiate(WatermelonPrefabs[0], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=162&&record==15)
+        else if(passtime>=161&&record==15)
         {
-            GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
+            GameObject Watermelon2=Instantiate(WatermelonPrefabs[3], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
-        else if(passtime>=162&&record==16)
+        else if(passtime>=171&&record==16)
         {
-            GameObject Watermelon2=Instantiate(WatermelonPrefabs[1], transform);
+            GameObject Watermelon2=Instantiate(WatermelonPrefabs[0], transform);
             Watermelon2.transform.position=new Vector3(7.09f, -0.87f, 0f);
             Watermelon2.transform.rotation = Quaternion.Euler(0, 180f, 0);
             record++;
         }
+        passtime=0;
+        record=0;
     }
 }

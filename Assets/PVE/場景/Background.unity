@@ -7723,6 +7723,12 @@ MonoBehaviour:
   - {fileID: 1992696058341951454, guid: 6a102625606af4a3490f8ab1418b192a, type: 3}
   - {fileID: 2220071811436597158, guid: 4008c8018cbf44c5a8de7ee16903d1c0, type: 3}
   - {fileID: 8029471426085349155, guid: 4995b2fa44d0641b6a5f7e6173fc14b7, type: 3}
+  PepperPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   MyWatermelonPrefabs:
   - {fileID: 6694193030101232113, guid: dc7df804a0d074e47b59c3b0b7719d48, type: 3}
   - {fileID: 376488866136081581, guid: 29fb1a271c34c4906b0b9b78747144ae, type: 3}
