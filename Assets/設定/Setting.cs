@@ -19,7 +19,7 @@ public class Setting : MonoBehaviour
     public GameObject Feedback; // Feedback Button
     public string URL_Feedback = "https://forms.gle/XSt1FpKRyCtY8qVU9"; // the website about About
     public GameObject About; // About Button
-    public string URL_About = "https://stanlybaa.github.io/test2/"; // the website about About
+    public string URL_About = "https://xmu310.github.io"; // the website about About
 
     // Start is called before the first frame update
     void Start()
