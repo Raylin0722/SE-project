@@ -29,7 +29,9 @@ public class Attack : MonoBehaviour{
         currentHealth = maxHealth; // Initialize health
         animator = GetComponent<Animator>();
         animator.SetBool("isAttack", false);
+        animator.SetBool("isStart", false);
     }
+    
 
     private void Update() {
         // Implement attack logic here, such as detecting enemies entering attack range and performing attacks
@@ -132,7 +134,7 @@ public class Attack : MonoBehaviour{
         if (collision.gameObject.CompareTag("ground")) // 假设Ground是地面的标签
         {
             rb.velocity = Vector2.zero;
-            
+            animator.SetBool("isStart", true);
             //moveSpeed=unwindMoveSpeed;
             // 更改Rock的标签为"Player"
             if(gameObject.layer==7){
