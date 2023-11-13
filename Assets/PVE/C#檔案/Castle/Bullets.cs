@@ -58,22 +58,18 @@ public class Bullets : MonoBehaviour
         {
             if (collision.CompareTag("enemy"))
             {
-                AttackTarget(collision.gameObject);
-                //Debug.Log("碰到囉ENEMY");
-                // 处理子弹与敌人碰撞的逻辑
-                // 例如，可以造成伤害或者直接销毁子弹
                 Destroy(gameObject);
+                AttackTarget(collision.gameObject);
+                
             }
         }
         else if(target.tag=="Player")
         {
             if (collision.CompareTag("Player"))
             {
-                AttackTarget(collision.gameObject);
-                //Debug.Log("碰到囉PLAYER");
-                // 处理子弹与敌人碰撞的逻辑
-                // 例如，可以造成伤害或者直接销毁子弹
                 Destroy(gameObject);
+                AttackTarget(collision.gameObject);
+                
             }
         }
     }

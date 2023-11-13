@@ -8,6 +8,7 @@ using TMPro;
 
 public class Registration : MonoBehaviour {
     public TMP_InputField nameField;
+    public TMP_InputField emailField;
     public TMP_InputField passwordField;
     public Button submitButton;
 
@@ -18,6 +19,7 @@ public class Registration : MonoBehaviour {
     IEnumerator Register() {
         WWWForm form = new WWWForm();
         form.AddField("username", nameField.text);
+        form.AddField("email", emailField.text);
         form.AddField("password", passwordField.text);
 
         UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/register", form);
@@ -33,7 +35,7 @@ public class Registration : MonoBehaviour {
     }
 
     public void VerifyInputs() {
-        submitButton.interactable = (nameField.text.Length >= 8 && passwordField.text.Length >= 8);
+        submitButton.interactable = (nameField.text.Length >= 3 && emailField.text.Length > 0 && passwordField.text.Length >= 8);
     }
 
     public void GoToMain() {

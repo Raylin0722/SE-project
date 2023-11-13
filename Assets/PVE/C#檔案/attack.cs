@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 
 
 public class Attack : MonoBehaviour{
@@ -19,6 +19,7 @@ public class Attack : MonoBehaviour{
     public int currentHealth;
     private Animator animator; 
     private Rigidbody2D rb;
+    public bool isAngel ;
     private void Start() {
         unwindMoveSpeed=moveSpeed;
         windMoveSpeed=moveSpeed*0.5f;
@@ -28,7 +29,9 @@ public class Attack : MonoBehaviour{
         currentHealth = maxHealth; // Initialize health
         animator = GetComponent<Animator>();
         animator.SetBool("isAttack", false);
+        animator.SetBool("isStart", false);
     }
+    
 
     private void Update() {
         // Implement attack logic here, such as detecting enemies entering attack range and performing attacks
@@ -38,15 +41,56 @@ public class Attack : MonoBehaviour{
         {
             return;
         }
-        foreach (Collider2D col in hitColliders) {
+        //做排序,x小到大
+        hitColliders = hitColliders.OrderBy(col => col.transform.position.x).ToArray();
+        if(gameObject.tag=="enemy") {
+            hitColliders = hitColliders.Reverse().ToArray();
+        }
+        if (isAngel) {Debug.Log("ansasdsdas");
+            Collider2D tmp = null;
+            bool hasObject = false ;
+            foreach (Collider2D col in hitColliders) {
+                if(col.tag=="enemy" &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
+                    hasObject=true;
+                }
+                if (col.tag == gameObject.tag &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)){
+                    if(!tmp){
+                        tmp = col;
+                        continue;
+                    }
+                    Debug.Log(col.tag);
+                    Health colHealth = col.GetComponent<Health>();
+                    Health tmpHealth = tmp.GetComponent<Health>();
+                    if ((colHealth.currentHealth != colHealth.maxHealth && colHealth.currentHealth < tmpHealth.currentHealth)) {
+                        tmp = col;
+                    }
+                }
+            }
+            
+            float targetX = (gameObject.tag == "Player") ? -850.5f : -880.5926f;
+            float distanceX = Mathf.Abs(transform.position.x - targetX);
+            if ((object.ReferenceEquals(tmp, gameObject) 
+            || ( tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth))
+            &&tmp.gameObject.layer!=6&&tmp.gameObject.layer!=8) {
+                judgeMove = false;
+                AttackTarget(tmp.gameObject);
+            }
+            else if(distanceX<=attackRange || hasObject){
+                judgeMove = false;
+                AttackTarget(gameObject);
+            }
+        }
+        else{
+            foreach (Collider2D col in hitColliders) {
             //加上碰到地板-蔡松豪
-            if (gameObject.tag!=col.tag&&col.tag!="Untagged"&&col.tag!="ground"&&col.tag!="bullet"
-            &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
-                judgeMove=false;
-                //Debug.Log("判斷是否移動"+judgeMove);
-                //Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
-                AttackTarget(col.gameObject);
-                break;
+                if (gameObject.tag!=col.tag&&col.tag!="Untagged"&&col.tag!="ground"&&col.tag!="bullet"
+                &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
+                    judgeMove=false;
+                    //Debug.Log("判斷是否移動"+judgeMove);
+                    //Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
+                    AttackTarget(col.gameObject);
+                    break;
+                }
             }
         }
         if(judgeMove){
@@ -90,7 +134,7 @@ public class Attack : MonoBehaviour{
         if (collision.gameObject.CompareTag("ground")) // 假设Ground是地面的标签
         {
             rb.velocity = Vector2.zero;
-            
+            animator.SetBool("isStart", true);
             //moveSpeed=unwindMoveSpeed;
             // 更改Rock的标签为"Player"
             if(gameObject.layer==7){
