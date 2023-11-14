@@ -281,7 +281,7 @@ public class ButtonFunction : MonoBehaviour
             pastTime=0f;
             if(detect==0){
                 temp=temp+increment/10f;
-                Debug.Log(temp);
+                //Debug.Log(temp);
 
                 if(temp<=energyLimit)
                 {

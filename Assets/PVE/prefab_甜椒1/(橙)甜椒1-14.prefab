@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 121041925137963976}
   - component: {fileID: -9162714373730972945}
   - component: {fileID: 2452666293792649139}
-  m_Layer: 0
+  - component: {fileID: -6639606416987313846}
+  - component: {fileID: 5959592028339293395}
+  m_Layer: 9
   m_Name: "(\u6A59)\u751C\u69121-14"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,3 +182,40 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-6639606416987313846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4642193750554483111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9995d4f7e2529d747be8ae34a14d7351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 150
+  maxHealth: 700
+  moveSpeed: 1.7
+  windMoveSpeed: 0
+  unwindMoveSpeed: 0
+  attackRange: 7
+  attackCooldown: 1
+  cost: 0
+  currentHealth: 0
+  isAngel: 0
+--- !u!114 &5959592028339293395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4642193750554483111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 700
+  currentHealth: 100
+  HpBar: {fileID: 0}
