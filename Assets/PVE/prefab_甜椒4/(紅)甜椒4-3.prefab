@@ -12,7 +12,10 @@ GameObject:
   - component: {fileID: 8152948783984123641}
   - component: {fileID: -2732556816386407574}
   - component: {fileID: 6745634664429645184}
-  m_Layer: 0
+  - component: {fileID: -375594420742420053}
+  - component: {fileID: -497957647267684403}
+  - component: {fileID: 1287485575208696560}
+  m_Layer: 9
   m_Name: "(\u7D05)\u751C\u69124-3"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,3 +161,61 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &-375594420742420053
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601721536475944313}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4f9a761aff7455c409d962e8f9d5cd29, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-497957647267684403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601721536475944313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 600
+  currentHealth: 100
+  HpBar: {fileID: 0}
+--- !u!114 &1287485575208696560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601721536475944313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9995d4f7e2529d747be8ae34a14d7351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 200
+  maxHealth: 600
+  moveSpeed: 3.1
+  windMoveSpeed: 0
+  unwindMoveSpeed: 0
+  attackRange: 5.5
+  attackCooldown: 1
+  cost: 0
+  currentHealth: 0
+  isAngel: 0

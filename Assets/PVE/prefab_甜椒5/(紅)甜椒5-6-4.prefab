@@ -12,7 +12,10 @@ GameObject:
   - component: {fileID: 5537169065219443996}
   - component: {fileID: -5265200029494617321}
   - component: {fileID: -1548849276351063428}
-  m_Layer: 0
+  - component: {fileID: 2713980327178767038}
+  - component: {fileID: -5389796083370812399}
+  - component: {fileID: -8230633320499653322}
+  m_Layer: 9
   m_Name: "(\u7D05)\u751C\u69125-6-4"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,3 +161,61 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &2713980327178767038
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080934548770502795}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2a0f55d9877430340b0bc9adb7373d22, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-5389796083370812399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080934548770502795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9995d4f7e2529d747be8ae34a14d7351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 150
+  maxHealth: 800
+  moveSpeed: 2.7
+  windMoveSpeed: 0
+  unwindMoveSpeed: 0
+  attackRange: 4
+  attackCooldown: 1
+  cost: 0
+  currentHealth: 0
+  isAngel: 0
+--- !u!114 &-8230633320499653322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080934548770502795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 800
+  currentHealth: 100
+  HpBar: {fileID: 0}
