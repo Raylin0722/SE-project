@@ -6,171 +6,146 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using System;
 
-
-public class data{
-    public bool success;
-    public string token;
-    public int money;
-    public int[] exp;
-    public int[] character;
-    public int[] lineup;
-    public int tear;
-    public int castleLevel;
-    public int slingshotLevel;
-    public int[] clearance;
-    public int energy;
-    public string updateTime;
-    public int volume;
-    public int backVolume;
-    public bool shock;
-    public bool remind;
-    public string chestTime;
-    public int faction;
-    public int[] props;
-}
-
-public class chestReturn{
-    public bool success;
-    public int result;
-    public string situation;
-    public bool get;
-    public int character;
-}
-public class server : MonoBehaviour
-{
-    DateTime lastUpdate;
-    public bool success;
-    public string token;
-    public int money;
-    public int[] exp;
-    public int[] character;
-    public int[] lineup;
-    public int tear;
-    public int castleLevel;
-    public int slingshotLevel;
-    public int[] clearance;
-    public int energy;
-    public string updateTime;
-    public int volume;
-    public int backVolume;
-    public bool shock;
-    public bool remind;
-    public string chestTime;
-    public int faction;
-    public int[] props;
-
-    void Awake(){
-        lastUpdate = DateTime.Now;
-        CallUpdate();
-        Debug.Log(lastUpdate);
+namespace Server{
+    public class data{
+        public bool success;
+        public string token;
+        public int money;
+        public int[] exp;
+        public int[] character;
+        public int[] lineup;
+        public int tear;
+        public int castleLevel;
+        public int slingshotLevel;
+        public int[] clearance;
+        public int energy;
+        public string updateTime;
+        public int volume;
+        public int backVolume;
+        public bool shock;
+        public bool remind;
+        public string chestTime;
+        public int faction;
+        public int[] props;
     }
 
-    void Update(){
-        TimeSpan timeDiffer = lastUpdate - DateTime.Now;
-        if(timeDiffer.Seconds > 300f){
-            Debug.Log("Out of Time");
+    public class chestReturn{
+        public bool success;
+        public int result;
+        public int situation;
+        public bool get;
+        public int character;
+    }
+    public class server : MonoBehaviour
+    {
+        public bool success;
+        public string token;
+        public int money;
+        public int[] exp;
+        public int[] character;
+        public int[] lineup;
+        public int tear;
+        public int castleLevel;
+        public int slingshotLevel;
+        public int[] clearance;
+        public int energy;
+        public string updateTime;
+        public int volume;
+        public int backVolume;
+        public bool shock;
+        public bool remind;
+        public string chestTime;
+        public int faction;
+        public int[] props;
+        void Awake(){
+            CallUpdate();
         }
-    }
+        private void Start() {
+            StartCoroutine(autoUpdate());
+        }
+        public void CallUpdate() {
+            StartCoroutine(updateData());
+        }
+        public IEnumerator updateData(){
 
-    public void CallUpdate() {
-        StartCoroutine(updateData());
-        lastUpdate = DateTime.Now;
-    }
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
 
-    public void CallOpenChest(bool type) {
-
-    }
-    
-    IEnumerator updateData(){
-
-        WWWForm form = new WWWForm();
-        form.AddField("token", token);
-
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
-        
-        yield return www.SendWebRequest();
-
-        if(www.result == UnityWebRequest.Result.Success){
-            string response = www.downloadHandler.text;
+            UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
             
-            data playerData = JsonUtility.FromJson<data>(response);
+            yield return www.SendWebRequest();
 
-            Debug.Log(response);
-            Debug.Log(JsonUtility.ToJson(playerData));
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                
+                data playerData = JsonUtility.FromJson<data>(response);
 
-            success = playerData.success;
-            money = playerData.money;
-            exp = playerData.exp;
-            character = playerData.character;
-            lineup = playerData.lineup;
-            tear = playerData.tear;
-            castleLevel = playerData.castleLevel;
-            slingshotLevel = playerData.slingshotLevel;
-            clearance = playerData.clearance;
-            energy = playerData.energy;
-            updateTime = playerData.updateTime;
-            volume = playerData.volume;
-            backVolume = playerData.backVolume;
-            shock = playerData.shock;
-            remind = playerData.remind;
-            chestTime = playerData.chestTime;
-            faction = playerData.faction;
-            props = playerData.props;
+                success = playerData.success;
+                money = playerData.money;
+                exp = playerData.exp;
+                character = playerData.character;
+                lineup = playerData.lineup;
+                tear = playerData.tear;
+                castleLevel = playerData.castleLevel;
+                slingshotLevel = playerData.slingshotLevel;
+                clearance = playerData.clearance;
+                energy = playerData.energy;
+                updateTime = playerData.updateTime;
+                volume = playerData.volume;
+                backVolume = playerData.backVolume;
+                shock = playerData.shock;
+                remind = playerData.remind;
+                chestTime = playerData.chestTime;
+                faction = playerData.faction;
+                props = playerData.props;
 
+            }
+            else{ //非法token需跳回登入頁面
+                SceneManager.LoadScene("MainMenu");
+                //Debug.Log("Error");
+            }
+
+            if(success == false){
+                SceneManager.LoadScene("MainMenu");
+                //Debug.Log("Error");
+            }
+
+            
+
+        }     
+        public IEnumerator autoUpdate(){
+            while (true){
+                yield return new WaitForSecondsRealtime(300f);
+                yield return StartCoroutine(updateData());
+            }
         }
-        else{ //非法token需跳回登入頁面
-            SceneManager.LoadScene("MainMenu");
-            //Debug.Log("Error");
-        }
+        public IEnumerator openChest(bool openType) {
+            WWWForm form = new WWWForm();
 
-        if(success == false){
-            SceneManager.LoadScene("MainMenu");
-            //Debug.Log("Error");
-        }
+            form.AddField("token", token);
+            if(openType)
+                form.AddField("openType", "True");
+            else
+                form.AddField("openType", "False");
 
-        
+            UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/openChest", form);
+            
+            yield return www.SendWebRequest();
 
-    }
-
-
-    public int result;
-    public string situation;
-    public bool get;
-    public int getCharacter;
+            chestReturn result = new chestReturn();
 
 
-    IEnumerator openChest(bool openType) {
-        WWWForm form = new WWWForm();
-
-        form.AddField("token", token);
-        if(openType)
-            form.AddField("openType", "True");
-        else
-            form.AddField("openType", "False");
-
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
-        
-        yield return www.SendWebRequest();
-
-        if(www.result == UnityWebRequest.Result.Success){
-            string response = www.downloadHandler.text;
-            chestReturn chestResult = JsonUtility.FromJson<chestReturn>(response);
-            if(success == true){
-                result = chestResult.result;
-                situation = chestResult.situation;
-                get = chestResult.get;
-                getCharacter = chestResult.character;
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<chestReturn>(response);
+                CallUpdate();
             }
             else{
-
+                result.success = false;
             }
-            CallUpdate();
-            
+
+            yield return result;
+
         }
-
-
     }
-
-    
-
 }

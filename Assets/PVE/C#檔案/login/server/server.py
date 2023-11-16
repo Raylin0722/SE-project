@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': 'test',        
+    'password': 'gpgpr87693',        
     'database': 'SE_project',        
     'host': 'localhost',        
     'port': '3306'        
@@ -119,7 +119,7 @@ def checkLegal():#判斷是否可開啟寶箱
     cur.execute(checkquery, (token,))
 
     result = cur.fetchall()
-    returnResult = {"sucess" : False, "situation" : 0}
+    returnResult = {"success" : False, "situation" : 0, "get" : False, "character" : -1, "result" : -1}
     
     if len(result) == 1 and openType: #normal
         timequery = "SELECT money, expLevel, expTotal, tear, props, `character` , chestTime FROM usersdata WHERE token=%s"
@@ -177,7 +177,7 @@ def checkLegal():#判斷是否可開啟寶箱
                         cnx.commit()
                     returnResult['result'] = data['result']
                     returnResult['character'] = data["normalCharacter"]
-                returnResult["sucess"] = True     
+                returnResult["success"] = True     
                 
                 currentDatetime += timedelta(hours=72)
                 
@@ -254,7 +254,7 @@ def checkLegal():#判斷是否可開啟寶箱
                     cnx.commit()
                 returnResult['result'] = data['result']
                 returnResult['character'] = data["rareCharacter"]
-            returnResult["sucess"] = True
+            returnResult["success"] = True
             tearFinal -= 10
             cur.execute("update usersdata set tear=%s where token=%s", (tearFinal, token))
             cnx.commit()

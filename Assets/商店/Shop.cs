@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
+using Server;
 
 public class Shop : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Shop : MonoBehaviour
     public GameObject Special_Open; // Special Open Button
     public Image White_Image; // White image
     private float Time_White = 1.0f; // the duration of the picture becomes larger
+    public GameObject serverdata;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +40,7 @@ public class Shop : MonoBehaviour
     {
         White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
-        StartCoroutine(Fade_Screen()); // the fading animation before the drawing
+        StartCoroutine(Fade_Screen(true)); // the fading animation before the drawing
     }
 
     // When click SPECIAL < OPEN > 
@@ -46,11 +48,11 @@ public class Shop : MonoBehaviour
     {
         White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
-        StartCoroutine(Fade_Screen()); // the fading animation before the drawing
+        StartCoroutine(Fade_Screen(false)); // the fading animation before the drawing
     }
 
     // the animation of drawing 
-    private IEnumerator Fade_Screen()
+    private IEnumerator Fade_Screen(bool openType)
     {
         float Elapsed_Time = 0f; // the time elpased now
         Color startColor = new Color(1f, 1f, 1f, 0f); // Transparent Color
@@ -66,8 +68,21 @@ public class Shop : MonoBehaviour
             yield return null;
         }
 
-        // the process of drawing game
-        Thread.Sleep(2000); // (you have to delete Thread.Sleep(2000);)
+        IEnumerator coroutine = serverdata.GetComponent<server>().openChest(openType);
+        yield return StartCoroutine(coroutine);
+
+        chestReturn result = coroutine.Current as chestReturn;
+
+        if(result != null){
+            //Debug.Log(result);
+            Debug.Log(result.success);
+            Debug.Log(result.result);
+            Debug.Log(result.character);
+            Debug.Log(result.get);
+            Debug.Log(result.situation);
+        }
+
+
 
         White_Image.gameObject.SetActive(false);
     }
