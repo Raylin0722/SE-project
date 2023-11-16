@@ -119,7 +119,7 @@ def checkLegal():#判斷是否可開啟寶箱
     cur.execute(checkquery, (token,))
 
     result = cur.fetchall()
-    returnResult = {"sucess" : False}
+    returnResult = {"sucess" : False, "situation" : 0}
     
     if len(result) == 1 and openType: #normal
         timequery = "SELECT money, expLevel, expTotal, tear, props, `character` , chestTime FROM usersdata WHERE token=%s"
@@ -184,6 +184,8 @@ def checkLegal():#判斷是否可開啟寶箱
                 cur.execute("update usersdata set chestTime=%s where token=%s", (currentDatetime, token))
                 cnx.commit()
 
+            else:
+                returnResult["situation"] = ""
     elif len(result) == 1 and (not openType): # rare
         tearcheck = "SELECT money, expLevel, expTotal, tear, props, `character` FROM usersdata WHERE token='{0}'".format(token) # 要調整
         # money : 0 expLevel : 1 expTotal : 2 tear : 3 props : 4 `character` : 5
@@ -257,6 +259,10 @@ def checkLegal():#判斷是否可開啟寶箱
             cur.execute("update usersdata set tear=%s where token=%s", (tearFinal, token))
             cnx.commit()
 
+    else:
+        returnResult["situation"] = -1
+    
+    
     cur.close()
     cnx.close() 
 
@@ -363,7 +369,7 @@ def updateData():
                 chestTime datetime,
                 faction varchar(200)
             );'''
-            if (datetime.now() - result[0][0]).total_seconds() < 3:
+            if (datetime.now() - result[0][0]).total_seconds() != 0:
                 data["success"]  = True
                 data["updateTime"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 data["token"] = result[0][2]

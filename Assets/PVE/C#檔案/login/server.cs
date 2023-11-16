@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System;
 
 
 public class data{
@@ -27,8 +28,17 @@ public class data{
     public int faction;
     public int[] props;
 }
+
+public class chestReturn{
+    public bool success;
+    public int result;
+    public string situation;
+    public bool get;
+    public int character;
+}
 public class server : MonoBehaviour
 {
+    DateTime lastUpdate;
     public bool success;
     public string token;
     public int money;
@@ -49,8 +59,22 @@ public class server : MonoBehaviour
     public int faction;
     public int[] props;
 
+    void Awake(){
+        lastUpdate = DateTime.Now;
+        CallUpdate();
+        Debug.Log(lastUpdate);
+    }
+
+    void Update(){
+        TimeSpan timeDiffer = lastUpdate - DateTime.Now;
+        if(timeDiffer.Seconds > 300f){
+            Debug.Log("Out of Time");
+        }
+    }
+
     public void CallUpdate() {
         StartCoroutine(updateData());
+        lastUpdate = DateTime.Now;
     }
 
     public void CallOpenChest(bool type) {
@@ -107,26 +131,43 @@ public class server : MonoBehaviour
         
 
     }
-    
-    IEnumerator openChest(bool type) {
+
+
+    public int result;
+    public string situation;
+    public bool get;
+    public int getCharacter;
+
+
+    IEnumerator openChest(bool openType) {
         WWWForm form = new WWWForm();
 
         form.AddField("token", token);
-        if(type)
-            form.AddField("type", "True");
+        if(openType)
+            form.AddField("openType", "True");
         else
-            form.AddField("type", "False");
+            form.AddField("openType", "False");
 
         UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
         
         yield return www.SendWebRequest();
 
         if(www.result == UnityWebRequest.Result.Success){
-            CallUpdate();
-        }
-        else{ // 非法操作
+            string response = www.downloadHandler.text;
+            chestReturn chestResult = JsonUtility.FromJson<chestReturn>(response);
+            if(success == true){
+                result = chestResult.result;
+                situation = chestResult.situation;
+                get = chestResult.get;
+                getCharacter = chestResult.character;
+            }
+            else{
 
+            }
+            CallUpdate();
+            
         }
+
 
     }
 
