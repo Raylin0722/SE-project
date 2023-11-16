@@ -12,7 +12,10 @@ GameObject:
   - component: {fileID: 2551249167993616744}
   - component: {fileID: -6474312054295408852}
   - component: {fileID: -7547104197749537441}
-  m_Layer: 0
+  - component: {fileID: -1307571462511175924}
+  - component: {fileID: -7539528645930533083}
+  - component: {fileID: 8714420022225302114}
+  m_Layer: 9
   m_Name: "(\u6A59)\u751C\u69123-7-1"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 926072cd8d51ef44fbbda7777c233214, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -158,3 +161,61 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &-1307571462511175924
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700248673378007181}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1c7f90fdc05088245a16b669194d8092, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7539528645930533083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700248673378007181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1000
+  currentHealth: 100
+  HpBar: {fileID: 0}
+--- !u!114 &8714420022225302114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700248673378007181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9995d4f7e2529d747be8ae34a14d7351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 300
+  maxHealth: 1000
+  moveSpeed: 2
+  windMoveSpeed: 0
+  unwindMoveSpeed: 0
+  attackRange: 7
+  attackCooldown: 1
+  cost: 0
+  currentHealth: 0
+  isAngel: 0

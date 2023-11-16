@@ -13,6 +13,7 @@ public class Login : MonoBehaviour {
     public Button submitButton;
 
     public void CallLogin() {
+        Debug.Log("OK");
         StartCoroutine(LoginPlayer());
     }
 

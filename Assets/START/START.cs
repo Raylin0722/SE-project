@@ -30,7 +30,35 @@ public class START : MonoBehaviour
     {
         // call the PVE
         //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        
+        GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        string buttonTag = clickedButton.tag;
+        Debug.Log("Clicked button tag: " + buttonTag);
+        switch(buttonTag)
+        {
+            case "11":
+                GameManage.currentLevel=11;
+                //Debug.Log("START:"+GameManage.currentLevel);
+                break;
+            case "12":
+                GameManage.currentLevel=12;
+                break;
+            case "13":
+                GameManage.currentLevel=13;
+                break;
+            case "14":
+                GameManage.currentLevel=14;
+                break;
+            case "15":
+                GameManage.currentLevel=15;
+                break;
+            case "16":
+                GameManage.currentLevel=16;
+                break;
+        }
+        
         SceneManager.LoadScene("Background", LoadSceneMode.Single);
+        
     }
 
     // When click < BACK > 

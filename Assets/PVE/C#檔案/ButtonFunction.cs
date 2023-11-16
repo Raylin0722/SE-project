@@ -208,7 +208,7 @@ public class ButtonFunction : MonoBehaviour
         Continue.SetActive(false);
         Replay.SetActive(false);
         Exit.SetActive(false);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
     public void StartGame()
@@ -281,7 +281,7 @@ public class ButtonFunction : MonoBehaviour
             pastTime=0f;
             if(detect==0){
                 temp=temp+increment/10f;
-                Debug.Log(temp);
+                //Debug.Log(temp);
 
                 if(temp<=energyLimit)
                 {

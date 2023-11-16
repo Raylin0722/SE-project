@@ -11,6 +11,7 @@ public class GameManage : MonoBehaviour
     static public bool toolIsActive=false;
     static public int level=1;
     static public bool toolIsUseable=true;
+    static public int currentLevel;
 
     //[SerializeField] GameObject toolFrame;
     [SerializeField] GameObject W1B;
@@ -34,7 +35,6 @@ public class GameManage : MonoBehaviour
         W3B.SetActive(false);
         W4B.SetActive(false);
         W5B.SetActive(false);
-
     }
 
     float fifteen=0f;
