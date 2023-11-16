@@ -65,7 +65,6 @@ public class CharacterManage : MonoBehaviour
                 CharacterIdInCd=0;
                 break;
             case 2:
-                Debug.Log("我要進去2");
                 watermelon2Product();
                 CharacterIdInCd=0;
                 break;
@@ -259,10 +258,9 @@ public class CharacterManage : MonoBehaviour
     }
     public void watermelon2Product()
     {
-        Debug.Log("進來二了");
         if(w2isUseable&&GoOnShoot==1&&CharacterIdInCd==2)
         {
-            Debug.Log("近來CD了");
+
             w2isUseable=false;
             w2coolbar[0].SetActive(true);
             w2coolbar[2].SetActive(true);
@@ -273,7 +271,6 @@ public class CharacterManage : MonoBehaviour
         }
         else if(ButtonFunction.currentEnergy>=70*Math.Pow(1.4, GameManage.level-1) && w2isUseable)
         {
-            Debug.Log("要射了");
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
@@ -330,10 +327,10 @@ public class CharacterManage : MonoBehaviour
     }
     public void watermelon4Product()
     {
-        Debug.Log("我進4了阿然後勒");
+
         if( w4isUseable&&GoOnShoot==1&&CharacterIdInCd==4)
         {
-            Debug.Log("進CD");
+        
             w4isUseable=false;
             w4coolbar[0].SetActive(true);
             w4coolbar[2].SetActive(true);
@@ -344,7 +341,6 @@ public class CharacterManage : MonoBehaviour
         }
         else if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, GameManage.level-1) && w4isUseable)
         {
-            Debug.Log("射了");
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
             {
