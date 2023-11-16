@@ -9,6 +9,12 @@ TagManager:
   - ground
   - judge_if_ground
   - bullet
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
   layers:
   - Default
   - TransparentFX
