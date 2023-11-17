@@ -23,7 +23,7 @@ public class Login : MonoBehaviour {
         form.AddField("email", emailField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/login", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw//login", form);
         
         yield return www.SendWebRequest();
 

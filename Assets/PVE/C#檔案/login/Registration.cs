@@ -22,7 +22,7 @@ public class Registration : MonoBehaviour {
         form.AddField("email", emailField.text);
         form.AddField("password", passwordField.text);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/register", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/register", form);
         
         yield return www.SendWebRequest();
 

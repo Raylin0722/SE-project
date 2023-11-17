@@ -76,10 +76,10 @@ public class Shop : MonoBehaviour
         if(result != null){
             //Debug.Log(result);
             Debug.Log(result.success);
-            Debug.Log(result.result);
-            Debug.Log(result.character);
-            Debug.Log(result.get);
-            Debug.Log(result.situation);
+            Debug.Log("0: money 1 : exp 2: taer 3: props 4: normalcharacter 5: rarecharacter \nresult: " + result.result);
+            Debug.Log("角色代號 -1表示沒抽到角色: " + result.character);
+            Debug.Log("是否抽到角色 若上一個有抽到這邊是false表示已擁有: " + result.get);
+            Debug.Log("錯誤狀況(出現-1表示時間未到或淚水不足 出現-2請立即呼叫Raylin 感恩): " + result.situation);
         }
 
 

@@ -71,7 +71,7 @@ namespace Server{
             WWWForm form = new WWWForm();
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
             
             yield return www.SendWebRequest();
 
@@ -102,12 +102,12 @@ namespace Server{
             }
             else{ //非法token需跳回登入頁面
                 SceneManager.LoadScene("MainMenu");
-                //Debug.Log("Error");
+                Debug.Log("Error1");
             }
 
             if(success == false){
                 SceneManager.LoadScene("MainMenu");
-                //Debug.Log("Error");
+                Debug.Log("Error2");
             }
 
             
@@ -128,7 +128,7 @@ namespace Server{
             else
                 form.AddField("openType", "False");
 
-            UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/openChest", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/openChest", form);
             
             yield return www.SendWebRequest();
 

@@ -10,8 +10,8 @@ app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': 'test',        
-    'database': 'SE_project',        
+    'password': '114SE_project',        
+    'database': 'software_engineering',        
     'host': 'localhost',        
     'port': '3306'        
 }
@@ -185,7 +185,9 @@ def checkLegal():#判斷是否可開啟寶箱
                 cnx.commit()
 
             else:
-                returnResult["situation"] = ""
+                returnResult["situation"] = -1
+        else:
+            returnResult["situation"] = -2
     elif len(result) == 1 and (not openType): # rare
         tearcheck = "SELECT money, expLevel, expTotal, tear, props, `character` FROM usersdata WHERE token='{0}'".format(token) # 要調整
         # money : 0 expLevel : 1 expTotal : 2 tear : 3 props : 4 `character` : 5
@@ -258,9 +260,11 @@ def checkLegal():#判斷是否可開啟寶箱
             tearFinal -= 10
             cur.execute("update usersdata set tear=%s where token=%s", (tearFinal, token))
             cnx.commit()
+        else:
+            returnResult["situation"] = -1
 
     else:
-        returnResult["situation"] = -1
+        returnResult["situation"] = -2
     
     
     cur.close()
@@ -348,27 +352,6 @@ def updateData():
         cur.execute(searchquery, (token,))
         result = cur.fetchall()
         if(len(result) == 1):
-            '''create table usersdata(
-                updateTime datetime, 
-                playerName varchar(50),
-                token  varchar(64),
-                money integer,
-                expLevel integer,
-                expTotal integer,
-                `character` varchar(200),
-                lineup varchar(100),
-                tear integer,
-                castleLevel integer,
-                slingshotLevel integer,
-                clearance varchar(200),
-                energy integer,
-                volume integer,
-                backVolume integer,
-                shock bool,
-                remind bool,
-                chestTime datetime,
-                faction varchar(200)
-            );'''
             if (datetime.now() - result[0][0]).total_seconds() != 0:
                 data["success"]  = True
                 data["updateTime"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -445,6 +428,7 @@ def updateCard():
     cnx.close() 
     return returnResult
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host = "140.122.185.167", port="443",ssl_context=('/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/fullchain.pem', '/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/privkey.pem'))
+    
+    
