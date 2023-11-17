@@ -4,132 +4,148 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System;
 
-
-public class data{
-    public bool success;
-    public string token;
-    public int money;
-    public int[] exp;
-    public int[] character;
-    public int[] lineup;
-    public int tear;
-    public int castleLevel;
-    public int slingshotLevel;
-    public int[] clearance;
-    public int energy;
-    public string updateTime;
-    public int volume;
-    public int backVolume;
-    public bool shock;
-    public bool remind;
-    public string chestTime;
-    public int faction;
-    public int[] props;
-}
-public class server : MonoBehaviour
-{
-    public bool success;
-    public string token;
-    public int money;
-    public int[] exp;
-    public int[] character;
-    public int[] lineup;
-    public int tear;
-    public int castleLevel;
-    public int slingshotLevel;
-    public int[] clearance;
-    public int energy;
-    public string updateTime;
-    public int volume;
-    public int backVolume;
-    public bool shock;
-    public bool remind;
-    public string chestTime;
-    public int faction;
-    public int[] props;
-
-    public void CallUpdate() {
-        StartCoroutine(updateData());
+namespace Server{
+    public class data{
+        public bool success;
+        public string token;
+        public int money;
+        public int[] exp;
+        public int[] character;
+        public int[] lineup;
+        public int tear;
+        public int castleLevel;
+        public int slingshotLevel;
+        public int[] clearance;
+        public int energy;
+        public string updateTime;
+        public int volume;
+        public int backVolume;
+        public bool shock;
+        public bool remind;
+        public string chestTime;
+        public int faction;
+        public int[] props;
     }
 
-    public void CallOpenChest(bool type) {
-
+    public class chestReturn{
+        public bool success;
+        public int result;
+        public int situation;
+        public bool get;
+        public int character;
     }
-    
-    IEnumerator updateData(){
-
-        WWWForm form = new WWWForm();
-        form.AddField("token", token);
-
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
-        
-        yield return www.SendWebRequest();
-
-        if(www.result == UnityWebRequest.Result.Success){
-            string response = www.downloadHandler.text;
-            
-            data playerData = JsonUtility.FromJson<data>(response);
-
-            Debug.Log(response);
-            Debug.Log(JsonUtility.ToJson(playerData));
-
-            success = playerData.success;
-            money = playerData.money;
-            exp = playerData.exp;
-            character = playerData.character;
-            lineup = playerData.lineup;
-            tear = playerData.tear;
-            castleLevel = playerData.castleLevel;
-            slingshotLevel = playerData.slingshotLevel;
-            clearance = playerData.clearance;
-            energy = playerData.energy;
-            updateTime = playerData.updateTime;
-            volume = playerData.volume;
-            backVolume = playerData.backVolume;
-            shock = playerData.shock;
-            remind = playerData.remind;
-            chestTime = playerData.chestTime;
-            faction = playerData.faction;
-            props = playerData.props;
-
-        }
-        else{ //非法token需跳回登入頁面
-            SceneManager.LoadScene("MainMenu");
-            //Debug.Log("Error");
-        }
-
-        if(success == false){
-            SceneManager.LoadScene("MainMenu");
-            //Debug.Log("Error");
-        }
-
-        
-
-    }
-    
-    IEnumerator openChest(bool type) {
-        WWWForm form = new WWWForm();
-
-        form.AddField("token", token);
-        if(type)
-            form.AddField("type", "True");
-        else
-            form.AddField("type", "False");
-
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/updateData", form);
-        
-        yield return www.SendWebRequest();
-
-        if(www.result == UnityWebRequest.Result.Success){
+    public class server : MonoBehaviour
+    {
+        public bool success;
+        public string token;
+        public int money;
+        public int[] exp;
+        public int[] character;
+        public int[] lineup;
+        public int tear;
+        public int castleLevel;
+        public int slingshotLevel;
+        public int[] clearance;
+        public int energy;
+        public string updateTime;
+        public int volume;
+        public int backVolume;
+        public bool shock;
+        public bool remind;
+        public string chestTime;
+        public int faction;
+        public int[] props;
+        void Awake(){
             CallUpdate();
         }
-        else{ // 非法操作
+        private void Start() {
+            StartCoroutine(autoUpdate());
+        }
+        public void CallUpdate() {
+            StartCoroutine(updateData());
+        }
+        public IEnumerator updateData(){
+
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
+            
+            yield return www.SendWebRequest();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                
+                data playerData = JsonUtility.FromJson<data>(response);
+
+                success = playerData.success;
+                money = playerData.money;
+                exp = playerData.exp;
+                character = playerData.character;
+                lineup = playerData.lineup;
+                tear = playerData.tear;
+                castleLevel = playerData.castleLevel;
+                slingshotLevel = playerData.slingshotLevel;
+                clearance = playerData.clearance;
+                energy = playerData.energy;
+                updateTime = playerData.updateTime;
+                volume = playerData.volume;
+                backVolume = playerData.backVolume;
+                shock = playerData.shock;
+                remind = playerData.remind;
+                chestTime = playerData.chestTime;
+                faction = playerData.faction;
+                props = playerData.props;
+
+            }
+            else{ //非法token需跳回登入頁面
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("Error1");
+            }
+
+            if(success == false){
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("Error2");
+            }
+
+            
+
+        }     
+        public IEnumerator autoUpdate(){
+            while (true){
+                yield return new WaitForSecondsRealtime(300f);
+                yield return StartCoroutine(updateData());
+            }
+        }
+        public IEnumerator openChest(bool openType) {
+            WWWForm form = new WWWForm();
+
+            form.AddField("token", token);
+            if(openType)
+                form.AddField("openType", "True");
+            else
+                form.AddField("openType", "False");
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/openChest", form);
+            
+            yield return www.SendWebRequest();
+
+            chestReturn result = new chestReturn();
+
+
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<chestReturn>(response);
+                CallUpdate();
+            }
+            else{
+                result.success = false;
+            }
+
+            yield return result;
 
         }
-
     }
-
-    
-
 }
