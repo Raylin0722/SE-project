@@ -52,6 +52,12 @@ def register():
     cnx.commit()
     msg = 'User register success'
 
+    cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, volume, backVolume, shock, remind, chestTime, props, faction)"
+                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', [1, 2, 3, 4, 5, 1], 0, 1, 1, 
+                                                                                                                 '{"1-1": -1, "1-2": -1, "1-3": -1, "1-4": -1, "1-5": -1, "1-6": -1, "2-1": -1, "2-2": -1, "2-3": -1, "2-4": -1, "2-5": -1, "2-6": -1}', 
+                                                                                                                 30, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
+    cnx.commit()
+
     cur.close()
     cnx.close()
 
@@ -341,7 +347,7 @@ def updateData():
     
     checkquery = "SELECT token FROM users WHERE token=%s;"
     searchquery = "SELECT * FROM usersdata WHERE token=%s;"
-    updateTimequery = "UPDATE usersdata SET updateTime=NOW() WHERE token=%s;"
+    updateTimequery = "UPDATE usersdata SET updateTime=NOW(), energy=%s WHERE token=%s;"
     cur.execute(checkquery, (token,))
 
     result = cur.fetchall()
@@ -352,7 +358,14 @@ def updateData():
         cur.execute(searchquery, (token,))
         result = cur.fetchall()
         if(len(result) == 1):
-            if (datetime.now() - result[0][0]).total_seconds() != 0:
+            timeDiff = int((datetime.now() - result[0][0]).total_seconds())
+            if  timeDiff != 0:
+                energy = result[0][12]
+                if energy < 30:
+                    energy += timeDiff / 1200
+                    if energy > 30:
+                        energy = 30
+                    
                 data["success"]  = True
                 data["updateTime"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 data["token"] = result[0][2]
@@ -364,7 +377,7 @@ def updateData():
                 data["castleLevel"] = result[0][9]
                 data["slingshotLevel"] = result[0][10]
                 data["clearance"] = [value for key, value in json.loads(result[0][11]).items()]
-                data["energy"] = result[0][12]
+                data["energy"] = energy
                 data["volume"] = result[0][13]
                 data["backVolume"] = result[0][14]
                 data["shock"] = result[0][15]
@@ -427,6 +440,14 @@ def updateCard():
     cur.close()
     cnx.close() 
     return returnResult
+
+@app.route("/beforeGame", methods=['GET', 'POST'])
+def beforeGame():
+    return 'beforeGame'
+
+@app.route("/afterGame", methods=['GET', 'POST'])
+def afterGame():
+    return 'afterGame'
 
 if __name__ == "__main__":
     app.run(debug=True, host = "140.122.185.167", port="443",ssl_context=('/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/fullchain.pem', '/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/privkey.pem'))

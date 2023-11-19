@@ -9,6 +9,8 @@ public class Level_up : MonoBehaviour
     public GameObject page_Level_up; // the page which you want to close
     public GameObject Upgrade; // Upgrade Button
 
+    public GameObject serverdata;
+
     // Start is called before the first frame update
     void Start()
     {

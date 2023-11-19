@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
-using Server;
+using ServerMethod;
 
 public class Shop : MonoBehaviour
 {
@@ -68,7 +68,7 @@ public class Shop : MonoBehaviour
             yield return null;
         }
 
-        IEnumerator coroutine = serverdata.GetComponent<server>().openChest(openType);
+        IEnumerator coroutine = serverdata.GetComponent<Server>().openChest(openType);
         yield return StartCoroutine(coroutine);
 
         chestReturn result = coroutine.Current as chestReturn;
