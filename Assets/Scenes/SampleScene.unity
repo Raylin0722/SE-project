@@ -7577,7 +7577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6873f039e0fee2143b69ce5bd78a3038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finishTutorial: 0
+  finishTutorial: 1
   shop1: {fileID: 1763491025}
   shop2: {fileID: 2120978429}
   shop3: {fileID: 1565993254}

@@ -5,12 +5,16 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class startTutorial : MonoBehaviour, IPointerClickHandler
+public class startTutorial : MonoBehaviour
 {
-    [SerializeField] int finishTutorial = 1;
+    [SerializeField] public int finishTutorial;
     [SerializeField] public Image shop1, shop2, shop3, levelUp4, levelUp5, group6, story7, energy8,
                                   tears9, money10, friends11, group12, letstart13, preintroduce14, castle15, castle16,
                                   energy17, pressbutton18, character19, bow20, wind21, time22, start23, arrow;
+
+    void Update() {
+        finishTutorial = 1;
+    }
     void Start() {
         if(finishTutorial == 0) {
             shop1.gameObject.SetActive(true);
