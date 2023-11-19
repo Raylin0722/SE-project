@@ -8279,6 +8279,76 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 739985376}
   m_CullTransparentMesh: 1
+--- !u!1 &746326973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 746326975}
+  - component: {fileID: 746326974}
+  m_Layer: 0
+  m_Name: "\u65B0\u624B\u6559\u5B78"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &746326974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746326973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6873f039e0fee2143b69ce5bd78a3038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishTutorial: 1
+  shop1: {fileID: 1763491025}
+  shop2: {fileID: 2120978429}
+  shop3: {fileID: 1565993254}
+  levelUp4: {fileID: 1828043178}
+  levelUp5: {fileID: 482436152}
+  group6: {fileID: 1246575172}
+  story7: {fileID: 216514183}
+  energy8: {fileID: 1947241091}
+  tears9: {fileID: 1782029731}
+  money10: {fileID: 1831172387}
+  friends11: {fileID: 1298578726}
+  group12: {fileID: 48470872}
+  letstart13: {fileID: 980925531}
+  preintroduce14: {fileID: 1028892164}
+  castle15: {fileID: 690805961}
+  castle16: {fileID: 1862989010}
+  energy17: {fileID: 227624544}
+  pressbutton18: {fileID: 1439179897}
+  character19: {fileID: 789392816}
+  bow20: {fileID: 841620077}
+  wind21: {fileID: 227189102}
+  time22: {fileID: 1105689356}
+  start23: {fileID: 791036812}
+  arrow: {fileID: 66559238}
+--- !u!4 &746326975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746326973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 569.33386, y: 696.0745, z: -2.6458592}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 677710028}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &750794232
 GameObject:
   m_ObjectHideFlags: 0
