@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using System;
 
-namespace Server{
+namespace ServerMethod{
     public class data{
         public bool success;
         public string token;
@@ -36,7 +36,7 @@ namespace Server{
         public bool get;
         public int character;
     }
-    public class server : MonoBehaviour
+    public class Server : MonoBehaviour
     {
         public bool success;
         public string token;
