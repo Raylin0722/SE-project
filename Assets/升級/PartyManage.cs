@@ -1,0 +1,174 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class PartyManage : MonoBehaviour
+{
+    public Canvas canvas;
+    [SerializeField] GameObject[] Watermelonfigure;
+    [SerializeField] GameObject[] Party1;
+    [SerializeField] GameObject[] Party2;
+    [SerializeField] GameObject[] Party3;
+    [SerializeField] GameObject[] Party4;
+    [SerializeField] GameObject[] Party5;
+    private int index;
+    static private int[] PartyMember = new int[5];
+    private GameObject spawnedCharacter;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        for(int i=0 ; i<5 ; i++)
+        {
+            if(PartyMember[i]!=0)
+            {
+                switch(i)
+                {
+                    case 0:
+                        ShowPartyByIndex(Party1,PartyMember[i]-1);
+                        break;
+                    case 1:
+                        ShowPartyByIndex(Party2,PartyMember[i]-1);
+                        break;
+                    case 2:
+                        ShowPartyByIndex(Party3,PartyMember[i]-1);
+                        break;
+                    case 3:
+                        ShowPartyByIndex(Party4,PartyMember[i]-1);
+                        break;
+                    case 4:
+                        ShowPartyByIndex(Party5,PartyMember[i]-1);
+                        break;
+                }
+            }
+        }
+    }
+
+    public void SetPartyMemberValue(int partyIndex, int value)
+    {
+        if (partyIndex >= 0 && partyIndex < PartyMember.Length)
+        {
+            PartyMember[partyIndex] = value;
+        }
+    }
+    // 根据传入的索引显示特定的 Party1，同时隐藏其他的 Party1
+    public void ShowPartyByIndex(GameObject[] party,int index)
+    {
+        // 首先隱藏所有的 Party1
+        HideAllParty(party);
+
+        // 檢查索引是否有效
+        if (index >= 0 && index < party.Length)
+        {
+            // 顯示特定索引的 Party1
+            party[index].SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid index for Party1");
+        }
+    }
+
+
+    // 隐藏所有的 Party1
+    void HideAllParty(GameObject[] party)
+    {
+        foreach (GameObject partyObject in party)
+        {
+            partyObject.SetActive(false);
+        }
+    }
+}
+
+
+/*
+    bool IsMouseOverSpecificUI(string target)
+    {
+        // 检查是否有鼠标悬停在UI元素上
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+
+        // 获取射线碰撞的所有UI元素
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        // 检查射线碰撞的物体是否是特定UI物体
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject.tag ==target)
+            {
+                return true;
+            }
+        }
+
+        // 如果没有碰撞的UI元素或者碰撞的不是特定UI物体，返回 false
+        return false;
+    }
+    public void SpawnWatermelon(int watermelonIndex)
+    {
+        // 在Canvas下创建水果角色
+        GameObject watermelon = Instantiate(Watermelonfigure[watermelonIndex - 1], canvas.transform);
+
+        // 保存生成的角色
+        spawnedCharacter = watermelon;
+        index = watermelonIndex;
+
+        // 设置水果角色的RectTransform属性
+        RectTransform rt = watermelon.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.zero;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+    }
+    public void watermelon1Product()
+    {
+        //GameObject Watermelon1=Instantiate(Watermelonfigure[0], transform);
+        Debug.Log("我要拉了");
+        index=1;
+        SpawnWatermelon(index);
+    }
+    public void watermelon2Product()
+    {
+        //GameObject Watermelon1=Instantiate(Watermelonfigure[1], transform);
+        index=2;
+        SpawnWatermelon(index);
+    }
+    public void watermelon3Product()
+    {
+        //GameObject Watermelon1=Instantiate(Watermelonfigure[2], transform);
+        index=3;
+        SpawnWatermelon(index);
+    }
+    public void watermelon4Product()
+    {
+        //GameObject Watermelon1=Instantiate(Watermelonfigure[3], transform);
+        index=4;
+        SpawnWatermelon(index);
+    }
+    public void watermelon5Product()
+    {
+        //GameObject Watermelon1=Instantiate(Watermelonfigure[4], transform);
+        index=5;
+        SpawnWatermelon(index);
+    }
+        void Update()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        //Debug.Log("mouse"+mousePos); 
+        if (spawnedCharacter != null)
+        {
+            spawnedCharacter.transform.position = new Vector3(mousePos.x, mousePos.y + 1f, 0f);
+            if (IsMouseOverSpecificUI("party_1"))
+            {
+                PartyMember[0]=index;
+                Destroy(spawnedCharacter);
+
+            }   
+        }
+    }
+*/

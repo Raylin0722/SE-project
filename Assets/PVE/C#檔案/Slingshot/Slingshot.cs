@@ -5,6 +5,7 @@ using Assets.Scripts;
 
 public class Slingshot : MonoBehaviour
 {
+    public Canvas canvas;
     private Vector3 rockHoldPosition;
     public Transform LeftSlingshotOrigin,RightSlingshotOrigin;
     public LineRenderer SlingshotLeftRubber,SlingshotRightRubber;
@@ -65,6 +66,7 @@ public class Slingshot : MonoBehaviour
         {
             case SlingshotState.do_nothing:
                 //Debug.Log(Rock.tag);
+                SetTrajectoryActive(false);
                 SetSlingshotRubbersActive(false);
                 if(Rock!=null)
                 {
@@ -101,14 +103,14 @@ public class Slingshot : MonoBehaviour
             
             case SlingshotState.Pulling:
                 DisplaySlingshtRubbers();
-                Debug.Log("我要拉了");
                 Cancel_Area_UI.SetActive(true);
                 if (Input.GetMouseButton(0))
                 {
                     
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z = 0;
-                    
+                    //float CancelDistance = Vector3.Distance(canvasMousePosition, Cancel_Area.transform.position);
+                    //Debug.Log(CancelDistance);
                     float judge_front = SlingshotMiddleVector.x - location.x;
                     //Debug.Log("ditance"+Vector3.Distance(location, SlingshotMiddleVector));
                     if (judge_front < 0)
@@ -139,11 +141,18 @@ public class Slingshot : MonoBehaviour
                 }
                 else
                 {
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out Vector2 canvasMousePosition);
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,  Cancel_Area.transform.position, canvas.worldCamera, out Vector2 canvasCancelPosition);
+                    //Debug.Log("Mouse position in Canvas: " + canvasMousePosition);
+                    float Canceldistance = Vector2.Distance(canvasMousePosition, canvasCancelPosition);
+
+                    // 在這裡，distance 就是滑鼠與UI元素之間的距離
+                    /*Debug.Log("Distance to UI Element: " + distance);
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z = 0;
                     float CancelDistance = Vector3.Distance(location, Cancel_Area.transform.position);
-                    Debug.Log(CancelDistance);
-                    if(CancelDistance<1.2f)
+                    Debug.Log(CancelDistance);*/
+                    if(Canceldistance<42)
                     {
                         slingshotState = SlingshotState.do_nothing;
                         Cancel_Area_UI.SetActive(false);

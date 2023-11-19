@@ -15,6 +15,11 @@ TagManager:
   - 14
   - 15
   - 16
+  - party_1
+  - party_2
+  - party_3
+  - party_4
+  - party_5
   layers:
   - Default
   - TransparentFX
@@ -27,7 +32,7 @@ TagManager:
   - Tower2Layer
   - EnemyLayer
   - bulletlayer
-  - 
+  - party_1
   - 
   - 
   - 
