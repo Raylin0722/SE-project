@@ -54,36 +54,49 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
             }    
         }
     }
-    public void OnPointerDown(PointerEventData eventData)
+   public void OnPointerDown(PointerEventData eventData)
+{
+    isDragging = true;
+    // 禁用 ScrollView 滑動
+    //scrollRect.enabled = false;
+
+    // 確保 eventData.pointerCurrentRaycast 不為空
+    if (eventData.pointerCurrentRaycast.gameObject != null)
     {
-        isDragging = true;
-        // 禁用 ScrollView 滑動
-        scrollRect.enabled = false;
         GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
 
         // 在这里，你可以获取有关该物体的信息，或执行其他操作
         Debug.Log("Clicked on: " + clickedObject.name);
-        switch(clickedObject.name)
+        switch (clickedObject.name)
         {
             case "西瓜-1":
-                index=1;
+                index = 1;
                 break;
             case "西瓜-2":
-                index=2;
+                index = 2;
                 break;
             case "西瓜-3":
-                index=3;
+                index = 3;
                 break;
             case "西瓜-4":
-                index=4;
+                index = 4;
                 break;
             case "西瓜-5":
-                index=5;
+                index = 5;
                 break;
+            default:
+                index=0;
+                break;
+        }
+        if(index==0)
+        {
+            return;
         }
         // 生成物件
         SpawnObject(index);
     }
+}
+
     bool IsMouseOverSpecificUI(string target)
     {
         // 检查是否有鼠标悬停在UI元素上
@@ -119,7 +132,7 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     {
         isDragging = false;
         // 啟用 ScrollView 滑動
-        scrollRect.enabled = true;
+        //scrollRect.enabled = true;
     }
 
     void SpawnObject(int index)
