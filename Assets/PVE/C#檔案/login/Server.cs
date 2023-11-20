@@ -110,8 +110,7 @@ namespace ServerMethod{
                 Debug.Log("Error2");
             }
 
-            
-
+        
         }     
         public IEnumerator autoUpdate(){
             while (true){
@@ -152,17 +151,32 @@ namespace ServerMethod{
             WWWForm form = new WWWForm();
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/beforeGame", form);
             
             yield return www.SendWebRequest();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                Debug.Log(response);
+                CallUpdate();
+            }
+            
+
         }
         public IEnumerator afterGame(){
             WWWForm form = new WWWForm();
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
             
             yield return www.SendWebRequest();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                Debug.Log(response);
+                CallUpdate();
+            }
+
         }
         public IEnumerator updateCard(int target, int originLevel, int mode){
             WWWForm form = new WWWForm();
@@ -176,11 +190,11 @@ namespace ServerMethod{
             yield return www.SendWebRequest();
 
             if(www.result == UnityWebRequest.Result.Success){
-
+                string response = www.downloadHandler.text;
+                CallUpdate();
             }
-            else{
-
-            }
+            
+            yield return resopnse;
         }
     
     }

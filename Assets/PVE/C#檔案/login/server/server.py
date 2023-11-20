@@ -54,7 +54,7 @@ def register():
 
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, volume, backVolume, shock, remind, chestTime, props, faction)"
                 "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', [1, 2, 3, 4, 5, 1], 0, 1, 1, 
-                                                                                                                 '{"1-1": -1, "1-2": -1, "1-3": -1, "1-4": -1, "1-5": -1, "1-6": -1, "2-1": -1, "2-2": -1, "2-3": -1, "2-4": -1, "2-5": -1, "2-6": -1}', 
+                                                                                                                 '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
                                                                                                                  30, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
     cnx.commit()
 
@@ -400,7 +400,7 @@ def updateCard():
     orginLevel = request.form.get("originLevel")
     mode = request.form.get("mode")
 
-    returnResult = {"success" : False}
+    returnResult = False
 
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -425,16 +425,16 @@ def updateCard():
                     character[str(target)] += 1
                     cur.execute("update usersdata set money=%s, `character`=%s where token=%s;", (money, str(character).replace("'", "\""), token))
                     cnx.commit()
-                    returnResult["success"] = True
+                    returnResult = True
             elif mode == 1 and orginLevel < 15:
-                needMoney = updateMoney[mode] + (500 * orginLevel - 1) # target==1 catleLevel target == 2 slingshotLevel
+                needMoney = updateMoney[mode] + (500 * orginLevel - 1) 
                 if moneyResult[0][0] >= needMoney:
                     money = moneyResult[0][0] - needMoney
-                    castleLevel = moneyResult[0][2] + 1 if target == 1 else moneyResult[0][2]
-                    slingshotLevel = moneyResult[0][3] + 1 if target == 2 else moneyResult[0][3] 
+                    castleLevel = moneyResult[0][2] + 1 
+                    slingshotLevel = moneyResult[0][3] + 1 
                     cur.execute("update usersdata set money=%s, castleLevel=%s, slingshotLevel=%s where token=%s;", (money, castleLevel, slingshotLevel, token))
                     cnx.commit()
-                    returnResult["success"] = True
+                    returnResult = True
                 
 
     cur.close()
@@ -446,7 +446,7 @@ def beforeGame():
     token = request.form.get('token')
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
-    
+    success = False
     checkQuery = "select token from users where token=%s;"
     energyQuery = "select energy, updateTime from usersdata where token=%s;"
     updateQuery = "update usersdata set updateTime=%s, energy=%s where token=%s;"
@@ -457,23 +457,53 @@ def beforeGame():
     if len(result) == 1:
         cur.execute(energyQuery, (token))
         energyResult = cur.fetchall()
-        if len(energyResult):
+        if len(energyResult) == 1:
             timeDiff = int((datetime.now() - energyResult[0][1]).total_seconds())
-            if  timeDiff != 0:
-                energy = energyResult[0][1]
-                if energy < 30:
-                    energy += timeDiff / 1200
-                    if energy > 30:
-                        energy = 30
+            energy = energyResult[0][1]
+            if energy < 30:
+                energy += timeDiff / 1200
+                if energy > 30:
+                    energy = 30
+            energy -= 5
             
+            cur.execute(updateQuery, (datetime.now(), energy, token))
+            cnx.commit()
+            success = True
     
     cur.close()
     cnx.close()
-    return 'beforeGame'
+    return success
 
 @app.route("/afterGame", methods=['GET', 'POST'])
 def afterGame():
-    return 'afterGame'
+    success = False
+    token = request.form.get('token')
+    clear = request.form.get('clear')
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    checkQuery = "select token from users where token=%s;"
+    clearQuery = "select money, expLevel, expTotal, clearance where token=%s"
+    updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s where token=%s;"
+    
+    if clear == 'True':
+        cur.execute(checkQuery, (token,))
+        result = cur.fetchall()
+        
+        if len(result) == 1:
+            cur.execute(clearQuery, (token,))
+            clearResult = cur.fetchall()
+            if len(clearResult) == 1:
+                clearance = json.loads(clearResult[0][3])
+                clearance[str(clear)] += 1
+                
+                money = clearResult[0][0]
+                
+                
+                
+                success = True
+
+    
+    return success
 
 if __name__ == "__main__":
     app.run(debug=True, host = "140.122.185.167", port="443",ssl_context=('/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/fullchain.pem', '/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/privkey.pem'))
