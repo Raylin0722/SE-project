@@ -28,7 +28,6 @@ namespace ServerMethod{
         public int faction;
         public int[] props;
     }
-
     public class chestReturn{
         public bool success;
         public int result;
@@ -36,6 +35,7 @@ namespace ServerMethod{
         public bool get;
         public int character;
     }
+    
     public class Server : MonoBehaviour
     {
         public bool success;
@@ -147,5 +147,41 @@ namespace ServerMethod{
             yield return result;
 
         }
+    
+        public IEnumerator beforeGame(){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
+            
+            yield return www.SendWebRequest();
+        }
+        public IEnumerator afterGame(){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
+            
+            yield return www.SendWebRequest();
+        }
+        public IEnumerator updateCard(int target, int originLevel, int mode){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+            form.AddField("target", target);
+            form.AddField("originLevel", originLevel);
+            form.AddField("mode", mode);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateCard", form);
+            
+            yield return www.SendWebRequest();
+
+            if(www.result == UnityWebRequest.Result.Success){
+
+            }
+            else{
+
+            }
+        }
+    
     }
 }
