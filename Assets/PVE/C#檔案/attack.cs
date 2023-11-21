@@ -35,7 +35,14 @@ public class Attack : MonoBehaviour{
 
     private void Update() {
         // Implement attack logic here, such as detecting enemies entering attack range and performing attacks
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        //----
+        Vector2 center = transform.position;
+        Vector2 bottomLeft = (gameObject.tag=="Player") 
+        ? new Vector2(center.x , center.y - 10) : new Vector2(center.x - attackRange, center.y - 10);
+        Vector2 topRight = (gameObject.tag=="Player") 
+        ? new Vector2(center.x + attackRange, center.y + 10) : new Vector2(center.x , center.y + 10);
+        Collider2D[] hitColliders =  Physics2D.OverlapAreaAll(bottomLeft, topRight);
+        //----
         bool judgeMove=true;
         if(gameObject.tag=="Untagged")
         {
@@ -50,7 +57,8 @@ public class Attack : MonoBehaviour{
             Collider2D tmp = null;
             bool hasObject = false ;
             foreach (Collider2D col in hitColliders) {
-                if(col.tag=="enemy" &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
+                if(col.tag!=gameObject.tag&&(col.tag=="enemy"||col.tag=="Player")
+                &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
                     hasObject=true;
                 }
                 if (col.tag == gameObject.tag &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)){
@@ -66,11 +74,15 @@ public class Attack : MonoBehaviour{
                     }
                 }
             }
-            
+            //Debug.Log(hasObject);
             float targetX = (gameObject.tag == "Player") ? -850.5f : -880.5926f;
             float distanceX = Mathf.Abs(transform.position.x - targetX);
-            if ((object.ReferenceEquals(tmp, gameObject) 
-            || ( tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth))
+            if(object.ReferenceEquals(tmp, gameObject)
+            &&tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth){
+                judgeMove = false;
+                AttackTarget(tmp.gameObject);
+            }
+            else if ( tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth
             &&tmp.gameObject.layer!=6&&tmp.gameObject.layer!=8) {
                 judgeMove = false;
                 AttackTarget(tmp.gameObject);
@@ -105,7 +117,7 @@ public class Attack : MonoBehaviour{
         }
     }
     private void MoveCharacter(){        
-
+    lastAttackTime = Time.time;
     // Calculate the movement direction based on the character's current forward direction
     Vector3 movement = new Vector3(moveSpeed, 0f, 0.0f) * Time.deltaTime;
     animator.CrossFade("walk", 0f);
