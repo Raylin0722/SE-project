@@ -8,11 +8,16 @@ public class CharacterManage : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] GameObject[] WatermelonPrefabs;
-    [SerializeField] GameObject[] PepperOPrefabs;//1-1
-    [SerializeField] GameObject[] PepperRPrefabs;//1-2
-    [SerializeField] GameObject[] PepperGPrefabs;//1-3
-    [SerializeField] GameObject[] PepperYPrefabs;//1-4
-    [SerializeField] GameObject[] PepperSPrefabs;//1-5
+    [SerializeField] GameObject[] PepperOPrefabs;//orange
+    [SerializeField] GameObject[] PepperRPrefabs;//red
+    [SerializeField] GameObject[] PepperGPrefabs;//green
+    [SerializeField] GameObject[] PepperYPrefabs;//yellow
+    [SerializeField] GameObject[] PepperSPrefabs;//spicy
+    [SerializeField] GameObject[] YangGuPrefabs;//yang gu
+    [SerializeField] GameObject[] JinJenGuRPrefabs;//jin jen gu
+    [SerializeField] GameObject[] XianGuPrefabs;//xian gu
+    [SerializeField] GameObject[] XinBaouGuPrefabs;//xin baou gu
+    [SerializeField] GameObject[] XioJenGuPrefabs;//xio jen gu
     [SerializeField] GameObject[] MyWatermelonPrefabs;
     [SerializeField] GameObject[] w1coolbar;
     [SerializeField] GameObject[] w2coolbar;
@@ -30,10 +35,19 @@ public class CharacterManage : MonoBehaviour
     {
         passtime=0f;
         record=0;
-        PepperPrefabs = new GameObject[][] {PepperOPrefabs,PepperRPrefabs,PepperGPrefabs,PepperYPrefabs,PepperSPrefabs};
+        PepperPrefabs = new GameObject[][] {
+            PepperOPrefabs,PepperGPrefabs,PepperYPrefabs,PepperRPrefabs,PepperSPrefabs,new GameObject[0],
+            YangGuPrefabs,JinJenGuRPrefabs,XianGuPrefabs,XinBaouGuPrefabs,XioJenGuPrefabs,new GameObject[0]
+        };
         wcoolbar = new GameObject[][] {w1coolbar,w2coolbar,w3coolbar,w4coolbar,w5coolbar};
-        EnemySeq = new int[][] {Seq_1_1,Seq_1_2,Seq_1_3,Seq_1_4,Seq_1_5,Seq_1_6};
-        EnemyTime = new int[][] {time_1_1,time_1_2,time_1_3,time_1_4,time_1_5,time_1_6};
+        EnemySeq = new int[][] {
+            Seq_1_1,Seq_1_2,Seq_1_3,Seq_1_4,Seq_1_5,Seq_1_6,
+            Seq_2_1,Seq_2_2,Seq_2_3,Seq_2_4,Seq_2_5,Seq_2_6
+        };
+        EnemyTime = new int[][] {
+            time_1_1,time_1_2,time_1_3,time_1_4,time_1_5,time_1_6,
+            time_2_1,time_2_2,time_2_3,time_2_4,time_2_5,time_2_6,
+        };
     }
 
     // Update is called once per frame
@@ -130,7 +144,18 @@ public class CharacterManage : MonoBehaviour
     int[] time_1_5= {6, 12, 22, 34, 40, 54, 58, 68, 78, 90, 100, 110, 123, 130, 140, 144, 151, 161, 172};
     int[] Seq_1_6 = {4, -1, 3, 0, 1, 0, 3, 0, 1, 1, 1, 0, 4, 4, 3, -1, 1, 1, 3, 3, 1};
     int[] time_1_6= {6, 12, 25, 35, 38, 46, 58, 70, 74, 78, 82, 92, 102, 108, 113, 130, 140, 145, 155, 170, 175};
-
+    int[] Seq_2_1 = { 1, 1, 1, 3, 3, 4, 1, 2, 1, 3, 4, 1, 3, 1, 1, 4, 1 };
+    int[] time_2_1 = { 1, 5, 15, 17, 37, 57, 62, 82, 87, 97, 117, 127, 137, 142, 149, 169, 176 };
+    int[] Seq_2_2 = { 3, 1, 1, 1, 2, 1, 3, 4, 3, 1, 1, 1, 3, 4, 1, 1 };
+    int[] time_2_2 = { 6, 12, 22, 32, 52, 57, 67, 87, 97, 112, 118, 124, 134, 154, 164, 170 };
+    int[] Seq_2_3 = { 4, 1, 3, 3, 3, 2, 4, 1, 1, 1, 1, 4, 3, 3, 1 };
+    int[] time_2_3 = { 6, 11, 21, 36, 46, 66, 86, 101, 106, 111, 116, 136, 152, 160, 170 };
+    int[] Seq_2_4 = { 3, 2, 4, 4, 3, 3, 1, 2, 3, 4, 3, 2, 4, 5, 5, 1, 2, 5, 5 };
+    int[] time_2_4 = { 6, 12, 22, 30, 35, 45, 58, 60, 70, 80, 90, 105, 110, 115, 120, 130, 140, 150, 160 };
+    int[] Seq_2_5 = { 3, 2, 3, 4, 4, 3, 1, 2, 5, 4, 5, 2, 3, 3, 5, 5 };
+    int[] time_2_5 = { 6, 12, 22, 30, 35, 45, 58, 60, 80, 90, 110, 120, 130, 135, 145, 161 };
+    int[] Seq_2_6 = { 3, 2, 3, 5, 4, 3, 1, 2, 5, 4, 5, 2, 4, 3, 3, 5 };
+    int[] time_2_6 = { 6, 12, 22, 30, 35, 45, 58, 60, 80, 90, 110, 120, 130, 135, 140, 150 };
     private int[][] EnemySeq;
     private int[][] EnemyTime;
     void Level(int index)
@@ -140,7 +165,9 @@ public class CharacterManage : MonoBehaviour
         {
             if(EnemySeq[index][record]!=(-1))
             {
-                GameObject enemies=Instantiate(PepperPrefabs[index][EnemySeq[index][record]], transform);
+                int PrefabIndex;
+                if(index%6==5)PrefabIndex=index/6*6+record%5;else PrefabIndex=index;
+                GameObject enemies=Instantiate(PepperPrefabs[PrefabIndex][EnemySeq[index][record]], transform);
                 enemies.transform.position=new Vector3(15.0f, 0.0f, 0f);
                 enemies.transform.rotation = Quaternion.Euler(0, 180f, 0);
             }
