@@ -107,7 +107,7 @@ public class CharacterManage : MonoBehaviour
             //ButtonFunction.currentEnergy-=150;
             GameObject Watermelon=Instantiate(MyWatermelonPrefabs[index], transform);
             //Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
-            shot.CharacterIdInCd_shoot=1;
+            shot.CharacterIdInCd_shoot=index+1;
             shot.Rock=Watermelon;
             if (shot != null)
             {

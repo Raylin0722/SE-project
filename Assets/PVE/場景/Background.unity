@@ -2231,12 +2231,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon2Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4933,12 +4933,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon5Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5142,8 +5142,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon1Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8322,12 +8322,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon3Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8532,12 +8532,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon4Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
