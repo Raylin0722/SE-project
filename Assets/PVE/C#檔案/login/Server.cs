@@ -71,7 +71,7 @@ namespace ServerMethod{
             WWWForm form = new WWWForm();
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
+            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateData", form);
             
             yield return www.SendWebRequest();
 
@@ -102,7 +102,7 @@ namespace ServerMethod{
             }
             else{ //非法token需跳回登入頁面
                 SceneManager.LoadScene("MainMenu");
-                Debug.Log("Error1");
+                Debug.Log("未連接至伺服器");
             }
 
             if(success == false){
@@ -127,7 +127,7 @@ namespace ServerMethod{
             else
                 form.AddField("openType", "False");
 
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/openChest", form);
+            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/openChest", form);
             
             yield return www.SendWebRequest();
 
@@ -146,12 +146,11 @@ namespace ServerMethod{
             yield return result;
 
         }
-    
         public IEnumerator beforeGame(){
             WWWForm form = new WWWForm();
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/beforeGame", form);
+            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/beforeGame", form);
             
             yield return www.SendWebRequest();
 
@@ -163,11 +162,18 @@ namespace ServerMethod{
             
 
         }
-        public IEnumerator afterGame(){
+        public IEnumerator afterGame(bool clear, string target){
             WWWForm form = new WWWForm();
             form.AddField("token", token);
+            form.AddField("target", target);
 
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
+            if(clear)
+                form.AddField("clear", "True");
+            else
+                form.AddField("clear", "False");
+            
+
+            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/afterGame", form);
             
             yield return www.SendWebRequest();
 
@@ -178,14 +184,18 @@ namespace ServerMethod{
             }
 
         }
-        public IEnumerator updateCard(int target, int originLevel, int mode){
+        public IEnumerator updateCard(int target, int originLevel, int mode, int[] lineup){
             WWWForm form = new WWWForm();
             form.AddField("token", token);
             form.AddField("target", target);
             form.AddField("originLevel", originLevel);
             form.AddField("mode", mode);
+            string lineupString = string.Join(",", lineup);
+            form.AddField("lineup", lineupString);
 
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateCard", form);
+            Debug.Log(lineupString);
+
+            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateCard", form);
             
             yield return www.SendWebRequest();
 
@@ -194,7 +204,6 @@ namespace ServerMethod{
                 CallUpdate();
             }
             
-            yield return resopnse;
         }
     
     }

@@ -10,8 +10,8 @@ app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': '114SE_project',        
-    'database': 'software_engineering',        
+    'password': 'test',        
+    'database': 'SE_project',        
     'host': 'localhost',        
     'port': '3306'        
 }
@@ -385,7 +385,7 @@ def updateData():
                 data["chestTime"] = result[0][17].strftime('%Y-%m-%d %H:%M:%S')
                 data["props"] = [value for key, value in json.loads(result[0][18]).items()]
                 data["faction"] = result[0][19] 
-                cur.execute(updateTimequery, (token,))
+                cur.execute(updateTimequery, (energy, token,))
                 cnx.commit()
 
     cur.close()
@@ -476,9 +476,16 @@ def beforeGame():
 
 @app.route("/afterGame", methods=['GET', 'POST'])
 def afterGame():
+    leveltoMoneyExp = [[500, 500, 500, 500, 500, 600, 600, 600, 600, 600, 600, 700], [300, 320, 340, 360, 380, 400, 400, 420, 440, 460, 480, 500]]
     success = False
     token = request.form.get('token')
     clear = request.form.get('clear')
+    target = request.form.get('target')
+
+    chapter, level = target.split('-')
+    chapter = int(chapter)
+    level = int(level)
+
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
     checkQuery = "select token from users where token=%s;"
@@ -494,18 +501,22 @@ def afterGame():
             clearResult = cur.fetchall()
             if len(clearResult) == 1:
                 clearance = json.loads(clearResult[0][3])
-                clearance[str(clear)] += 1
-                
-                money = clearResult[0][0]
-                
-                
-                
-                success = True
+                clearance[target] += 1
 
-    
+                money = clearResult[0][0] + (leveltoMoneyExp[0][-1 + level if chapter == 1 else 5 + level]) * (2 ** -(clearance[target] - 1))
+                expTotal = clearResult[0][2] + (leveltoMoneyExp[1][-1 + level if chapter == 1 else 5 + level]) * (2 ** -(clearance[target] - 1))
+                expLevel = clearResult[0][1]
+
+                if expTotal > 500 * (2.5 ** (expLevel - 1)):
+                        expTotal -= 500 * (2.5 ** (expLevel - 1))
+                        expLevel += 1
+                cur.execute(updateQuery, (money, expLevel, expTotal, clearance, datetime.now(), token))
+                cnx.commit()
+
+                success = True
     return success
 
 if __name__ == "__main__":
-    app.run(debug=True, host = "140.122.185.167", port="443",ssl_context=('/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/fullchain.pem', '/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/privkey.pem'))
+    app.run(debug=True, port=5000)
     
-    
+
