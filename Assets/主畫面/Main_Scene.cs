@@ -25,9 +25,9 @@ public class ButtonManager : MonoBehaviour
     public GameObject page_Friends; // the page for Friends
     public GameObject Top_up; // Top up
     public GameObject page_Top_up; // the page for Top up
-    [SerializeField] Text energy; // energy value
-    [SerializeField] Text money; // money value
-    [SerializeField] Text tear; // tear value
+    public Text energy; // energy value
+    public Text money; // money value
+    public Text tear; // tear value
     public AudioSource Music_Main_Scene; // the Music in Main Scene
     private ServerMethod.Server ServerScript; // Server.cs
 

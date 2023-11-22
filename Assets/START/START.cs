@@ -11,7 +11,7 @@ public class START : MonoBehaviour
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Back; // Close Button
     public GameObject page_START; // the page which you want to close
-    [SerializeField] Text energy; // energy value
+    public Text energy; // energy value
     private ServerMethod.Server ServerScript; // Server.cs
 
 
@@ -59,6 +59,24 @@ public class START : MonoBehaviour
                 break;
             case "16":
                 GameManage.currentLevel=16;
+                break;
+            case "21":
+                GameManage.currentLevel=21;
+                break;
+            case "22":
+                GameManage.currentLevel=22;
+                break;
+            case "23":
+                GameManage.currentLevel=23;
+                break;
+            case "24":
+                GameManage.currentLevel=24;
+                break;
+            case "25":
+                GameManage.currentLevel=25;
+                break;
+            case "26":
+                GameManage.currentLevel=26;
                 break;
         }
         
