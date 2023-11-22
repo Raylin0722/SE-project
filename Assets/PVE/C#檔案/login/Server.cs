@@ -184,27 +184,36 @@ namespace ServerMethod{
             }
 
         }
-        public IEnumerator updateCard(int target, int originLevel, int mode, int[] lineup){
+        public IEnumerator updateCard(int target, int originLevel, int mode){
             WWWForm form = new WWWForm();
             form.AddField("token", token);
             form.AddField("target", target);
             form.AddField("originLevel", originLevel);
             form.AddField("mode", mode);
-            string lineupString = string.Join(",", lineup);
-            form.AddField("lineup", lineupString);
-
-            Debug.Log(lineupString);
 
             UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateCard", form);
             
             yield return www.SendWebRequest();
 
             if(www.result == UnityWebRequest.Result.Success){
-                string response = www.downloadHandler.text;
                 CallUpdate();
             }
             
         }
-    
+        public IEnumerator updateLineup(int[] lineup){
+            WWWForm form = new WWWForm();
+            string lineupString = string.Join(",", lineup);
+            form.AddField("lineup", lineupString);
+
+            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateCard", form);
+            
+            yield return www.SendWebRequest();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                CallUpdate();
+            }
+            
+        }
+        
     }
 }
