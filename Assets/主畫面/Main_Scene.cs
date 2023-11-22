@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -22,8 +23,12 @@ public class ButtonManager : MonoBehaviour
     public GameObject Friends; // Friends
     public GameObject page_Friends; // the page for Friends
     public GameObject Top_up; // Top up(page or website?)
+    [SerializeField] Text energy; // energy value
+    [SerializeField] Text money; // money value
+    [SerializeField] Text tear; // tear value
     public AudioSource Music_Main_Scene; // the Music in Main Scene
-    //public GameObject[] Figures; // The all figures in team
+    private ServerMethod.Server ServerScript; // Server.cs
+
 
     private void Start()
     {
@@ -36,7 +41,15 @@ public class ButtonManager : MonoBehaviour
         page_Friends.SetActive(false);
         page_Start.SetActive(false);
         Play_Music();
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Update_values(); // Update energy && money && tear
+    }
+
 
     // Click < Ranking_list > 
     public void Button_Ranking_list()
@@ -83,6 +96,14 @@ public class ButtonManager : MonoBehaviour
     public void Button_Friends()
     {
         page_Friends.SetActive(true);
+    }
+
+    // Update energy && money && tear
+    public void Update_values()
+    {
+        energy.text = ServerScript.energy.ToString() + "/30";
+        money.text = ServerScript.money.ToString();
+        tear.text = ServerScript.tear.ToString();
     }
 
     // Play Music

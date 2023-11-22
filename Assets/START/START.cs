@@ -4,25 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class START : MonoBehaviour
 {
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Back; // Close Button
     public GameObject page_START; // the page which you want to close
-    public AudioSource Music_Main_Scene; // the Music in Main Scene
+    [SerializeField] Text energy; // energy value
+    private ServerMethod.Server ServerScript; // Server.cs
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Update_values(); // Update energy
     }
 
     // When click < Level >
@@ -30,6 +32,9 @@ public class START : MonoBehaviour
     {
         // call the PVE
         //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+
+        // detect whether your energy is sufficient
+        if(ServerScript.energy<5)   return;
         
         GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
         string buttonTag = clickedButton.tag;
@@ -67,4 +72,11 @@ public class START : MonoBehaviour
         page_START.SetActive(false);
         ALL_Button.SetActive(true); // Open Main_Scene
     }
+
+    // Update energy && money && tear
+    public void Update_values()
+    {
+        energy.text = ServerScript.energy.ToString() + "/30";
+    }
+
 }
