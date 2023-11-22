@@ -23,36 +23,7 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     }
     void Update()
     {
-        Vector3 mousePos = Input.mousePosition;
-        //Debug.Log("mouse"+mousePos); 
-        if (spawnedObject != null)
-        {
-            if (IsMouseOverSpecificUI("party_1"))
-            {
-                partyManager.SetPartyMemberValue(0,index);
-                Destroy(spawnedObject);
-            }
-            else if (IsMouseOverSpecificUI("party_2"))
-            {
-                partyManager.SetPartyMemberValue(1,index);
-                Destroy(spawnedObject);
-            }   
-            else if (IsMouseOverSpecificUI("party_3"))
-            {
-                partyManager.SetPartyMemberValue(2,index);
-                Destroy(spawnedObject);
-            }   
-            else if (IsMouseOverSpecificUI("party_4"))
-            {
-                partyManager.SetPartyMemberValue(3,index);
-                Destroy(spawnedObject);
-            }   
-            else if (IsMouseOverSpecificUI("party_5"))
-            {
-                partyManager.SetPartyMemberValue(4,index);
-                Destroy(spawnedObject);
-            }    
-        }
+
     }
    public void OnPointerDown(PointerEventData eventData)
 {
@@ -131,13 +102,46 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
+        if (spawnedObject != null)
+        {
+            if (IsMouseOverSpecificUI("party_1"))
+            {
+                partyManager.SetPartyMemberValue(0,index);
+                Destroy(spawnedObject);
+            }
+            else if (IsMouseOverSpecificUI("party_2"))
+            {
+                partyManager.SetPartyMemberValue(1,index);
+                Destroy(spawnedObject);
+            }   
+            else if (IsMouseOverSpecificUI("party_3"))
+            {
+                partyManager.SetPartyMemberValue(2,index);
+                Destroy(spawnedObject);
+            }   
+            else if (IsMouseOverSpecificUI("party_4"))
+            {
+                partyManager.SetPartyMemberValue(3,index);
+                Destroy(spawnedObject);
+            }   
+            else if (IsMouseOverSpecificUI("party_5"))
+            {
+                partyManager.SetPartyMemberValue(4,index);
+                Destroy(spawnedObject);
+            }
+            else
+            {
+                Destroy(spawnedObject);
+            }    
+        }
         // 啟用 ScrollView 滑動
         //scrollRect.enabled = true;
     }
 
     void SpawnObject(int index)
     {
+        Vector3 mousePosition = Input.mousePosition;
         // 生成物件
-        spawnedObject = Instantiate(objectToSpawnPrefab[index-1], canvas.transform);
+        spawnedObject =  Instantiate(objectToSpawnPrefab[index - 1], mousePosition, Quaternion.identity, canvas.transform);
     }
 }
