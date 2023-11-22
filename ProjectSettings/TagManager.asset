@@ -20,6 +20,12 @@ TagManager:
   - party_3
   - party_4
   - party_5
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
   layers:
   - Default
   - TransparentFX

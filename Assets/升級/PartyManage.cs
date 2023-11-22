@@ -18,32 +18,56 @@ public class PartyManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        for (int i = 0; i < 5; i++)
+        {
+            PartyMember[i] = 0;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        for(int i=0 ; i<5 ; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if(PartyMember[i]!=0)
+            if (PartyMember[i] != 0)
             {
-                switch(i)
+                switch (i)
                 {
                     case 0:
-                        ShowPartyByIndex(Party1,PartyMember[i]-1);
+                        ShowPartyByIndex(Party1, PartyMember[i] - 1);
                         break;
                     case 1:
-                        ShowPartyByIndex(Party2,PartyMember[i]-1);
+                        ShowPartyByIndex(Party2, PartyMember[i] - 1);
                         break;
                     case 2:
-                        ShowPartyByIndex(Party3,PartyMember[i]-1);
+                        ShowPartyByIndex(Party3, PartyMember[i] - 1);
                         break;
                     case 3:
-                        ShowPartyByIndex(Party4,PartyMember[i]-1);
+                        ShowPartyByIndex(Party4, PartyMember[i] - 1);
                         break;
                     case 4:
-                        ShowPartyByIndex(Party5,PartyMember[i]-1);
+                        ShowPartyByIndex(Party5, PartyMember[i] - 1);
+                        break;
+                }
+            }
+            else
+            {
+                switch (i)
+                {
+                    case 0:
+                        HideAllParty(Party1);
+                        break;
+                    case 1:
+                        HideAllParty(Party2);
+                        break;
+                    case 2:
+                        HideAllParty(Party3);
+                        break;
+                    case 3:
+                        HideAllParty(Party4);
+                        break;
+                    case 4:
+                        HideAllParty(Party5);
                         break;
                 }
             }
@@ -52,17 +76,28 @@ public class PartyManage : MonoBehaviour
 
     public void SetPartyMemberValue(int partyIndex, int value)
     {
+        Debug.Log(PartyMember[0] + ", " + PartyMember[1] + ", " + PartyMember[2] + ", " + PartyMember[3] + ", " + PartyMember[4]);
+
         if (partyIndex >= 0 && partyIndex < PartyMember.Length)
         {
+            int tempt = PartyMember[partyIndex];
+            for (int i = 0; i < 5; i++)
+            {
+                if (PartyMember[i] == value)
+                {
+                    PartyMember[i] = tempt;
+                }
+            }
             PartyMember[partyIndex] = value;
         }
+        Debug.Log(PartyMember[0] + ", " + PartyMember[1] + ", " + PartyMember[2] + ", " + PartyMember[3] + ", " + PartyMember[4]);
+
     }
     // 根据传入的索引显示特定的 Party1，同时隐藏其他的 Party1
-    public void ShowPartyByIndex(GameObject[] party,int index)
+    public void ShowPartyByIndex(GameObject[] party, int index)
     {
         // 首先隱藏所有的 Party1
         HideAllParty(party);
-
         // 檢查索引是否有效
         if (index >= 0 && index < party.Length)
         {

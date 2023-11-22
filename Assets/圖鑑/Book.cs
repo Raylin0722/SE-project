@@ -10,11 +10,14 @@ public class Book : MonoBehaviour
     public GameObject page_Book; // the page which you want to close
     public GameObject Next; // Next Button
     public GameObject[] pages; // The all page in Book
-    private int Current = 0; // The current position about your location in Book 
+    private int Current = 0; // The current position about your location in Book
+    private ServerMethod.Server ServerScript; // Server.cs
+
     // Start is called before the first frame update
     void Start()
     {
-        ShowPage(Current);
+        ShowPage(0);
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
     // Update is called once per frame
@@ -27,7 +30,7 @@ public class Book : MonoBehaviour
     public void Button_Last()
     {
         // Next page
-        if (Current > 0)
+        if(Current > 0)
         {
             Current = Current - 1;
             ShowPage(Current);
@@ -44,10 +47,22 @@ public class Book : MonoBehaviour
     // When click < > >
     public void Button_Next()
     {
+        int Last_page = -1;
+        for(int i = 0; i<ServerScript.character.Length ; i++)
+        {
+            if(ServerScript.character[i]!=0)
+            {
+                Last_page = i;
+            }
+        }
         // Next page
-        if (Current < pages.Length - 1)
+        if(Current <= Last_page)
         {
             Current = Current + 1;
+            if(Current>=Last_page)
+            {
+                Current = Last_page;
+            }
             ShowPage(Current);
         }
     }
@@ -55,9 +70,9 @@ public class Book : MonoBehaviour
     private void ShowPage(int Current)
     {
         // Show current page && Hide the others
-        for (int i = 0; i<pages.Length; i++)
+        for(int i = 0; i<pages.Length; i++)
         {
-            if (i==Current)
+            if(i==Current)
             {
                 pages[i].SetActive(true);
             }

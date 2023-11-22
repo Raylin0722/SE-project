@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Assets.Scripts;
+using TMPro;
+using UnityEngine.UI;
 public class CharacterManage : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -31,6 +33,7 @@ public class CharacterManage : MonoBehaviour
     static public int record;
     static public int CharacterIdInCd=0;
     int GoOnShoot = 0;
+    public TextMeshProUGUI Level_Title; //  Level Title
     void Start()
     {
         passtime=0f;
@@ -160,6 +163,7 @@ public class CharacterManage : MonoBehaviour
     private int[][] EnemyTime;
     void Level(int index)
     {
+        Level_Title.text = (index/10).ToString() + "-" + (index%10).ToString().ToString();
         index=(index/10-1)*6+index%10-1;
         if(passtime>=EnemyTime[index][record])
         {
