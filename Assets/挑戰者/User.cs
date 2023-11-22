@@ -8,50 +8,47 @@ public class USER : MonoBehaviour
 {
     public GameObject Change; // Change portrait Button
     public GameObject[] portraits; // The all portraits in USER
-    private int Current = 0; // The current position about your location in USER 
+
+    // Server.cs
+    private ServerMethod.Server ServerScript;
+    private int Faction; 
 
     // Start is called before the first frame update
     void Start()
     {
-        // Show current page && Hide the others
-        for (int i = 0; i < portraits.Length; i++)
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(Faction==0)  return;
+        for(int i = 0; i<portraits.Length; i++)
         {
-            if (i == Current)
-            {
-                portraits[i].SetActive(true);
-            }
-            else
-            {
-                portraits[i].SetActive(false);
-            }
+            portraits[i].SetActive(i==ServerScript.faction-1);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Update_Display(ServerScript.faction);
         
     }
 
     // When click < Change >
     public void Button_Change()
     {
-        Current = Current + 1;
-        if(Current >= portraits.Length)
+        ServerScript.faction = (ServerScript.faction+1)%5;
+        if(ServerScript.faction==0)
         {
-            Current = 0;
+            ServerScript.faction = 1;
         }
+    }
+
+    // Display your portraits
+    private void Update_Display(int Faction)
+    {
+        if(Faction==0)  return;
         // Show current page && Hide the others
-        for (int i = 0; i < portraits.Length; i++)
+        for(int i = 0; i<portraits.Length; i++)
         {
-            if (i == Current)
-            {
-                portraits[i].SetActive(true);
-            }
-            else
-            {
-                portraits[i].SetActive(false);
-            }
+            portraits[i].SetActive(i==Faction-1);
         }
     }
 }
