@@ -26,9 +26,7 @@ public class FruitSelect : MonoBehaviour
     public void Check()
     {
         // Your code
-
-        page_FruitSelect.SetActive(false); // Open All button in Fruit Select
-        ALL_Button.SetActive(true); // Open All button in Main_Scene
+        
     }
 
     // Close All button in Main_Scene
