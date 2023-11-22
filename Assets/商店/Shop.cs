@@ -15,17 +15,21 @@ public class Shop : MonoBehaviour
     public Image White_Image; // White image
     private float Time_White = 1.0f; // the duration of the picture becomes larger
     public GameObject serverdata;
+    [SerializeField] Text money; // money value
+    [SerializeField] Text tear; // tear value
+    private ServerMethod.Server ServerScript; // Server.cs
 
     // Start is called before the first frame update
     void Start()
     {
         White_Image.gameObject.SetActive(false); // Initialization ( close )
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Update_values(); // Update money && tear
     }
 
     // When click < X > 
@@ -85,5 +89,12 @@ public class Shop : MonoBehaviour
 
 
         White_Image.gameObject.SetActive(false);
+    }
+
+    // Update energy && money && tear
+    public void Update_values()
+    {
+        money.text = ServerScript.money.ToString();
+        tear.text = ServerScript.tear.ToString();
     }
 }
