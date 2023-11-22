@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class ButtonManager : MonoBehaviour
     public GameObject page_Setting; // the page for Settings
     public GameObject Friends; // Friends
     public GameObject page_Friends; // the page for Friends
-    public GameObject Top_up; // Top up(page or website?)
+    public GameObject Top_up; // Top up
+    public GameObject page_Top_up; // the page for Top up
     [SerializeField] Text energy; // energy value
     [SerializeField] Text money; // money value
     [SerializeField] Text tear; // tear value
@@ -39,6 +41,7 @@ public class ButtonManager : MonoBehaviour
         page_Level_up.SetActive(false);
         page_Setting.SetActive(false);
         page_Friends.SetActive(false);
+        page_Top_up.SetActive(false);
         page_Start.SetActive(false);
         Play_Music();
         ServerScript = FindObjectOfType<ServerMethod.Server>();
@@ -96,6 +99,13 @@ public class ButtonManager : MonoBehaviour
     public void Button_Friends()
     {
         page_Friends.SetActive(true);
+    }
+
+    // Click < Top up > 
+    public void Button_Top_up()
+    {
+        //page_Top_up.SetActive(true); // You can active it when you want to do
+        page_Top_up.SetActive(!page_Top_up.activeSelf); // You can delete it when you want to do
     }
 
     // Update energy && money && tear
