@@ -22,7 +22,8 @@ public class GameManage : MonoBehaviour
 
     [SerializeField] GameObject Ground;
     
-
+    private GameObject[] WB;
+    private int[] wEnergy=new int[5]{150,70,250,150,200};
 
     void Start()
     {
@@ -30,11 +31,8 @@ public class GameManage : MonoBehaviour
         //level=1;
         //toolFrame.SetActive(false);
         Ground.SetActive(false);
-        W1B.SetActive(false);
-        W2B.SetActive(false);
-        W3B.SetActive(false);
-        W4B.SetActive(false);
-        W5B.SetActive(false);
+        WB=new GameObject[]{W1B,W2B,W3B,W4B,W5B};
+        for(int i=0;i<5;i++)WB[i].SetActive(false);
     }
 
     float fifteen=0f;
@@ -44,49 +42,16 @@ public class GameManage : MonoBehaviour
         if(ButtonFunction.GameIsStart)
         {
             Ground.SetActive(true);
-            // W1B.SetActive(true);
-            // W2B.SetActive(true);
-            // W3B.SetActive(true);
-            // W4B.SetActive(true);
-            // W5B.SetActive(true);
-            if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, level-1))
-            {
-                W1B.SetActive(false);
+            for(int i=0;i<5;i++){
+                if(ButtonFunction.currentEnergy>=wEnergy[i]*Math.Pow(1.4, level-1))
+                {
+                    WB[i].SetActive(false);
+                }
+                else
+                {
+                    WB[i].SetActive(true);
+                }
             }
-            else
-            {
-                W1B.SetActive(true);
-            }
-            if(ButtonFunction.currentEnergy>=70*Math.Pow(1.4, level-1))
-            {
-                W2B.SetActive(false);
-            }
-            else
-            {
-                W2B.SetActive(true);
-            }if(ButtonFunction.currentEnergy>=250*Math.Pow(1.4, level-1))
-            {
-                W3B.SetActive(false);
-            }
-            else
-            {
-                W3B.SetActive(true);
-            }if(ButtonFunction.currentEnergy>=150*Math.Pow(1.4, level-1))
-            {
-                W4B.SetActive(false);
-            }
-            else
-            {
-                W4B.SetActive(true);
-            }if(ButtonFunction.currentEnergy>=200*Math.Pow(1.4, level-1))
-            {
-                W5B.SetActive(false);
-            }
-            else
-            {
-                W5B.SetActive(true);
-            }
-
         }
 
         if(!toolIsUseable)
@@ -98,8 +63,5 @@ public class GameManage : MonoBehaviour
                 toolIsActive=true;
             }
         }
-
-        
-        
     }
 }
