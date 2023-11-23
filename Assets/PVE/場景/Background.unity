@@ -1487,6 +1487,7 @@ MonoBehaviour:
   Next: {fileID: 2104806454}
   Close_bottom: {fileID: 1436767988}
   Next_bottom: {fileID: 1881655708}
+  castle1: {fileID: 1117045830}
 --- !u!212 &267466594
 SpriteRenderer:
   m_ObjectHideFlags: 0
