@@ -37,7 +37,7 @@ private IEnumerator Die() {
         {
             //主塔死亡並觸發動畫
             GetComponent<Animator>().SetTrigger("crash");
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(1.5f);
             ButtonFunction.judge_defeat=1;
             //Time.timeScale=0f;
         }
@@ -46,7 +46,7 @@ private IEnumerator Die() {
             //主塔死亡並觸發動畫
             Debug.Log("敵方主堡爆掉");
             GetComponent<Animator>().SetTrigger("crash");
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(1.5f);
             ButtonFunction.judge_victory=1;
         }
         else

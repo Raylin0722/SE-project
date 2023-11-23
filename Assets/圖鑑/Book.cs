@@ -42,28 +42,22 @@ public class Book : MonoBehaviour
     {
         page_Book.SetActive(false);
         ALL_Button.SetActive(true); // Open All button in Main_Scene
+        Current=0;
     }
 
     // When click < > >
     public void Button_Next()
     {
-        int Last_page = -1;
-        for(int i = 0; i<ServerScript.character.Length ; i++)
-        {
-            if(ServerScript.character[i]!=0)
-            {
-                Last_page = i;
-            }
-        }
         // Next page
-        if(Current <= Last_page)
+        if(Current <= ServerScript.character.Length)
         {
             Current = Current + 1;
-            if(Current>=Last_page)
+            if(Current>=ServerScript.character.Length)
             {
-                Current = Last_page;
+                Current = ServerScript.character.Length;
             }
             ShowPage(Current);
+            Debug.Log(Current);
         }
     }
 
