@@ -55,6 +55,9 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
                 case "西瓜-5":
                     index = 5;
                     break;
+                case "西瓜-6":
+                    index = 6;
+                    break;
                 default:
                     index = 0;
                     break;
