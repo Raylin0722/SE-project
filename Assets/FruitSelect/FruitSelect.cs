@@ -6,6 +6,9 @@ public class FruitSelect : MonoBehaviour
 {
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject page_FruitSelect; // the page for page_FruitSelect
+    [SerializeField] GameObject bFrame;
+    [SerializeField] GameObject wFrame;
+
 
     // Server.cs
     private ServerMethod.Server ServerScript;
@@ -42,5 +45,14 @@ public class FruitSelect : MonoBehaviour
             page_FruitSelect.SetActive(false); // Close All button in Fruit Select
             ALL_Button.SetActive(true); // Open All button in Main_Scene
         }
+    }
+
+    public void bhighlight()
+    {
+        bFrame.SetActive(true);
+    }
+    public void whighlight()
+    {
+        wFrame.SetActive(true);
     }
 }

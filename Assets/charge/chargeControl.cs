@@ -5,9 +5,9 @@ using UnityEngine;
 public class chargeControl : MonoBehaviour
 {
     // Start is called before the first frame update
-    
-    [SerializeField] GameObject freesia;
-    [SerializeField] GameObject bank;
+    [SerializeField] GameObject failed;
+    [SerializeField] GameObject success;
+
 
     void Start()
     {
@@ -18,5 +18,14 @@ public class chargeControl : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void freesia()
+    {
+        failed.SetActive(true);
+    }
+    public void bank()
+    {
+        success.SetActive(true);
     }
 }

@@ -104,8 +104,8 @@ public class ButtonManager : MonoBehaviour
     // Click < Top up > 
     public void Button_Top_up()
     {
-        //page_Top_up.SetActive(true); // You can active it when you want to do
-        page_Top_up.SetActive(!page_Top_up.activeSelf); // You can delete it when you want to do
+        page_Top_up.SetActive(true); // You can active it when you want to do
+        //page_Top_up.SetActive(!page_Top_up.activeSelf); // You can delete it when you want to do
     }
 
     // Update energy && money && tear
