@@ -9874,6 +9874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f419672981f0b40a85eb8f02f62d10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MidPoint: {fileID: 228929088}
   scrollRect: {fileID: 401769221}
   page_Check_upGrade: {fileID: 1075935753}
   ALL_Button: {fileID: 1525475799}
