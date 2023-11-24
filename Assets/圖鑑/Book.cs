@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Book : MonoBehaviour
 {
@@ -10,20 +11,21 @@ public class Book : MonoBehaviour
     public GameObject page_Book; // the page which you want to close
     public GameObject Next; // Next Button
     public GameObject[] pages; // The all page in Book
+    public Image[] Pictures; // The all pictures in Book
     private int Current = 0; // The current position about your location in Book
     private ServerMethod.Server ServerScript; // Server.cs
 
     // Start is called before the first frame update
     void Start()
     {
-        ShowPage(0);
         ServerScript = FindObjectOfType<ServerMethod.Server>();
+        ShowPage(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        ShowPage(Current);
     }
 
     // When click < < >
@@ -40,6 +42,8 @@ public class Book : MonoBehaviour
     // When click < BACK >
     public void Button_Back()
     {
+        Current=0;
+        ShowPage(0);
         page_Book.SetActive(false);
         ALL_Button.SetActive(true); // Open All button in Main_Scene
     }
@@ -47,21 +51,13 @@ public class Book : MonoBehaviour
     // When click < > >
     public void Button_Next()
     {
-        int Last_page = -1;
-        for(int i = 0; i<ServerScript.character.Length ; i++)
-        {
-            if(ServerScript.character[i]!=0)
-            {
-                Last_page = i;
-            }
-        }
         // Next page
-        if(Current <= Last_page)
+        if(Current<7)
         {
             Current = Current + 1;
-            if(Current>=Last_page)
+            if(Current>=7)
             {
-                Current = Last_page;
+                Current = 6;
             }
             ShowPage(Current);
         }
@@ -72,9 +68,14 @@ public class Book : MonoBehaviour
         // Show current page && Hide the others
         for(int i = 0; i<pages.Length; i++)
         {
+            for(int j = 0; j<4 ; j++)
+            {
+                Pictures[7*j+i].gameObject.SetActive(false);
+            }
             if(i==Current)
             {
                 pages[i].SetActive(true);
+                Pictures[7*(ServerScript.faction-1)+i].gameObject.SetActive(true);
             }
             else
             {
