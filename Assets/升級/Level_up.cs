@@ -6,6 +6,8 @@ using TMPro;
 
 public class Level_up : MonoBehaviour
 {
+    public ScrollRect scrollRect;
+    public GameObject page_Check_upGrade;
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Back; // Close Button
     public GameObject page_Level_up; // the page which you want to close
@@ -38,7 +40,19 @@ public class Level_up : MonoBehaviour
     // When click < Upgrade >
     public void Button_Upgrade()
     {
-        
+        page_Check_upGrade.SetActive(true);
+    }
+    // when click <cancel upgrade>
+    public void Cancel_Upgrade()
+    {
+
+        page_Check_upGrade.SetActive(false);
+    }
+    //when click <sure upgrade>
+    public void Sure_Upgrade()
+    {
+
+        page_Check_upGrade.SetActive(false);
     }
 
     // Update energy && money && tear
