@@ -18961,6 +18961,7 @@ GameObject:
   - component: {fileID: 1436242538}
   - component: {fileID: 1436242537}
   - component: {fileID: 1436242536}
+  - component: {fileID: 1436242539}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -19060,6 +19061,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1436242539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436242534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a47f0c41d824e2e9b64df6d5acab55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freesia: {fileID: 0}
+  bank: {fileID: 0}
 --- !u!1 &1448359972
 GameObject:
   m_ObjectHideFlags: 0
