@@ -25,7 +25,7 @@ public class Book : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ShowPage(Current);
+        
     }
 
     // When click < < >
@@ -43,7 +43,6 @@ public class Book : MonoBehaviour
     public void Button_Back()
     {
         Current=0;
-        ShowPage(0);
         page_Book.SetActive(false);
         ALL_Button.SetActive(true); // Open All button in Main_Scene
     }
