@@ -6,6 +6,14 @@ using TMPro;
 
 public class Level_up : MonoBehaviour
 {
+    //蔡松豪加的
+    private float[] distances;
+    public GameObject MidPoint;
+    public ScrollRect scrollRect;
+    public GameObject page_Check_upGrade;
+    private int UpgradeIndex;
+    private RectTransform contentRect;
+    //
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Back; // Close Button
     public GameObject page_Level_up; // the page which you want to close
@@ -20,12 +28,19 @@ public class Level_up : MonoBehaviour
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
         Data_Definition();
+        //
+        contentRect = scrollRect.content;
+        int itemCount = contentRect.childCount;
+        distances = new float[itemCount];
+        //
     }
 
     // Update is called once per frame
     void Update()
     {
         Update_values(); // Update money and charactor level and money
+        CalculateDistances();
+        UpgradeIndex = FindNearestCenter();
     }
 
     // When click < BACK >
@@ -38,9 +53,26 @@ public class Level_up : MonoBehaviour
     // When click < Upgrade >
     public void Button_Upgrade()
     {
+        page_Check_upGrade.SetActive(true);
+    }
+    // when click <cancel upgrade>
+    public void Cancel_Upgrade()
+    {
+
+        page_Check_upGrade.SetActive(false);
+    }
+    //when click <sure upgrade>
+    public void Sure_Upgrade()
+    {
+        //算出來在更新到sever
+        //UpgradeIndex
+        page_Check_upGrade.SetActive(false);
+    }
+    //when click <props >
+    public void Change_props()
+    {
         
     }
-
     // Update energy && money && tear
     public void Update_values()
     {
@@ -59,6 +91,28 @@ public class Level_up : MonoBehaviour
                 Dollar[i].text = (Character_Data_List[i].Dollar*Character_Data_List[i].Dollar_rate*(ServerScript.character[i]-1)).ToString();
             }
         }
+    }
+    // Caculate who to upgrade
+    void CalculateDistances()
+    {
+        for (int i = 0; i < contentRect.childCount; i++)
+        {
+            RectTransform item = contentRect.GetChild(i) as RectTransform;
+            distances[i] = Mathf.Abs(MidPoint.transform.position.x - item.position.x);
+        }
+    }
+
+    int FindNearestCenter()
+    {
+        float minDistance = Mathf.Min(distances);
+        for (int i = 0; i < distances.Length; i++)
+        {
+            if (distances[i] == minDistance)
+            {
+                return i-1;
+            }
+        }
+        return -1;
     }
 
     // Character Data struct
