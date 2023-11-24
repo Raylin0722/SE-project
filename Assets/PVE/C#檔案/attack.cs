@@ -30,6 +30,7 @@ public class Attack : MonoBehaviour{
         animator = GetComponent<Animator>();
         animator.SetBool("isAttack", false);
         animator.SetBool("isStart", false);
+        lastAttackTime = 0.0f;
     }
     
 
@@ -98,7 +99,7 @@ public class Attack : MonoBehaviour{
                 if (gameObject.tag!=col.tag&&col.tag!="Untagged"&&col.tag!="ground"&&col.tag!="bullet"
                 &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
                     judgeMove=false;
-                    //Debug.Log("判斷是否移動"+judgeMove);
+                    // Debug.Log("判斷是否移動"+judgeMove);
                     //Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
                     AttackTarget(col.gameObject);
                     break;
@@ -128,6 +129,7 @@ public class Attack : MonoBehaviour{
 
     private void AttackTarget(GameObject enemy){
         if (Time.time - lastAttackTime >= attackCooldown){
+            print(gameObject.name + " Start attack");
             //play attack animation 
             animator.SetBool("isAttack", true);
             animator.CrossFade("attack", 0f);
