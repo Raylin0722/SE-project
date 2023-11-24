@@ -17,7 +17,7 @@ public class Attack : MonoBehaviour{
 
     private float lastAttackTime = 0.0f;
     public int currentHealth;
-    private Animator animator; 
+    [SerializeField]private Animator animator; 
     private Rigidbody2D rb;
     public bool isAngel ;
     private void Start() {
@@ -27,7 +27,7 @@ public class Attack : MonoBehaviour{
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("Tower2Layer"),true);
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth; // Initialize health
-        animator = GetComponent<Animator>();
+        // animator = GetComponentInChildren<Animator>();
         animator.SetBool("isAttack", false);
         animator.SetBool("isStart", false);
         lastAttackTime = 0.0f;
