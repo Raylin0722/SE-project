@@ -58,7 +58,6 @@ public class Level_up : MonoBehaviour
     // when click <cancel upgrade>
     public void Cancel_Upgrade()
     {
-
         page_Check_upGrade.SetActive(false);
     }
     //when click <sure upgrade>
@@ -71,7 +70,7 @@ public class Level_up : MonoBehaviour
     //when click <props >
     public void Change_props()
     {
-        
+
     }
     // Update energy && money && tear
     public void Update_values()
@@ -80,7 +79,6 @@ public class Level_up : MonoBehaviour
         for(int i = 0; i<ServerScript.character.Length; i++)
         {
             // How to display When ServerScript.character[i] == 5
-
             Level[i].text = (ServerScript.character[i]+1).ToString();
             if(ServerScript.character[i]<=1)
             {
