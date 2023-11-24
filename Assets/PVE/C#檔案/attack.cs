@@ -27,7 +27,7 @@ public class Attack : MonoBehaviour{
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("Tower2Layer"),true);
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth; // Initialize health
-        // animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         animator.SetBool("isAttack", false);
         animator.SetBool("isStart", false);
         lastAttackTime = 0.0f;

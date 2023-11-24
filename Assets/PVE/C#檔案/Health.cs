@@ -57,9 +57,9 @@ private IEnumerator Die() {
             gameObject.tag = "Untagged";
             while (timer < disappearDuration) 
             {
-                Color currentColor = GetComponent<SpriteRenderer>().color;              // 變透明
+                Color currentColor = GetComponentInChildren<SpriteRenderer>().color;              // 變透明
                 currentColor.a = Mathf.Lerp(1f, 0f, timer / disappearDuration);
-                GetComponent<SpriteRenderer>().color = currentColor;
+                GetComponentInChildren<SpriteRenderer>().color = currentColor;
                 timer += Time.deltaTime;
                 yield return null;
             }
