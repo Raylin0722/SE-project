@@ -50,9 +50,12 @@ public class FruitSelect : MonoBehaviour
     public void bhighlight()
     {
         bFrame.SetActive(true);
+        wFrame.SetActive(false);
     }
     public void whighlight()
     {
         wFrame.SetActive(true);
+        bFrame.SetActive(false);
+
     }
 }
