@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9995d4f7e2529d747be8ae34a14d7351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 150
+  attackDamage: -150
   maxHealth: 700
   moveSpeed: 1.7
   windMoveSpeed: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   attackCooldown: 1
   cost: 0
   currentHealth: 0
-  isAngel: 0
+  isAngel: 1
 --- !u!114 &8790475288546002891
 MonoBehaviour:
   m_ObjectHideFlags: 0

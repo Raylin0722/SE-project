@@ -17,7 +17,7 @@ public class Attack : MonoBehaviour{
 
     private float lastAttackTime = 0.0f;
     public int currentHealth;
-    private Animator animator; 
+    [SerializeField]private Animator animator; 
     private Rigidbody2D rb;
     public bool isAngel ;
     private void Start() {
@@ -27,15 +27,23 @@ public class Attack : MonoBehaviour{
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyLayer"), LayerMask.NameToLayer("Tower2Layer"),true);
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth; // Initialize health
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         animator.SetBool("isAttack", false);
         animator.SetBool("isStart", false);
+        lastAttackTime = 0.0f;
     }
     
 
     private void Update() {
         // Implement attack logic here, such as detecting enemies entering attack range and performing attacks
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        //----
+        Vector2 center = transform.position;
+        Vector2 bottomLeft = (gameObject.tag=="Player") 
+        ? new Vector2(center.x , center.y - 10) : new Vector2(center.x - attackRange, center.y - 10);
+        Vector2 topRight = (gameObject.tag=="Player") 
+        ? new Vector2(center.x + attackRange, center.y + 10) : new Vector2(center.x , center.y + 10);
+        Collider2D[] hitColliders =  Physics2D.OverlapAreaAll(bottomLeft, topRight);
+        //----
         bool judgeMove=true;
         if(gameObject.tag=="Untagged")
         {
@@ -50,7 +58,8 @@ public class Attack : MonoBehaviour{
             Collider2D tmp = null;
             bool hasObject = false ;
             foreach (Collider2D col in hitColliders) {
-                if(col.tag=="enemy" &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
+                if(col.tag!=gameObject.tag&&(col.tag=="enemy"||col.tag=="Player")
+                &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
                     hasObject=true;
                 }
                 if (col.tag == gameObject.tag &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)){
@@ -66,11 +75,15 @@ public class Attack : MonoBehaviour{
                     }
                 }
             }
-            
+            //Debug.Log(hasObject);
             float targetX = (gameObject.tag == "Player") ? -850.5f : -880.5926f;
             float distanceX = Mathf.Abs(transform.position.x - targetX);
-            if ((object.ReferenceEquals(tmp, gameObject) 
-            || ( tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth))
+            if(object.ReferenceEquals(tmp, gameObject)
+            &&tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth){
+                judgeMove = false;
+                AttackTarget(tmp.gameObject);
+            }
+            else if ( tmp.GetComponent<Health>().currentHealth != tmp.GetComponent<Health>().maxHealth
             &&tmp.gameObject.layer!=6&&tmp.gameObject.layer!=8) {
                 judgeMove = false;
                 AttackTarget(tmp.gameObject);
@@ -86,7 +99,7 @@ public class Attack : MonoBehaviour{
                 if (gameObject.tag!=col.tag&&col.tag!="Untagged"&&col.tag!="ground"&&col.tag!="bullet"
                 &&((transform.position.x-col.transform.position.x)*transform.right.x<=0)) {
                     judgeMove=false;
-                    //Debug.Log("判斷是否移動"+judgeMove);
+                    // Debug.Log("判斷是否移動"+judgeMove);
                     //Debug.Log("Detected enemy with tag: " + col.tag); // 打印敌人的标签
                     AttackTarget(col.gameObject);
                     break;
@@ -105,7 +118,7 @@ public class Attack : MonoBehaviour{
         }
     }
     private void MoveCharacter(){        
-
+    lastAttackTime = Time.time;
     // Calculate the movement direction based on the character's current forward direction
     Vector3 movement = new Vector3(moveSpeed, 0f, 0.0f) * Time.deltaTime;
     animator.CrossFade("walk", 0f);
@@ -116,6 +129,7 @@ public class Attack : MonoBehaviour{
 
     private void AttackTarget(GameObject enemy){
         if (Time.time - lastAttackTime >= attackCooldown){
+            print(gameObject.name + " Start attack");
             //play attack animation 
             animator.SetBool("isAttack", true);
             animator.CrossFade("attack", 0f);
