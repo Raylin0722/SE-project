@@ -68,7 +68,11 @@ public class Level_up : MonoBehaviour
         //UpgradeIndex
         page_Check_upGrade.SetActive(false);
     }
-
+    //when click <props >
+    public void Change_props()
+    {
+        
+    }
     // Update energy && money && tear
     public void Update_values()
     {
