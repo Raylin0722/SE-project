@@ -7,6 +7,15 @@ using ServerMethod;
 
 public class Shop : MonoBehaviour
 {
+    //蔡松豪加的
+    public GameObject Check_Page;
+    public Text[] Texts;
+    public Text[] Texts_Special;
+    public GameObject Special_Bottom;
+    [SerializeField] GameObject[] Results;
+
+    private bool If_Special=false;
+    //
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Close; // Close Button
     public GameObject page_Shop; // the page which you want to close
@@ -24,6 +33,7 @@ public class Shop : MonoBehaviour
     {
         White_Image.gameObject.SetActive(false); // Initialization ( close )
         ServerScript = FindObjectOfType<ServerMethod.Server>();
+        Conceal_Result();
     }
 
     // Update is called once per frame
@@ -50,6 +60,7 @@ public class Shop : MonoBehaviour
     // When click SPECIAL < OPEN > 
     public void Button_special_OPEN()
     {
+        Debug.Log("我開了");
         White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
         StartCoroutine(Fade_Screen(false)); // the fading animation before the drawing
@@ -85,10 +96,71 @@ public class Shop : MonoBehaviour
             Debug.Log("是否抽到角色 若上一個有抽到這邊是false表示已擁有: " + result.get);
             Debug.Log("錯誤狀況(出現-1表示時間未到或淚水不足 出現-2請立即呼叫Raylin 感恩): " + result.situation);
         }
-
-
-
+        //顯示抽獎
+        Show_Result(result.result);
+        yield return new WaitForSeconds(2f);
+        Conceal_Result();
+        Special_Bottom.SetActive(false);
+        If_Special=false;
+        //
         White_Image.gameObject.SetActive(false);
+    }
+    public void Show_Result(int result)
+    {  
+        if(If_Special==true)
+        {
+            switch(result)
+            {
+                case 0:
+                    Results[0].SetActive(true);
+                    Texts_Special[0].gameObject.SetActive(true);
+                    break;
+                case 1:
+                    Results[1].SetActive(true);
+                    Texts_Special[1].gameObject.SetActive(true);
+                    break;
+                case 2:
+                    Results[2].SetActive(true);
+                    Texts_Special[2].gameObject.SetActive(true);
+                    break;
+                case 3:
+                    Results[3].SetActive(true);
+                    break;
+            }
+        }
+        else
+        {
+            switch(result)
+            {
+                case 0:
+                    Results[0].SetActive(true);
+                    Texts[0].gameObject.SetActive(true);
+                    break;
+                case 1:
+                    Results[1].SetActive(true);
+                    Texts[1].gameObject.SetActive(true);
+                    break;
+                case 2:
+                    Results[2].SetActive(true);
+                    Texts[2].gameObject.SetActive(true);
+                    break;
+                case 3:
+                    Results[3].SetActive(true);
+                    break;
+            }
+        }
+    }
+    public void Conceal_Result()
+    {
+        for(int i=0 ;i<4 ; i++)
+        {
+            Results[i].SetActive(false);
+        }
+        for(int i=0 ; i<3 ; i++)
+        {
+            Texts[i].gameObject.SetActive(false);
+            Texts_Special[i].gameObject.SetActive(false);
+        }
     }
 
     // Update energy && money && tear
@@ -96,5 +168,21 @@ public class Shop : MonoBehaviour
     {
         money.text = ServerScript.money.ToString();
         tear.text = ServerScript.tear.ToString();
+    }
+    //Show Check Page  
+    public void Show_CheckPage()
+    {
+        Check_Page.SetActive(true);
+    }
+    //show Special Button
+    public void show_SpecialButton()
+    {
+        If_Special=true;
+        Special_Bottom.SetActive(true);
+    }
+    //cancel open
+    public void Cancel_Open()
+    {
+        Check_Page.SetActive(false);
     }
 }
