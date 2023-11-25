@@ -8,6 +8,7 @@ public class FruitSelect : MonoBehaviour
     public GameObject page_FruitSelect; // the page for page_FruitSelect
     [SerializeField] GameObject bFrame;
     [SerializeField] GameObject wFrame;
+    static public int fruit;// 0->watermelon, 1->banana
 
 
     // Server.cs
@@ -29,6 +30,8 @@ public class FruitSelect : MonoBehaviour
     public void Check()
     {
         // Your code
+        page_FruitSelect.SetActive(false); // Close All button in Fruit Select
+        ALL_Button.SetActive(true); // Open All button in Main_Scene
         
     }
 
@@ -51,11 +54,13 @@ public class FruitSelect : MonoBehaviour
     {
         bFrame.SetActive(true);
         wFrame.SetActive(false);
+        fruit=1;
     }
     public void whighlight()
     {
         wFrame.SetActive(true);
         bFrame.SetActive(false);
+        fruit=0;
 
     }
 }
