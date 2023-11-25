@@ -32,9 +32,6 @@ jobs:
           release_name: Release v1.0.${{ github.run_number }}
           draft: false
           prerelease: false
-      
-      - name: ls
-        run:  ls build/Android
 
       - name: Upload APK as Release Asset
         uses: actions/upload-release-asset@v1
