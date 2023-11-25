@@ -596,6 +596,34 @@ def afterGame():
                 success = True
     return str(success)
 
+@app.route("/updateRank", methods=['get', 'post'])
+def updateRank():
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute("select * from `rank` order by chapter desc, `level` desc;")
+    result = cur.fetchall()
+
+    returnRank = []
+    for i in range(len(result)):
+        returnRank.append([result[i][0], result[i][1], result[i][2]])
+
+    print(returnRank)
+
+    cur.close()
+    cnx.close()
+
+    return returnRank
+
+'''@app.route("/addFriend", methods=['get', 'post'])
+def addFriend():
+    ()
+
+@app.route("getEnergy", methods=['get', 'post'])
+def getEnergy():
+    ()'''
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
     
