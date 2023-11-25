@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Assets.Scripts;
 public class ButtonFunction : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -33,6 +34,7 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Next;
     [SerializeField] GameObject Close_bottom;
     [SerializeField] GameObject Next_bottom;
+    [SerializeField] GameObject castle1;
     //
     static public int judge_victory=0;
     static public int judge_defeat=0;
@@ -334,6 +336,12 @@ public class ButtonFunction : MonoBehaviour
     {
         if(currentEnergy>=(110+5*InsideGameUpgrade) && InsideGameUpgrade<7)
         {
+            Slingshot shot = castle1.GetComponent<Slingshot>();
+            if(shot.Rock!=null)
+            {
+                Destroy(shot.Rock);
+                shot.slingshotState = SlingshotState.do_nothing;
+            }
             currentEnergy=currentEnergy-(110+5*InsideGameUpgrade);
             
             if(InsideGameUpgrade==6)

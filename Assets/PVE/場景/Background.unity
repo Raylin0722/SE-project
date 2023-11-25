@@ -1487,6 +1487,7 @@ MonoBehaviour:
   Next: {fileID: 2104806454}
   Close_bottom: {fileID: 1436767988}
   Next_bottom: {fileID: 1881655708}
+  castle1: {fileID: 1117045830}
 --- !u!212 &267466594
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2231,12 +2232,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon2Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4933,12 +4934,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon5Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5142,8 +5143,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon1Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6184,7 +6185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcccdea7894ac834abb7cfcb45081f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 30
+  attackDamage: 150
   bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
   bulletSpawnPoint: {fileID: 1016310111}
   attackRange: 12
@@ -7737,6 +7738,11 @@ MonoBehaviour:
   - {fileID: 7627983828652956751, guid: 4c0aa5cb46d9c7f4e85ee6590b7f431c, type: 3}
   - {fileID: 2250567312723622855, guid: a9957b452fcc9d145ba3e2b1a53b390f, type: 3}
   - {fileID: 5501169492532193083, guid: 07a9985b923b8bb46a1ec7d9514c8be5, type: 3}
+  YangGuPrefabs: []
+  JinJenGuRPrefabs: []
+  XianGuPrefabs: []
+  XinBaouGuPrefabs: []
+  XioJenGuPrefabs: []
   MyWatermelonPrefabs:
   - {fileID: 6694193030101232113, guid: dc7df804a0d074e47b59c3b0b7719d48, type: 3}
   - {fileID: 376488866136081581, guid: 29fb1a271c34c4906b0b9b78747144ae, type: 3}
@@ -7769,6 +7775,7 @@ MonoBehaviour:
   - {fileID: 824321}
   - {fileID: 1938855467}
   castle1: {fileID: 1117045830}
+  Level_Title: {fileID: 1991189328}
 --- !u!4 &1378890970
 Transform:
   m_ObjectHideFlags: 0
@@ -8322,12 +8329,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon3Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8532,12 +8539,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1378890969}
         m_TargetAssemblyTypeName: CharacterManage, Assembly-CSharp
-        m_MethodName: watermelon4Product
-        m_Mode: 1
+        m_MethodName: watermelonProduct
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9121,7 +9128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412b1236afaee764f8f4c35bf1dfa942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 30
+  attackDamage: 150
   bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
   bulletSpawnPoint: {fileID: 2050530205}
   attackRange: 12

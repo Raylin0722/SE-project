@@ -1,6 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -21,9 +23,14 @@ public class ButtonManager : MonoBehaviour
     public GameObject page_Setting; // the page for Settings
     public GameObject Friends; // Friends
     public GameObject page_Friends; // the page for Friends
-    public GameObject Top_up; // Top up(page or website?)
+    public GameObject Top_up; // Top up
+    public GameObject page_Top_up; // the page for Top up
+    public Text energy; // energy value
+    public Text money; // money value
+    public Text tear; // tear value
     public AudioSource Music_Main_Scene; // the Music in Main Scene
-    //public GameObject[] Figures; // The all figures in team
+    private ServerMethod.Server ServerScript; // Server.cs
+
 
     private void Start()
     {
@@ -34,9 +41,18 @@ public class ButtonManager : MonoBehaviour
         page_Level_up.SetActive(false);
         page_Setting.SetActive(false);
         page_Friends.SetActive(false);
+        page_Top_up.SetActive(false);
         page_Start.SetActive(false);
         Play_Music();
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Update_values(); // Update energy && money && tear
+    }
+
 
     // Click < Ranking_list > 
     public void Button_Ranking_list()
@@ -83,6 +99,21 @@ public class ButtonManager : MonoBehaviour
     public void Button_Friends()
     {
         page_Friends.SetActive(true);
+    }
+
+    // Click < Top up > 
+    public void Button_Top_up()
+    {
+        page_Top_up.SetActive(true); // You can active it when you want to do
+        //page_Top_up.SetActive(!page_Top_up.activeSelf); // You can delete it when you want to do
+    }
+
+    // Update energy && money && tear
+    public void Update_values()
+    {
+        energy.text = ServerScript.energy.ToString() + "/30";
+        money.text = ServerScript.money.ToString();
+        tear.text = ServerScript.tear.ToString();
     }
 
     // Play Music
