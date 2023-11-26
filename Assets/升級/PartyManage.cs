@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class PartyManage : MonoBehaviour
@@ -15,6 +16,20 @@ public class PartyManage : MonoBehaviour
     private int index;
     static private int[] PartyMember = new int[5];
     private GameObject spawnedCharacter;
+
+
+    //public Image[] Pictures; // The all pictures in under level_up
+
+    private struct Location
+    {
+        public Vector2 position;
+        public float offset;
+    }
+    private List<Location> Location_List = new List<Location>();
+    
+    // Server.cs
+    private ServerMethod.Server ServerScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +37,19 @@ public class PartyManage : MonoBehaviour
         {
             PartyMember[i] = 0;
         }
+
+        /*
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        Character_Location();
+        for(int i = 0; i<Pictures.Length; i++)
+        {
+            Pictures[i].gameObject.SetActive(false);
+        }
+        for(int i = 0; i<5 ; i++)
+        {
+            PartyMember[i] = ServerScript.lineup[i] - 1;
+        }
+        */
     }
 
     // Update is called once per frame
@@ -119,9 +147,54 @@ public class PartyManage : MonoBehaviour
             partyObject.SetActive(false);
         }
     }
+
+
+    // Character Display Definition
+    private void Character_Location()
+    {
+        Location W1 = new Location
+        {
+            position = new Vector2(-672f,-280f),
+            offset = 270.0f
+        };
+        Location_List.Add(W1);
+        Location W2 = new Location
+        {
+            position = new Vector2(-672f,-281f),
+            offset = 270.0f
+        };
+        Location_List.Add(W2);
+        Location W3 = new Location
+        {
+            position = new Vector2(-673f,-285f),
+            offset = 270.0f
+        };
+        Location_List.Add(W3);
+        Location W4 = new Location
+        {
+            position = new Vector2(-671f,-283f),
+            offset = 270.0f
+        };
+        Location_List.Add(W4);
+        Location W5 = new Location
+        {
+            position = new Vector2(-670f,-288f),
+            offset = 270.0f
+        };
+        Location_List.Add(W5);
+        Location W6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(W6);
+    }
+
+
 }
 
 
+    
 /*
     bool IsMouseOverSpecificUI(string target)
     {
