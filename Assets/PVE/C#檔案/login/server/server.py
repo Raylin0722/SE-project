@@ -11,7 +11,7 @@ app = Flask(__name__)
 config = {
     'user': 'root',        
     'password': '114SE_project',        
-    'database': 'softwqre_engineering',        
+    'database': 'software_engineering',        
     'host': 'localhost',        
     'port': '3306'        
 }
@@ -607,13 +607,16 @@ def afterGame():
 def updateRank():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
-
+    mode = int(request.form.get('mode'))
+    
     cur.execute("select * from `rank` order by chapter desc, `level` desc;")
     result = cur.fetchall()
 
+    print(result)
+
     Rank = []
     for i in range(len(result)):
-        Rank.append([result[i][0], result[i][1], result[i][2]])
+        Rank.append(result[i][0] if mode == 1 else "%s-%s" %(result[i][1], result[i][2]))
 
     cur.close()
     cnx.close()
