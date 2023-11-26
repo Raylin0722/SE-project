@@ -11,7 +11,7 @@ app = Flask(__name__)
 config = {
     'user': 'root',        
     'password': '114SE_project',        
-    'database': 'software_engineering',        
+    'database': 'softwqre_engineering',        
     'host': 'localhost',        
     'port': '3306'        
 }
@@ -51,6 +51,15 @@ def register():
     cur.execute(user_insert_query, (username, email, token, hashed_password))
     cnx.commit()
     msg = 'User register success'
+
+    cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
+                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', [1, 2, 3, 4, 5, 1], 0, 1, 1, 
+                                                                                                                 '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
+                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
+    cnx.commit()
+
+    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
+    cnx.commit()
 
     cur.close()
     cnx.close()
@@ -313,6 +322,10 @@ def openChest(openType:bool): # openType true : normal openType : false rare
 @app.route("/updateData", methods=['GET', 'POST'])
 def updateData():
     token = request.form.get("token")
+    #token = request.args.get("token")
+
+    print(token)
+
     data = {
             "success": False,
             "token": None, 
@@ -325,6 +338,7 @@ def updateData():
             "slingshotLevel": None, 
             "clearance": None, 
             "energy": None, 
+            "remainTime": None,
             "updateTime": None,
             "volume": None,
             "backVolume": None,
@@ -341,7 +355,7 @@ def updateData():
     
     checkquery = "SELECT token FROM users WHERE token=%s;"
     searchquery = "SELECT * FROM usersdata WHERE token=%s;"
-    updateTimequery = "UPDATE usersdata SET updateTime=NOW() WHERE token=%s;"
+    updateTimequery = "UPDATE usersdata SET updateTime=NOW(), energy=%s, remainTime=%s WHERE token=%s;"
     cur.execute(checkquery, (token,))
 
     result = cur.fetchall()
@@ -352,7 +366,19 @@ def updateData():
         cur.execute(searchquery, (token,))
         result = cur.fetchall()
         if(len(result) == 1):
-            if (datetime.now() - result[0][0]).total_seconds() != 0:
+            timeDiff = int((datetime.now() - result[0][0]).total_seconds())
+            if  timeDiff != 0:
+                energy = result[0][12]
+                remainTime = result[0][13]
+                if energy < 30:
+                    energy += timeDiff // 1200
+                    remainTime += timeDiff % 1200
+                    energy += remainTime // 1200
+                    remainTime %= 1200
+                    if energy >= 30:
+                        energy = 30
+                        remainTime = 0
+                print(result)
                 data["success"]  = True
                 data["updateTime"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 data["token"] = result[0][2]
@@ -364,15 +390,16 @@ def updateData():
                 data["castleLevel"] = result[0][9]
                 data["slingshotLevel"] = result[0][10]
                 data["clearance"] = [value for key, value in json.loads(result[0][11]).items()]
-                data["energy"] = result[0][12]
-                data["volume"] = result[0][13]
-                data["backVolume"] = result[0][14]
-                data["shock"] = result[0][15]
-                data["remind"] = result[0][16]
-                data["chestTime"] = result[0][17].strftime('%Y-%m-%d %H:%M:%S')
-                data["props"] = [value for key, value in json.loads(result[0][18]).items()]
-                data["faction"] = result[0][19] 
-                cur.execute(updateTimequery, (token,))
+                data["energy"] = energy
+                data["remainTime"] = remainTime
+                data["volume"] = result[0][14]
+                data["backVolume"] = result[0][15]
+                data["shock"] = result[0][16]
+                data["remind"] = result[0][17]
+                data["chestTime"] = result[0][18].strftime('%Y-%m-%d %H:%M:%S')
+                data["props"] = [value for key, value in json.loads(result[0][19]).items()]
+                data["faction"] = result[0][20] 
+                cur.execute(updateTimequery, (energy, remainTime, token,))
                 cnx.commit()
 
     cur.close()
@@ -383,11 +410,10 @@ def updateData():
 @app.route("/updateCard", methods=['GET', 'POST'])
 def updateCard():
     token = request.form.get('token')
-    target = request.form.get("target")
-    orginLevel = request.form.get("originLevel")
-    mode = request.form.get("mode")
+    target = int(request.form.get("target"))
+    mode = int(request.form.get("mode"))
 
-    returnResult = {"success" : False}
+    returnResult = False
 
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -404,31 +430,210 @@ def updateCard():
         moneyResult = cur.fetchall()
         if len(moneyResult) == 1:
             # 這邊需要升級時所需的經驗值 還要區分是角色(應該有id 1-7 mode 1)  還是彈弓主堡 (mode 2) 存在陣列 target 0 mode 1 目標
-            if mode == 0 and orginLevel < 5:
-                needMoney = updateMoney[mode][target - 1] * (1.2 ** (orginLevel -1))
-                if moneyResult[0][0] >= needMoney:
+            if mode == 0:
+                character = json.loads(moneyResult[0][1])
+                orginLevel = character[str(target)]
+                needMoney = updateMoney[mode][target - 1] * (1.5 ** (orginLevel -1))
+                if moneyResult[0][0] >= needMoney and orginLevel < 5 and orginLevel >= 1:
                     money = moneyResult[0][0] - needMoney
-                    character = json.loads(moneyResult[0][1])
                     character[str(target)] += 1
                     cur.execute("update usersdata set money=%s, `character`=%s where token=%s;", (money, str(character).replace("'", "\""), token))
                     cnx.commit()
-                    returnResult["success"] = True
-            elif mode == 1 and orginLevel < 15:
-                needMoney = updateMoney[mode] + (500 * orginLevel - 1) # target==1 catleLevel target == 2 slingshotLevel
-                if moneyResult[0][0] >= needMoney:
+                    returnResult = True
+            elif mode == 1:
+                orginLevel = moneyResult[0][2]
+                print(updateMoney[mode])
+                needMoney = updateMoney[mode] + (500 * (orginLevel - 1)) 
+                castleLevel = moneyResult[0][2] 
+                slingshotLevel = moneyResult[0][3]
+                if moneyResult[0][0] >= needMoney and (slingshotLevel < 15 and castleLevel < 15):
                     money = moneyResult[0][0] - needMoney
-                    castleLevel = moneyResult[0][2] + 1 if target == 1 else moneyResult[0][2]
-                    slingshotLevel = moneyResult[0][3] + 1 if target == 2 else moneyResult[0][3] 
+                    castleLevel += 1
+                    slingshotLevel += 1
                     cur.execute("update usersdata set money=%s, castleLevel=%s, slingshotLevel=%s where token=%s;", (money, castleLevel, slingshotLevel, token))
                     cnx.commit()
-                    returnResult["success"] = True
+                    returnResult = True
                 
 
     cur.close()
     cnx.close() 
-    return returnResult
+    return str(returnResult)
+
+@app.route("/updateLineup", methods=['GET', 'POST'])
+def updateLineup():
+    token = request.form.get('token')
+    lineup = request.form.get('lineup')
+    
+    lineupArr = json.loads(lineup.replace("'", "\""))
+    
+    returnResult = False
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    
+    checkquery = "SELECT token FROM users WHERE token=%s"
+    cur.execute(checkquery, (token,))
+    result = cur.fetchall()
+    
+    if len(result) == 1:
+        cur.execute("select `character`, props, lineup where token=%s", (token,))
+        lineupResult = cur.fetchall()
+        
+        if len(lineupArr) == 6 and len(lineupResult) == 1:
+            character = json.loads(lineupResult[0][0])
+            props = json.loads(lineupResult[0][1])
+            for i in range(5):
+                if character[str(lineupArr[i])] != 1:
+                    cur.close()
+                    cnx.close() 
+                    return returnResult
+
+            if lineupArr[5] == 2 and props['2'] <= 0 :
+                cur.close()
+                cnx.close() 
+                return returnResult
+            
+            cur.execute("update usersdata set lineup=%s where token=%s", (lineupArr, token))
+            cnx.commit()
+            
+            returnResult = True
+                
+                
+    
+    cur.close()
+    cnx.close() 
+    return str(returnResult)
+
+@app.route("/beforeGame", methods=['GET', 'POST'])
+def beforeGame():
+    token = request.form.get('token')
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    
+    #token = request.args.get('token')
+    
+    success = False
+    checkQuery = "select token from users where token=%s;"
+    energyQuery = "select energy, updateTime, remainTime from usersdata where token=%s;"
+    updateQuery = "update usersdata set updateTime=%s, energy=%s, remaindTime=%s where token=%s;"
+    
+    cur.execute(checkQuery, (token,))
+    result = cur.fetchall()
+    if len(result) == 1:
+        cur.execute(energyQuery, (token,))
+        energyResult = cur.fetchall()
+        print(energyResult)
+        if len(energyResult) == 1:
+            if energyResult[0][0] >= 5:
+                timeDiff = int((datetime.now() - energyResult[0][1]).total_seconds())
+                energy = energyResult[0][0]
+                remainTime = energyResult[0][2]
+                if energy < 30:
+                    energy += timeDiff // 1200
+                    remainTime += timeDiff % 1200
+                    energy += remainTime // 1200
+                    remainTime %= 1200
+                    if energy >= 30:
+                        energy = 30
+                        remainTime = 0
+                
+                energy -= 5
+                
+                cur.execute(updateQuery, (datetime.now(), energy, remainTime, token))
+                cnx.commit()
+                success = True
+    
+    cur.close()
+    cnx.close()
+    return str(success)
+
+@app.route("/afterGame", methods=['GET', 'POST'])
+def afterGame():
+    leveltoMoneyExp = [[500, 500, 500, 500, 500, 600, 600, 600, 600, 600, 600, 700], [300, 320, 340, 360, 380, 400, 400, 420, 440, 460, 480, 500]]
+    success = False
+    token = request.form.get('token')
+    clear = request.form.get('clear')
+    target = request.form.get('target')
+
+    chapter, level = target.split('-')
+    chapter = int(chapter)
+    level = int(level)
+
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    checkQuery = "select token from users where token=%s;"
+    clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName from usersdata where token=%s"
+    updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s where token=%s;"
+    rankQuery = "update `rank` set chapter=%s, level=%s where playerName=%s"
+    
+    if clear == 'True':
+        cur.execute(checkQuery, (token,))
+        result = cur.fetchall()
+        
+        if len(result) == 1:
+            cur.execute(clearQuery, (token,))
+            clearResult = cur.fetchall()
+            if len(clearResult) == 1:
+                clearance = json.loads(clearResult[0][3])
+                tear = clearResult[0][4]
+                if clearance[target] == 0:
+                    tear += 2 if level >= 1 and level <= 5 else 3
+                
+                
+                clearance[target] += 1
+
+                money = clearResult[0][0] + (leveltoMoneyExp[0][-1 + level if chapter == 1 else 5 + level]) * (2 ** -(clearance[target] - 1))
+                expTotal = clearResult[0][2] + (leveltoMoneyExp[1][-1 + level if chapter == 1 else 5 + level]) * (2 ** -(clearance[target] - 1))
+                expLevel = clearResult[0][1]
+
+                if expTotal > 500 * (2.5 ** (expLevel - 1)):
+                        expTotal -= 500 * (2.5 ** (expLevel - 1))
+                        expLevel += 1
+                        
+                             
+            
+                clearance = str(clearance).replace("'", "\"")
+                print(updateQuery %(money, expLevel, expTotal, clearance, datetime.now(), tear, token))
+                cur.execute(updateQuery, (money, expLevel, expTotal, clearance, datetime.now(), tear, token))
+                cnx.commit()
+                
+                cur.execute(rankQuery, (chapter, level, result[0][5]))
+                cnx.commit()
+                
+                success = True
+    return str(success)
+
+@app.route("/updateRank", methods=['get', 'post'])
+def updateRank():
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute("select * from `rank` order by chapter desc, `level` desc;")
+    result = cur.fetchall()
+
+    Rank = []
+    for i in range(len(result)):
+        Rank.append([result[i][0], result[i][1], result[i][2]])
+
+    cur.close()
+    cnx.close()
+
+    returnRank = {"data": Rank}
+
+    print(returnRank)
+
+    return returnRank
+
+'''@app.route("/addFriend", methods=['get', 'post'])
+def addFriend():
+    ()
+
+@app.route("getEnergy", methods=['get', 'post'])
+def getEnergy():
+    ()'''
+
 
 if __name__ == "__main__":
-    app.run(debug=True, host = "140.122.185.167", port="443",ssl_context=('/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/fullchain.pem', '/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/privkey.pem'))
+    app.run(debug=True, port=5000)
     
-    
+

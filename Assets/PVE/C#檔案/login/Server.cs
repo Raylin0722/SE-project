@@ -28,7 +28,6 @@ namespace ServerMethod{
         public int faction;
         public int[] props;
     }
-
     public class chestReturn{
         public bool success;
         public int result;
@@ -36,6 +35,7 @@ namespace ServerMethod{
         public bool get;
         public int character;
     }
+    
     public class Server : MonoBehaviour
     {
         public bool success;
@@ -57,6 +57,8 @@ namespace ServerMethod{
         public string chestTime;
         public int faction;
         public int[] props;
+
+
         void Awake(){
             CallUpdate();
         }
@@ -102,16 +104,14 @@ namespace ServerMethod{
             }
             else{ //非法token需跳回登入頁面
                 SceneManager.LoadScene("MainMenu");
-                Debug.Log("Error1");
+                Debug.Log("未連接至伺服器");
             }
 
             if(success == false){
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("Error2");
             }
-
-            
-
+        
         }     
         public IEnumerator autoUpdate(){
             while (true){
@@ -147,5 +147,89 @@ namespace ServerMethod{
             yield return result;
 
         }
+        public IEnumerator beforeGame(){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/beforeGame", form);
+            
+            yield return www.SendWebRequest();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                Debug.Log(response);
+                CallUpdate();
+            }
+            
+
+        }
+        public IEnumerator afterGame(bool clear, string target){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+            form.AddField("target", target);
+
+            if(clear)
+                form.AddField("clear", "True");
+            else
+                form.AddField("clear", "False");
+            
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
+            
+            yield return www.SendWebRequest();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                Debug.Log(response);
+                CallUpdate();
+            }
+
+        }
+        public IEnumerator updateCard(int target, int mode){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+            form.AddField("target", target);
+            form.AddField("mode", mode);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateCard", form);
+            
+            yield return www.SendWebRequest();
+
+            bool success = new bool();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                CallUpdate();
+                success = true;
+            }
+            else
+                success = false;
+
+            yield return success;
+            
+        }
+        public IEnumerator updateLineup(int[] lineup){
+            WWWForm form = new WWWForm();
+            string lineupString = string.Join(",", lineup);
+            form.AddField("lineup", lineupString);
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateLineup", form);
+            
+            yield return www.SendWebRequest();
+
+            bool success = new bool();
+
+            if(www.result == UnityWebRequest.Result.Success){
+                CallUpdate();
+                success = true;
+            }
+            else
+                success = false;
+
+            yield return success;
+            
+        }
+        
+        
     }
 }
