@@ -73,7 +73,7 @@ namespace ServerMethod{
             WWWForm form = new WWWForm();
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateData", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
             
             yield return www.SendWebRequest();
 
@@ -128,7 +128,7 @@ namespace ServerMethod{
             else
                 form.AddField("openType", "False");
 
-            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/openChest", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/openChest", form);
             
             yield return www.SendWebRequest();
 
@@ -151,7 +151,7 @@ namespace ServerMethod{
             WWWForm form = new WWWForm();
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/beforeGame", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/beforeGame", form);
             
             yield return www.SendWebRequest();
 
@@ -174,7 +174,7 @@ namespace ServerMethod{
                 form.AddField("clear", "False");
             
 
-            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/afterGame", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
             
             yield return www.SendWebRequest();
 
@@ -191,7 +191,7 @@ namespace ServerMethod{
             form.AddField("target", target);
             form.AddField("mode", mode);
 
-            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateCard", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateCard", form);
             
             yield return www.SendWebRequest();
 
@@ -213,7 +213,7 @@ namespace ServerMethod{
             form.AddField("lineup", lineupString);
             form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateLineup", form);
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateLineup", form);
             
             yield return www.SendWebRequest();
 

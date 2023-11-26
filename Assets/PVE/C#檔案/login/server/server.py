@@ -10,8 +10,8 @@ app = Flask(__name__)
 
 config = {
     'user': 'root',        
-    'password': 'test',        
-    'database': 'testing',        
+    'password': '114SE_project',        
+    'database': 'softwqre_engineering',        
     'host': 'localhost',        
     'port': '3306'        
 }
