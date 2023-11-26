@@ -57,6 +57,8 @@ namespace ServerMethod{
         public string chestTime;
         public int faction;
         public int[] props;
+
+
         void Awake(){
             CallUpdate();
         }
@@ -109,7 +111,6 @@ namespace ServerMethod{
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("Error2");
             }
-
         
         }     
         public IEnumerator autoUpdate(){
@@ -198,20 +199,21 @@ namespace ServerMethod{
 
             if(www.result == UnityWebRequest.Result.Success){
                 CallUpdate();
-                success = true
+                success = true;
             }
             else
-                success = false
+                success = false;
 
-            yield return success
+            yield return success;
             
         }
         public IEnumerator updateLineup(int[] lineup){
             WWWForm form = new WWWForm();
             string lineupString = string.Join(",", lineup);
             form.AddField("lineup", lineupString);
+            form.AddField("token", token);
 
-            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateCard", form);
+            UnityWebRequest www = UnityWebRequest.Post("http://127.0.0.1:5000/updateLineup", form);
             
             yield return www.SendWebRequest();
 
@@ -222,11 +224,12 @@ namespace ServerMethod{
                 success = true;
             }
             else
-                success = false
+                success = false;
 
-            yield return success
+            yield return success;
             
         }
+        
         
     }
 }

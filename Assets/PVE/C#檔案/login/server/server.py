@@ -11,7 +11,7 @@ app = Flask(__name__)
 config = {
     'user': 'root',        
     'password': 'test',        
-    'database': 'SE_project',        
+    'database': 'testing',        
     'host': 'localhost',        
     'port': '3306'        
 }
@@ -52,10 +52,10 @@ def register():
     cnx.commit()
     msg = 'User register success'
 
-    cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, volume, backVolume, shock, remind, chestTime, props, faction)"
-                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', [1, 2, 3, 4, 5, 1], 0, 1, 1, 
+    cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
+                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', [1, 2, 3, 4, 5, 1], 0, 1, 1, 
                                                                                                                  '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
-                                                                                                                 30, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
+                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
     cnx.commit()
 
     cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
@@ -321,8 +321,10 @@ def openChest(openType:bool): # openType true : normal openType : false rare
 
 @app.route("/updateData", methods=['GET', 'POST'])
 def updateData():
-    #token = request.form.get("token")
-    token = request.args.get("token")
+    token = request.form.get("token")
+    #token = request.args.get("token")
+
+    print(token)
 
     data = {
             "success": False,
@@ -367,9 +369,7 @@ def updateData():
             timeDiff = int((datetime.now() - result[0][0]).total_seconds())
             if  timeDiff != 0:
                 energy = result[0][12]
-                print(energy)
                 remainTime = result[0][13]
-                print(timeDiff, remainTime)
                 if energy < 30:
                     energy += timeDiff // 1200
                     remainTime += timeDiff % 1200
@@ -378,7 +378,7 @@ def updateData():
                     if energy >= 30:
                         energy = 30
                         remainTime = 0
-                print(remainTime)
+                print(result)
                 data["success"]  = True
                 data["updateTime"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 data["token"] = result[0][2]
@@ -611,14 +611,16 @@ def updateRank():
     cur.execute("select * from `rank` order by chapter desc, `level` desc;")
     result = cur.fetchall()
 
-    returnRank = []
+    Rank = []
     for i in range(len(result)):
-        returnRank.append([result[i][0], result[i][1], result[i][2]])
-
-    print(returnRank)
+        Rank.append([result[i][0], result[i][1], result[i][2]])
 
     cur.close()
     cnx.close()
+
+    returnRank = {"data": Rank}
+
+    print(returnRank)
 
     return returnRank
 
