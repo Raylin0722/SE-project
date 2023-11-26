@@ -58,6 +58,9 @@ def register():
                                                                                                                  30, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
     cnx.commit()
 
+    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
+    cnx.commit()
+
     cur.close()
     cnx.close()
 
@@ -561,7 +564,7 @@ def afterGame():
     checkQuery = "select token from users where token=%s;"
     clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName from usersdata where token=%s"
     updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s where token=%s;"
-    rankQuery = "update rank set chapter=%s, level=%s where playerName=%s"
+    rankQuery = "update `rank` set chapter=%s, level=%s where playerName=%s"
     
     if clear == 'True':
         cur.execute(checkQuery, (token,))
