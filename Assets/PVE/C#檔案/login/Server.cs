@@ -64,10 +64,10 @@ namespace ServerMethod{
         public List<string> rankClear = new List<string>();
 
         void Awake(){
+            token = TokenManager.Instance.Token;
             CallUpdate();
         }
         private void Start() {
-            token = TokenManager.Instance.Token;
             StartCoroutine(autoUpdate());
         }
         public void CallUpdate() {
