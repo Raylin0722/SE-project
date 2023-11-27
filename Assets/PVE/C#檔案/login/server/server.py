@@ -57,9 +57,9 @@ def register():
     msg = '0 User register success\t' + token
 
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
-                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', [1, 2, 3, 4, 5, 1], 0, 1, 1, 
+                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1, 
                                                                                                                  '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
-                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
+                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', 1))
     cnx.commit()
 
     # cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
@@ -370,7 +370,7 @@ def updateData():
         result = cur.fetchall()
         if(len(result) == 1):
             timeDiff = int((datetime.now() - result[0][0]).total_seconds())
-            if  timeDiff != 0:
+            if  timeDiff >= 0:
                 energy = result[0][12]
                 remainTime = result[0][13]
                 if energy < 30:
