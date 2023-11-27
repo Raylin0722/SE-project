@@ -102,13 +102,13 @@ def login():
     else:
         msg = '0 User login success\t' + token
     
-    updateQuery = "UPDATE users SET token=%s WHERE username=%s;"
-    cur.execute(updateQuery, (token, username))
-    cnx.commit()
-    
-    updateQuery = "UPDATE usersdata SET token=%s WHERE playerName=%s;"
-    cur.execute(updateQuery, (token, username))
-    cnx.commit()
+        updateQuery = "UPDATE users SET token=%s WHERE username=%s;"
+        cur.execute(updateQuery, (token, username))
+        cnx.commit()
+        
+        updateQuery = "UPDATE usersdata SET token=%s WHERE playerName=%s;"
+        cur.execute(updateQuery, (token, username))
+        cnx.commit()
     
     cur.close()
     cnx.close()
