@@ -63,6 +63,7 @@ namespace ServerMethod{
             CallUpdate();
         }
         private void Start() {
+            token = TokenManager.Instance.Token;
             StartCoroutine(autoUpdate());
         }
         public void CallUpdate() {
