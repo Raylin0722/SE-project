@@ -248,17 +248,18 @@ namespace ServerMethod{
 
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
-
+                if(mode == 1)
+                    rankName = new List<string>();
+                else
+                    rankClear = new List<string>();
                 Rank rankReturn = JsonUtility.FromJson<Rank>(response);
 
                 foreach(string data in rankReturn.data){
                     if(mode == 1 ){
-                        if(!rankName.Contains(data))
-                            rankName.Add(data);
+                        rankName.Add(data);
                     }
                     else{
-                        if(!rankClear.Contains(data))
-                            rankClear.Add(data);
+                        rankClear.Add(data);
                     }
                 }
             }
