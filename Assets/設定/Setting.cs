@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using System;
+using UnityEngine.SceneManagement;
 
 public class Setting : MonoBehaviour
 {
@@ -20,12 +23,14 @@ public class Setting : MonoBehaviour
     public string URL_Feedback = "https://forms.gle/XSt1FpKRyCtY8qVU9"; // the website about About
     public GameObject About; // About Button
     public string URL_About = "https://xmu310.github.io"; // the website about About
+    public GameObject[] number; // version number about LAST
 
     // Start is called before the first frame update
     void Start()
     {
         picture_Vibration_ON.SetActive(false);
         picture_Notification_ON.SetActive(false);
+        Version();
     }
 
     // Update is called once per frame
@@ -110,4 +115,30 @@ public class Setting : MonoBehaviour
         Application.OpenURL(URL_About); // Open Website
     }
 
+    // 
+    public void Version()
+    {
+        // Read current version number
+        AndroidJavaObject currentActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
+        AndroidJavaObject packageManager = currentActivity.Call<AndroidJavaObject>("getPackageManager");
+        string packageName = currentActivity.Call<string>("getPackageName");
+        AndroidJavaObject packageInfo = packageManager.Call<AndroidJavaObject>("getPackageInfo", packageName, 0);
+        string apkVersion = "v" + packageInfo.Get<string>("versionName");
+
+        string[] Version_Parts = apkVersion.Split('.');
+        string LAST = Version_Parts[2];
+        if(int.TryParse(LAST, out int LAST_number))
+        {
+            Debug.Log("LAST Version Number: " + LAST_number);
+            if(LAST_number<10)
+            {
+                number[LAST_number].gameObject.SetActive(true);
+            }
+            else
+            {
+                number[LAST_number/10].gameObject.SetActive(true);
+                number[LAST_number].gameObject.SetActive(true);
+            }
+        }
+    }
 }
