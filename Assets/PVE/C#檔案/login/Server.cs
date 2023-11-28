@@ -38,6 +38,10 @@ namespace ServerMethod{
     public class Rank{
         public List<string> data;
     }
+    
+    public class Return{
+        public bool success;
+    }
     public class Server : MonoBehaviour
     {
         public bool success;
@@ -202,14 +206,14 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            bool success = new bool();
+            Return success = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
                 CallUpdate();
-                success = true;
+                success.success = true;
             }
             else
-                success = false;
+                success.success = false;
 
             yield return success;
             
@@ -224,14 +228,14 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            bool success = new bool();
+            Return success = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
                 CallUpdate();
-                success = true;
+                success.success = true;
             }
             else
-                success = false;
+                success.success = false;
 
             yield return success;
             
