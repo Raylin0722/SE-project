@@ -67,10 +67,10 @@ public class Level_up : MonoBehaviour
         //UpgradeIndex
         page_Check_upGrade.SetActive(false);
         if(UpgradeIndex == 0){ //主堡
-            updateCard(0, 1);
+            
         }
         else{
-            updateCard(UpgradeIndex, 0);
+            
         }
         
         
