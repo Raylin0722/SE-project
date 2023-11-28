@@ -25,7 +25,7 @@ namespace ServerMethod{
         public bool shock;
         public bool remind;
         public string chestTime;
-        public int faction;
+        public int[] faction;
         public int[] props;
     }
     public class chestReturn{
@@ -61,7 +61,7 @@ namespace ServerMethod{
         public bool shock;
         public bool remind;
         public string chestTime;
-        public int faction;
+        public int[] faction;
         public int[] props;
 
         public List<string> rankName = new List<string>();
