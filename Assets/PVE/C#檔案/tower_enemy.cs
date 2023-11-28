@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 public class tower_enemy : MonoBehaviour
 {
     public int attackDamage = 150;
@@ -27,6 +28,9 @@ public class tower_enemy : MonoBehaviour
         else enemyToolIsUseable=true;
         timer += Time.deltaTime;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Player");
+        enemies = enemies.OrderBy(col => col.transform.position.x).ToArray();
+        enemies = enemies.Reverse().ToArray();
+
 
         foreach (GameObject enemy in enemies)
         {

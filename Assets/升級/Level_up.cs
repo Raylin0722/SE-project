@@ -64,9 +64,16 @@ public class Level_up : MonoBehaviour
     public void Sure_Upgrade()
     {
         //算出來在更新到sever
-        //UpgradeIndex
+        Debug.Log(UpgradeIndex);
         page_Check_upGrade.SetActive(false);
+        //StartCoroutine(Upgrade_Surver());
     }
+    //Send the data to server
+    /*private IEnumerator Upgrade_Surver()
+    {
+        
+        yield return null;
+    }*/
     //when click <props >
     public void Change_props()
     {
@@ -89,6 +96,7 @@ public class Level_up : MonoBehaviour
                 Dollar[i].text = (Character_Data_List[i].Dollar*Character_Data_List[i].Dollar_rate*(ServerScript.character[i]-1)).ToString();
             }
         }
+        
     }
     // Caculate who to upgrade
     void CalculateDistances()
