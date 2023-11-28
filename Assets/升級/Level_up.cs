@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using ServerMethod;
 public class Level_up : MonoBehaviour
 {
     //蔡松豪加的
@@ -66,6 +66,14 @@ public class Level_up : MonoBehaviour
         //算出來在更新到sever
         //UpgradeIndex
         page_Check_upGrade.SetActive(false);
+        if(UpgradeIndex == 0){ //主堡
+            updateCard(0, 1);
+        }
+        else{
+            updateCard(UpgradeIndex, 0);
+        }
+        
+        
     }
     //when click <props >
     public void Change_props()
