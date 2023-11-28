@@ -66,7 +66,7 @@ public class Book : MonoBehaviour
     private void ShowPage(int Current)
     {
         // Show current page && Hide the others
-        for(int i = 0; i<pages.Length; i++)
+        for(int i = 0; i<7; i++)
         {
             for(int j = 0; j<4 ; j++)
             {
@@ -75,7 +75,18 @@ public class Book : MonoBehaviour
             if(i==Current)
             {
                 pages[i].SetActive(true);
+                pages[7].SetActive(false); // close empty page
+                pages[8].SetActive(false); // close chain
+                
                 Pictures[7*(ServerScript.faction-1)+i].gameObject.SetActive(true);
+                Pictures[7*(ServerScript.faction-1)+i].material.color = new Color(1f,1f,1f,1f);
+
+                if(ServerScript.character[i]==0)
+                {
+                    pages[7].SetActive(true); // open empty page
+                    pages[8].SetActive(true); // open chain
+                    Pictures[7*(ServerScript.faction-1)+i].color = new Color(0f,0f,0f,1f);
+                }
             }
             else
             {

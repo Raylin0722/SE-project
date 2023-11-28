@@ -188,6 +188,48 @@ public class PartyManage : MonoBehaviour
             offset = 270.0f
         };
         Location_List.Add(W6);
+        Location W7 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(W7);
+        Location B1 = new Location
+        {
+            position = new Vector2(-672f,-280f),
+            offset = 270.0f
+        };
+        Location_List.Add(B1);
+        Location B2 = new Location
+        {
+            position = new Vector2(-673f,-284f),
+            offset = 270.0f
+        };
+        Location_List.Add(B2);
+        Location B3 = new Location
+        {
+            position = new Vector2(-673f,-285f),
+            offset = 270.0f
+        };
+        Location_List.Add(B3);
+        Location B4 = new Location
+        {
+            position = new Vector2(-672f,-297.195f),
+            offset = 270.0f
+        };
+        Location_List.Add(B4);
+        Location B5 = new Location
+        {
+            position = new Vector2(-673f,-274.385f),
+            offset = 270.0f
+        };
+        Location_List.Add(B5);
+        Location B6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(B6);
     }
 
 
