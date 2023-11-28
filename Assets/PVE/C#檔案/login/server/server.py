@@ -11,10 +11,17 @@ app = Flask(__name__)
 config = {
     'user': 'root',        
     'password': '114SE_project',        
-    'database': 'softwqre_engineering',        
+    'database': 'software_engineering',        
     'host': 'localhost',        
     'port': '3306'        
 }
+# config = {
+#     'user': 'root',        
+#     'password': 'password',        
+#     'database': 'mysql',        
+#     'host': 'localhost',        
+#     'port': '3306'        
+# }
 
 @app.route('/')
 def index():
@@ -23,19 +30,16 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     username = request.form.get("username")
-    email    = request.form.get("email")
     password = request.form.get("password")
 
-
-    # name_check_query = f"SELECT username FROM users WHERE username='{username}' OR email='{email}';"
-    name_check_query = "SELECT username FROM users WHERE username=%s OR email=%s;".format(username=username, email=email)
+    name_check_query = "SELECT username FROM users WHERE username=%s;"
 
     msg = ''
 
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor(buffered=True)
 
-    cur.execute(name_check_query, (username, email))
+    cur.execute(name_check_query, (username,))
     result_num = cur.rowcount
 
     if result_num != 0:
@@ -47,19 +51,19 @@ def register():
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     # user_insert_query = f"INSERT INTO users(username, email, token, hash) VALUES ('{username}', '{email}', '{token}', '{hashed_password}');"
-    user_insert_query = "INSERT INTO users(username, email, token, hash) VALUES (%s, %s, %s, %s);"
-    cur.execute(user_insert_query, (username, email, token, hashed_password))
+    user_insert_query = "INSERT INTO users(username, token, hash) VALUES (%s, %s, %s);"
+    cur.execute(user_insert_query, (username, token, hashed_password))
     cnx.commit()
-    msg = 'User register success'
+    msg = '0 User register success\t' + token
 
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
-                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', [1, 2, 3, 4, 5, 1], 0, 1, 1, 
+                "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1, 
                                                                                                                  '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
-                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
+                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', 1))
     cnx.commit()
 
-    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
-    cnx.commit()
+    # cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
+    # cnx.commit()
 
     cur.close()
     cnx.close()
@@ -69,25 +73,24 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     username = request.form.get('username')
-    email    = request.form.get('email')
     password = request.form.get('password')
 
     hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-    name_check_query = "SELECT username, token, hash FROM users WHERE username=%s OR email=%s;"
+    name_check_query = "SELECT username, token, hash FROM users WHERE username=%s;"
     
     msg = ''
 
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor(dictionary=True)
 
-    cur.execute(name_check_query, (username, email))
+    cur.execute(name_check_query, (username,))
 
     result = cur.fetchall()
     result_num = len(result)
 
     if result_num != 1:
-        msg = '{} Either no user with name, or more than one'.format(result_num)
+        msg = 'Either no user with name, or more than one'
         return msg
 
     queried_hash = result[0]['hash']
@@ -97,15 +100,15 @@ def login():
     if hashed_password != queried_hash:
         msg = 'Incorrect password'
     else:
-        msg = '0 User login success\t{token}'.format(token=token)
+        msg = '0 User login success\t' + token
     
-    updateQuery = "UPDATE users SET token=%s WHERE username=%s;"
-    cur.execute(updateQuery, (token, username))
-    cnx.commit()
-    
-    updateQuery = "UPDATE usersdata SET token=%s WHERE username=%s;"
-    cur.execute(updateQuery, (token, username))
-    cnx.commit()
+        updateQuery = "UPDATE users SET token=%s WHERE username=%s;"
+        cur.execute(updateQuery, (token, username))
+        cnx.commit()
+        
+        updateQuery = "UPDATE usersdata SET token=%s WHERE playerName=%s;"
+        cur.execute(updateQuery, (token, username))
+        cnx.commit()
     
     cur.close()
     cnx.close()
@@ -367,7 +370,7 @@ def updateData():
         result = cur.fetchall()
         if(len(result) == 1):
             timeDiff = int((datetime.now() - result[0][0]).total_seconds())
-            if  timeDiff != 0:
+            if  timeDiff >= 0:
                 energy = result[0][12]
                 remainTime = result[0][13]
                 if energy < 30:
@@ -607,13 +610,16 @@ def afterGame():
 def updateRank():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
-
+    mode = int(request.form.get('mode'))
+    
     cur.execute("select * from `rank` order by chapter desc, `level` desc;")
     result = cur.fetchall()
 
+    print(result)
+
     Rank = []
     for i in range(len(result)):
-        Rank.append([result[i][0], result[i][1], result[i][2]])
+        Rank.append(result[i][0] if mode == 1 else "%s-%s" %(result[i][1], result[i][2]))
 
     cur.close()
     cnx.close()

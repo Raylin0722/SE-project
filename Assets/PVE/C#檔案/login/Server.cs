@@ -35,7 +35,9 @@ namespace ServerMethod{
         public bool get;
         public int character;
     }
-    
+    public class Rank{
+        public List<string> data;
+    }
     public class Server : MonoBehaviour
     {
         public bool success;
@@ -58,8 +60,11 @@ namespace ServerMethod{
         public int faction;
         public int[] props;
 
+        public List<string> rankName = new List<string>();
+        public List<string> rankClear = new List<string>();
 
         void Awake(){
+            token = TokenManager.Instance.Token;
             CallUpdate();
         }
         private void Start() {
@@ -111,7 +116,9 @@ namespace ServerMethod{
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("Error2");
             }
-        
+            StartCoroutine(updateRank(1));
+            StartCoroutine(updateRank(2));
+
         }     
         public IEnumerator autoUpdate(){
             while (true){
@@ -230,6 +237,34 @@ namespace ServerMethod{
             
         }
         
-        
+        public IEnumerator updateRank(int mode){
+            WWWForm form = new WWWForm();
+            form.AddField("mode", mode);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateRank", form);
+            
+            yield return www.SendWebRequest();
+
+
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                if(mode == 1)
+                    rankName = new List<string>();
+                else
+                    rankClear = new List<string>();
+                Rank rankReturn = JsonUtility.FromJson<Rank>(response);
+
+                foreach(string data in rankReturn.data){
+                    if(mode == 1 ){
+                        rankName.Add(data);
+                    }
+                    else{
+                        rankClear.Add(data);
+                    }
+                }
+            }
+            
+            
+        }
     }
 }
