@@ -124,20 +124,25 @@ public class Setting : MonoBehaviour
         string packageName = currentActivity.Call<string>("getPackageName");
         AndroidJavaObject packageInfo = packageManager.Call<AndroidJavaObject>("getPackageInfo", packageName, 0);
         string apkVersion = "v" + packageInfo.Get<string>("versionName");
-
+        
         string[] Version_Parts = apkVersion.Split('.');
         string LAST = Version_Parts[2];
         if(int.TryParse(LAST, out int LAST_number))
         {
-            Debug.Log("LAST Version Number: " + LAST_number);
             if(LAST_number<10)
             {
                 number[LAST_number].gameObject.SetActive(true);
             }
-            else
+            else if(LAST_number<100)
             {
                 number[LAST_number/10].gameObject.SetActive(true);
-                number[LAST_number].gameObject.SetActive(true);
+                number[10+LAST_number%10].gameObject.SetActive(true);
+            }
+            else
+            {
+                number[LAST_number/100].gameObject.SetActive(true);
+                number[10+(LAST_number/10)%10].gameObject.SetActive(true);
+                number[20+LAST_number%10].gameObject.SetActive(true);
             }
         }
     }
