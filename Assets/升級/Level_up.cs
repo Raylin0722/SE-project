@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using ServerMethod;
 public class Level_up : MonoBehaviour
 {
     //蔡松豪加的

@@ -59,7 +59,7 @@ def register():
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
                 "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1, 
                                                                                                                  '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
-                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', 1))
+                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[1, 0, 0, 0]"))
     cnx.commit()
 
     # cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
@@ -401,7 +401,7 @@ def updateData():
                 data["remind"] = result[0][17]
                 data["chestTime"] = result[0][18].strftime('%Y-%m-%d %H:%M:%S')
                 data["props"] = [value for key, value in json.loads(result[0][19]).items()]
-                data["faction"] = result[0][20] 
+                data["faction"] = json.loads(result[0][20] )
                 cur.execute(updateTimequery, (energy, remainTime, token,))
                 cnx.commit()
 

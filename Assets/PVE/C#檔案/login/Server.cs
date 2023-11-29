@@ -25,7 +25,7 @@ namespace ServerMethod{
         public bool shock;
         public bool remind;
         public string chestTime;
-        public int faction;
+        public int[] faction;
         public int[] props;
     }
     public class chestReturn{
@@ -37,6 +37,10 @@ namespace ServerMethod{
     }
     public class Rank{
         public List<string> data;
+    }
+    
+    public class Return{
+        public bool success;
     }
     public class Server : MonoBehaviour
     {
@@ -57,7 +61,7 @@ namespace ServerMethod{
         public bool shock;
         public bool remind;
         public string chestTime;
-        public int faction;
+        public int[] faction;
         public int[] props;
 
         public List<string> rankName = new List<string>();
@@ -202,14 +206,14 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            bool success = new bool();
+            Return success = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
                 CallUpdate();
-                success = true;
+                success.success = true;
             }
             else
-                success = false;
+                success.success = false;
 
             yield return success;
             
@@ -224,14 +228,14 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            bool success = new bool();
+            Return success = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
                 CallUpdate();
-                success = true;
+                success.success = true;
             }
             else
-                success = false;
+                success.success = false;
 
             yield return success;
             
