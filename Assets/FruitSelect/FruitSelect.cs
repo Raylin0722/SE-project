@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class FruitSelect : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class FruitSelect : MonoBehaviour
 
     // Server.cs
     private ServerMethod.Server ServerScript;
+    [SerializeField] int[] Faction = {0,2,1,0,1,0};
 
     // Start is called before the first frame update
     void Start()
@@ -29,16 +32,19 @@ public class FruitSelect : MonoBehaviour
     // Check Button
     public void Check()
     {
+        Faction[0] = 0;
+        Faction[1] = fruit + 2;
+        Faction[fruit+2] = 1;
+        Faction[fruit+1] = 0;
         // Your code
         page_FruitSelect.SetActive(false); // Close All button in Fruit Select
         ALL_Button.SetActive(true); // Open All button in Main_Scene
-        
     }
 
     // Close All button in Main_Scene
     public void Fruit_Select()
     {
-        if(ServerScript.faction==0)
+        if(Faction[0]==1)
         {
             page_FruitSelect.SetActive(true); // Open All button in Fruit Select
             ALL_Button.SetActive(false); // Close All button in Main_Scene
