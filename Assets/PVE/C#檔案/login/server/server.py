@@ -59,11 +59,11 @@ def register():
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
                 "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1, 
                                                                                                                  '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
-                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[1, 0, 0, 0]"))
+                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[0, 1, 1, 0, 0, 0]"))
     cnx.commit()
 
-    # cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
-    # cnx.commit()
+    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
+    cnx.commit()
 
     cur.close()
     cnx.close()
@@ -401,7 +401,7 @@ def updateData():
                 data["remind"] = result[0][17]
                 data["chestTime"] = result[0][18].strftime('%Y-%m-%d %H:%M:%S')
                 data["props"] = [value for key, value in json.loads(result[0][19]).items()]
-                data["faction"] = json.loads(result[0][20] )
+                data["faction"] = json.loads(result[0][20])
                 cur.execute(updateTimequery, (energy, remainTime, token,))
                 cnx.commit()
 
@@ -630,13 +630,89 @@ def updateRank():
 
     return returnRank
 
-'''@app.route("/addFriend", methods=['get', 'post'])
+
+@app.route("updateFaction")
+def updateFaction():
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    target = int(request.form.get('target'))
+    token = request.form.get("token")
+
+    resultReturn = False
+
+    cur.execute("selcet faction from usersdata where token=%s", (token,))
+    result = cur.fetchall()
+    if len(result) == 1:
+        faction = json.loads(result[0][0])
+        faction[1] = target
+        faction[0] = 0
+
+        cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
+        cnx.commit()
+        resultReturn = True
+    
+    return str(resultReturn)
+
+@app.route("/initFaction")
+def initFaction():
+    target = int(request.form.get('target'))
+    token = request.form.get("token")
+
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    resultReturn = False
+
+    cur.execute("selcet faction from usersdata where token=%s", (token,))
+    result = cur.fetchall()
+    if len(result) == 1:
+        faction = json.loads(result[0][0])
+        if faction[0] != 0:
+            faction[0] = 1
+            faction[1] = target
+            faction[target] = 1
+
+            cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
+            cnx.commit()
+            resultReturn = True
+    
+    return str(resultReturn)
+
+
+@app.route("/addFriend")
 def addFriend():
     ()
 
-@app.route("getEnergy", methods=['get', 'post'])
+@app.route("/deletdFriend")
+def deletedFriend():
+    ()
+
+@app.route("/acceptFriend")
+def acceptFriend():
+    ()
+
+@app.route("/rejectFriend")
+def rejectFriend():
+    ()
+
+@app.route("/getEnergy")
 def getEnergy():
-    ()'''
+    ()
+
+@app.route("/sendEnergy")
+def sendEnergy():
+    ()
+
+@app.route("/blackFriend")
+def blackFriend():
+    ()
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

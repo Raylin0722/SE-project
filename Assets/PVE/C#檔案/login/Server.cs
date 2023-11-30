@@ -270,5 +270,47 @@ namespace ServerMethod{
             
             
         }
+
+        public IEnumerator updateFaction(int target){
+            WWWForm form = new WWWForm();
+            form.AddField("target", target);
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFaction", form);
+            
+            yield return www.SendWebRequest();
+            Return success = new Return();
+            if(www.result == UnityWebRequest.Result.Success){
+                CallUpdate();
+                success.success = true;
+            }
+            else
+                success.success = false;
+
+            yield return success;
+
+        }
+
+        public IEnumerator initFaction(int target){
+            WWWForm form = new WWWForm();
+            form.AddField("target", target);
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/initFaction", form);
+            
+            yield return www.SendWebRequest();
+            Return success = new Return();
+            if(www.result == UnityWebRequest.Result.Success){
+                CallUpdate();
+                success.success = true;
+            }
+            else
+                success.success = false;
+
+            yield return success;
+
+        }
+
+        
     }
 }
