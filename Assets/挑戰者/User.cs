@@ -11,44 +11,58 @@ public class USER : MonoBehaviour
 
     // Server.cs
     private ServerMethod.Server ServerScript;
-    private int Faction; 
+    [SerializeField] int[] Faction = {0,2,1,0,1,0};
 
     // Start is called before the first frame update
     void Start()
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
-        if(Faction==0)  return;
-        for(int i = 0; i<portraits.Length; i++)
+        if(Faction[0]==1)    return;
+
+        /*for(int i = 0; i<portraits.Length; i++)
         {
             portraits[i].SetActive(i==ServerScript.faction-1);
-        }
+        }*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        Update_Display(ServerScript.faction);
-        
+        Update_Display();
     }
 
     // When click < Change >
     public void Button_Change()
     {
-        ServerScript.faction = (ServerScript.faction+1)%5;
-        if(ServerScript.faction==0)
+        for(int i = Faction[1] + 1; i<Faction.Length; i++)
         {
-            ServerScript.faction = 1;
+            if(Faction[i]==1)   
+            {
+                Faction[1] = i;
+                Update_Display();
+                return;
+            }
+        }
+        for(int i = 2; i<=Faction[1]; i++)
+        {
+            if(Faction[i]==1)   
+            {
+                Faction[1] = i;
+                Update_Display();
+                return;
+            }
         }
     }
 
     // Display your portraits
-    private void Update_Display(int Faction)
+    private void Update_Display()
     {
-        if(Faction==0)  return;
+        if(Faction[0]==1)    return;
+
         // Show current page && Hide the others
         for(int i = 0; i<portraits.Length; i++)
         {
-            portraits[i].SetActive(i==Faction-1);
+            portraits[i].SetActive(i==Faction[1]-2);
         }
     }
 }

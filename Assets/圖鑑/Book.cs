@@ -14,6 +14,7 @@ public class Book : MonoBehaviour
     public Image[] Pictures; // The all pictures in Book
     private int Current = 0; // The current position about your location in Book
     private ServerMethod.Server ServerScript; // Server.cs
+    [SerializeField] int[] Faction = {0,2,1,0,1,0};
 
     // Start is called before the first frame update
     void Start()
@@ -78,14 +79,14 @@ public class Book : MonoBehaviour
                 pages[7].SetActive(false); // close empty page
                 pages[8].SetActive(false); // close chain
                 
-                Pictures[7*(ServerScript.faction-1)+i].gameObject.SetActive(true);
-                Pictures[7*(ServerScript.faction-1)+i].material.color = new Color(1f,1f,1f,1f);
+                Pictures[7*(Faction[1]-1-1)+i].gameObject.SetActive(true);
+                Pictures[7*(Faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
 
                 if(ServerScript.character[i]==0)
                 {
                     pages[7].SetActive(true); // open empty page
                     pages[8].SetActive(true); // open chain
-                    Pictures[7*(ServerScript.faction-1)+i].color = new Color(0f,0f,0f,1f);
+                    Pictures[7*(Faction[1]-1-1)+i].color = new Color(0f,0f,0f,1f);
                 }
             }
             else
