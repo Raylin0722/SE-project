@@ -25,7 +25,7 @@ namespace ServerMethod{
         public bool shock;
         public bool remind;
         public string chestTime;
-        public int faction;
+        public int[] faction;
         public int[] props;
     }
     public class chestReturn{
@@ -37,6 +37,10 @@ namespace ServerMethod{
     }
     public class Rank{
         public List<string> data;
+    }
+    
+    public class Return{
+        public bool success;
     }
     public class Server : MonoBehaviour
     {
@@ -57,17 +61,17 @@ namespace ServerMethod{
         public bool shock;
         public bool remind;
         public string chestTime;
-        public int faction;
+        public int[] faction;
         public int[] props;
 
         public List<string> rankName = new List<string>();
         public List<string> rankClear = new List<string>();
 
         void Awake(){
+            token = TokenManager.Instance.Token;
             CallUpdate();
         }
         private void Start() {
-            token = TokenManager.Instance.Token;
             StartCoroutine(autoUpdate());
         }
         public void CallUpdate() {
@@ -202,14 +206,14 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            bool success = new bool();
+            Return success = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
                 CallUpdate();
-                success = true;
+                success.success = true;
             }
             else
-                success = false;
+                success.success = false;
 
             yield return success;
             
@@ -224,14 +228,14 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            bool success = new bool();
+            Return success = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
                 CallUpdate();
-                success = true;
+                success.success = true;
             }
             else
-                success = false;
+                success.success = false;
 
             yield return success;
             
@@ -248,17 +252,18 @@ namespace ServerMethod{
 
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
-
+                if(mode == 1)
+                    rankName = new List<string>();
+                else
+                    rankClear = new List<string>();
                 Rank rankReturn = JsonUtility.FromJson<Rank>(response);
 
                 foreach(string data in rankReturn.data){
                     if(mode == 1 ){
-                        if(!rankName.Contains(data))
-                            rankName.Add(data);
+                        rankName.Add(data);
                     }
                     else{
-                        if(!rankClear.Contains(data))
-                            rankClear.Add(data);
+                        rankClear.Add(data);
                     }
                 }
             }

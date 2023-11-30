@@ -37,7 +37,7 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
             GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
 
             // 在这里，你可以获取有关该物体的信息，或执行其他操作
-            Debug.Log("Clicked on: " + clickedObject.name);
+            //Debug.Log("Clicked on: " + clickedObject.name);
             switch (clickedObject.name)
             {
                 case "西瓜-1":
