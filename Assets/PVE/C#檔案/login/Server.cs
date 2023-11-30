@@ -290,7 +290,6 @@ namespace ServerMethod{
             yield return success;
 
         }
-
         public IEnumerator initFaction(int target){
             WWWForm form = new WWWForm();
             form.AddField("target", target);
@@ -311,6 +310,6 @@ namespace ServerMethod{
 
         }
 
-        
+
     }
 }

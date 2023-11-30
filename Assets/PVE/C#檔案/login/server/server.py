@@ -565,8 +565,8 @@ def afterGame():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
     checkQuery = "select token from users where token=%s;"
-    clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName from usersdata where token=%s"
-    updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s where token=%s;"
+    clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName, faction from usersdata where token=%s"
+    updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s, faction=%s where token=%s;"
     rankQuery = "update `rank` set chapter=%s, level=%s where playerName=%s"
     
     if clear == 'True':
@@ -579,8 +579,11 @@ def afterGame():
             if len(clearResult) == 1:
                 clearance = json.loads(clearResult[0][3])
                 tear = clearResult[0][4]
+                faction = json.loads(clearResult[0][6])
                 if clearance[target] == 0:
                     tear += 2 if level >= 1 and level <= 5 else 3
+                    if level == 6:
+                        faction[chapter + 3] = 1
                 
                 
                 clearance[target] += 1
@@ -596,14 +599,18 @@ def afterGame():
                              
             
                 clearance = str(clearance).replace("'", "\"")
-                print(updateQuery %(money, expLevel, expTotal, clearance, datetime.now(), tear, token))
-                cur.execute(updateQuery, (money, expLevel, expTotal, clearance, datetime.now(), tear, token))
+                faction = str(faction).replace("'", "\"")
+                #print(updateQuery %(money, expLevel, expTotal, clearance, datetime.now(), tear, token))
+                cur.execute(updateQuery, (money, expLevel, expTotal, clearance, datetime.now(), tear, faction, token))
                 cnx.commit()
                 
                 cur.execute(rankQuery, (chapter, level, result[0][5]))
                 cnx.commit()
                 
                 success = True
+
+    cur.close()
+    cnx.close() 
     return str(success)
 
 @app.route("/updateRank", methods=['get', 'post'])
@@ -628,10 +635,11 @@ def updateRank():
 
     print(returnRank)
 
+    cur.close()
+    cnx.close() 
     return returnRank
 
-
-@app.route("updateFaction")
+@app.route("updateFaction", methods=['get', 'post'])
 def updateFaction():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -652,9 +660,11 @@ def updateFaction():
         cnx.commit()
         resultReturn = True
     
+    cur.close()
+    cnx.close() 
     return str(resultReturn)
 
-@app.route("/initFaction")
+@app.route("/initFaction", methods=['get', 'post'])
 def initFaction():
     target = int(request.form.get('target'))
     token = request.form.get("token")
@@ -677,34 +687,108 @@ def initFaction():
             cnx.commit()
             resultReturn = True
     
+    cur.close()
+    cnx.close() 
     return str(resultReturn)
 
-
-@app.route("/addFriend")
+@app.route("/addFriend", methods=['get', 'post'])
 def addFriend():
-    ()
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    insertCheckQuery = "insert into needcheckfriend(owner, friend) value(%s, %s);"
+    checkUserExist = "select username from users where username=%s;"
 
-@app.route("/deletdFriend")
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute(checkUserExist, (self,))
+    check1 = cur.fetchall()
+
+    cur.execute(checkUserExist, (friendName,))
+    check2 = cur.fetchall()
+    
+    resultReturn = False
+
+    if len(check1) == 1 and len(check2) == 1:
+        cur.execute(insertCheckQuery, (self, friendName))
+        cnx.commit()
+
+        resultReturn = True
+
+    cur.close()
+    cnx.close() 
+    
+    return str(resultReturn)
+
+@app.route("/deletdFriend", methods=['get', 'post'])
 def deletedFriend():
-    ()
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
 
-@app.route("/acceptFriend")
+@app.route("/acceptFriend", methods=['get', 'post'])
 def acceptFriend():
-    ()
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    friendQuery = "select * from needcheckfriend where owner=%s and friend=%s;"
+    deletedCheck = "delete from needcheckfriend where owner=%s and friend=%s;"
+    insertFriend = "insert into friends(owner, friend) value(%s, %s);"
 
-@app.route("/rejectFriend")
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute(friendQuery, (friendName, self))
+    friendResult = cur.fetchall()
+
+    resultReturn = False
+
+    if len(friendResult) == 1:
+        cur.execute(deletedCheck, (friendName, self))
+        cur.execute(insertFriend, (self, friendName))
+        cur.execute(insertFriend, (friendName, self))
+        cnx.commit()
+
+        resultReturn = True
+
+
+    cur.close()
+    cnx.close() 
+
+    return str(resultReturn)
+
+@app.route("/rejectFriend", methods=['get', 'post'])
 def rejectFriend():
-    ()
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    friendQuery = "select * from needcheckfriend where owner=%s and friend=%s;"
+    deletedCheck = "delete from needcheckfriend where owner=%s and friend=%s;"
 
-@app.route("/getEnergy")
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute(friendQuery, (friendName, self))
+    friendResult = cur.fetchall()
+
+    resultReturn = False
+
+    if len(friendResult) == 1:
+        cur.execute(deletedCheck, (friendName, self))
+        cnx.commit()
+        resultReturn = True
+
+    cur.close()
+    cnx.close() 
+
+    return str(resultReturn)
+
+@app.route("/getEnergy", methods=['get', 'post'])
 def getEnergy():
     ()
 
-@app.route("/sendEnergy")
+@app.route("/sendEnergy", methods=['get', 'post'])
 def sendEnergy():
     ()
 
-@app.route("/blackFriend")
+@app.route("/blackFriend", methods=['get', 'post'])
 def blackFriend():
     ()
 
