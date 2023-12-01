@@ -125,8 +125,8 @@ namespace ServerMethod{
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("Error2");
             }
-            StartCoroutine(updateRank(1));
-            StartCoroutine(updateRank(2));
+            StartCoroutine(updateRank());
+            
 
         }     
         public IEnumerator autoUpdate(){
@@ -246,9 +246,9 @@ namespace ServerMethod{
             
         }
         
-        public IEnumerator updateRank(int mode){
+        public IEnumerator updateRank(){
             WWWForm form = new WWWForm();
-            form.AddField("mode", mode);
+            
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateRank", form);
             
