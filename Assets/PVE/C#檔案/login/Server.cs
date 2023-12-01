@@ -36,7 +36,9 @@ namespace ServerMethod{
         public int character;
     }
     public class Rank{
-        public List<string> data;
+        public List<string> RankName;
+        public List<string> RankClear;
+
     }
     
     public class Return{
@@ -70,6 +72,9 @@ namespace ServerMethod{
         void Awake(){
             token = TokenManager.Instance.Token;
             CallUpdate();
+            GameObject serverObj = GameObject.Find("Server");
+            if(serverObj != null)
+                DontDestroyOnLoad(serverObj);
         }
         private void Start() {
             StartCoroutine(autoUpdate());
@@ -252,20 +257,17 @@ namespace ServerMethod{
 
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
-                if(mode == 1)
-                    rankName = new List<string>();
-                else
-                    rankClear = new List<string>();
+                
+                rankName = new List<string>();
+                rankClear = new List<string>();
+
                 Rank rankReturn = JsonUtility.FromJson<Rank>(response);
 
-                foreach(string data in rankReturn.data){
-                    if(mode == 1 ){
-                        rankName.Add(data);
-                    }
-                    else{
-                        rankClear.Add(data);
-                    }
-                }
+                foreach(string name in rankReturn.RankName)
+                    rankName.Add(name);   
+                    
+                foreach(string clear in rankReturn.RankClear)
+                    rankClear.Add(clear);
             }
             
             

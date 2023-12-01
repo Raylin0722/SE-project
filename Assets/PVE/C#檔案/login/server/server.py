@@ -628,22 +628,20 @@ def updateRank():
 
     print(result)
 
-    Rank = []
+    RankName = []
+    RankClear = []
     for i in range(len(result)):
-        Rank.append(result[i][0] if mode == 1 else "%s-%s" %(result[i][1], result[i][2]))
+        RankName.append(result[i][0])
+        RankClear.append("%s-%s" %result[i][1], result[i][2])
 
-    cur.close()
-    cnx.close()
 
-    returnRank = {"data": Rank}
-
-    print(returnRank)
+    returnRank = {"Rankname": RankName, "RankClear" : RankClear}
 
     cur.close()
     cnx.close() 
     return returnRank
 
-@app.route("updateFaction", methods=['get', 'post'])
+@app.route("/updateFaction", methods=['get', 'post'])
 def updateFaction():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -695,7 +693,7 @@ def initFaction():
     cnx.close() 
     return str(resultReturn)
 
-@app.route("/addFriend", methods=['get', 'post'])
+@app.route("/addFriend", methods=['get', 'post']) #加到申請名單
 def addFriend():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
@@ -705,10 +703,10 @@ def addFriend():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
-    cur.execute(checkUserExist, (self,))
+    cur.execute(checkUserExist, (self,)) #檢查申請人是否存在
     check1 = cur.fetchall()
 
-    cur.execute(checkUserExist, (friendName,))
+    cur.execute(checkUserExist, (friendName,)) #檢查被申請人是否存在
     check2 = cur.fetchall()
     
     resultReturn = False
@@ -724,12 +722,12 @@ def addFriend():
     
     return str(resultReturn)
 
-@app.route("/deletdFriend", methods=['get', 'post'])
+@app.route("/deletdFriend", methods=['get', 'post']) #從好友名單刪除
 def deletedFriend():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
 
-@app.route("/acceptFriend", methods=['get', 'post'])
+@app.route("/acceptFriend", methods=['get', 'post']) #接受好友
 def acceptFriend():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
@@ -759,7 +757,7 @@ def acceptFriend():
 
     return str(resultReturn)
 
-@app.route("/rejectFriend", methods=['get', 'post'])
+@app.route("/rejectFriend", methods=['get', 'post']) #拒絕好友
 def rejectFriend():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
@@ -784,15 +782,15 @@ def rejectFriend():
 
     return str(resultReturn)
 
-@app.route("/getEnergy", methods=['get', 'post'])
+@app.route("/getEnergy", methods=['get', 'post']) #拿體力
 def getEnergy():
     ()
 
-@app.route("/sendEnergy", methods=['get', 'post'])
+@app.route("/sendEnergy", methods=['get', 'post']) #送體力
 def sendEnergy():
     ()
 
-@app.route("/blackFriend", methods=['get', 'post'])
+@app.route("/blackFriend", methods=['get', 'post']) #黑名單
 def blackFriend():
     ()
 
