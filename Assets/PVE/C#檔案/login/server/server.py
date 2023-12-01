@@ -621,7 +621,6 @@ def afterGame():
 def updateRank():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
-    mode = int(request.form.get('mode'))
 
     cur.execute("select * from `rank` order by chapter desc, `level` desc;")
     result = cur.fetchall()
@@ -635,7 +634,7 @@ def updateRank():
         RankClear.append("%s-%s" %result[i][1], result[i][2])
 
 
-    returnRank = {"Rankname": RankName, "RankClear" : RankClear}
+    returnRank = {"RankName": RankName, "RankClear" : RankClear}
 
     cur.close()
     cnx.close() 
