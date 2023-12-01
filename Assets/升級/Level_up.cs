@@ -79,27 +79,21 @@ public class Level_up : MonoBehaviour
         //算出來在更新到sever
         Debug.Log(UpgradeIndex);
         page_Check_upGrade.SetActive(false);
-        //StartCoroutine(Upgrade_Surver());
+        //StartCoroutine(updateCard(UpgradeIndex));
     }
-    //Send the data to server
-    /*private IEnumerator Upgrade_Surver()
-    {
-        
-        yield return null;
-    }*/
     //when click <props>
-public void Change_props()
-{
-    int value = partyManager.GetPartyMember();
-    if(value == 0)
+    public void Change_props()
     {
-        partyManager.SetPartyMemberValue(5, 1);
+        int value = partyManager.GetPartyMember();
+        if(value == 0)
+        {
+            partyManager.SetPartyMemberValue(5, 1);
+        }
+        else if(value == 1)
+        {
+            partyManager.SetPartyMemberValue(5, 0);
+        }
     }
-    else if(value == 1)
-    {
-        partyManager.SetPartyMemberValue(5, 0);
-    }
-}
     // Update energy && money && tear
     public void Update_values()
     {
@@ -352,7 +346,7 @@ public void Change_props()
             Dollar_rate = 1.06f
         };
         // Bomb usable
-        BombUsable = (ServerScript.props[1] < 1) ? false : true;
+        BombUsable = (ServerScript.props[0] < 1) ? false : true;
     }
 
     
