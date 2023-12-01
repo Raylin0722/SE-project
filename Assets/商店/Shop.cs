@@ -140,10 +140,10 @@ public class Shop : MonoBehaviour
                     Results[3].SetActive(true);
                     break;
                 case 4:
-                    Characters[character_index].SetActive(true);
+                    Characters[character_index-1].SetActive(true);
                     break;
                 case 5:
-                    Characters[character_index].SetActive(true);
+                    Characters[character_index-1].SetActive(true);
                     MoneyRecharacter.SetActive(true);
                     InfoRecharacter.gameObject.SetActive(true);
                     yield return new WaitForSeconds(1f);
@@ -173,10 +173,10 @@ public class Shop : MonoBehaviour
                     Results[3].SetActive(true);
                     break;
                 case 4:
-                    Characters[character_index].SetActive(true);
+                    Characters[character_index-1].SetActive(true);
                     break;
                 case 5:
-                    Characters[character_index].SetActive(true);
+                    Characters[character_index-1].SetActive(true);
                     MoneyRecharacter.SetActive(true);
                     InfoRecharacter.gameObject.SetActive(true);
                     yield return new WaitForSeconds(1f);

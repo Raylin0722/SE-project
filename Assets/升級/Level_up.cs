@@ -346,7 +346,7 @@ public class Level_up : MonoBehaviour
             Dollar_rate = 1.06f
         };
         // Bomb usable
-        BombUsable = (ServerScript.props[0] < 1) ? false : true;
+        BombUsable = (ServerScript.props[1] < 1) ? false : true;
     }
 
     
