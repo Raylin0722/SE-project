@@ -65,18 +65,11 @@ def register():
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
                 "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1, 
                                                                                                                  '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
-                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[1, 0, 0, 0]"))
+                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[0, 1, 1, 0, 0, 0]"))
     cnx.commit()
 
-    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", (username,))
+    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
     cnx.commit()
-
-    # from remote server.py
-    #cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, volume, backVolume, shock, remind, chestTime, props, faction)"
-     #           "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1,
-      #                                                                                                           '{"1-1": -1, "1-2": -1, "1-3": -1, "1-4": -1, "1-5": -1, "1-6": -1, "2-1": -1, "2-2": -1, "2-3": -1, "2-4": -1, "2-5": -1, "2-6": -1}',
-#                                                                                                                 30, 100, 100, True, True, '{"1" : -1, "2" : 0}', -1))
-    #cnx.commit()
 
     cur.close()
     cnx.close()
@@ -414,7 +407,7 @@ def updateData():
                 data["remind"] = result[0][17]
                 data["chestTime"] = result[0][18].strftime('%Y-%m-%d %H:%M:%S')
                 data["props"] = [value for key, value in json.loads(result[0][19]).items()]
-                data["faction"] = json.loads(result[0][20] )
+                data["faction"] = json.loads(result[0][20])
                 cur.execute(updateTimequery, (energy, remainTime, token,))
                 cnx.commit()
 
@@ -578,8 +571,8 @@ def afterGame():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
     checkQuery = "select token from users where token=%s;"
-    clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName from usersdata where token=%s"
-    updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s where token=%s;"
+    clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName, faction from usersdata where token=%s"
+    updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s, faction=%s where token=%s;"
     rankQuery = "update `rank` set chapter=%s, level=%s where playerName=%s"
 
     if clear == 'True':
@@ -592,9 +585,13 @@ def afterGame():
             if len(clearResult) == 1:
                 clearance = json.loads(clearResult[0][3])
                 tear = clearResult[0][4]
+                faction = json.loads(clearResult[0][6])
                 if clearance[target] == 0:
                     tear += 2 if level >= 1 and level <= 5 else 3
-
+                    if level == 6:
+                        faction[chapter + 3] = 1
+                
+                
                 clearance[target] += 1
 
                 money = clearResult[0][0] + (leveltoMoneyExp[0][-1 + level if chapter == 1 else 5 + level]) * (2 ** -(clearance[target] - 1))
@@ -606,8 +603,9 @@ def afterGame():
                         expLevel += 1
 
                 clearance = str(clearance).replace("'", "\"")
-                print(updateQuery %(money, expLevel, expTotal, clearance, datetime.now(), tear, token))
-                cur.execute(updateQuery, (money, expLevel, expTotal, clearance, datetime.now(), tear, token))
+                faction = str(faction).replace("'", "\"")
+                #print(updateQuery %(money, expLevel, expTotal, clearance, datetime.now(), tear, token))
+                cur.execute(updateQuery, (money, expLevel, expTotal, clearance, datetime.now(), tear, faction, token))
                 cnx.commit()
 
                 cur.execute(rankQuery, (chapter, level, result[0][5]))
@@ -615,6 +613,8 @@ def afterGame():
 
                 success = True
 
+    cur.close()
+    cnx.close() 
     return str(success)
 
 @app.route("/updateRank", methods=['get', 'post'])
@@ -628,18 +628,180 @@ def updateRank():
 
     print(result)
 
-    Rank = []
+    RankName = []
+    RankClear = []
     for i in range(len(result)):
-        Rank.append(result[i][0] if mode == 1 else "%s-%s" %(result[i][1], result[i][2]))
+        RankName.append(result[i][0])
+        RankClear.append("%s-%s" %result[i][1], result[i][2])
+
+
+    returnRank = {"Rankname": RankName, "RankClear" : RankClear}
 
     cur.close()
-    cnx.close()
-
-    returnRank = {"data": Rank}
-
-    print(returnRank)
-
+    cnx.close() 
     return returnRank
 
-# if __name__ == "__main__":
-#     app.run(debug=True, host = "140.122.185.167", port="443",ssl_context=('/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/fullchain.pem', '/etc/letsencrypt/live/pc167.csie.ntnu.edu.tw/privkey.pem'))
+@app.route("/updateFaction", methods=['get', 'post'])
+def updateFaction():
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    target = int(request.form.get('target'))
+    token = request.form.get("token")
+
+    resultReturn = False
+
+    cur.execute("selcet faction from usersdata where token=%s", (token,))
+    result = cur.fetchall()
+    if len(result) == 1:
+        faction = json.loads(result[0][0])
+        faction[1] = target
+        faction[0] = 0
+
+        cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
+        cnx.commit()
+        resultReturn = True
+    
+    cur.close()
+    cnx.close() 
+    return str(resultReturn)
+
+@app.route("/initFaction", methods=['get', 'post'])
+def initFaction():
+    target = int(request.form.get('target'))
+    token = request.form.get("token")
+
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    resultReturn = False
+
+    cur.execute("selcet faction from usersdata where token=%s", (token,))
+    result = cur.fetchall()
+    if len(result) == 1:
+        faction = json.loads(result[0][0])
+        if faction[0] != 0:
+            faction[0] = 1
+            faction[1] = target
+            faction[target] = 1
+
+            cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
+            cnx.commit()
+            resultReturn = True
+    
+    cur.close()
+    cnx.close() 
+    return str(resultReturn)
+
+@app.route("/addFriend", methods=['get', 'post']) #加到申請名單
+def addFriend():
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    insertCheckQuery = "insert into needcheckfriend(owner, friend) value(%s, %s);"
+    checkUserExist = "select username from users where username=%s;"
+
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute(checkUserExist, (self,)) #檢查申請人是否存在
+    check1 = cur.fetchall()
+
+    cur.execute(checkUserExist, (friendName,)) #檢查被申請人是否存在
+    check2 = cur.fetchall()
+    
+    resultReturn = False
+
+    if len(check1) == 1 and len(check2) == 1:
+        cur.execute(insertCheckQuery, (self, friendName))
+        cnx.commit()
+
+        resultReturn = True
+
+    cur.close()
+    cnx.close() 
+    
+    return str(resultReturn)
+
+@app.route("/deletdFriend", methods=['get', 'post']) #從好友名單刪除
+def deletedFriend():
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+
+@app.route("/acceptFriend", methods=['get', 'post']) #接受好友
+def acceptFriend():
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    friendQuery = "select * from needcheckfriend where owner=%s and friend=%s;"
+    deletedCheck = "delete from needcheckfriend where owner=%s and friend=%s;"
+    insertFriend = "insert into friends(owner, friend) value(%s, %s);"
+
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute(friendQuery, (friendName, self))
+    friendResult = cur.fetchall()
+
+    resultReturn = False
+
+    if len(friendResult) == 1:
+        cur.execute(deletedCheck, (friendName, self))
+        cur.execute(insertFriend, (self, friendName))
+        cur.execute(insertFriend, (friendName, self))
+        cnx.commit()
+
+        resultReturn = True
+
+
+    cur.close()
+    cnx.close() 
+
+    return str(resultReturn)
+
+@app.route("/rejectFriend", methods=['get', 'post']) #拒絕好友
+def rejectFriend():
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    friendQuery = "select * from needcheckfriend where owner=%s and friend=%s;"
+    deletedCheck = "delete from needcheckfriend where owner=%s and friend=%s;"
+
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute(friendQuery, (friendName, self))
+    friendResult = cur.fetchall()
+
+    resultReturn = False
+
+    if len(friendResult) == 1:
+        cur.execute(deletedCheck, (friendName, self))
+        cnx.commit()
+        resultReturn = True
+
+    cur.close()
+    cnx.close() 
+
+    return str(resultReturn)
+
+@app.route("/getEnergy", methods=['get', 'post']) #拿體力
+def getEnergy():
+    ()
+
+@app.route("/sendEnergy", methods=['get', 'post']) #送體力
+def sendEnergy():
+    ()
+
+@app.route("/blackFriend", methods=['get', 'post']) #黑名單
+def blackFriend():
+    ()
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
+    
+

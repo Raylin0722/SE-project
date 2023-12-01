@@ -36,7 +36,9 @@ namespace ServerMethod{
         public int character;
     }
     public class Rank{
-        public List<string> data;
+        public List<string> RankName;
+        public List<string> RankClear;
+
     }
     
     public class Return{
@@ -70,6 +72,9 @@ namespace ServerMethod{
         void Awake(){
             token = TokenManager.Instance.Token;
             CallUpdate();
+            GameObject serverObj = GameObject.Find("Server");
+            if(serverObj != null)
+                DontDestroyOnLoad(serverObj);
         }
         private void Start() {
             StartCoroutine(autoUpdate());
@@ -252,23 +257,61 @@ namespace ServerMethod{
 
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
-                if(mode == 1)
-                    rankName = new List<string>();
-                else
-                    rankClear = new List<string>();
+                
+                rankName = new List<string>();
+                rankClear = new List<string>();
+
                 Rank rankReturn = JsonUtility.FromJson<Rank>(response);
 
-                foreach(string data in rankReturn.data){
-                    if(mode == 1 ){
-                        rankName.Add(data);
-                    }
-                    else{
-                        rankClear.Add(data);
-                    }
-                }
+                foreach(string name in rankReturn.RankName)
+                    rankName.Add(name);   
+                    
+                foreach(string clear in rankReturn.RankClear)
+                    rankClear.Add(clear);
             }
             
             
         }
+
+        public IEnumerator updateFaction(int target){
+            WWWForm form = new WWWForm();
+            form.AddField("target", target);
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFaction", form);
+            
+            yield return www.SendWebRequest();
+            Return success = new Return();
+            if(www.result == UnityWebRequest.Result.Success){
+                CallUpdate();
+                success.success = true;
+            }
+            else
+                success.success = false;
+
+            yield return success;
+
+        }
+        public IEnumerator initFaction(int target){
+            WWWForm form = new WWWForm();
+            form.AddField("target", target);
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/initFaction", form);
+            
+            yield return www.SendWebRequest();
+            Return success = new Return();
+            if(www.result == UnityWebRequest.Result.Success){
+                CallUpdate();
+                success.success = true;
+            }
+            else
+                success.success = false;
+
+            yield return success;
+
+        }
+
+
     }
 }
