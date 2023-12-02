@@ -53,6 +53,8 @@ public class ButtonFunction : MonoBehaviour
     float oneSec;
     float temp;
     float increment;
+    float doubleEnergy=1f;
+    float UpgradeEnergy;
 
     void Start()
     {
@@ -86,14 +88,14 @@ public class ButtonFunction : MonoBehaviour
         sec=0;
         pastTime=0f;
         oneSec=0f;
-        increment=12+GameManage.level*3+(5/7)*InsideGameUpgrade;
+        increment=(12+GameManage.level*3+(5/7)*InsideGameUpgrade)*doubleEnergy;
         currentEnergy=100+(int)increment;
         temp=currentEnergy;
         energyLimit=140+(GameManage.level)*60;
         initialEnergy=energyLimit/2;
         InsideGameUpgrade=0;
         recovery=3*GameManage.level;
-
+        UpgradeEnergy=110+5f*InsideGameUpgrade;
         //BlackBackground.SetActive(false);
         Tool.SetActive(true);
         Upgrade.SetActive(true);
@@ -251,6 +253,10 @@ public class ButtonFunction : MonoBehaviour
                 Upgrade.SetActive(false);
             }
         }
+        if(ShowMinute==0)
+        {
+            doubleEnergy=2f;
+        }
 
         if(GameIsStart)
         {
@@ -331,10 +337,11 @@ public class ButtonFunction : MonoBehaviour
         }
         
     }
-
+    
+    [SerializeField] TextMeshProUGUI Upgradetext;
     public void upgrade()
     {
-        if(currentEnergy>=(110+5*InsideGameUpgrade) && InsideGameUpgrade<7)
+        if(currentEnergy>=(UpgradeEnergy) && InsideGameUpgrade<7)
         {
             Slingshot shot = castle1.GetComponent<Slingshot>();
             if(shot.Rock!=null)
@@ -342,7 +349,7 @@ public class ButtonFunction : MonoBehaviour
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
             }
-            currentEnergy=currentEnergy-(110+5*InsideGameUpgrade);
+            currentEnergy=currentEnergy-(int)UpgradeEnergy;
             
             if(InsideGameUpgrade==6)
             {
@@ -353,13 +360,13 @@ public class ButtonFunction : MonoBehaviour
                 energyLimit+=(160/7);
             }
             InsideGameUpgrade++;
+            UpgradeEnergy=110+5*InsideGameUpgrade;
             Debug.Log(InsideGameUpgrade);
-            
+            Debug.Log(UpgradeEnergy);
+            //Text textComponent = Upgrade.GetComponent<Text>();
+            Upgradetext.text=UpgradeEnergy.ToString();
         }
-        
-
     }
-    
 }
 
 
