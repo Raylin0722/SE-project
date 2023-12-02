@@ -725,6 +725,31 @@ def addFriend():
 def deletedFriend():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
+    deletedQuery = "delete from friends where owner=%s and friend=%s;"
+    checkExistQuery = "select * from friends where owner=%s and friend=%s;"
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    
+    cur.execute(checkExistQuery, (self, friendName))
+    check1 = cur.fetchall()
+    
+    cur.execute(checkExistQuery, (friendName, self))
+    check2 = cur.fetchall()
+    
+    resultReturn = False
+    
+    if len(check1) == 1 and len(check2) == 1:
+        cur.execute(deletedQuery, (self, friendName))
+        cur.execute(deletedQuery, (friendName, self))
+        
+        cnx.commit()
+        resultReturn = True
+    
+    cur.close()
+    cnx.close() 
+    
+    return str(resultReturn)
 
 @app.route("/acceptFriend", methods=['get', 'post']) #接受好友
 def acceptFriend():
@@ -783,23 +808,73 @@ def rejectFriend():
 
 @app.route("/getEnergy", methods=['get', 'post']) #拿體力
 def getEnergy():
-    ()
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    resultReturn = False
+
+    cur.close()
+    cnx.close() 
+
+    return str(resultReturn)
 
 @app.route("/sendEnergy", methods=['get', 'post']) #送體力
 def sendEnergy():
-    ()
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    resultReturn = False
+
+    cur.close()
+    cnx.close() 
+
+    return str(resultReturn)
 
 @app.route("/blackFriend", methods=['get', 'post']) #黑名單
 def blackFriend():
-    ()
+    friendName = request.form.get("friendName")
+    self = request.form.get("self")
+    
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    
+    resultReturn = False
+    
+    cur.close()
+    cnx.close() 
 
+    return str(resultReturn)
+    
+@app.route("/updateFriend") # 更新好友名單
+def updateFriend():
+    self = request.form.get("self")
+    friensSearch = ""
+    needCheckSearch = ""
+    blackListSearch = ""
+    
+    friends = [] , needCheck = [], blackList = []
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
 
+    resultReturn = {"friends" : None, "needCheck" : None, "blackList" : None}
+    
 
-
-
-
-
-
+    cur.close()
+    cnx.close()
+    
+    return resultReturn
+    
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
     

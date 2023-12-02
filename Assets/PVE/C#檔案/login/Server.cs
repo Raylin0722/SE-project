@@ -46,6 +46,7 @@ namespace ServerMethod{
     }
     public class Server : MonoBehaviour
     {
+        public string username;
         public bool success;
         public string token;
         public int money;
@@ -71,6 +72,7 @@ namespace ServerMethod{
 
         void Awake(){
             token = TokenManager.Instance.Token;
+            username = TokenManager.Instance.Username;
             CallUpdate();
             GameObject serverObj = GameObject.Find("Server");
             if(serverObj != null)

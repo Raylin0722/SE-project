@@ -7,6 +7,7 @@ public class TokenManager : MonoBehaviour
   public static TokenManager Instance;
 
   public string Token;
+  public string Username;
 
   private void Awake()
   {
