@@ -79,7 +79,27 @@ public class Level_up : MonoBehaviour
         //算出來在更新到sever
         Debug.Log(UpgradeIndex);
         page_Check_upGrade.SetActive(false);
-        //StartCoroutine(updateCard(UpgradeIndex));
+        StartCoroutine(Upgrade_Surver(UpgradeIndex));
+    }
+    //Send the data to server
+    private IEnumerator Upgrade_Surver(int UpgradeIndex)
+    {
+        if(UpgradeIndex!=0)
+        {
+            IEnumerator coroutine = ServerScript.updateCard(UpgradeIndex,0);
+            yield return StartCoroutine(coroutine);
+            Return result = coroutine.Current as Return;
+            Debug.Log(result.success);
+        }
+        else
+        {
+            IEnumerator coroutine = ServerScript.updateCard(UpgradeIndex,1);
+            yield return StartCoroutine(coroutine);
+            Return result = coroutine.Current as Return;
+            Debug.Log(result.success);
+        }
+        
+        
     }
     //when click <props>
     public void Change_props()
