@@ -1488,6 +1488,7 @@ MonoBehaviour:
   Close_bottom: {fileID: 1436767988}
   Next_bottom: {fileID: 1881655708}
   castle1: {fileID: 1117045830}
+  castle2: {fileID: 1700648066}
   Upgradetext: {fileID: 1960192560}
 --- !u!212 &267466594
 SpriteRenderer:

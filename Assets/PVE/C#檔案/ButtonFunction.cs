@@ -35,6 +35,7 @@ public class ButtonFunction : MonoBehaviour
     [SerializeField] GameObject Close_bottom;
     [SerializeField] GameObject Next_bottom;
     [SerializeField] GameObject castle1;
+    [SerializeField] GameObject castle2;
     //
     static public int judge_victory=0;
     static public int judge_defeat=0;
@@ -246,6 +247,16 @@ public class ButtonFunction : MonoBehaviour
             ShowMinute--;
             if(ShowMinute==(-1))
             {
+                Health health_mine = castle1.GetComponent<Health>();
+                Health health_yours = castle2.GetComponent<Health>();
+                if(health_mine.currentHealth>health_yours.currentHealth)
+                {
+                    judge_victory=1;
+                }
+                else
+                {
+                    judge_defeat=1;
+                }
                 Time.timeScale=0f;
                 GameIsStart=false;
                 BlackBackground.SetActive(true);
