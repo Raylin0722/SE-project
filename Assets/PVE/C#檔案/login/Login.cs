@@ -40,6 +40,7 @@ public class Login : MonoBehaviour {
         if(www.downloadHandler.text[0] == '0') {
             Debug.Log("User Login Successfully.");
             TokenManager.Instance.Token = www.downloadHandler.text.Split('\t')[1];
+            TokenManager.Instance.Username = nameField.text;
             UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
         }else {
             Debug.Log("User login failed. Error #" + www.downloadHandler.text);
