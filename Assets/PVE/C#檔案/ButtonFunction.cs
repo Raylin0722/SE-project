@@ -57,6 +57,18 @@ public class ButtonFunction : MonoBehaviour
     float doubleEnergy=1f;
     float UpgradeEnergy;
 
+    // exp 、 dollars 、 tears for end gane
+    public Text Exp;
+    public Text Dollar;
+    public Text Tear;
+    private struct Award
+    {
+        public float exp;
+        public float dollar;
+        public float tear;
+    }
+    private List<Award> Award_List = new List<Award>();
+
     void Start()
     {
         WhiteBack.SetActive(false);
@@ -164,6 +176,7 @@ public class ButtonFunction : MonoBehaviour
         Victory_2.SetActive(true);
         Close.SetActive(true);
         Close_bottom.SetActive(true);
+        Award_Calculate(1);
     }
     public void go_Lobby()
     {
@@ -177,6 +190,7 @@ public class ButtonFunction : MonoBehaviour
         Defeat.SetActive(true);
         Close.SetActive(true);
         Close_bottom.SetActive(true);
+        Award_Calculate(0);
     }
     public void pause()
     {
@@ -377,6 +391,108 @@ public class ButtonFunction : MonoBehaviour
             //Text textComponent = Upgrade.GetComponent<Text>();
             Upgradetext.text=UpgradeEnergy.ToString();
         }
+    }
+
+    public void Award_Calculate(int state) // 0 => Lose  ,   1 => Win
+    {
+        //int[] clearance = [0,0,0,0,0,0,0,0,0,0,0,0];
+        if(state==0)
+        {
+            Exp.text = "0";
+            Dollar.text = "0";
+            Tear.text = "0";
+            return;
+        }
+        
+        Exp.text = (Award_List[6*(GameManage.currentLevel/10-1)+(GameManage.currentLevel%10-1)].exp).ToString();
+    }
+
+    private void Award_Definition()
+    {
+        Award one_of_one = new Award
+        {
+            exp = 300.0f,
+            dollar = 500.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(one_of_one);
+        Award one_of_two = new Award
+        {
+            exp = 320.0f,
+            dollar = 500.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(one_of_two);
+        Award one_of_three = new Award
+        {
+            exp = 340.0f,
+            dollar = 500.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(one_of_three);
+        Award one_of_four = new Award
+        {
+            exp = 360.0f,
+            dollar = 500.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(one_of_four);
+        Award one_of_five = new Award
+        {
+            exp = 380.0f,
+            dollar = 500.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(one_of_five);
+        Award one_of_six = new Award
+        {
+            exp = 400.0f,
+            dollar = 600.0f,
+            tear = 3.0f
+        };
+        Award_List.Add(one_of_six);
+        Award two_of_one = new Award
+        {
+            exp = 400.0f,
+            dollar = 600.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(two_of_one);
+        Award two_of_two = new Award
+        {
+            exp = 420.0f,
+            dollar = 600.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(two_of_two);
+        Award two_of_three = new Award
+        {
+            exp = 440.0f,
+            dollar = 600.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(two_of_three);
+        Award two_of_four = new Award
+        {
+            exp = 460.0f,
+            dollar = 600.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(two_of_four);
+        Award two_of_five = new Award
+        {
+            exp = 480.0f,
+            dollar = 600.0f,
+            tear = 2.0f
+        };
+        Award_List.Add(two_of_five);
+        Award two_of_six = new Award
+        {
+            exp = 500.0f,
+            dollar = 700.0f,
+            tear = 3.0f
+        };
+        Award_List.Add(two_of_six);
     }
 }
 

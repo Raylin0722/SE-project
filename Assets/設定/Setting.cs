@@ -119,6 +119,11 @@ public class Setting : MonoBehaviour
     public void Version()
     {
         // Read current version number
+        if(Application.platform!=RuntimePlatform.Android) 
+        {
+            Debug.Log("你設定下面的版本號無法顯示，因為你不是用手機!!!!");
+            return;    
+        }
         AndroidJavaObject currentActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
         AndroidJavaObject packageManager = currentActivity.Call<AndroidJavaObject>("getPackageManager");
         string packageName = currentActivity.Call<string>("getPackageName");

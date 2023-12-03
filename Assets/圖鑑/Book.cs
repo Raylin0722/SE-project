@@ -12,9 +12,9 @@ public class Book : MonoBehaviour
     public GameObject Next; // Next Button
     public GameObject[] pages; // The all page in Book
     public Image[] Pictures; // The all pictures in Book
+    public Image End; // The hint pictures for next to the end
     private int Current = 0; // The current position about your location in Book
     private ServerMethod.Server ServerScript; // Server.cs
-    [SerializeField] int[] Faction = {0,2,1,0,1,0};
 
     // Start is called before the first frame update
     void Start()
@@ -59,9 +59,18 @@ public class Book : MonoBehaviour
             if(Current>=7)
             {
                 Current = 6;
+                StartCoroutine(end(1f));
             }
             ShowPage(Current);
         }
+    }
+
+    IEnumerator end(float delay)
+    {
+        End.gameObject.SetActive(false);
+        End.gameObject.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        End.gameObject.SetActive(false);
     }
 
     private void ShowPage(int Current)
@@ -79,14 +88,14 @@ public class Book : MonoBehaviour
                 pages[7].SetActive(false); // close empty page
                 pages[8].SetActive(false); // close chain
                 
-                Pictures[7*(Faction[1]-1-1)+i].gameObject.SetActive(true);
-                Pictures[7*(Faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
+                Pictures[7*(ServerScript.faction[1]-1-1)+i].gameObject.SetActive(true);
+                Pictures[7*(ServerScript.faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
 
                 if(ServerScript.character[i]==0)
                 {
                     pages[7].SetActive(true); // open empty page
                     pages[8].SetActive(true); // open chain
-                    Pictures[7*(Faction[1]-1-1)+i].color = new Color(0f,0f,0f,1f);
+                    Pictures[7*(ServerScript.faction[1]-1-1)+i].color = new Color(0f,0f,0f,1f);
                 }
             }
             else
