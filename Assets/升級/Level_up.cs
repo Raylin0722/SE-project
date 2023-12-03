@@ -120,11 +120,17 @@ public class Level_up : MonoBehaviour
         money.text = ServerScript.money.ToString();
         for(int i = 0; i<ServerScript.character.Length; i++)
         {
-            // How to display When ServerScript.character[i] == 5
+            Level[i].fontSize = 25;
             Level[i].text = (ServerScript.character[i]+1).ToString();
             if(ServerScript.character[i]<=1)
             {
                 Dollar[i].text = (Character_Data_List[i].Dollar).ToString();
+            }
+            else if(ServerScript.character[i]==5)
+            {
+                Level[i].fontSize = 15;
+                Level[i].text = "MAX";
+                Dollar[i].text = "-";
             }
             else
             {
