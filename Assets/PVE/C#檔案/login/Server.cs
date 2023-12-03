@@ -193,11 +193,16 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
+            Return result = new Return();
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
-                Debug.Log(response);
+                result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
             }
+            else
+                result.success = false;
+            
+            yield return result;
         }
         public IEnumerator afterGame(bool clear, string target){
             WWWForm form = new WWWForm();
@@ -239,6 +244,7 @@ namespace ServerMethod{
 
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
+                Debug.Log(response);
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
                 
@@ -526,8 +532,25 @@ namespace ServerMethod{
 
             yield return result;
         }
-        /*public IEnumerator topUp(){
-            
-        }*/
+        public IEnumerator topUp(int cardID){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+            form.AddField("cardID", cardID);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/topUp", form);
+
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateUserData();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+
+        }
     }
 }
