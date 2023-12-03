@@ -102,7 +102,7 @@ namespace ServerMethod{
             StartCoroutine(updateData());
         }
         public void CallUpdateFriend(){
-            Startcoroutine(updateFriend());
+            StartCoroutine(updateFriend());
         }
         public IEnumerator updateData(){
 
@@ -198,8 +198,6 @@ namespace ServerMethod{
                 Debug.Log(response);
                 CallUpdateUserData();
             }
-            
-
         }
         public IEnumerator afterGame(bool clear, string target){
             WWWForm form = new WWWForm();
@@ -211,7 +209,7 @@ namespace ServerMethod{
             else
                 form.AddField("clear", "False");
             
-            Return result = new chestReturn();
+            Return result = new Return();
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
             
             yield return www.SendWebRequest();
@@ -528,8 +526,8 @@ namespace ServerMethod{
 
             yield return result;
         }
-        public IEnumerator topUp(){
-
-        }
+        /*public IEnumerator topUp(){
+            
+        }*/
     }
 }

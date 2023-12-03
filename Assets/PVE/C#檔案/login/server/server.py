@@ -812,8 +812,8 @@ def getFriendEnergy():
     self = request.form.get("self")
     token = request.form.get("token")
     checkExist = "select * from friends where owner=%s and friend=%s;"
-    energyCheckQuery = "select * from energy where owner=%s and friend=%s;"
-    deleteEnergyQuery = "delete from energy where owner=%s and friend=%s;"
+    energyCheckQuery = "select * from energylist where owner=%s and friend=%s;"
+    deleteEnergyQuery = "delete from energylist where owner=%s and friend=%s;"
     energyGetQuery = "update usersdata set energy=%s, remainTime=%s where token=%s"
     searchEnergy = "select energy, remainTime from usersdata where token=%s;"
     
@@ -860,8 +860,8 @@ def sendFriendEnergy():
     self = request.form.get("self")
     
     checkExist = "select * from friends where owner=%s and friend=%s;"
-    sendEnergyQuery = "insert into energy(owner, friend) value(%s, %s);"
-    energyCheckQuery = "select * from energy where owner=%s and friend=%s;"
+    sendEnergyQuery = "insert into energylist(owner, friend) value(%s, %s);"
+    energyCheckQuery = "select * from energylist where owner=%s and friend=%s;"
     
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -893,7 +893,7 @@ def blackListFriend():
     self = request.form.get("self")
     checkFriendQery = "select * from friends where owner=%s and friend=%s;"
     checkNeedCheck = "select * from needcheckfriend where owner=%s and friend=%s;"
-    checkEnergyQuery = "select * from energy where owner=%s and friend=%s;"
+    checkEnergyQuery = "select * from energylist where owner=%s and friend=%s;"
     doBlackList = "insert into blacklist(owner, friend) value(%s, %s);"
     
     cnx = mysql.connector.connect(**config)
@@ -995,7 +995,7 @@ def updateFriend():
     friendsSearch = "select friend from friends where owner=%s;"
     needCheckSearch = "select owner from needcheckfriend where friend=%s;"
     blackListSearch = "select friend from blacklist where owner=%s;"
-    energySearch = "select owner from energy where friend=%s;"
+    energySearch = "select owner from energylist where friend=%s;"
     waitAcceptSearch = "select owner from needcheckfriend where owner=%s;"
     checkExist = "select username from users where username=%s;"
     
@@ -1061,7 +1061,11 @@ def updateFriend():
     
 @app.route("/topUp", methods=['get', 'post']) # 儲值
 def topUp(): 
-    token = request.form.get()
+    token = request.form.get("token")
+    cardID = request.form.get("cardID")
+    
+    
+    
     
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
