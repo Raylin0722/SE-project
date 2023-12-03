@@ -703,14 +703,14 @@ def addFriend():
     cur = cnx.cursor()
 
     cur.execute(checkUserExist, (self,)) #檢查申請人是否存在
-    check1 = cur.fetchall()
+    checkSelf = cur.fetchall()
 
     cur.execute(checkUserExist, (friendName,)) #檢查被申請人是否存在
-    check2 = cur.fetchall()
+    checkFriend = cur.fetchall()
     
     resultReturn = False
 
-    if len(check1) == 1 and len(check2) == 1:
+    if len(checkSelf) == 1 and len(checkFriend) == 1:
         cur.execute(insertCheckQuery, (self, friendName))
         cnx.commit()
 
@@ -721,8 +721,8 @@ def addFriend():
     
     return str(resultReturn)
 
-@app.route("/deletdFriend", methods=['get', 'post']) #從好友名單刪除
-def deletedFriend():
+@app.route("/deletFriend", methods=['get', 'post']) #從好友名單刪除
+def deleteFriend():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
     deletedQuery = "delete from friends where owner=%s and friend=%s;"
@@ -732,14 +732,14 @@ def deletedFriend():
     cur = cnx.cursor()
     
     cur.execute(checkExistQuery, (self, friendName))
-    check1 = cur.fetchall()
+    checkSelf = cur.fetchall()
     
     cur.execute(checkExistQuery, (friendName, self))
-    check2 = cur.fetchall()
+    checkFriend = cur.fetchall()
     
     resultReturn = False
     
-    if len(check1) == 1 and len(check2) == 1:
+    if len(checkSelf) == 1 and len(checkFriend) == 1:
         cur.execute(deletedQuery, (self, friendName))
         cur.execute(deletedQuery, (friendName, self))
         
@@ -806,73 +806,265 @@ def rejectFriend():
 
     return str(resultReturn)
 
-@app.route("/getEnergy", methods=['get', 'post']) #拿體力
-def getEnergy():
+@app.route("/getFriendEnergy", methods=['get', 'post']) #拿體力
+def getFriendEnergy():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
-    
+    token = request.form.get("token")
+    checkExist = "select * from friends where owner=%s and friend=%s;"
+    energyCheckQuery = "select * from energylist where owner=%s and friend=%s;"
+    deleteEnergyQuery = "delete from energylist where owner=%s and friend=%s;"
+    energyGetQuery = "update usersdata set energy=%s, remainTime=%s where token=%s"
+    searchEnergy = "select energy, remainTime from usersdata where token=%s;"
     
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
     resultReturn = False
 
+    cur.execute(checkExist, (self, friendName))
+    checkSelf = cur.fetchall()
+    
+    cur.execute(checkExist, (friendName, self))
+    checkFriend = cur.fetchall()
+    
+    cur.execute(energyCheckQuery, (friendName, self))
+    checkEnergy = cur.fetchall()
+    
+    if len(checkSelf) == 1 and len(checkFriend) == 1 and len(checkEnergy) == 1:
+        cur.execute(searchEnergy, (token,))
+        result = cur.fetchall()
+        if len(result) == 1:
+            energy = result[0][0]
+            remainTime = result[0][1]
+            energy += 5
+            if energy >= 30:
+                energy = 30
+                remainTime = 0
+            
+            cur.execute(energyGetQuery, (energy, remainTime, token))
+            cur.execute(deleteEnergyQuery, (friendName, self))
+            cnx.commit()
+            resultReturn = True
+            
+            
+
     cur.close()
     cnx.close() 
 
     return str(resultReturn)
 
-@app.route("/sendEnergy", methods=['get', 'post']) #送體力
-def sendEnergy():
+@app.route("/sendFriendEnergy", methods=['get', 'post']) #送體力
+def sendFriendEnergy():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
     
+    checkExist = "select * from friends where owner=%s and friend=%s;"
+    sendEnergyQuery = "insert into energylist(owner, friend) value(%s, %s);"
+    energyCheckQuery = "select * from energylist where owner=%s and friend=%s;"
     
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
+    cur.execute(checkExist, (self, friendName))
+    checkSelf = cur.fetchall()
+    
+    cur.execute(checkExist, (friendName, self))
+    checkFriend = cur.fetchall()
+
+    cur.execute(energyCheckQuery, (friendName, self))
+    checkEnergy = cur.fetchall()
+
     resultReturn = False
+
+    if len(checkSelf) == 1 and len(checkFriend) == 1 and len(checkEnergy) == 0:
+        cur.execute(sendEnergyQuery, (self, friendName))
+        cnx.commit()
+        resultReturn = True
 
     cur.close()
     cnx.close() 
 
     return str(resultReturn)
 
-@app.route("/blackFriend", methods=['get', 'post']) #黑名單
-def blackFriend():
+@app.route("/blackListFriend", methods=['get', 'post']) #黑名單
+def blackListFriend():
     friendName = request.form.get("friendName")
     self = request.form.get("self")
-    
+    checkFriendQery = "select * from friends where owner=%s and friend=%s;"
+    checkNeedCheck = "select * from needcheckfriend where owner=%s and friend=%s;"
+    checkEnergyQuery = "select * from energylist where owner=%s and friend=%s;"
+    doBlackList = "insert into blacklist(owner, friend) value(%s, %s);"
     
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
+    resultReturn = True
     
-    resultReturn = False
     
+    cur.execute(checkFriendQery, (self, friendName))
+    result = cur.fetchall()
+    if len(result) > 0:
+        try:
+            cur.execute("delete from friends where owner=%s and friend=%s;", (self, friendName))
+        except:
+            resultReturn = False
+        
+    cur.execute(checkFriendQery, (friendName, self))
+    result = cur.fetchall()
+    if len(result) > 0:
+        try:
+            cur.execute("delete from friends where owner=%s and friend=%s;", (friendName, self))
+        except:
+            resultReturn = False
+        
+    cur.execute(checkNeedCheck, (self, friendName))
+    result = cur.fetchall()
+    if len(result) > 0:
+        try:
+            cur.execute("delete from needcheckfriend where owner=%s and friend=%s;", (self, friendName))
+        except:
+            resultReturn = False
+        
+    cur.execute(checkNeedCheck, (friendName, self))
+    result = cur.fetchall()
+    if len(result) > 0:
+        try:
+            cur.execute("delete from needcheckfriend where owner=%s and friend=%s;", (friendName, self))
+        except:
+            resultReturn = False
+        
+    cur.execute(checkEnergyQuery, (self, friendName))
+    result = cur.fetchall()
+    if len(result) > 0:
+        try:
+            cur.execute("delete from energy where owner=%s and friend=%s;", (self, friendName))
+        except:
+            resultReturn = False
+        
+        
+    cur.execute(checkEnergyQuery, (friendName, self))
+    result = cur.fetchall()
+    if len(result) > 0:
+        try:
+            cur.execute("delete from energy where owner=%s and friend=%s;", (friendName, self))
+        except:
+            resultReturn = False
+    
+    cur.execute(doBlackList, (self,friendName))
+    cur.execute(doBlackList, (friendName, self))
+    
+    cnx.commit()
     cur.close()
     cnx.close() 
 
     return str(resultReturn)
+
+@app.route("/cancelBlackList", methods=['get', 'post'])
+def cancelBlackList():
+    self= request.form.get("self")
+    friendName = request.form.get("friendName")
     
-@app.route("/updateFriend") # 更新好友名單
+    checkExistQuery = "select * from blacklist where owner=%s and friend=%s;"
+    cancelBlackQuery = "delete from blacklist where owner=%s and friend=%s;"
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    resultReturn = True
+    
+    cur.execute(checkExistQuery, (self, friendName))
+    checkSelf = cur.fetchall()
+    
+    cur.execute(checkExistQuery, (friendName, self))
+    checkFriend = cur.fetchall()
+    
+    if len(checkSelf) == 1 and len(checkFriend) == 1:
+        cur.execute(cancelBlackQuery, (self, friendName))
+        cur.execute(cancelBlackQuery, (friendName, self))
+        cnx.commit()
+        resultReturn = True
+  
+    cur.close()
+    cnx.close() 
+
+    return str(resultReturn)
+  
+@app.route("/updateFriend", methods=['get', 'post']) # 更新好友名單 領體力名單
 def updateFriend():
     self = request.form.get("self")
-    friensSearch = ""
-    needCheckSearch = ""
-    blackListSearch = ""
     
-    friends = [] , needCheck = [], blackList = []
+    friendsSearch = "select friend from friends where owner=%s;"
+    needCheckSearch = "select owner from needcheckfriend where friend=%s;"
+    blackListSearch = "select friend from blacklist where owner=%s;"
+    energySearch = "select owner from energylist where friend=%s;"
+    waitAcceptSearch = "select owner from needcheckfriend where owner=%s;"
+    checkExist = "select username from users where username=%s;"
+    
+    friends = [], needCheck = [], blackList = [], energyGet = [], energySend = [], waitAccept = []
     
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
-    resultReturn = {"friends" : None, "needCheck" : None, "blackList" : None}
+    resultReturn = {"success": False, "friends" : None, "needCheck" : None, "blackList" : None, "energyGet" : None, "energySend" : None, "waitAccept" : None}
     
-
+    cur.execute(checkExist, (self,))
+    result = cur.fetchall()
+    
+    if len(result) == 1:
+        cur.execute(friendsSearch, (self,))
+        resultFriend = cur.fetchall()
+        cur.execute(needCheckSearch, (self,))
+        resultNeedCheck = cur.fetchall()
+        cur.execute(blackListSearch, (self,))
+        resultBlackList = cur.fetchall()
+        cur.execute(energySearch, (self,))
+        resultEnergyGet = cur.fetchall()
+        cur.execute(waitAcceptSearch, (self,))
+        resultWaitAccept = cur.fetchall()
+        cur.execute("select friend from energy where owner=%s;", (self,))
+        resultEnergySend = cur.fetchall()
+        
+        
+        
+        
+        for i in range(max(len(resultFriend), len(resultNeedCheck), len(resultBlackList), len(resultEnergyGet), len(resultWaitAccept), len(resultEnergySend))):
+            if i < len(resultFriend): # 好友
+                friends.append(resultFriend[i][0])
+            
+            if i < len(resultNeedCheck): # 待同意的好友申請
+                needCheck.append(resultNeedCheck[i][0])
+                
+            if i < len(resultWaitAccept): # 等待回覆的好友申請
+                waitAccept.append(resultWaitAccept[i][0])
+            
+            if i < len(resultBlackList): # 黑名單
+                blackList.append(resultBlackList[i][0])
+            
+            if i < len(resultEnergyGet): # 待領取的體力
+                energyGet.append(resultEnergyGet[i][0])
+            
+            if i < len(resultEnergySend): # 待領取的體力
+                energySend.append(resultEnergySend[i][0])
+                
+        resultReturn["friends"] = friends
+        resultReturn["needCheck"] = needCheck
+        resultReturn["blackList"] = blackList
+        resultReturn["waitAccept"] = waitAccept
+        resultReturn["energyGet"] = energyGet
+        resultReturn["energySend"] = energySend
+        resultReturn["success"] = True
+        
     cur.close()
     cnx.close()
     
     return resultReturn
+  
+    
+@app.route("/topUp", methods=['get', 'post']) # 儲值
+def topUp(): 
+    token = request.form.get("token")
+    cardID = request.form.get("cardID")
+    
+    
     
     
 if __name__ == "__main__":

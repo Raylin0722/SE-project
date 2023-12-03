@@ -44,6 +44,17 @@ namespace ServerMethod{
     public class Return{
         public bool success;
     }
+
+    public class FriendData{
+        public bool success;
+        public List<string> friends; // 以新增好友之名單
+        public List<string> needCheck; // 待同意之名單
+        public List<string> blackList; // 黑名單
+        public List<string> waitAccept; // 待對方回覆名單
+        public List<string> energyGet; // 獲得體力未領取名單
+        public List<string> energySend; // 贈送體力未領取名單
+    }
+
     public class Server : MonoBehaviour
     {
         public string username;
@@ -69,11 +80,17 @@ namespace ServerMethod{
 
         public List<string> rankName = new List<string>();
         public List<string> rankClear = new List<string>();
-
+        public List<string> friends = new List<string>(); // 以新增好友之名單
+        public List<string> needCheck = new List<string>(); // 待同意之名單
+        public List<string> blackList = new List<string>(); // 黑名單
+        public List<string> waitAccept = new List<string>(); // 待對方回覆名單
+        public List<string> energyGet = new List<string>(); // 獲得體力未領取名單
+        public List<string> energySend = new List<string>(); // 贈送體力未領取名單
+ 
         void Awake(){
             token = TokenManager.Instance.Token;
             username = TokenManager.Instance.Username;
-            CallUpdate();
+            CallUpdateUserData();
             GameObject serverObj = GameObject.Find("Server");
             if(serverObj != null)
                 DontDestroyOnLoad(serverObj);
@@ -81,8 +98,11 @@ namespace ServerMethod{
         private void Start() {
             StartCoroutine(autoUpdate());
         }
-        public void CallUpdate() {
+        public void CallUpdateUserData() {
             StartCoroutine(updateData());
+        }
+        public void CallUpdateFriend(){
+            StartCoroutine(updateFriend());
         }
         public IEnumerator updateData(){
 
@@ -128,7 +148,7 @@ namespace ServerMethod{
                 Debug.Log("Error2");
             }
             StartCoroutine(updateRank());
-            
+            StartCoroutine(updateFriend());
 
         }     
         public IEnumerator autoUpdate(){
@@ -156,7 +176,7 @@ namespace ServerMethod{
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<chestReturn>(response);
-                CallUpdate();
+                CallUpdateUserData();
             }
             else{
                 result.success = false;
@@ -176,10 +196,8 @@ namespace ServerMethod{
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
                 Debug.Log(response);
-                CallUpdate();
+                CallUpdateUserData();
             }
-            
-
         }
         public IEnumerator afterGame(bool clear, string target){
             WWWForm form = new WWWForm();
@@ -191,16 +209,20 @@ namespace ServerMethod{
             else
                 form.AddField("clear", "False");
             
-
+            Return result = new Return();
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
             
             yield return www.SendWebRequest();
 
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
-                Debug.Log(response);
-                CallUpdate();
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateUserData();
             }
+            else    
+                result.success = false;
+
+            yield return result;
 
         }
         public IEnumerator updateCard(int target, int mode){
@@ -213,16 +235,18 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            Return success = new Return();
+            Return result = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
-                CallUpdate();
-                success.success = true;
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateUserData();
+                
             }
             else
-                success.success = false;
+                result.success = false;
 
-            yield return success;
+            yield return result;
             
         }
         public IEnumerator updateLineup(int[] lineup){
@@ -235,19 +259,19 @@ namespace ServerMethod{
             
             yield return www.SendWebRequest();
 
-            Return success = new Return();
+            Return result = new Return();
 
             if(www.result == UnityWebRequest.Result.Success){
-                CallUpdate();
-                success.success = true;
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateUserData();    
             }
             else
-                success.success = false;
+                result.success = false;
 
-            yield return success;
+            yield return result;
             
-        }
-        
+        }   
         public IEnumerator updateRank(){
             WWWForm form = new WWWForm();
             
@@ -274,7 +298,6 @@ namespace ServerMethod{
             
             
         }
-
         public IEnumerator updateFaction(int target){
             WWWForm form = new WWWForm();
             form.AddField("target", target);
@@ -283,15 +306,16 @@ namespace ServerMethod{
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFaction", form);
             
             yield return www.SendWebRequest();
-            Return success = new Return();
+            Return result = new Return();
             if(www.result == UnityWebRequest.Result.Success){
-                CallUpdate();
-                success.success = true;
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateUserData();
             }
             else
-                success.success = false;
+                result.success = false;
 
-            yield return success;
+            yield return result;
 
         }
         public IEnumerator initFaction(int target){
@@ -302,18 +326,208 @@ namespace ServerMethod{
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/initFaction", form);
             
             yield return www.SendWebRequest();
-            Return success = new Return();
+            Return result = new Return();
             if(www.result == UnityWebRequest.Result.Success){
-                CallUpdate();
-                success.success = true;
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateUserData();
             }
             else
-                success.success = false;
+                result.success = false;
 
-            yield return success;
+            yield return result;
 
         }
+        public IEnumerator updateFriend(){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
 
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFriend", form);
+            
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                
+                friends = new List<string>();
+                needCheck = new List<string>();
+                blackList = new List<string>();
+                energyGet = new List<string>();
+                energySend = new List<string>();
+                waitAccept = new List<string>();
+                blackList = new List<string>();
 
+                FriendData data = JsonUtility.FromJson<FriendData>(response);
+
+                foreach(string name in data.friends)
+                    friends.Add(name);   
+                    
+                foreach(string check in data.needCheck)
+                    needCheck.Add(check);
+                foreach(string black in data.blackList)
+                    blackList.Add(black);
+                foreach(string get in data.energyGet)
+                    energyGet.Add(get);
+                foreach(string send in data.energySend)
+                    energySend.Add(send);
+                foreach(string wait in data.waitAccept)
+                    waitAccept.Add(wait);
+            }
+
+        }
+        public IEnumerator addFriend(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/addFriend", form);
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        public IEnumerator deleteFriend(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/deleteFriend", form);
+            
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        public IEnumerator acceptFriend(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/acceptFriend", form);
+            
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        public IEnumerator rejectFriend(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/rejectFriend", form);
+
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        public IEnumerator blackListFriend(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/blackListFriend", form);
+            
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        public IEnumerator cancelBlackList(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/cancelBlackList", form);
+
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        public IEnumerator sendFriendEnergy(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/sendFriendEnergy", form);
+
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        public IEnumerator getFriendEnergy(string friendName){
+            WWWForm form = new WWWForm();
+            form.AddField("self", username);
+            form.AddField("friendName", friendName);
+            form.AddField("token", token);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/getFriendEnergy", form);
+
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateFriend();
+            }
+            else
+                result.success = false;
+
+            yield return result;
+        }
+        /*public IEnumerator topUp(){
+            
+        }*/
     }
 }

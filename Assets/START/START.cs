@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Threading;
 using UnityEngine.SceneManagement;
 using TMPro;
+using ServerMethod;
 
 public class START : MonoBehaviour
 {
@@ -79,7 +80,7 @@ public class START : MonoBehaviour
                 GameManage.currentLevel=26;
                 break;
         }
-        
+        StartCoroutine(ServerScript.beforeGame());
         SceneManager.LoadScene("Background", LoadSceneMode.Single);
         
     }
