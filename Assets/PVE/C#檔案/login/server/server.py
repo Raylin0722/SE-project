@@ -422,7 +422,7 @@ def updateCard():
     target = int(request.form.get("target"))
     mode = int(request.form.get("mode"))
 
-    returnResult = False
+    returnResult = {"success" : False}
 
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -448,7 +448,7 @@ def updateCard():
                     character[str(target)] += 1
                     cur.execute("update usersdata set money=%s, `character`=%s where token=%s;", (money, str(character).replace("'", "\""), token))
                     cnx.commit()
-                    returnResult = True
+                    returnResult["success"] = True
             elif mode == 1:
                 orginLevel = moneyResult[0][2]
                 print(updateMoney[mode])
@@ -461,12 +461,12 @@ def updateCard():
                     slingshotLevel += 1
                     cur.execute("update usersdata set money=%s, castleLevel=%s, slingshotLevel=%s where token=%s;", (money, castleLevel, slingshotLevel, token))
                     cnx.commit()
-                    returnResult = True
+                    returnResult["success"] = True
 
     cur.close()
     cnx.close()
 
-    return str(returnResult)
+    return returnResult
 
 @app.route("/updateLineup", methods=['GET', 'POST'])
 def updateLineup():
@@ -475,7 +475,7 @@ def updateLineup():
 
     lineupArr = json.loads(lineup.replace("'", "\""))
 
-    returnResult = False
+    returnResult = {"success" : False}
 
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -505,12 +505,12 @@ def updateLineup():
             cur.execute("update usersdata set lineup=%s where token=%s", (lineupArr, token))
             cnx.commit()
 
-            returnResult = True
+            returnResult["success"] = True
 
     cur.close()
     cnx.close()
 
-    return str(returnResult)
+    return returnResult
 
 @app.route("/beforeGame", methods=['GET', 'POST'])
 def beforeGame():
@@ -520,7 +520,7 @@ def beforeGame():
 
     #token = request.args.get('token')
 
-    success = False
+    success = {"success" : False}
     checkQuery = "select token from users where token=%s;"
     energyQuery = "select energy, updateTime, remainTime from usersdata where token=%s;"
     updateQuery = "update usersdata set updateTime=%s, energy=%s, remaindTime=%s where token=%s;"
@@ -549,17 +549,17 @@ def beforeGame():
 
                 cur.execute(updateQuery, (datetime.now(), energy, remainTime, token))
                 cnx.commit()
-                success = True
+                success["success"] = True
 
     cur.close()
     cnx.close()
 
-    return str(success)
+    return success
 
 @app.route("/afterGame", methods=['GET', 'POST'])
 def afterGame():
     leveltoMoneyExp = [[500, 500, 500, 500, 500, 600, 600, 600, 600, 600, 600, 700], [300, 320, 340, 360, 380, 400, 400, 420, 440, 460, 480, 500]]
-    success = False
+    success = {"success" : False}
     token = request.form.get('token')
     clear = request.form.get('clear')
     target = request.form.get('target')
@@ -611,11 +611,11 @@ def afterGame():
                 cur.execute(rankQuery, (chapter, level, result[0][5]))
                 cnx.commit()
 
-                success = True
+                success["success"] = True
 
     cur.close()
     cnx.close() 
-    return str(success)
+    return success
 
 @app.route("/updateRank", methods=['get', 'post'])
 def updateRank():
@@ -648,7 +648,7 @@ def updateFaction():
     target = int(request.form.get('target'))
     token = request.form.get("token")
 
-    resultReturn = False
+    resultReturn = {"success" : False}
 
     cur.execute("selcet faction from usersdata where token=%s", (token,))
     result = cur.fetchall()
@@ -659,11 +659,11 @@ def updateFaction():
 
         cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
         cnx.commit()
-        resultReturn = True
+        resultReturn["success"] = True
     
     cur.close()
     cnx.close() 
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/initFaction", methods=['get', 'post'])
 def initFaction():
@@ -673,7 +673,7 @@ def initFaction():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
-    resultReturn = False
+    resultReturn = {"success" : False}
 
     cur.execute("selcet faction from usersdata where token=%s", (token,))
     result = cur.fetchall()
@@ -686,11 +686,11 @@ def initFaction():
 
             cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
             cnx.commit()
-            resultReturn = True
+            resultReturn["success"] = True
     
     cur.close()
     cnx.close() 
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/addFriend", methods=['get', 'post']) #加到申請名單
 def addFriend():
@@ -708,18 +708,18 @@ def addFriend():
     cur.execute(checkUserExist, (friendName,)) #檢查被申請人是否存在
     checkFriend = cur.fetchall()
     
-    resultReturn = False
+    resultReturn = {"success" : False}
 
     if len(checkSelf) == 1 and len(checkFriend) == 1:
         cur.execute(insertCheckQuery, (self, friendName))
         cnx.commit()
 
-        resultReturn = True
+        resultReturn["success"] = True
 
     cur.close()
     cnx.close() 
     
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/deletFriend", methods=['get', 'post']) #從好友名單刪除
 def deleteFriend():
@@ -737,19 +737,19 @@ def deleteFriend():
     cur.execute(checkExistQuery, (friendName, self))
     checkFriend = cur.fetchall()
     
-    resultReturn = False
+    resultReturn = {"success" : False}
     
     if len(checkSelf) == 1 and len(checkFriend) == 1:
         cur.execute(deletedQuery, (self, friendName))
         cur.execute(deletedQuery, (friendName, self))
         
         cnx.commit()
-        resultReturn = True
+        resultReturn["success"] = True
     
     cur.close()
     cnx.close() 
     
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/acceptFriend", methods=['get', 'post']) #接受好友
 def acceptFriend():
@@ -765,7 +765,7 @@ def acceptFriend():
     cur.execute(friendQuery, (friendName, self))
     friendResult = cur.fetchall()
 
-    resultReturn = False
+    resultReturn = {"success" : False}
 
     if len(friendResult) == 1:
         cur.execute(deletedCheck, (friendName, self))
@@ -773,13 +773,13 @@ def acceptFriend():
         cur.execute(insertFriend, (friendName, self))
         cnx.commit()
 
-        resultReturn = True
+        resultReturn["success"] = True
 
 
     cur.close()
     cnx.close() 
 
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/rejectFriend", methods=['get', 'post']) #拒絕好友
 def rejectFriend():
@@ -794,17 +794,17 @@ def rejectFriend():
     cur.execute(friendQuery, (friendName, self))
     friendResult = cur.fetchall()
 
-    resultReturn = False
+    resultReturn = {"success" : False}
 
     if len(friendResult) == 1:
         cur.execute(deletedCheck, (friendName, self))
         cnx.commit()
-        resultReturn = True
+        resultReturn["success"] = True
 
     cur.close()
     cnx.close() 
 
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/getFriendEnergy", methods=['get', 'post']) #拿體力
 def getFriendEnergy():
@@ -820,7 +820,7 @@ def getFriendEnergy():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
-    resultReturn = False
+    resultReturn = {"success" : False}
 
     cur.execute(checkExist, (self, friendName))
     checkSelf = cur.fetchall()
@@ -845,14 +845,14 @@ def getFriendEnergy():
             cur.execute(energyGetQuery, (energy, remainTime, token))
             cur.execute(deleteEnergyQuery, (friendName, self))
             cnx.commit()
-            resultReturn = True
+            resultReturn["success"] = True
             
             
 
     cur.close()
     cnx.close() 
 
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/sendFriendEnergy", methods=['get', 'post']) #送體力
 def sendFriendEnergy():
@@ -875,17 +875,17 @@ def sendFriendEnergy():
     cur.execute(energyCheckQuery, (friendName, self))
     checkEnergy = cur.fetchall()
 
-    resultReturn = False
+    resultReturn = {"success" : False}
 
     if len(checkSelf) == 1 and len(checkFriend) == 1 and len(checkEnergy) == 0:
         cur.execute(sendEnergyQuery, (self, friendName))
         cnx.commit()
-        resultReturn = True
+        resultReturn["success"] = True
 
     cur.close()
     cnx.close() 
 
-    return str(resultReturn)
+    return resultReturn
 
 @app.route("/blackListFriend", methods=['get', 'post']) #黑名單
 def blackListFriend():
@@ -907,7 +907,7 @@ def blackListFriend():
         try:
             cur.execute("delete from friends where owner=%s and friend=%s;", (self, friendName))
         except:
-            resultReturn = False
+            resultReturn["success"] = False
         
     cur.execute(checkFriendQery, (friendName, self))
     result = cur.fetchall()
@@ -915,7 +915,7 @@ def blackListFriend():
         try:
             cur.execute("delete from friends where owner=%s and friend=%s;", (friendName, self))
         except:
-            resultReturn = False
+            resultReturn["success"] = False
         
     cur.execute(checkNeedCheck, (self, friendName))
     result = cur.fetchall()
@@ -923,7 +923,7 @@ def blackListFriend():
         try:
             cur.execute("delete from needcheckfriend where owner=%s and friend=%s;", (self, friendName))
         except:
-            resultReturn = False
+            resultReturn["success"] = False
         
     cur.execute(checkNeedCheck, (friendName, self))
     result = cur.fetchall()
@@ -931,7 +931,7 @@ def blackListFriend():
         try:
             cur.execute("delete from needcheckfriend where owner=%s and friend=%s;", (friendName, self))
         except:
-            resultReturn = False
+            resultReturn["success"] = False
         
     cur.execute(checkEnergyQuery, (self, friendName))
     result = cur.fetchall()
@@ -939,7 +939,7 @@ def blackListFriend():
         try:
             cur.execute("delete from energy where owner=%s and friend=%s;", (self, friendName))
         except:
-            resultReturn = False
+            resultReturn["success"] = False
         
         
     cur.execute(checkEnergyQuery, (friendName, self))
@@ -948,7 +948,7 @@ def blackListFriend():
         try:
             cur.execute("delete from energy where owner=%s and friend=%s;", (friendName, self))
         except:
-            resultReturn = False
+            resultReturn["success"] = False
     
     cur.execute(doBlackList, (self,friendName))
     cur.execute(doBlackList, (friendName, self))
@@ -957,36 +957,8 @@ def blackListFriend():
     cur.close()
     cnx.close() 
 
-    return str(resultReturn)
+    return resultReturn
 
-@app.route("/cancelBlackList", methods=['get', 'post'])
-def cancelBlackList():
-    self= request.form.get("self")
-    friendName = request.form.get("friendName")
-    
-    checkExistQuery = "select * from blacklist where owner=%s and friend=%s;"
-    cancelBlackQuery = "delete from blacklist where owner=%s and friend=%s;"
-    
-    cnx = mysql.connector.connect(**config)
-    cur = cnx.cursor()
-    resultReturn = True
-    
-    cur.execute(checkExistQuery, (self, friendName))
-    checkSelf = cur.fetchall()
-    
-    cur.execute(checkExistQuery, (friendName, self))
-    checkFriend = cur.fetchall()
-    
-    if len(checkSelf) == 1 and len(checkFriend) == 1:
-        cur.execute(cancelBlackQuery, (self, friendName))
-        cur.execute(cancelBlackQuery, (friendName, self))
-        cnx.commit()
-        resultReturn = True
-  
-    cur.close()
-    cnx.close() 
-
-    return str(resultReturn)
   
 @app.route("/updateFriend", methods=['get', 'post']) # 更新好友名單 領體力名單
 def updateFriend():
@@ -1064,10 +1036,10 @@ def topUp():
     token = request.form.get("token")
     cardID = int(request.form.get("cardID")) # 0 不能用 1 可以用
     
-    resultReturn = False
+    resultReturn = {"success" : False}
     
     if cardID == 0:
-        return str(resultReturn)
+        return resultReturn
     
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
@@ -1078,7 +1050,7 @@ def topUp():
     if len(result) == 1:
         cur.execute("update usersdata set tear=%s where token=%s;", (result[0][0] + 10, token))
         cnx.commit()
-        resultReturn = True
+        resultReturn["success"] = True
     
     cur.close()
     cnx.close()
