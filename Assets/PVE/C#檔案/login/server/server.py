@@ -1062,7 +1062,29 @@ def updateFriend():
 @app.route("/topUp", methods=['get', 'post']) # 儲值
 def topUp(): 
     token = request.form.get("token")
-    cardID = request.form.get("cardID")
+    cardID = int(request.form.get("cardID")) # 0 不能用 1 可以用
+    
+    resultReturn = False
+    
+    if cardID == 0:
+        return str(resultReturn)
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+    
+    cur.execute("select tear from usersdata where token=%s;", (token, ))
+    result = cur.fetchall()
+    
+    if len(result) == 1:
+        cur.execute("update usersdata set tear=%s where token=%s;", (result[0][0] + 10, token))
+        cnx.commit()
+        resultReturn = True
+    
+    cur.close()
+    cnx.close()
+    
+    return resultReturn
+    
     
     
     
