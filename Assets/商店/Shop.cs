@@ -14,13 +14,21 @@ public class Shop : MonoBehaviour
     public GameObject Special_Bottom;
     [SerializeField] GameObject[] Results;
 
+    [SerializeField] GameObject[] Characters;
+    public GameObject MoneyRecharacter;
+    public Text MoneyRecharacterNum;
+    public Text InfoRecharacter;
     private bool If_Special=false;
     //
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Close; // Close Button
     public GameObject page_Shop; // the page which you want to close
     public GameObject Ordinary_Open; // Ordinary Open Button
+    public GameObject Ordinary_Box_close; // Ordinary Box with closing
+    public GameObject Ordinary_Box_open; // Ordinary Box with openning
     public GameObject Special_Open; // Special Open Button
+    public GameObject Special_Box_close; // Special Box with closing
+    public GameObject Special_Box_open; // Special Box with openning
     public Image White_Image; // White image
     private float Time_White = 1.0f; // the duration of the picture becomes larger
     public GameObject serverdata;
@@ -52,6 +60,8 @@ public class Shop : MonoBehaviour
     // When click NORMAL < OPEN > 
     public void Button_normal_OPEN()
     {
+        Ordinary_Box_close.gameObject.SetActive(false); // Ordinary Box with closing
+        Ordinary_Box_open.gameObject.SetActive(true); // Ordinary Box with openning
         White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
         StartCoroutine(Fade_Screen(true)); // the fading animation before the drawing
@@ -61,6 +71,8 @@ public class Shop : MonoBehaviour
     public void Button_special_OPEN()
     {
         Debug.Log("我開了");
+        Special_Box_close.gameObject.SetActive(false); // Special Box with closing
+        Special_Box_open.gameObject.SetActive(true); // Special Box with openning
         White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
         StartCoroutine(Fade_Screen(false)); // the fading animation before the drawing
@@ -97,7 +109,7 @@ public class Shop : MonoBehaviour
             Debug.Log("錯誤狀況(出現-1表示時間未到或淚水不足 出現-2請立即呼叫Raylin 感恩): " + result.situation);
         }
         //顯示抽獎
-        Show_Result(result.result);
+        StartCoroutine(Show_Result(result.result,result.character));
         yield return new WaitForSeconds(2f);
         Conceal_Result();
         Special_Bottom.SetActive(false);
@@ -105,8 +117,9 @@ public class Shop : MonoBehaviour
         //
         White_Image.gameObject.SetActive(false);
     }
-    public void Show_Result(int result)
+    public IEnumerator Show_Result(int result,int character_index)
     {  
+        //特殊寶箱
         if(If_Special==true)
         {
             switch(result)
@@ -126,8 +139,20 @@ public class Shop : MonoBehaviour
                 case 3:
                     Results[3].SetActive(true);
                     break;
+                case 4:
+                    Characters[character_index-1].SetActive(true);
+                    break;
+                case 5:
+                    Characters[character_index-1].SetActive(true);
+                    MoneyRecharacter.SetActive(true);
+                    InfoRecharacter.gameObject.SetActive(true);
+                    yield return new WaitForSeconds(1f);
+                    InfoRecharacter.gameObject.SetActive(false);
+                    MoneyRecharacterNum.gameObject.SetActive(true);
+                    break;
             }
         }
+        //普通寶箱
         else
         {
             switch(result)
@@ -147,6 +172,17 @@ public class Shop : MonoBehaviour
                 case 3:
                     Results[3].SetActive(true);
                     break;
+                case 4:
+                    Characters[character_index-1].SetActive(true);
+                    break;
+                case 5:
+                    Characters[character_index-1].SetActive(true);
+                    MoneyRecharacter.SetActive(true);
+                    InfoRecharacter.gameObject.SetActive(true);
+                    yield return new WaitForSeconds(1f);
+                    InfoRecharacter.gameObject.SetActive(false);
+                    MoneyRecharacterNum.gameObject.SetActive(true);
+                    break;
             }
         }
     }
@@ -161,6 +197,16 @@ public class Shop : MonoBehaviour
             Texts[i].gameObject.SetActive(false);
             Texts_Special[i].gameObject.SetActive(false);
         }
+        for(int i=0 ; i<7 ; i++)
+        {
+            Characters[i].SetActive(false);
+        }
+        MoneyRecharacter.SetActive(false);
+        MoneyRecharacterNum.gameObject.SetActive(false);
+        Ordinary_Box_open.gameObject.SetActive(false);
+        Special_Box_open.gameObject.SetActive(false);
+        Ordinary_Box_close.gameObject.SetActive(true);
+        Special_Box_close.gameObject.SetActive(true);
     }
 
     // Update energy && money && tear

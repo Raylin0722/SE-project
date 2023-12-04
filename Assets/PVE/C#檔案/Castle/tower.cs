@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class tower : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class tower : MonoBehaviour
     {
         timer += Time.deltaTime;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
-        
+        enemies = enemies.OrderBy(col => col.transform.position.x).ToArray();
+        if(gameObject.tag=="enemy") {
+            enemies = enemies.Reverse().ToArray();
+        }
         
 
         foreach (GameObject enemy in enemies)

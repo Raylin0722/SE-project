@@ -18,10 +18,6 @@ public class Charactor : MonoBehaviour
 
     // Server.cs
     private ServerMethod.Server ServerScript;
-    private int[] Lineup;
-    private int Faction;
-
-    
 
     // Start is called before the first frame update
     void Start()
@@ -33,26 +29,25 @@ public class Charactor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Update_Display(Faction,Lineup);
+        Update_Display();
     }
 
     // Update Display images
-    private void Update_Display(int Faction,int[] Lineup)
+    private void Update_Display()
     {
-        Faction = ServerScript.faction;
-        Lineup = ServerScript.lineup;
-        if(Faction==0)  return;
+        if(ServerScript.faction[0]==1)  return;
+
         for(int i = 0; i<Pictures.Length; i++)
         {
             Pictures[i].gameObject.SetActive(false);
         }
-        for(int i = 0; i<Lineup.Length-1; i++)
+        for(int i = 0; i<ServerScript.lineup.Length-1; i++)
         {
-            Pictures[7*(Faction-1)+Lineup[i]-1].gameObject.SetActive(true);
+            Pictures[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].gameObject.SetActive(true);
         }
-        for(int i = 0; i<Lineup.Length-1; i++)
+        for(int i = 0; i<ServerScript.lineup.Length-1; i++)
         {
-            Pictures[7*(Faction-1)+Lineup[i]-1].rectTransform.anchoredPosition = new Vector3(Location_List[7*(Faction-1)+Lineup[i]-1].position.x+i*Location_List[7*(Faction-1)+Lineup[i]-1].offset,Location_List[7*(Faction-1)+Lineup[i]-1].position.y,Location_List[7*(Faction-1)+Lineup[i]-1].position.z);
+            Pictures[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].rectTransform.anchoredPosition = new Vector3(Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].position.x+i*Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].offset,Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].position.y,Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].position.z);
         }
     }
 
