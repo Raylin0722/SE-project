@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Assets.Scripts;
+using ServerMethod;
 public class ButtonFunction : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -56,6 +57,7 @@ public class ButtonFunction : MonoBehaviour
     float increment;
     float doubleEnergy=1f;
     float UpgradeEnergy;
+    private ServerMethod.Server ServerScript;
 
     // exp 、 dollars 、 tears for end gane
     public Text Exp;
@@ -126,6 +128,7 @@ public class ButtonFunction : MonoBehaviour
         }
         Time.timeScale=1f;
         GameIsStart=true;
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
     // Update is called once per frame
@@ -219,6 +222,7 @@ public class ButtonFunction : MonoBehaviour
         Exit.SetActive(false);
         Time.timeScale=1f;
         SceneManager.LoadScene("Background");
+        StartCoroutine(ServerScript.beforeGame());
     }
     public void exit()
     {
@@ -228,6 +232,7 @@ public class ButtonFunction : MonoBehaviour
         Replay.SetActive(false);
         Exit.SetActive(false);
         //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        ServerScript.CallUpdateUserData();
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
     public void StartGame()
