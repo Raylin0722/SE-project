@@ -59,17 +59,16 @@ def register():
     # user_insert_query = f"INSERT INTO users(username, email, token, hash) VALUES ('{username}', '{email}', '{token}', '{hashed_password}');"
     user_insert_query = "INSERT INTO users(username, token, hash) VALUES (%s, %s, %s);"
     cur.execute(user_insert_query, (username, token, hashed_password))
-    cnx.commit()
     msg = '0 User register success\t' + token
 
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
                 "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1, 
-                                                                                                                 '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}', 
-                                                                                                                 30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[0, 1, 1, 0, 0, 0]"))
+                                                                                                                 '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}',                                                                                                         30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[0, 1, 1, 0, 0, 0]"))
+    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
+    cur.execute("insert into topUp(token, nowDate, canUse) value(%s, curdate(), 3);", (token,))
     cnx.commit()
 
-    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
-    cnx.commit()
+
 
     cur.close()
     cnx.close()
@@ -624,17 +623,23 @@ def updateRank():
 
     cur.execute("select * from `rank` order by chapter desc, `level` desc;")
     result = cur.fetchall()
+    cur.execute("select faction from usersdata;")
+    factionResult = cur.fetchall()
 
     print(result)
 
     RankName = []
     RankClear = []
+    faction = []
     for i in range(len(result)):
         RankName.append(result[i][0])
-        RankClear.append("%s-%s" %result[i][1], result[i][2])
+        RankClear.append("%s-%s" %(result[i][1], result[i][2]))
 
+    for i in range(len(factionResult)):
+        factionOne = json.loads(factionResult[i])
+        faction.append(factionOne[1])
 
-    returnRank = {"RankName": RankName, "RankClear" : RankClear}
+    returnRank = {"RankName": RankName, "RankClear" : RankClear, "Faction" : None}
 
     cur.close()
     cnx.close() 
@@ -1048,18 +1053,27 @@ def topUp():
     result = cur.fetchall()
     
     if len(result) == 1:
-        cur.execute("update usersdata set tear=%s where token=%s;", (result[0][0] + 10, token))
-        cnx.commit()
-        resultReturn["success"] = True
+        cur.execute("select * from topUp where token=%s;", (token, ))
+        check = cur.fetchall()
+        if len(check) == 1:
+            if check[0][1] < datetime.now().date(): # 換日更新次數
+                cur.execute("update topUp set nowDate=curdate(), canUse=3 where token=%s;", (token,))
+                cnx.commit()
+                cur.execute("select * from topUp where token=%s;", (token, ))
+                check = cur.fetchall()
+            
+            if check[0][2] > 0:
+                cur.execute("update usersdata set tear=%s where token=%s;", (result[0][0] + 10, token))
+                cur.execute("update topUp set canUse=%s where token=%s;", (check[0][2] - 1, token))
+                cnx.commit()
+            
+
+            resultReturn["success"] = True
     
     cur.close()
     cnx.close()
     
     return resultReturn
-    
-    
-    
-    
     
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
