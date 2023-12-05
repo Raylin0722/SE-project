@@ -9,7 +9,6 @@ public class CharacterManage : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    [SerializeField] GameObject[] WatermelonPrefabs;
     [SerializeField] GameObject[] PepperOPrefabs;//orange
     [SerializeField] GameObject[] PepperRPrefabs;//red
     [SerializeField] GameObject[] PepperGPrefabs;//green
