@@ -38,6 +38,7 @@ namespace ServerMethod{
     public class Rank{
         public List<string> RankName;
         public List<string> RankClear;
+        public List<int> Faction;
 
     }
     
@@ -80,6 +81,7 @@ namespace ServerMethod{
 
         public List<string> rankName = new List<string>();
         public List<string> rankClear = new List<string>();
+        public List<int> rankFaction = new List<int>();
         public List<string> friends = new List<string>(); // 以新增好友之名單
         public List<string> needCheck = new List<string>(); // 待同意之名單
         public List<string> blackList = new List<string>(); // 黑名單
@@ -280,7 +282,6 @@ namespace ServerMethod{
         }   
         public IEnumerator updateRank(){
             WWWForm form = new WWWForm();
-            
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateRank", form);
             
@@ -290,8 +291,11 @@ namespace ServerMethod{
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
                 
+                Debug.Log(response);
+
                 rankName = new List<string>();
                 rankClear = new List<string>();
+                rankFaction = new List<int>();
 
                 Rank rankReturn = JsonUtility.FromJson<Rank>(response);
 
@@ -300,6 +304,9 @@ namespace ServerMethod{
                     
                 foreach(string clear in rankReturn.RankClear)
                     rankClear.Add(clear);
+
+                foreach(int fac in rankReturn.Faction)
+                    rankFaction.Add(fac);
             }
             
             
@@ -532,7 +539,7 @@ namespace ServerMethod{
 
             yield return result;
         }
-        public IEnumerator topUp(int cardID){
+        public IEnumerator topUp(int cardID){ // cardID: 0 不能用 1 可以用
             WWWForm form = new WWWForm();
             form.AddField("token", token);
             form.AddField("cardID", cardID);
