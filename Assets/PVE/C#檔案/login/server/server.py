@@ -64,7 +64,7 @@ def register():
     cur.execute("insert into usersdata(updateTime, playerName, token, money, expLevel, expTotal, `character`, lineup, tear, castleLevel, slingshotLevel, clearance, energy, remainTime, volume, backVolume, shock, remind, chestTime, props, faction)"
                 "value(now(), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), %s, %s);", (username, token, 0, 1, 0,'{"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 0, "7": 0}', '[1, 2, 3, 4, 5, 1]', 0, 1, 1, 
                                                                                                                  '{"1-1": 0, "1-2": 0, "1-3": 0, "1-4": 0, "1-5": 0, "1-6": 0, "2-1": 0, "2-2": 0, "2-3": 0, "2-4": 0, "2-5": 0, "2-6": 0}',                                                                                                         30, 0, 100, 100, True, True, '{"1" : -1, "2" : 0}', "[0, 1, 1, 0, 0, 0]"))
-    cur.execute("insert into `rank`(playerName, chapter, level) value(%s, 1, 0)", username)
+    cur.execute("insert into `rank`(playerName, chapter, level, faction) value(%s, 1, 0, -1)", username)
     cur.execute("insert into topUp(token, nowDate, canUse) value(%s, curdate(), 3);", (token,))
     cnx.commit()
 
@@ -572,7 +572,7 @@ def afterGame():
     checkQuery = "select token from users where token=%s;"
     clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName, faction from usersdata where token=%s"
     updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s, faction=%s where token=%s;"
-    rankQuery = "update `rank` set chapter=%s, level=%s where playerName=%s"
+    rankQuery = "update `rank` set chapter=%s, level=%s where playerName=%s;"
 
     if clear == 'True':
         cur.execute(checkQuery, (token,))
@@ -618,28 +618,23 @@ def afterGame():
 
 @app.route("/updateRank", methods=['get', 'post'])
 def updateRank():
-    cnx = mysql.connector.connect(**config)
+    cnx = mysql.connector.connect(**config)                                                                                 
     cur = cnx.cursor()
-
     cur.execute("select * from `rank` order by chapter desc, `level` desc;")
+    
     result = cur.fetchall()
-    cur.execute("select faction from usersdata;")
-    factionResult = cur.fetchall()
 
     print(result)
 
     RankName = []
     RankClear = []
-    faction = []
+    RankFaction = []
     for i in range(len(result)):
         RankName.append(result[i][0])
         RankClear.append("%s-%s" %(result[i][1], result[i][2]))
+        RankFaction.append(result[i][3])
 
-    for i in range(len(factionResult)):
-        factionOne = json.loads(factionResult[i])
-        faction.append(factionOne[1])
-
-    returnRank = {"RankName": RankName, "RankClear" : RankClear, "Faction" : None}
+    returnRank = {"RankName": RankName, "RankClear" : RankClear, "Faction" : RankFaction}
 
     cur.close()
     cnx.close() 
@@ -655,16 +650,18 @@ def updateFaction():
 
     resultReturn = {"success" : False}
 
-    cur.execute("selcet faction from usersdata where token=%s", (token,))
+    cur.execute("selcet faction, playerName from usersdata where token=%s", (token,))
     result = cur.fetchall()
     if len(result) == 1:
         faction = json.loads(result[0][0])
-        faction[1] = target
-        faction[0] = 0
+        if faction[target] == 1:
+            faction[1] = target
+            faction[0] = 0
 
-        cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
-        cnx.commit()
-        resultReturn["success"] = True
+            cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
+            cur.execute("update `rank` set faction=%s where playerName=%s;", (target, result[0][1]))
+            cnx.commit()
+            resultReturn["success"] = True
     
     cur.close()
     cnx.close() 
@@ -680,16 +677,17 @@ def initFaction():
 
     resultReturn = {"success" : False}
 
-    cur.execute("selcet faction from usersdata where token=%s", (token,))
+    cur.execute("selcet faction, playerName from usersdata where token=%s", (token,))
     result = cur.fetchall()
     if len(result) == 1:
         faction = json.loads(result[0][0])
         if faction[0] != 0:
-            faction[0] = 1
+            faction[0] = 0
             faction[1] = target
             faction[target] = 1
 
             cur.execute("update usersdata set faction=%s where token=%s", (faction, token))
+            cur.execute("update `rank` set faction=%s where playerName=%s;", (target, result[0][1]))
             cnx.commit()
             resultReturn["success"] = True
     
@@ -964,7 +962,6 @@ def blackListFriend():
 
     return resultReturn
 
-  
 @app.route("/updateFriend", methods=['get', 'post']) # 更新好友名單 領體力名單
 def updateFriend():
     self = request.form.get("self")
