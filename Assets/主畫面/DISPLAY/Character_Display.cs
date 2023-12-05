@@ -170,15 +170,57 @@ public class Charactor : MonoBehaviour
         Location_List.Add(S5);
         Location S6 = new Location
         {
-            position = new Vector3(-320f,95f,0f),
+            position = new Vector3(-313f,95.6f,0f),
             offset = 245.0f
         };
         Location_List.Add(S6);
         Location S7 = new Location
         {
-            position = new Vector3(-310f,180f,0f),
+            position = new Vector3(-332.7f,187.1f,0f),
             offset = 245.0f
         };
         Location_List.Add(S7);
+        Location M1 = new Location
+        {
+            position = new Vector3(-317f,160f,0f),
+            offset = 244.0f
+        };
+        Location_List.Add(M1);
+        Location M2 = new Location
+        {
+            position = new Vector3(-305.7f,92.3f,0f),
+            offset = 245.0f
+        };
+        Location_List.Add(M2);
+        Location M3 = new Location
+        {
+            position = new Vector3(-315.5f,212.5f,0f),
+            offset = 245.0f
+        };
+        Location_List.Add(M3);
+        Location M4 = new Location
+        {
+            position = new Vector3(-298.5f,137.2f,0f),
+            offset = 245.0f
+        };
+        Location_List.Add(M4);
+        Location M5 = new Location
+        {
+            position = new Vector3(-322.6f,163.5f,0f),
+            offset = 245.0f
+        };
+        Location_List.Add(M5);
+        Location M6 = new Location
+        {
+            position = new Vector3(-319.3f,95f,0f),
+            offset = 245.0f
+        };
+        Location_List.Add(M6);
+        Location M7 = new Location
+        {
+            position = new Vector3(-313.3f,180f,0f),
+            offset = 245.0f
+        };
+        Location_List.Add(M7);
     }
 }

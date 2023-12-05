@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Video;
 public class FruitSelect : MonoBehaviour
 {
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
@@ -10,6 +12,9 @@ public class FruitSelect : MonoBehaviour
     [SerializeField] GameObject bFrame;
     [SerializeField] GameObject wFrame;
     static public int fruit = -1;// 0->watermelon, 1->banana
+    public VideoPlayer video; // the video before game
+    private bool bool_play = false;
+    public GameObject Music_main_scene; // the Music in main_scene
 
     // Server.cs
     private ServerMethod.Server ServerScript;
@@ -18,13 +23,13 @@ public class FruitSelect : MonoBehaviour
     void Start()
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
-        Fruit_Select();
+        Play_Video();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Fruit_Select(); // This is only for you to test,and you can delete it.
+        Play_Video(); // This is only for you to test,and you can delete it.
     }
 
     // Check Button
@@ -46,6 +51,9 @@ public class FruitSelect : MonoBehaviour
         ServerScript.faction[0] = 0;
         ServerScript.faction[1] = fruit + 2;
         fruit = -1;
+        page_FruitSelect.SetActive(false); // Close All button in Fruit Select
+        ALL_Button.SetActive(true); // Open All button in Main_Scene
+        Music_main_scene.SetActive(true); // Opne music in Main_Scene
     }
 
     // Close All button in Main_Scene
@@ -54,11 +62,7 @@ public class FruitSelect : MonoBehaviour
         if(ServerScript.faction[0]==1)
         {
             page_FruitSelect.SetActive(true); // Open All button in Fruit Select
-            ALL_Button.SetActive(false); // Close All button in Main_Scene
-        }
-        else
-        {
-            page_FruitSelect.SetActive(false); // Close All button in Fruit Select
+            video.gameObject.SetActive(false); // Close story vedio
         }
     }
 
@@ -73,5 +77,32 @@ public class FruitSelect : MonoBehaviour
         wFrame.SetActive(true);
         bFrame.SetActive(false);
         fruit=0;
+    }
+
+    public void Play_Video()
+    {
+        if(ServerScript.faction[0]==1 && bool_play==false)
+        {
+            Music_main_scene.SetActive(false); // Close music in Main_Scene
+            ALL_Button.SetActive(false); // Close All button in Main_Scene
+            video.gameObject.SetActive(true); // Open story vedio
+            video.Play();
+            bool_play = true;
+        }
+        video.loopPointReached += End_Video;
+    }
+
+    void End_Video(VideoPlayer video)
+    {
+        Skip_Video();
+    }
+
+    public void Skip_Video()
+    {
+        if(ServerScript.faction[0]==1 && bool_play==true)
+        {
+            video.Pause();
+            Fruit_Select();
+        }
     }
 }
