@@ -395,6 +395,10 @@ public class ButtonFunction : MonoBehaviour
             Debug.Log(UpgradeEnergy);
             //Text textComponent = Upgrade.GetComponent<Text>();
             Upgradetext.text=UpgradeEnergy.ToString();
+            if(UpgradeEnergy==145)
+            {
+                Upgradetext.text="Max";
+            }
         }
     }
 

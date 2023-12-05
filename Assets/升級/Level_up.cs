@@ -18,6 +18,7 @@ public class Level_up : MonoBehaviour
     public Text TowerDollar;
     private int[] TowerMonney = new int[] {1200,1700,2200,2700,3200,3700,4200,4700,5200,5700,6200,6700,7200,7700 };
     
+    public GameObject MaxGradeFigure;
     public GameObject ChangePropButtom;
     public GameObject[] props;
     public Image Bomb;
@@ -76,11 +77,37 @@ public class Level_up : MonoBehaviour
     //when click <sure upgrade>
     public void Sure_Upgrade()
     {
+        //升級主保
+        if(UpgradeIndex==0)
+        {
+            if(ServerScript.castleLevel==15)
+            {
+                StartCoroutine(MaxGrade());
+                return;
+            }
+        }
+        else if(UpgradeIndex!=0)
+        {
+            if(ServerScript.character[UpgradeIndex-1]==5)
+            {
+                StartCoroutine(MaxGrade());
+                return;
+            }
+        }
+        
         //算出來在更新到sever
         Debug.Log(UpgradeIndex);
         page_Check_upGrade.SetActive(false);
         StartCoroutine(Upgrade_Surver(UpgradeIndex));
     }
+    //max grade
+    IEnumerator MaxGrade()
+    {
+        MaxGradeFigure.SetActive(true);
+        yield return new WaitForSeconds(1);
+        MaxGradeFigure.gameObject.SetActive(false);
+    }
+
     //Send the data to server
     private IEnumerator Upgrade_Surver(int UpgradeIndex)
     {
@@ -137,8 +164,17 @@ public class Level_up : MonoBehaviour
                 Dollar[i].text = (Character_Data_List[i].Dollar*Character_Data_List[i].Dollar_rate*(ServerScript.character[i]-1)).ToString();
             }
         }
-        TowerLevel.text = (ServerScript.castleLevel+1).ToString();
-        TowerDollar.text = TowerMonney[(ServerScript.castleLevel-1)].ToString();
+        if(ServerScript.castleLevel==15)
+        {
+            TowerLevel.fontSize = 15;
+            TowerLevel.text = "MAX";
+            TowerDollar.text = "-";
+        }
+        else
+        {
+            TowerLevel.text = (ServerScript.castleLevel+1).ToString();
+            TowerDollar.text = TowerMonney[(ServerScript.castleLevel-1)].ToString();
+        }
         UpdateProps();
     }
     // Update Bomb
