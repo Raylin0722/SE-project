@@ -40,7 +40,6 @@ public class Registration : MonoBehaviour {
         if(www.downloadHandler.text[0] == '0') {
             Debug.Log("User Created Successfully.");
             TokenManager.Instance.Token = www.downloadHandler.text.Split('\t')[1];
-            TokenManager.Instance.Username = nameField.text;
             UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
         }else {
             Debug.Log("User Creation Failed. Error #" + www.downloadHandler.text);
