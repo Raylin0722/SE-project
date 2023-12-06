@@ -481,25 +481,6 @@ namespace ServerMethod{
 
             yield return result;
         }
-        public IEnumerator cancelBlackList(string friendName){
-            WWWForm form = new WWWForm();
-            form.AddField("self", username);
-            form.AddField("friendName", friendName);
-
-            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/cancelBlackList", form);
-
-            Return result = new Return();
-            yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
-                string response = www.downloadHandler.text;
-                result = JsonUtility.FromJson<Return>(response);
-                CallUpdateFriend();
-            }
-            else
-                result.success = false;
-
-            yield return result;
-        }
         public IEnumerator sendFriendEnergy(string friendName){
             WWWForm form = new WWWForm();
             form.AddField("self", username);
