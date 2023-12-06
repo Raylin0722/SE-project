@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ServerMethod;
+using Unity.VisualScripting;
 public class Level_up : MonoBehaviour
 {
     //蔡松豪加的
@@ -14,15 +15,12 @@ public class Level_up : MonoBehaviour
     public GameObject page_Check_upGrade;
     private int UpgradeIndex;
     private RectTransform contentRect;
-    
-    
-
+    //
     public GameObject MaxGradeFigure;
     public GameObject ChangePropButtom;
     public GameObject[] props;
-    public Image Bomb;
-    public PartyManage partyManager;
-    private bool BombUsable;
+    public Image[] Bombs;
+    public Text Bomb_number;
     //
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Back; // Close Button
@@ -47,10 +45,8 @@ public class Level_up : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        int value = partyManager.GetPartyMember();
         //Debug.Log(value);
-        Update_values(); // Update money and charactor level and money
+        Update_values(); // Update money and charactor level and money and bombs
         CalculateDistances();
         UpgradeIndex = FindNearestCenter();
     }
@@ -123,21 +119,6 @@ public class Level_up : MonoBehaviour
             Return result = coroutine.Current as Return;
             Debug.Log(result.success);
         }
-        
-        
-    }
-    //when click <props>
-    public void Change_props()
-    {
-        int value = partyManager.GetPartyMember();
-        if(value == 0)
-        {
-            partyManager.SetPartyMemberValue(5, 1);
-        }
-        else if(value == 1)
-        {
-            partyManager.SetPartyMemberValue(5, 0);
-        }
     }
     // Update energy && money && tear
     public void Update_values()
@@ -182,32 +163,28 @@ public class Level_up : MonoBehaviour
                 Dollar[i+1].text = (Money[i+1]*1.5*(ServerScript.character[i]-1)).ToString();
             }
         }
-        
-        UpdateProps();
+
+        // whether you have Bombs can use
+        if(ServerScript.props[1]==0)
+        {
+            Bombs[0].color = new Color(0f,0f,0f,1f);
+            Bombs[1].gameObject.SetActive(false);
+        }
+        else
+        {
+            Bombs[0].color = new Color(1f,1f,1f,1f);
+            Bombs[1].gameObject.SetActive(true);
+            Bomb_number.gameObject.SetActive(true);
+            Bomb_number.text = "x" + ServerScript.props[1].ToString();
+        }
     }
+    
     // Update Bomb
-    void UpdateProps()
+    public void Change()
     {   
-        if(BombUsable==false)
-        {
-            ChangePropButtom.SetActive(false);
-            Bomb.color = Color.black;
-        }
-        else
-        {
-            ChangePropButtom.SetActive(true);
-        }
-        int value = partyManager.GetPartyMember();
-        if(value==0)
-        {
-            props[0].SetActive(true);
-            props[1].SetActive(false);
-        }
-        else
-        {
-            props[0].SetActive(false);
-            props[1].SetActive(true);
-        }
+        props[0].SetActive(0==ServerScript.lineup[5]-1);
+        props[1].SetActive(1==ServerScript.lineup[5]-1);
+        ServerScript.lineup[5] = ServerScript.lineup[5]%2 + 1;
     }
     // Caculate who to upgrade
     void CalculateDistances()
