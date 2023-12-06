@@ -17,8 +17,8 @@ public class PartyManage : MonoBehaviour
     static private int[] PartyMember = new int[6];
     private GameObject spawnedCharacter;
     
-
-    //public Image[] Pictures; // The all pictures in under level_up
+    public Image[] Pictures; // The all pictures in under level_up
+    public Image[] Up_Pictures; // The all pictures in up level_up
 
     private struct Location
     {
@@ -33,6 +33,9 @@ public class PartyManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        Character_Location();
+
         for (int i = 0; i < 6; i++)
         {
             PartyMember[i] = 0;
@@ -55,6 +58,7 @@ public class PartyManage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Up_Update();
         for (int i = 0; i < 5; i++)
         {
             if (PartyMember[i] != 0)
@@ -156,6 +160,37 @@ public class PartyManage : MonoBehaviour
             partyObject.SetActive(false);
         }
     }
+
+
+    private void Up_Update()
+    {
+        if(ServerScript.faction[0]==1)  return;
+        // Show current page && Hide the others
+        for(int i = 0; i<8; i++)
+        {
+            for(int j = 0; j<4 ; j++)
+            {
+                Up_Pictures[8*j+i].gameObject.SetActive(false);
+            }
+            
+            if(i==0)
+            {
+                Up_Pictures[8*(ServerScript.faction[1]-2)+i].gameObject.SetActive(true);
+            }
+            else
+            {
+                Up_Pictures[32+i-1].gameObject.SetActive(false); // Close chain
+                Up_Pictures[8*(ServerScript.faction[1]-2)+i].gameObject.SetActive(true);
+                Up_Pictures[8*(ServerScript.faction[1]-2)+i].color = new Color(1f,1f,1f,1f);
+
+                if(ServerScript.character[i-1]==0)
+                {
+                    Up_Pictures[32+i-1].gameObject.SetActive(true); // Open chain
+                    Up_Pictures[8*(ServerScript.faction[1]-2)+i].color = new Color(0f,0f,0f,1f);
+                }
+            }
+        }
+    }
     // Character Display Definition
     private void Character_Location()
     {
@@ -237,6 +272,96 @@ public class PartyManage : MonoBehaviour
             offset = 270.0f
         };
         Location_List.Add(B6);
+        Location B7 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(B7);
+        Location S1 = new Location
+        {
+            position = new Vector2(-672f,-280f),
+            offset = 270.0f
+        };
+        Location_List.Add(S1);
+        Location S2 = new Location
+        {
+            position = new Vector2(-672f,-281f),
+            offset = 270.0f
+        };
+        Location_List.Add(S2);
+        Location S3 = new Location
+        {
+            position = new Vector2(-673f,-285f),
+            offset = 270.0f
+        };
+        Location_List.Add(S3);
+        Location S4 = new Location
+        {
+            position = new Vector2(-671f,-283f),
+            offset = 270.0f
+        };
+        Location_List.Add(S4);
+        Location S5 = new Location
+        {
+            position = new Vector2(-670f,-288f),
+            offset = 270.0f
+        };
+        Location_List.Add(S5);
+        Location S6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(S6);
+        Location S7 = new Location
+        {
+            position = new Vector2(-681.6f,-268.3f),
+            offset = 270.0f
+        };
+        Location_List.Add(S7);
+        Location M1 = new Location
+        {
+            position = new Vector2(-672f,-270f),
+            offset = 270.0f
+        };
+        Location_List.Add(M1);
+        Location M2 = new Location
+        {
+            position = new Vector2(-680.8f,-275.4f),
+            offset = 270.0f
+        };
+        Location_List.Add(M2);
+        Location M3 = new Location
+        {
+            position = new Vector2(-673f,-281.9f),
+            offset = 270.0f
+        };
+        Location_List.Add(M3);
+        Location M4 = new Location
+        {
+            position = new Vector2(-671f,-283f),
+            offset = 270.0f
+        };
+        Location_List.Add(M4);
+        Location M5 = new Location
+        {
+            position = new Vector2(-670f,-288f),
+            offset = 270.0f
+        };
+        Location_List.Add(M5);
+        Location M6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(M6);
+        Location M7 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(M7);
     }
 
 

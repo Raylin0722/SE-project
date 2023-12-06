@@ -14,10 +14,9 @@ public class Level_up : MonoBehaviour
     public GameObject page_Check_upGrade;
     private int UpgradeIndex;
     private RectTransform contentRect;
-    public Text TowerLevel;
-    public Text TowerDollar;
-    private int[] TowerMonney = new int[] {1200,1700,2200,2700,3200,3700,4200,4700,5200,5700,6200,6700,7200,7700 };
     
+    
+
     public GameObject MaxGradeFigure;
     public GameObject ChangePropButtom;
     public GameObject[] props;
@@ -31,19 +30,18 @@ public class Level_up : MonoBehaviour
     public GameObject Upgrade; // Upgrade Button
     [SerializeField] Text money; // money value
     public Text[] Level; // The all level of pictures in ScrollView
-    public Text[] Dollar; // The all level of pictures in ScrollView
+    public Text[] Dollar; // The all dollar of pictures in ScrollView
+    private int[] Money = new int[] {1200,400,300,700,600,500,650,750};   // the Money for upper charactor and tower
     private ServerMethod.Server ServerScript; // Server.cs
 
     // Start is called before the first frame update
     void Start()
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
-        Data_Definition();
         //
         contentRect = scrollRect.content;
         int itemCount = contentRect.childCount;
         distances = new float[itemCount];
-        //
     }
 
     // Update is called once per frame
@@ -145,36 +143,46 @@ public class Level_up : MonoBehaviour
     public void Update_values()
     {
         money.text = ServerScript.money.ToString();
-        for(int i = 0; i<ServerScript.character.Length; i++)
+
+        if(ServerScript.castleLevel>=15)
         {
-            Level[i].fontSize = 25;
-            Level[i].text = (ServerScript.character[i]+1).ToString();
-            if(ServerScript.character[i]<=1)
-            {
-                Dollar[i].text = (Character_Data_List[i].Dollar).ToString();
-            }
-            else if(ServerScript.character[i]==5)
-            {
-                Level[i].fontSize = 15;
-                Level[i].text = "MAX";
-                Dollar[i].text = "-";
-            }
-            else
-            {
-                Dollar[i].text = (Character_Data_List[i].Dollar*Character_Data_List[i].Dollar_rate*(ServerScript.character[i]-1)).ToString();
-            }
-        }
-        if(ServerScript.castleLevel==15)
-        {
-            TowerLevel.fontSize = 15;
-            TowerLevel.text = "MAX";
-            TowerDollar.text = "-";
+            Level[0].fontSize = 15;
+            Level[0].text = "MAX";
+            Dollar[0].text = "-";
         }
         else
         {
-            TowerLevel.text = (ServerScript.castleLevel+1).ToString();
-            TowerDollar.text = TowerMonney[(ServerScript.castleLevel-1)].ToString();
+            Level[0].text = ServerScript.castleLevel.ToString();
+            Dollar[0].text = (Money[0]+500*(ServerScript.castleLevel-1)).ToString();
         }
+        
+        for(int i = 0; i<ServerScript.character.Length; i++)
+        {
+            Level[i+1].fontSize = 25;
+            Level[i+1].text = ServerScript.character[i].ToString();
+            Level[i+1].color = new Color(0f,0f,0f,1f);
+            Dollar[i+1].color = new Color(0f,0f,0f,1f);
+            if(ServerScript.character[i]==0)
+            {
+                Level[i+1].color = new Color(0f,0f,0f,0f);
+                Dollar[i+1].color = new Color(0f,0f,0f,0f);
+            }
+            else if(ServerScript.character[i]==1)
+            {
+                Dollar[i+1].text = Money[i+1].ToString();
+            }
+            else if(ServerScript.character[i]>=5)
+            {
+                Level[i+1].fontSize = 15;
+                Level[i+1].text = "MAX";
+                Dollar[i+1].text = "-";
+            }
+            else
+            {
+                Dollar[i+1].text = (Money[i+1]*1.5*(ServerScript.character[i]-1)).ToString();
+            }
+        }
+        
         UpdateProps();
     }
     // Update Bomb
@@ -224,6 +232,8 @@ public class Level_up : MonoBehaviour
         return -1;
     }
 
+    
+/*
     // Character Data struct
     public struct Character_Data
     {
@@ -410,6 +420,6 @@ public class Level_up : MonoBehaviour
         // Bomb usable
         BombUsable = (ServerScript.props[1] < 1) ? false : true;
     }
-
+*/
     
 }
