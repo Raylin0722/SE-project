@@ -169,6 +169,7 @@ public class Level_up : MonoBehaviour
         {
             Bombs[0].color = new Color(0f,0f,0f,1f);
             Bombs[1].gameObject.SetActive(false);
+            Bomb_number.text = "x0";
         }
         else
         {

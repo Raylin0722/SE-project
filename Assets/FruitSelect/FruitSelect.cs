@@ -23,7 +23,6 @@ public class FruitSelect : MonoBehaviour
     void Start()
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
-        Play_Video();
     }
 
     // Update is called once per frame
@@ -51,6 +50,7 @@ public class FruitSelect : MonoBehaviour
         ServerScript.faction[0] = 0;
         ServerScript.faction[1] = fruit + 2;
         fruit = -1;
+        bool_play=false;
         page_FruitSelect.SetActive(false); // Close All button in Fruit Select
         ALL_Button.SetActive(true); // Open All button in Main_Scene
         Music_main_scene.SetActive(true); // Opne music in Main_Scene
