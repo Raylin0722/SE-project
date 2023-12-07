@@ -6,6 +6,7 @@ using System.Threading;
 using UnityEngine.SceneManagement;
 using TMPro;
 using ServerMethod;
+using System;
 
 public class START : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class START : MonoBehaviour
     public GameObject page_START; // the page which you want to close
     public Text energy; // energy value
     private ServerMethod.Server ServerScript; // Server.cs
-
+    public GameObject hint; // the hint about Insufficient energy
+    public GameObject[] Unlock; // the unlocked level image
+    public GameObject[] Lock; // the locked level image
 
     // Start is called before the first frame update
     void Start()
@@ -31,12 +34,13 @@ public class START : MonoBehaviour
     // When click < Level >
     public void Button_Level()
     {
-        // call the PVE
-        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-
         // detect whether your energy is sufficient
-        if(ServerScript.energy<5)   return;
-        
+        if(ServerScript.energy<5)   
+        {
+            StartCoroutine(Enengy_Hint(1f));
+            return;
+        }
+
         GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
         string buttonTag = clickedButton.tag;
         Debug.Log("Clicked button tag: " + buttonTag);
@@ -80,9 +84,40 @@ public class START : MonoBehaviour
                 GameManage.currentLevel=26;
                 break;
         }
+        
+        // 虛假關卡前同步
         StartCoroutine(ServerScript.beforeGame());
         SceneManager.LoadScene("Background", LoadSceneMode.Single);
+        /* 真實關卡前同步  
+        StartCoroutine(Surver_Before_Game((result) => 
+        {
+            Debug.Log(result);
+            if(result==true)
+            {
+                SceneManager.LoadScene("Background", LoadSceneMode.Single);
+            }
+            else
+            {
+                StartCoroutine(Enengy_Hint(1f));
+                return;
+            }
+        }));
+        */
+    }
+
+    private IEnumerator Surver_Before_Game(Action<bool> callback)
+    {
+        IEnumerator coroutine = ServerScript.beforeGame();
+        yield return StartCoroutine(coroutine);
         
+        Return result = coroutine.Current as Return;
+        bool bool_success = false;
+        if(result!=null)
+        {
+            bool_success = result.success;
+        }
+
+        callback.Invoke(bool_success);
     }
 
     // When click < BACK > 
@@ -96,6 +131,24 @@ public class START : MonoBehaviour
     public void Update_values()
     {
         energy.text = ServerScript.energy.ToString() + "/30";
+        for(int i = 0; i<ServerScript.clearance.Length ; i++)
+        {
+            Unlock[i].gameObject.SetActive(false);
+            Lock[i].gameObject.SetActive(true);
+            if(ServerScript.clearance[i]==0)
+            {
+                Unlock[i].gameObject.SetActive(true);
+                Lock[i].gameObject.SetActive(false);
+            }
+        }
     }
 
+    // the hint about insufficient energy 
+    IEnumerator Enengy_Hint(float delay)
+    {
+        hint.SetActive(false);
+        hint.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        hint.SetActive(false);
+    }
 }
