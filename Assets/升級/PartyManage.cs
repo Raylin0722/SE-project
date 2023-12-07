@@ -7,18 +7,8 @@ using UnityEngine.EventSystems;
 public class PartyManage : MonoBehaviour
 {
     public Canvas canvas;
-    [SerializeField] GameObject[] Watermelonfigure;
-    [SerializeField] GameObject[] Party1;
-    [SerializeField] GameObject[] Party2;
-    [SerializeField] GameObject[] Party3;
-    [SerializeField] GameObject[] Party4;
-    [SerializeField] GameObject[] Party5;
-    private int index;
-    static private int[] PartyMember = new int[6];
-    private GameObject spawnedCharacter;
-    
-
-    //public Image[] Pictures; // The all pictures in under level_up
+    public Image[] Pictures; // The all pictures in under level_up
+    public Image[] Up_Pictures; // The all pictures in up level_up
 
     private struct Location
     {
@@ -33,127 +23,56 @@ public class PartyManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 6; i++)
-        {
-            PartyMember[i] = 0;
-        }
-
-        /*
         ServerScript = FindObjectOfType<ServerMethod.Server>();
         Character_Location();
-        for(int i = 0; i<Pictures.Length; i++)
-        {
-            Pictures[i].gameObject.SetActive(false);
-        }
-        for(int i = 0; i<5 ; i++)
-        {
-            PartyMember[i] = ServerScript.lineup[i] - 1;
-        }
-        */
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < 5; i++)
+        Up_Update();
+    }
+
+    private void Up_Update()
+    {
+        if(ServerScript.faction[0]==1)  return;
+        // Show current page && Hide the others
+        for(int i = 0; i<8; i++)
         {
-            if (PartyMember[i] != 0)
+            for(int j = 0; j<4 ; j++)
             {
-                switch (i)
-                {
-                    case 0:
-                        ShowPartyByIndex(Party1, PartyMember[i] - 1);
-                        break;
-                    case 1:
-                        ShowPartyByIndex(Party2, PartyMember[i] - 1);
-                        break;
-                    case 2:
-                        ShowPartyByIndex(Party3, PartyMember[i] - 1);
-                        break;
-                    case 3:
-                        ShowPartyByIndex(Party4, PartyMember[i] - 1);
-                        break;
-                    case 4:
-                        ShowPartyByIndex(Party5, PartyMember[i] - 1);
-                        break;
-                }
+                Up_Pictures[8*j+i].gameObject.SetActive(false);
+            }
+            
+            if(i==0)
+            {
+                Up_Pictures[8*(ServerScript.faction[1]-2)+i].gameObject.SetActive(true);
             }
             else
             {
-                switch (i)
+                Up_Pictures[32+i-1].gameObject.SetActive(false); // Close chain
+                Up_Pictures[8*(ServerScript.faction[1]-2)+i].gameObject.SetActive(true);
+                Up_Pictures[8*(ServerScript.faction[1]-2)+i].color = new Color(1f,1f,1f,1f);
+
+                if(ServerScript.character[i-1]==0)
                 {
-                    case 0:
-                        HideAllParty(Party1);
-                        break;
-                    case 1:
-                        HideAllParty(Party2);
-                        break;
-                    case 2:
-                        HideAllParty(Party3);
-                        break;
-                    case 3:
-                        HideAllParty(Party4);
-                        break;
-                    case 4:
-                        HideAllParty(Party5);
-                        break;
+                    Up_Pictures[32+i-1].gameObject.SetActive(true); // Open chain
+                    Up_Pictures[8*(ServerScript.faction[1]-2)+i].color = new Color(0f,0f,0f,1f);
                 }
             }
         }
-    }
 
-    //讀取partymember
-    public int GetPartyMember()
-    {
-        return PartyMember[5];
-    }
-    public void SetPartyMemberValue(int partyIndex, int value)
-    {
-        //Debug.Log(PartyMember[0] + ", " + PartyMember[1] + ", " + PartyMember[2] + ", " + PartyMember[3] + ", " + PartyMember[4]+", " + PartyMember[5]);
-
-        if (partyIndex >= 0 && partyIndex <5)
+        for(int i = 0; i<7; i++)
         {
-            int tempt = PartyMember[partyIndex];
-            for (int i = 0; i < 5; i++)
+            for(int j = 0; j<4 ; j++)
             {
-                if (PartyMember[i] == value)
-                {
-                    PartyMember[i] = tempt;
-                }
+                Pictures[7*j+i].gameObject.SetActive(false);
             }
-            PartyMember[partyIndex] = value;
         }
-        else
+        for(int i = 0; i<5 ; i++)
         {
-            PartyMember[partyIndex] = value;
-        }
-        Debug.Log(PartyMember[0] + ", " + PartyMember[1] + ", " + PartyMember[2] + ", " + PartyMember[3] + ", " + PartyMember[4]+", " + PartyMember[5]);
-
-    }
-    // 根据传入的索引显示特定的 Party1，同时隐藏其他的 Party1
-    public void ShowPartyByIndex(GameObject[] party, int index)
-    {
-        // 首先隱藏所有的 Party1
-        HideAllParty(party);
-        // 檢查索引是否有效
-        if (index >= 0 && index < party.Length)
-        {
-            // 顯示特定索引的 Party1
-            party[index].SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("Invalid index for Party1");
-        }
-    }
-
-
-    // 隐藏所有的 Party1
-    void HideAllParty(GameObject[] party)
-    {
-        foreach (GameObject partyObject in party)
-        {
-            partyObject.SetActive(false);
+            Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].gameObject.SetActive(true);
+            Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].rectTransform.anchoredPosition = new Vector2(Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.x+i*Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].offset,Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.y);
         }
     }
     // Character Display Definition
@@ -179,7 +98,7 @@ public class PartyManage : MonoBehaviour
         Location_List.Add(W3);
         Location W4 = new Location
         {
-            position = new Vector2(-671f,-283f),
+            position = new Vector2(-671f,-284f),
             offset = 270.0f
         };
         Location_List.Add(W4);
@@ -197,7 +116,7 @@ public class PartyManage : MonoBehaviour
         Location_List.Add(W6);
         Location W7 = new Location
         {
-            position = new Vector2(-673f,-301f),
+            position = new Vector2(-666f,-282.8f),
             offset = 270.0f
         };
         Location_List.Add(W7);
@@ -233,10 +152,100 @@ public class PartyManage : MonoBehaviour
         Location_List.Add(B5);
         Location B6 = new Location
         {
-            position = new Vector2(-673f,-301f),
+            position = new Vector2(-665.8f,-296f),
             offset = 270.0f
         };
         Location_List.Add(B6);
+        Location B7 = new Location
+        {
+            position = new Vector2(-670f,-281.9f),
+            offset = 270.0f
+        };
+        Location_List.Add(B7);
+        Location S1 = new Location
+        {
+            position = new Vector2(-671.5f,-274.5f),
+            offset = 270.0f
+        };
+        Location_List.Add(S1);
+        Location S2 = new Location
+        {
+            position = new Vector2(-673.3f,-280.5f),
+            offset = 270.0f
+        };
+        Location_List.Add(S2);
+        Location S3 = new Location
+        {
+            position = new Vector2(-673f,-285f),
+            offset = 270.0f
+        };
+        Location_List.Add(S3);
+        Location S4 = new Location
+        {
+            position = new Vector2(-671f,-283f),
+            offset = 270.0f
+        };
+        Location_List.Add(S4);
+        Location S5 = new Location
+        {
+            position = new Vector2(-670f,-288f),
+            offset = 270.0f
+        };
+        Location_List.Add(S5);
+        Location S6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(S6);
+        Location S7 = new Location
+        {
+            position = new Vector2(-681.6f,-268.3f),
+            offset = 270.0f
+        };
+        Location_List.Add(S7);
+        Location M1 = new Location
+        {
+            position = new Vector2(-672f,-270f),
+            offset = 270.0f
+        };
+        Location_List.Add(M1);
+        Location M2 = new Location
+        {
+            position = new Vector2(-680.8f,-275.4f),
+            offset = 270.0f
+        };
+        Location_List.Add(M2);
+        Location M3 = new Location
+        {
+            position = new Vector2(-673f,-281.9f),
+            offset = 270.0f
+        };
+        Location_List.Add(M3);
+        Location M4 = new Location
+        {
+            position = new Vector2(-651.8f,-281.8f),
+            offset = 270.0f
+        };
+        Location_List.Add(M4);
+        Location M5 = new Location
+        {
+            position = new Vector2(-665.5f,-281.9f),
+            offset = 270.0f
+        };
+        Location_List.Add(M5);
+        Location M6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 270.0f
+        };
+        Location_List.Add(M6);
+        Location M7 = new Location
+        {
+            position = new Vector2(-664.5f,-286f),
+            offset = 270.0f
+        };
+        Location_List.Add(M7);
     }
 
 

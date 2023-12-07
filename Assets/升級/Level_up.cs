@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ServerMethod;
+using Unity.VisualScripting;
 public class Level_up : MonoBehaviour
 {
     //蔡松豪加的
@@ -14,16 +15,12 @@ public class Level_up : MonoBehaviour
     public GameObject page_Check_upGrade;
     private int UpgradeIndex;
     private RectTransform contentRect;
-    public Text TowerLevel;
-    public Text TowerDollar;
-    private int[] TowerMonney = new int[] {1200,1700,2200,2700,3200,3700,4200,4700,5200,5700,6200,6700,7200,7700 };
-    
+    //
     public GameObject MaxGradeFigure;
     public GameObject ChangePropButtom;
     public GameObject[] props;
-    public Image Bomb;
-    public PartyManage partyManager;
-    private bool BombUsable;
+    public Image[] Bombs;
+    public Text Bomb_number;
     //
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject Back; // Close Button
@@ -31,28 +28,25 @@ public class Level_up : MonoBehaviour
     public GameObject Upgrade; // Upgrade Button
     [SerializeField] Text money; // money value
     public Text[] Level; // The all level of pictures in ScrollView
-    public Text[] Dollar; // The all level of pictures in ScrollView
+    public Text[] Dollar; // The all dollar of pictures in ScrollView
+    private int[] Money = new int[] {1200,400,300,700,600,500,650,750};   // the Money for upper charactor and tower
     private ServerMethod.Server ServerScript; // Server.cs
 
     // Start is called before the first frame update
     void Start()
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
-        Data_Definition();
         //
         contentRect = scrollRect.content;
         int itemCount = contentRect.childCount;
         distances = new float[itemCount];
-        //
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-        int value = partyManager.GetPartyMember();
         //Debug.Log(value);
-        Update_values(); // Update money and charactor level and money
+        Update_values(); // Update money and charactor level and money and bombs
         CalculateDistances();
         UpgradeIndex = FindNearestCenter();
     }
@@ -125,81 +119,72 @@ public class Level_up : MonoBehaviour
             Return result = coroutine.Current as Return;
             Debug.Log(result.success);
         }
-        
-        
-    }
-    //when click <props>
-    public void Change_props()
-    {
-        int value = partyManager.GetPartyMember();
-        if(value == 0)
-        {
-            partyManager.SetPartyMemberValue(5, 1);
-        }
-        else if(value == 1)
-        {
-            partyManager.SetPartyMemberValue(5, 0);
-        }
     }
     // Update energy && money && tear
     public void Update_values()
     {
         money.text = ServerScript.money.ToString();
+
+        if(ServerScript.castleLevel>=15)
+        {
+            Level[0].fontSize = 15;
+            Level[0].text = "MAX";
+            Dollar[0].text = "-";
+        }
+        else
+        {
+            Level[0].text = ServerScript.castleLevel.ToString();
+            Dollar[0].text = (Money[0]+500*(ServerScript.castleLevel-1)).ToString();
+        }
+        
         for(int i = 0; i<ServerScript.character.Length; i++)
         {
-            Level[i].fontSize = 25;
-            Level[i].text = (ServerScript.character[i]+1).ToString();
-            if(ServerScript.character[i]<=1)
+            Level[i+1].fontSize = 25;
+            Level[i+1].text = ServerScript.character[i].ToString();
+            Level[i+1].color = new Color(0f,0f,0f,1f);
+            Dollar[i+1].color = new Color(0f,0f,0f,1f);
+            if(ServerScript.character[i]==0)
             {
-                Dollar[i].text = (Character_Data_List[i].Dollar).ToString();
+                Level[i+1].color = new Color(0f,0f,0f,0f);
+                Dollar[i+1].color = new Color(0f,0f,0f,0f);
             }
-            else if(ServerScript.character[i]==5)
+            else if(ServerScript.character[i]==1)
             {
-                Level[i].fontSize = 15;
-                Level[i].text = "MAX";
-                Dollar[i].text = "-";
+                Dollar[i+1].text = Money[i+1].ToString();
+            }
+            else if(ServerScript.character[i]>=5)
+            {
+                Level[i+1].fontSize = 15;
+                Level[i+1].text = "MAX";
+                Dollar[i+1].text = "-";
             }
             else
             {
-                Dollar[i].text = (Character_Data_List[i].Dollar*Character_Data_List[i].Dollar_rate*(ServerScript.character[i]-1)).ToString();
+                Dollar[i+1].text = (Money[i+1]*1.5*(ServerScript.character[i]-1)).ToString();
             }
         }
-        if(ServerScript.castleLevel==15)
+
+        // whether you have Bombs can use
+        if(ServerScript.props[1]==0)
         {
-            TowerLevel.fontSize = 15;
-            TowerLevel.text = "MAX";
-            TowerDollar.text = "-";
+            Bombs[0].color = new Color(0f,0f,0f,1f);
+            Bombs[1].gameObject.SetActive(false);
         }
         else
         {
-            TowerLevel.text = (ServerScript.castleLevel+1).ToString();
-            TowerDollar.text = TowerMonney[(ServerScript.castleLevel-1)].ToString();
+            Bombs[0].color = new Color(1f,1f,1f,1f);
+            Bombs[1].gameObject.SetActive(true);
+            Bomb_number.gameObject.SetActive(true);
+            Bomb_number.text = "x" + ServerScript.props[1].ToString();
         }
-        UpdateProps();
     }
+    
     // Update Bomb
-    void UpdateProps()
+    public void Change()
     {   
-        if(BombUsable==false)
-        {
-            ChangePropButtom.SetActive(false);
-            Bomb.color = Color.black;
-        }
-        else
-        {
-            ChangePropButtom.SetActive(true);
-        }
-        int value = partyManager.GetPartyMember();
-        if(value==0)
-        {
-            props[0].SetActive(true);
-            props[1].SetActive(false);
-        }
-        else
-        {
-            props[0].SetActive(false);
-            props[1].SetActive(true);
-        }
+        props[0].SetActive(0==ServerScript.lineup[5]-1);
+        props[1].SetActive(1==ServerScript.lineup[5]-1);
+        ServerScript.lineup[5] = ServerScript.lineup[5]%2 + 1;
     }
     // Caculate who to upgrade
     void CalculateDistances()
@@ -224,6 +209,8 @@ public class Level_up : MonoBehaviour
         return -1;
     }
 
+    
+/*
     // Character Data struct
     public struct Character_Data
     {
@@ -410,6 +397,6 @@ public class Level_up : MonoBehaviour
         // Bomb usable
         BombUsable = (ServerScript.props[1] < 1) ? false : true;
     }
-
+*/
     
 }

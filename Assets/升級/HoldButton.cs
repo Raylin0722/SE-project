@@ -6,20 +6,25 @@ using System.Collections;
 
 public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    [SerializeField] GameObject[] objectToSpawnPrefab;  // 要生成的物件的預置體
-    private RectTransform rectTransform;
-    private ScrollRect scrollRect;
-    private bool isDragging = false;
-    private GameObject spawnedObject;
+    [SerializeField] GameObject[] Up_Images; // The all pictures in up level_up
+    private bool bool_dragging = false;
+    private GameObject Copy_image; // the upper image when you drag
     public Canvas canvas;
     public PartyManage partyManager;
     private int index;
 
+    private Dictionary<string, int> Image_Dictionary = new Dictionary<string, int>()
+    {
+        { "西瓜1", 0 }, { "西瓜2", 1 }, { "西瓜3", 2 }, { "西瓜4", 3 }, { "西瓜5", 4 }, { "西瓜6", 5 }, { "西瓜7", 6 },
+        { "香蕉1", 0 }, { "香蕉2", 1 }, { "香蕉3", 2 }, { "香蕉4", 3 }, { "香蕉5", 4 }, { "香蕉6", 5 }, { "香蕉7", 6 },
+        { "辣椒1", 0 }, { "辣椒2", 1 }, { "辣椒3", 2 }, { "辣椒4", 3 }, { "辣椒5", 4 }, { "辣椒6", 5 }, { "辣椒7", 6 },
+        { "香菇1", 0 }, { "香菇2", 1 }, { "香菇3", 2 }, { "香菇4", 3 }, { "香菇5", 4 }, { "香菇6", 5 }, { "香菇7", 6 },
+    };
+    private ServerMethod.Server ServerScript; // Server.cs
 
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
-        scrollRect = GetComponentInParent<ScrollRect>();
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
     void Update()
     {
@@ -27,47 +32,21 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        isDragging = true;
-        // 禁用 ScrollView 滑動
-        //scrollRect.enabled = false;
-
-        // 確保 eventData.pointerCurrentRaycast 不為空
-        if (eventData.pointerCurrentRaycast.gameObject != null)
+        bool_dragging = true;
+        if(eventData.pointerCurrentRaycast.gameObject != null)
         {
-            GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
-
-            // 在这里，你可以获取有关该物体的信息，或执行其他操作
-            //Debug.Log("Clicked on: " + clickedObject.name);
-            switch (clickedObject.name)
+            GameObject Clicked_Object = eventData.pointerCurrentRaycast.gameObject;
+            Debug.Log(Clicked_Object.name);
+            if(Image_Dictionary.TryGetValue(Clicked_Object.name, out int value))
             {
-                case "西瓜-1":
-                    index = 1;
-                    break;
-                case "西瓜-2":
-                    index = 2;
-                    break;
-                case "西瓜-3":
-                    index = 3;
-                    break;
-                case "西瓜-4":
-                    index = 4;
-                    break;
-                case "西瓜-5":
-                    index = 5;
-                    break;
-                case "西瓜-6":
-                    index = 6;
-                    break;
-                default:
-                    index = 0;
-                    break;
+                index = value;
+                Copy(index);
             }
-            if (index == 0)
+            else
             {
+                index = 0;
                 return;
             }
-            // 生成物件
-            SpawnObject(index);
         }
     }
 
@@ -95,56 +74,117 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     }
     public void OnDrag(PointerEventData eventData)
     {
-        if (isDragging && spawnedObject != null)
+        if (bool_dragging && Copy_image != null)
         {
             // 將生成的物件移動到滑鼠位置
-            spawnedObject.transform.position = Input.mousePosition;
+            Copy_image.transform.position = Input.mousePosition;
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        isDragging = false;
-        if (spawnedObject != null)
+        bool_dragging = false;
+        if (Copy_image != null)
         {
             if (IsMouseOverSpecificUI("party_1"))
             {
-                partyManager.SetPartyMemberValue(0, index);
-                Destroy(spawnedObject);
+                //partyManager.SetPartyMemberValue(0, index);
+                int tmp_position = -1;
+                int tmp_value = -1;
+                for(int i = 0; i<5 ; i++)
+                {
+                    if(ServerScript.lineup[i]==index+1)
+                    {
+                        tmp_position = i;
+                        tmp_value = ServerScript.lineup[0];
+                    }
+                }
+                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
+                ServerScript.lineup[0] = index + 1;
+                Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_2"))
             {
-                partyManager.SetPartyMemberValue(1, index);
-                Destroy(spawnedObject);
+                //partyManager.SetPartyMemberValue(1, index);
+                int tmp_position = -1;
+                int tmp_value = -1;
+                for(int i = 0; i<5 ; i++)
+                {
+                    if(ServerScript.lineup[i]==index+1)
+                    {
+                        tmp_position = i;
+                        tmp_value = ServerScript.lineup[1];
+                    }
+                }
+                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
+                ServerScript.lineup[1] = index + 1;
+                Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_3"))
             {
-                partyManager.SetPartyMemberValue(2, index);
-                Destroy(spawnedObject);
+                //partyManager.SetPartyMemberValue(2, index);
+                int tmp_position = -1;
+                int tmp_value = -1;
+                for(int i = 0; i<5 ; i++)
+                {
+                    if(ServerScript.lineup[i]==index+1)
+                    {
+                        tmp_position = i;
+                        tmp_value = ServerScript.lineup[2];
+                    }
+                }
+                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
+                ServerScript.lineup[2] = index + 1;
+                Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_4"))
             {
-                partyManager.SetPartyMemberValue(3, index);
-                Destroy(spawnedObject);
+                //partyManager.SetPartyMemberValue(3, index);
+                int tmp_position = -1;
+                int tmp_value = -1;
+                for(int i = 0; i<5 ; i++)
+                {
+                    if(ServerScript.lineup[i]==index+1)
+                    {
+                        tmp_position = i;
+                        tmp_value = ServerScript.lineup[3];
+                    }
+                }
+                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
+                ServerScript.lineup[3] = index + 1;
+                Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_5"))
             {
-                partyManager.SetPartyMemberValue(4, index);
-                Destroy(spawnedObject);
+                //partyManager.SetPartyMemberValue(4, index);
+                int tmp_position = -1;
+                int tmp_value = -1;
+                for(int i = 0; i<5 ; i++)
+                {
+                    if(ServerScript.lineup[i]==index+1)
+                    {
+                        tmp_position = i;
+                        tmp_value = ServerScript.lineup[4];
+                    }
+                }
+                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
+                ServerScript.lineup[4] = index + 1;
+                Destroy(Copy_image);
             }
             else
             {
-                Destroy(spawnedObject);
+                Destroy(Copy_image);
             }
         }
         // 啟用 ScrollView 滑動
         //scrollRect.enabled = true;
     }
 
-    void SpawnObject(int index)
+    void Copy(int index)
     {
         Vector3 mousePosition = Input.mousePosition;
+        Debug.Log(Up_Images.Length);
         // 生成物件
-        spawnedObject = Instantiate(objectToSpawnPrefab[index - 1], mousePosition, Quaternion.identity, canvas.transform);
+        Copy_image = Instantiate(Up_Images[index], Input.mousePosition, Quaternion.identity, canvas.transform);
     }
 }
