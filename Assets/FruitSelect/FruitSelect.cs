@@ -15,6 +15,7 @@ public class FruitSelect : MonoBehaviour
     public VideoPlayer video; // the video before game
     private bool bool_play = false;
     public GameObject Music_main_scene; // the Music in main_scene
+    public GameObject Skip;
 
     // Server.cs
     private ServerMethod.Server ServerScript;
@@ -23,6 +24,7 @@ public class FruitSelect : MonoBehaviour
     void Start()
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
+        Skip.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -88,8 +90,13 @@ public class FruitSelect : MonoBehaviour
             video.gameObject.SetActive(true); // Open story vedio
             video.Play();
             bool_play = true;
+            Skip.gameObject.SetActive(false);
         }
         video.loopPointReached += End_Video;
+        if(video.time>5f)   
+        {
+            Skip.gameObject.SetActive(true);
+        }
     }
 
     void End_Video(VideoPlayer video)

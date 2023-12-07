@@ -17,6 +17,10 @@ public class Registration : MonoBehaviour {
     public Image incorrect_password;
     [SerializeField] string token;
 
+    public GameObject page_Rigister; // the page of rigister
+    public GameObject page_User_consent; // the page of user consent
+    private bool bool_agree = false; // whether you agree to the user consent
+
     private void Start() {
         password_too_short.enabled = false;
         user_existed.enabled = false;
@@ -25,6 +29,24 @@ public class Registration : MonoBehaviour {
     }
     public void CallRegister() {
         StartCoroutine(Register());
+    }
+
+    private void Update()
+    {
+        if(bool_agree==false)
+        {
+            page_Rigister.gameObject.SetActive(false);
+            page_User_consent.gameObject.SetActive(true);
+        }
+        else
+        {
+            page_Rigister.gameObject.SetActive(true);
+            page_User_consent.gameObject.SetActive(false);
+        }
+    }
+    public void Agree()
+    {
+        bool_agree = true;
     }
 
     IEnumerator Register() {

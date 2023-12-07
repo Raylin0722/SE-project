@@ -176,25 +176,25 @@ public class PartyManage : MonoBehaviour
         Location_List.Add(S2);
         Location S3 = new Location
         {
-            position = new Vector2(-673f,-285f),
+            position = new Vector2(-673f,-296f),
             offset = 270.0f
         };
         Location_List.Add(S3);
         Location S4 = new Location
         {
-            position = new Vector2(-671f,-283f),
+            position = new Vector2(-674.7f,-284.6f),
             offset = 270.0f
         };
         Location_List.Add(S4);
         Location S5 = new Location
         {
-            position = new Vector2(-670f,-288f),
+            position = new Vector2(-673.1f,-269.3f),
             offset = 270.0f
         };
         Location_List.Add(S5);
         Location S6 = new Location
         {
-            position = new Vector2(-673f,-301f),
+            position = new Vector2(-673f,-299f),
             offset = 270.0f
         };
         Location_List.Add(S6);
