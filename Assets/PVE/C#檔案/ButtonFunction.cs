@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Assets.Scripts;
 using ServerMethod;
+using System;
 public class ButtonFunction : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -129,6 +130,7 @@ public class ButtonFunction : MonoBehaviour
         Time.timeScale=1f;
         GameIsStart=true;
         ServerScript = FindObjectOfType<ServerMethod.Server>();
+        Award_Definition();
     }
 
     // Update is called once per frame
@@ -405,15 +407,17 @@ public class ButtonFunction : MonoBehaviour
     public void Award_Calculate(int state) // 0 => Lose  ,   1 => Win
     {
         //int[] clearance = [0,0,0,0,0,0,0,0,0,0,0,0];
-        if(state==0)
+        int index = 6*(GameManage.currentLevel/10-1)+(GameManage.currentLevel%10-1);
+        if(state==1)
         {
-            Exp.text = "0";
-            Dollar.text = "0";
-            Tear.text = "0";
-            return;
+            Dollar.text = ((int)((Award_List[index].dollar)
+            *Math.Pow(2.0f,-(ServerScript.clearance[index]-1)))).ToString();
+            Exp.text = ((int)((Award_List[index].exp)
+            *Math.Pow(2.0f, -(ServerScript.clearance[index]-1)))).ToString();
+            Tear.text = ((int)(Award_List[index].tear)).ToString();
+            if(ServerScript.clearance[index]!=1) Tear.text = "0";
         }
         
-        Exp.text = (Award_List[6*(GameManage.currentLevel/10-1)+(GameManage.currentLevel%10-1)].exp).ToString();
     }
 
     private void Award_Definition()
