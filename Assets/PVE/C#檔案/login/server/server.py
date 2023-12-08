@@ -1032,7 +1032,6 @@ def updateFriend():
     
     return resultReturn
   
-    
 @app.route("/topUp", methods=['get', 'post']) # 儲值
 def topUp(): 
     token = request.form.get("token")
@@ -1071,6 +1070,68 @@ def topUp():
     cnx.close()
     
     return resultReturn
+    
+@app.route("/setting", methods=['get', 'post'])
+def setting():
+    token = request.form.get("token")
+    volume = request.form.get("volume")
+    backVolume = request.form.get("backVolume")
+    shock = request.form.get("shock")
+    remind = request.form.get("remind")
+    
+    resultReturn = {"success" : False}
+    if token == None or volume == None or backVolume == None or shock == None or remind == None:
+        return resultReturn
+
+    try:
+        volume = int(volume)
+        backVolume = int(backVolume)
+        if shock == "True":
+            shock = True
+        elif shock == "False":
+            shock = False
+        else:
+            return resultReturn
+        if remind == "True":
+            remind = True
+        elif remind == "False":
+            remind = False
+        else:
+            return resultReturn
+
+        if volume >= 100:
+            volume = 100
+        elif volume <= 0:
+            volume = 0
+            
+        if backVolume >= 100:
+            backVolume = 100
+        elif backVolume <= 0:
+            backVolume = 0
+        
+        
+    except:
+        return resultReturn
+    
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
+    cur.execute("select volume, backVolume, shock, remind from usersdata where token=%s;", (token, ))
+    result = cur.fetchall()
+    
+    if len(result) == 1:
+        try:
+            cur.execute("update usersdata set volume=%s, backVolume=%s, shock=%s, remind=%s where token=%s;", (volume, backVolume, shock, remind))
+            cnx.commit()
+            resultReturn["success"] = True
+        except:
+            return resultReturn
+        finally:
+            cur.close()
+            cnx.close()
+    
+    return resultReturn
+
     
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
