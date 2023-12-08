@@ -146,8 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 150
-  bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
-  bulletSpawnPoint: {fileID: 0}
+  bulletPrefab: {fileID: 163011619016269139, guid: fd69a008af76ad14cab7f874b96918ca, type: 3}
   attackRange: 12
   bulletSpeed: 8
 --- !u!114 &4783719702364573432
@@ -164,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2000
   currentHealth: 2000
-  HpBar: {fileID: 0}
+  HpBar: {fileID: 4591375962712726897, guid: df895c2b0e1cae740a25bf2201d57219, type: 3}
 --- !u!95 &7414238374727469054
 Animator:
   serializedVersion: 5

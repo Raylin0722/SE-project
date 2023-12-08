@@ -9,6 +9,7 @@ public class Bullets : MonoBehaviour
     private Transform target;  // 追踪的目标
     private float speed = 5.0f;  // 子弹速度
 
+    private float first_change=0;
     public void SetVelocity(Vector2 newVelocity)
     {
         velocity = newVelocity;
@@ -28,6 +29,7 @@ public class Bullets : MonoBehaviour
     }
     void Update()
     {
+    
         if (target != null)
         {
 
@@ -35,12 +37,17 @@ public class Bullets : MonoBehaviour
             Vector2 direction = (target.position - transform.position).normalized;
             // 旋转子弹的Sprite Renderer以面向移动方向
             if(target.tag=="Player")
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
+            {   
+                if(first_change==0)
+                {
+                    float newScaleX = transform.localScale.x * -1;
+                    transform.localScale = new Vector3(newScaleX, transform.localScale.y, transform.localScale.z);
+                    first_change=1;
+                } 
             }
             else
             {
-                transform.localScale = new Vector3(1, 1, 1);   
+                //transform.localScale = new Vector3(1, 1, 1);   
             }
             // 更新子弹的位置，以追踪目标位置
             transform.Translate(direction * speed * Time.deltaTime);
@@ -54,6 +61,7 @@ public class Bullets : MonoBehaviour
     // 当子弹碰撞到其他碰撞器时触发碰撞事件
     void OnTriggerEnter2D(Collider2D collision)
     {
+
         if(target.tag=="enemy")
         {
             if (collision.CompareTag("enemy"))

@@ -9,23 +9,59 @@ public class Health : MonoBehaviour{
     public int maxHealth = 100;
     public int currentHealth=100;
     [SerializeField] GameObject HpBar;
+    private GameObject hpBarInstance;
+    void Awake()
+    {
+        if (gameObject.layer == 8)
+        {
+            CreateHpBar();
+        }
+    }
     private void Start(){
         currentHealth = maxHealth;
     }
+    private void CreateHpBar()
+    {
+        // 創建 HP Bar 實例
+        hpBarInstance = Instantiate(HpBar, Vector3.zero, Quaternion.identity);
+        
+        // 設置 HP Bar 為 UI 介面的子物體
+        hpBarInstance.transform.SetParent(GameObject.Find("Canvas").transform, false); // 將 Canvas 換成你的實際 UI 介面的名稱
 
+        RectTransform hpBarRectTransform = hpBarInstance.GetComponent<RectTransform>();
+
+        hpBarRectTransform.anchoredPosition = new Vector2(814f, 237f);
+
+        hpBarInstance.GetComponent<Image>().fillAmount = 1f; // 初始化填充量為滿
+        // 設置 HP Bar 的其他屬性，例如位置、縮放等
+        // ...
+    }
+
+    private void UpdateHpBar()
+    {
+          // 更新 HP Bar 的顯示，例如填充量
+        float fillAmount = (float)currentHealth / maxHealth;
+        hpBarInstance.GetComponent<Image>().fillAmount = fillAmount;
+    }
     public void TakeDamage(int damage){
         int currentFrame = Time.frameCount;
         Debug.Log("Current Frame: " + currentFrame);
         Debug.Log(gameObject+" -50");
-        if(gameObject.layer==6||gameObject.layer==8){
+        if(gameObject.layer==6)
+        {
             currentHealth =(currentHealth-damage<=maxHealth) ? currentHealth-damage : maxHealth ;
             HpBar.GetComponent<Image>().fillAmount = (float)currentHealth/maxHealth;
+        }
+        else if(gameObject.layer==8)
+        {
+            currentHealth =(currentHealth-damage<=maxHealth) ? currentHealth-damage : maxHealth ;
+            UpdateHpBar();
         }
         else{
             currentHealth =(currentHealth-damage<=maxHealth) ? currentHealth-damage : maxHealth ;
         }
         if (currentHealth <= 0){
-            Debug.Log(gameObject);
+            Debug.Log("死了",gameObject);
             StartCoroutine(Die());
         }
     }
