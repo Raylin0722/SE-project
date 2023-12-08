@@ -137,8 +137,8 @@ public class START : MonoBehaviour
             Lock[i].gameObject.SetActive(true);
             if(ServerScript.clearance[i]==0)
             {
-                Unlock[i].gameObject.SetActive(true);
-                Lock[i].gameObject.SetActive(false);
+                Unlock[i].gameObject.SetActive(false);
+                Lock[i].gameObject.SetActive(true);
             }
         }
     }
