@@ -28,6 +28,8 @@ public class ButtonManager : MonoBehaviour
     public Text energy; // energy value
     public Text money; // money value
     public Text tear; // tear value
+    public Text username;
+    public Text level;
     public AudioSource Music_Main_Scene; // the Music in Main Scene
     private ServerMethod.Server ServerScript; // Server.cs
 
@@ -114,6 +116,8 @@ public class ButtonManager : MonoBehaviour
         energy.text = ServerScript.energy.ToString() + "/30";
         money.text = ServerScript.money.ToString();
         tear.text = ServerScript.tear.ToString();
+        username.text = ServerScript.username.ToString();
+        level.text = "Lv"+ServerScript.exp[0].ToString();
     }
 
     // Play Music

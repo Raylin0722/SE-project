@@ -203,6 +203,7 @@ MonoBehaviour:
   attackCooldown: 1
   cost: 0
   currentHealth: 0
+  animator: {fileID: 0}
   isAngel: 1
 --- !u!114 &5959592028339293395
 MonoBehaviour:
