@@ -7947,6 +7947,7 @@ MonoBehaviour:
   serverdata: {fileID: 2104943741}
   money: {fileID: 833581174}
   tear: {fileID: 1714351216}
+  chestRemaid: {fileID: 1472822409}
 --- !u!4 &348033559
 Transform:
   m_ObjectHideFlags: 0
