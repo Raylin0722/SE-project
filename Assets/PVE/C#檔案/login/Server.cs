@@ -540,5 +540,35 @@ namespace ServerMethod{
             yield return result;
 
         }
+
+        public IEnumerator setting(int volume, int backVolume, bool shock, bool remind){
+            WWWForm form = new WWWForm();
+            form.AddField("token", token);
+            form.AddField("volume", volume);
+            form.AddField("backVolume", backVolume);
+            form.AddField("shock", shock);
+            form.AddField("remind", remind);
+
+            UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/setting", form);
+
+            Return result = new Return();
+            yield return www.SendWebRequest();
+            if(www.result == UnityWebRequest.Result.Success){
+                string response = www.downloadHandler.text;
+                result = JsonUtility.FromJson<Return>(response);
+                CallUpdateUserData();
+            }
+            else
+                result.success = false;
+
+            if(result.success == true)
+                Debug.Log("Success!");
+            else
+                Debug.Log("Failed!");
+
+
+            yield return result;
+
+        }
     }
 }
