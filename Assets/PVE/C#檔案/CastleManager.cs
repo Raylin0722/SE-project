@@ -37,6 +37,30 @@ public class CastleManager : MonoBehaviour
                 castle = Instantiate(CatlePrefabs[4], transform);
                 castle.transform.position = new Vector3(13.0f, -1.0f, 0f);
                 break;
+            case 21:
+                castle = Instantiate(CatlePrefabs[5], transform);
+                castle.transform.position = new Vector3(15.0f, -1.08f, 0f);
+                break;
+            case 22:
+                castle = Instantiate(CatlePrefabs[6], transform);
+                castle.transform.position = new Vector3(14.88f, -1.13f, 0f);
+                break;
+            case 23:
+                castle = Instantiate(CatlePrefabs[7], transform);
+                castle.transform.position = new Vector3(15.73f, -0.70f, 0f);
+                break;
+            case 24:
+                castle = Instantiate(CatlePrefabs[8], transform);
+                castle.transform.position = new Vector3(15.06f, -0.84f, 0f);
+                break;
+            case 25:
+                castle = Instantiate(CatlePrefabs[9], transform);
+                castle.transform.position = new Vector3(15.11f, -1.07f, 0f);
+                break;
+            case 26:
+                castle = Instantiate(CatlePrefabs[9], transform);
+                castle.transform.position = new Vector3(15.11f, -1.07f, 0f);
+                break;
         }
     }
 
