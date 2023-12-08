@@ -6,13 +6,18 @@ public class tower_enemy : MonoBehaviour
 {
     public int attackDamage = 150;
     public GameObject bulletPrefab;
-    public Transform bulletSpawnPoint;
+    private Transform bulletSpawnPoint;
     public float attackRange = 15.0f;
     private float timer; // 计时器
     public float bulletSpeed=7;
     public static float windCooldown=0.0f;
     static public bool enemyToolIsActive=false;
     static public bool enemyToolIsUseable=true;
+    void Start()
+    {
+        bulletSpawnPoint = new GameObject().transform;
+        bulletSpawnPoint.position = new Vector3(15, 0, 0);
+    }
     void Update()
     {
         //判斷敵人的冷風
