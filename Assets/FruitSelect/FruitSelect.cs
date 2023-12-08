@@ -83,6 +83,15 @@ public class FruitSelect : MonoBehaviour
 
     public void Play_Video()
     {
+        /*
+        if(ServerScript.faction[0]==1)
+        {
+            Music_main_scene.SetActive(false); // Close music in Main_Scene
+            ALL_Button.SetActive(false); // Close All button in Main_Scene
+            Fruit_Select();
+        }
+        */
+        ///*
         if(ServerScript.faction[0]==1 && bool_play==false)
         {
             Music_main_scene.SetActive(false); // Close music in Main_Scene
@@ -97,6 +106,7 @@ public class FruitSelect : MonoBehaviour
         {
             Skip.gameObject.SetActive(true);
         }
+        //*/
     }
 
     void End_Video(VideoPlayer video)
