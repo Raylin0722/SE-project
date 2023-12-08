@@ -546,8 +546,14 @@ namespace ServerMethod{
             form.AddField("token", token);
             form.AddField("volume", volume);
             form.AddField("backVolume", backVolume);
-            form.AddField("shock", shock);
-            form.AddField("remind", remind);
+            if(shock == true)
+                form.AddField("shock", "True");
+            else
+                form.AddField("shock", "False");
+            if(remind == true)
+                form.AddField("remind", "True");
+            else
+                form.AddField("remind", "False");
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/setting", form);
 
