@@ -9,7 +9,6 @@ public class Health : MonoBehaviour{
     public int maxHealth = 100;
     public int currentHealth=100;
     [SerializeField] GameObject HpBar;
-
     private void Start(){
         currentHealth = maxHealth;
     }

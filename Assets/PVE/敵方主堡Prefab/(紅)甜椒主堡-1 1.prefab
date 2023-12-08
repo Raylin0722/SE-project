@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5360928448304389059}
   - component: {fileID: 4523719499652378547}
   - component: {fileID: 3749493323037754126}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: "(\u7D05)\u751C\u6912\u4E3B\u5821-1 1"
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: de5315f39c326884895ce6a5afa9fdc0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -147,7 +147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 150
   bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
-  bulletSpawnPoint: {fileID: 0}
   attackRange: 12
   bulletSpeed: 8
 --- !u!114 &4523719499652378547

@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 4557471063839702843}
   - component: {fileID: 4195359986329146333}
   - component: {fileID: 4534076433163441727}
-  - component: {fileID: 3649512146146070980}
   - component: {fileID: 6773968390638321933}
+  - component: {fileID: 3649512146146070980}
   - component: {fileID: 7268017703305580153}
-  m_Layer: 0
+  - component: {fileID: 3867806724710317554}
+  m_Layer: 8
   m_Name: "(\u6A59)\u751C\u6912\u4E3B\u5821-1 1"
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: ecd154cc31971ca49a8cd49df8b5198a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -133,23 +134,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6014817, y: 1.9167085}
   m_EdgeRadius: 0
---- !u!114 &3649512146146070980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49566256177779835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 412b1236afaee764f8f4c35bf1dfa942, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackDamage: 150
-  bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
-  bulletSpawnPoint: {fileID: 0}
-  attackRange: 12
-  bulletSpeed: 8
 --- !u!114 &6773968390638321933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +149,22 @@ MonoBehaviour:
   maxHealth: 2000
   currentHealth: 2000
   HpBar: {fileID: 0}
+--- !u!114 &3649512146146070980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49566256177779835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412b1236afaee764f8f4c35bf1dfa942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 150
+  bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
+  attackRange: 12
+  bulletSpeed: 8
 --- !u!95 &7268017703305580153
 Animator:
   serializedVersion: 5
@@ -186,3 +186,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3867806724710317554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49566256177779835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  HpBar: {fileID: 0}
