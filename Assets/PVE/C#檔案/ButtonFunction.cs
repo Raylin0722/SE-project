@@ -7,9 +7,12 @@ using UnityEngine.SceneManagement;
 using Assets.Scripts;
 using ServerMethod;
 using System;
+using System.Linq;
+
 public class ButtonFunction : MonoBehaviour
 {
     // Start is called before the first frame update
+    public GameObject Bomb;
     [SerializeField] GameObject WhiteBack;
     [SerializeField] GameObject Continue; 
     [SerializeField] GameObject Replay; 
@@ -52,7 +55,7 @@ public class ButtonFunction : MonoBehaviour
     int initialEnergy;
     int InsideGameUpgrade;
     int recovery;
-    float windCooldown=0.0f;
+    public static float windCooldown=0.0f;
     float oneSec;
     float temp;
     float increment;
@@ -143,14 +146,22 @@ public class ButtonFunction : MonoBehaviour
             //currentEnergy=200;
         }
         //判斷我方冷風能不能用以及冷風使用時間過3秒要將移動速度調整回來
+        //12-09新增炸彈,功能是炸死離主堡最近的,冷卻一律用windCooldown
         if(windCooldown>0.0f){
-            float last=windCooldown;
-            windCooldown-=Time.deltaTime;
-            if(last>7.0f&&windCooldown<=7.0f){
-                itemWind(true,true);
-                GameManage.toolIsActive=false;
+            if(ServerScript.lineup[5]==1){
+                float last=windCooldown;
+                windCooldown-=Time.deltaTime;
+                if(last>7.0f&&windCooldown<=7.0f){
+                    itemWind(true,true);
+                    GameManage.toolIsActive=false;
+                }
+                if(windCooldown<0) windCooldown=0.0f;
             }
-            if(windCooldown<0) windCooldown=0.0f;
+            else if(ServerScript.lineup[5]==2){
+                windCooldown-=Time.deltaTime;
+                GameManage.toolIsActive=false;
+                if(windCooldown<0) windCooldown=0.0f;
+            }
         }
         else GameManage.toolIsUseable=true;
 
@@ -349,10 +360,29 @@ public class ButtonFunction : MonoBehaviour
                 }
             }
     }
-
+    //itemBomb(True) --> player use 
+    public void itemBomb(bool whoUse){
+        string objectTag = (whoUse) ?"enemy" :"Player" ;
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(objectTag);
+            enemies =(whoUse) ? enemies.OrderBy(enemy => enemy.transform.position.x).ToArray()
+            : enemies = enemies.OrderByDescending(enemy => enemy.transform.position.x).ToArray();
+            if(enemies != null && enemies.Length > 0 && enemies[0] != null){
+                float centerX = enemies[0].transform.position.x;
+                float centerY = enemies[0].transform.position.y;
+                if (centerX != 15 && centerX != -15) {
+                    Bomb.GetComponent<Bomb>().Trigger();
+                    Bomb.transform.position = new Vector3(centerX, centerY, 0f);
+                    Destroy(enemies[0]);
+                    GameManage.toolIsUseable = false;
+                    GameManage.toolIsActive = true;
+                    windCooldown=10.0f;
+                    fadeOutEffect.StartCooldown();
+                }
+            }
+    }
     public void tool()
     {
-        if(GameManage.toolIsUseable)
+        if(GameManage.toolIsUseable&&ServerScript.lineup[5]==1)
         {
             GameManage.toolIsUseable=false;
             GameManage.toolIsActive=true;
@@ -366,6 +396,10 @@ public class ButtonFunction : MonoBehaviour
                     Wind.ActivateWind();
             }
             windCooldown=10.0f;
+        }
+        else if(GameManage.toolIsUseable&&ServerScript.lineup[5]==2)
+        {
+            itemBomb(true);
         }
         
     }
