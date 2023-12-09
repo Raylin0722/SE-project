@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 using ServerMethod;
+using System;
 
 public class Shop : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Shop : MonoBehaviour
     public GameObject serverdata;
     [SerializeField] Text money; // money value
     [SerializeField] Text tear; // tear value
+    [SerializeField] Text chestRemaid;
     private ServerMethod.Server ServerScript; // Server.cs
 
     // Start is called before the first frame update
@@ -48,6 +50,7 @@ public class Shop : MonoBehaviour
     void Update()
     {
         Update_values(); // Update money && tear
+        Update_chest_time();
     }
 
     // When click < X > 
@@ -231,4 +234,23 @@ public class Shop : MonoBehaviour
     {
         Check_Page.SetActive(false);
     }
+
+    public void Update_chest_time(){
+        DateTime nowTime = DateTime.Now;
+        DateTime canOpenTime = DateTime.Parse(ServerScript.chestTime);
+        TimeSpan timeDifference = canOpenTime - nowTime;
+        
+        if(timeDifference.TotalSeconds < 0f){
+            chestRemaid.text = "00:00";
+        }
+        else{
+            int days = timeDifference.Days;
+            int hours = timeDifference.Hours + 24 * days;
+            int minutes = timeDifference.Minutes;
+            chestRemaid.text = hours.ToString() + ":" + minutes.ToString();
+        }
+
+        
+    }
+    
 }
