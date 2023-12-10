@@ -47,8 +47,10 @@ public class Charactor : MonoBehaviour
         }
         for(int i = 0; i<ServerScript.lineup.Length-1; i++)
         {
+            Debug.Log(7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1);
             Pictures[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].rectTransform.anchoredPosition = new Vector3(Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].position.x+i*Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].offset,Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].position.y,Location_List[7*(ServerScript.faction[1]-1-1)+ServerScript.lineup[i]-1].position.z);
         }
+        
     }
 
     // Character Display Definition
