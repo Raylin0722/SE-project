@@ -274,9 +274,9 @@ namespace ServerMethod{
             WWWForm form = new WWWForm();
             string lineupString = string.Join(",", lineup);
             lineupString = "["+lineupString+"]";
-            Debug.Log(lineupString);
             form.AddField("lineup", lineupString);
             form.AddField("token", token);
+            print(lineupString);
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateLineup", form);
             
             yield return www.SendWebRequest();

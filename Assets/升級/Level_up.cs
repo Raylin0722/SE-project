@@ -53,7 +53,7 @@ public class Level_up : MonoBehaviour
 
     // When click < BACK >
     public void Button_Back()
-    {
+    {   
         page_Level_up.SetActive(false);
         ALL_Button.SetActive(true); // Open All button in Main_Scene
     }

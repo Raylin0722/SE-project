@@ -15,6 +15,7 @@ public class Book : MonoBehaviour
     public Image End; // The hint pictures for next to the end
     private int Current = 0; // The current position about your location in Book
     private ServerMethod.Server ServerScript; // Server.cs
+    private Coroutine endCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,7 @@ public class Book : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ShowPage(Current);
+        if(ServerScript.rankClear.Count!=0)     ShowPage(Current);
     }
 
     // When click < < >
@@ -46,6 +47,11 @@ public class Book : MonoBehaviour
         Current=0;
         ShowPage(0);
         page_Book.SetActive(false);
+        if(endCoroutine!=null)
+        {
+            StopCoroutine(endCoroutine);
+            endCoroutine = null;
+        }
         ALL_Button.SetActive(true); // Open All button in Main_Scene
     }
 
@@ -59,7 +65,7 @@ public class Book : MonoBehaviour
             if(Current>=7)
             {
                 Current = 6;
-                StartCoroutine(end(1f));
+                endCoroutine = StartCoroutine(end(1f));
             }
             ShowPage(Current);
         }

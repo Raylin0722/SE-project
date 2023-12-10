@@ -5,6 +5,9 @@ using TMPro;
 using System.Collections;
 using Small_ranking_list_Method;
 using System;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using ServerMethod;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -38,6 +41,7 @@ public class ButtonManager : MonoBehaviour
 
     public GameObject ranking_list; 
     public Image[] Rank; 
+    public bool bool_level_up = false;
 
 
     private void Start()
@@ -58,10 +62,30 @@ public class ButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Update_values(); // Update energy && money && tear
-        Update_Ranking_List(); // Update Ranking_List in Main_Scene
+        if(ServerScript.rankClear.Count!=0)
+        {
+            Update_values(); // Update energy && money && tear
+            Update_Ranking_List(); // Update Ranking_List in Main_Scene
+        }
+        if(bool_level_up==false && page_Level_up.activeSelf==true)
+        {
+            bool_level_up = true;
+        }
+        if(bool_level_up==true && page_Level_up.activeSelf==false)
+        {
+            StartCoroutine(Lineup_to_Surver());
+        }
     }
 
+    // 
+    private IEnumerator Lineup_to_Surver()
+    {
+        IEnumerator coroutine = ServerScript.updateLineup(ServerScript.lineup);
+        yield return StartCoroutine(coroutine);
+        Return result = coroutine.Current as Return;
+        Debug.Log(result.success);
+        bool_level_up = false;
+    }
 
     // Click < Ranking_list > 
     public void Button_Ranking_list()
@@ -163,7 +187,7 @@ public class ButtonManager : MonoBehaviour
     {
         DateTime now = DateTime.Now;
         TimeSpan timediff = now - DateTime.Parse(ServerScript.updateTime);
-        Debug.Log(ServerScript.updateTime);
+        //Debug.Log(ServerScript.updateTime);
         int during = ServerScript.remainTime + (int)timediff.TotalSeconds, min = 0, sec = 0, tempTime = 0;
         if(during > 1200){
             ServerScript.CallUpdateUserData();
