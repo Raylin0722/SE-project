@@ -40,7 +40,7 @@ public class Login : MonoBehaviour {
 
     char ValidateInput(string text, int charIndex, char addedChar)
     {
-        if((addedChar >= 'a' && addedChar <= 'z') || (addedChar >= 'A' && addedChar <= 'Z') || (addedChar >= '0' && addedChar <= '9'))
+        if((addedChar>='a' && addedChar<='z') || (addedChar>='A' && addedChar<='Z') || (addedChar>='0' && addedChar<='9'))
         {
             return addedChar;
         }

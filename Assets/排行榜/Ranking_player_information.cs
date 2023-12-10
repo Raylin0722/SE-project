@@ -27,7 +27,10 @@ public class Ranking_player_information : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Update_Ranking_player_information();
+        if(ServerScript.rankFaction.Count!=0)
+        {
+            Update_Ranking_player_information();
+        }
     }
 
     // Update the player's ranking information

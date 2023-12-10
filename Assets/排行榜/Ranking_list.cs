@@ -23,7 +23,7 @@ public class Ranking_list : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(bool_update==true)
+        if(bool_update==true && ServerScript.rankFaction.Count!=0)
         {
             Update_Ranking_List();
             bool_update = false;
