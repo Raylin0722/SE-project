@@ -18,6 +18,7 @@ public class START : MonoBehaviour
     public GameObject hint; // the hint about Insufficient energy
     public GameObject[] Unlock; // the unlocked level image
     public GameObject[] Lock; // the locked level image
+    private Coroutine endCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,10 @@ public class START : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Update_values(); // Update energy
+        if(ServerScript.clearance.Length!=0)
+        {
+            Update_values(); // Update energy
+        }
     }
 
     // When click < Level >
@@ -37,7 +41,7 @@ public class START : MonoBehaviour
         // detect whether your energy is sufficient
         if(ServerScript.energy<5)   
         {
-            StartCoroutine(Enengy_Hint(1f));
+            endCoroutine = StartCoroutine(Enengy_Hint(1f));
             return;
         }
 
@@ -107,7 +111,7 @@ public class START : MonoBehaviour
             }
             else
             {
-                StartCoroutine(Enengy_Hint(1f));
+                endCoroutine = StartCoroutine(Enengy_Hint(1f));
                 return;
             }
         }));
@@ -132,6 +136,11 @@ public class START : MonoBehaviour
     // When click < BACK > 
     public void Button_Close()
     {
+        if(endCoroutine!=null)
+        {
+            StopCoroutine(endCoroutine);
+            endCoroutine = null;
+        }
         page_START.SetActive(false);
         ALL_Button.SetActive(true); // Open Main_Scene
     }
