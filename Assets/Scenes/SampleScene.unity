@@ -24815,6 +24815,7 @@ MonoBehaviour:
   tear: {fileID: 562168201}
   username: {fileID: 454832247}
   level: {fileID: 888008841}
+  timetoGetEnergy: {fileID: 191569011}
   Music_Main_Scene: {fileID: 1461520333}
   ranking_list: {fileID: 1008933059}
   Rank:
@@ -48724,6 +48725,7 @@ MonoBehaviour:
   slingshotLevel: 0
   clearance: 
   energy: 0
+  remainTime: 0
   updateTime: 
   volume: 0
   backVolume: 0
