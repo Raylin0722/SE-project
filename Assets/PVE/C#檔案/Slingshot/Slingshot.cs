@@ -152,7 +152,7 @@ public class Slingshot : MonoBehaviour
                     location.z = 0;
                     float CancelDistance = Vector3.Distance(location, Cancel_Area.transform.position);*/
                     
-                    if(Canceldistance<42)
+                    if(Canceldistance<85)
                     {
                         slingshotState = SlingshotState.do_nothing;
                         Cancel_Area_UI.SetActive(false);
