@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -43,7 +44,7 @@ public class Ranking_player_information : MonoBehaviour
         if(Myself.tag=="15")
         {
             string MyName = ServerScript.username;
-            for(int i = 0; i<50 ; i++)
+            for(int i = 0; i<ServerScript.rankName.Count ; i++)
             {
                 if(ServerScript.rankName[i]==MyName)
                 {
@@ -65,7 +66,6 @@ public class Ranking_player_information : MonoBehaviour
         }
 
         Rank_number.text = (Rank_number_index+1).ToString();
-        if(Myself.tag=="15" && (Rank_number_index+1)>=50)   Rank_number.text = "50+";
         User_name.text = ServerScript.rankName[Rank_number_index];
         for(int i = 0; i<5 ; i++)   Faction[i].gameObject.SetActive(false);
         if(ServerScript.rankFaction[Rank_number_index]==-1)     Faction[4].gameObject.SetActive(true);

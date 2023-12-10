@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEditor;
+using System;
 
 public class USER : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class USER : MonoBehaviour
 
     // Server.cs
     private ServerMethod.Server ServerScript;
+    public Image Experience_line;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +25,7 @@ public class USER : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Update_Display();
+        if(ServerScript.faction.Length!=0)   Update_Display();
     }
 
     // When click < Change >
@@ -58,5 +61,7 @@ public class USER : MonoBehaviour
         {
             portraits[i].SetActive(i==ServerScript.faction[1]-2);
         }
+        
+        Experience_line.fillAmount = (float)(ServerScript.exp[1] / (500 * Math.Pow(2.5,ServerScript.exp[0]-1)));
     }
 }
