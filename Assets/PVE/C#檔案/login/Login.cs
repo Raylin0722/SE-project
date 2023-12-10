@@ -23,6 +23,33 @@ public class Login : MonoBehaviour {
         incorrect_password.enabled = false;
     }
 
+    private void Update()
+    {
+        if(nameField.text.Length>0)
+        {
+            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57)
+            {
+                nameField.text = nameField.text.Substring(0,nameField.text.Length-1);
+            }
+        }
+        if(passwordField.text.Length>0)
+        {
+            passwordField.onValidateInput += ValidateInput;
+        }
+    }
+
+    char ValidateInput(string text, int charIndex, char addedChar)
+    {
+        if((addedChar >= 'a' && addedChar <= 'z') || (addedChar >= 'A' && addedChar <= 'Z') || (addedChar >= '0' && addedChar <= '9'))
+        {
+            return addedChar;
+        }
+        else
+        {
+            return '\0';
+        }
+    }
+    
     public void CallLogin() {
         StartCoroutine(LoginPlayer());
     }

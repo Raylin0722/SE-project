@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Text;
 
 public class Registration : MonoBehaviour {
     public TMP_InputField nameField;
@@ -43,10 +44,34 @@ public class Registration : MonoBehaviour {
             page_Rigister.gameObject.SetActive(true);
             page_User_consent.gameObject.SetActive(false);
         }
+
+        if(nameField.text.Length>0)
+        {
+            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57)
+            {
+                nameField.text = nameField.text.Substring(0,nameField.text.Length-1);
+            }
+        }
+        if(passwordField.text.Length>0)
+        {
+            passwordField.onValidateInput += ValidateInput;
+        }
     }
     public void Agree()
     {
         bool_agree = true;
+    }
+
+    char ValidateInput(string text, int charIndex, char addedChar)
+    {
+        if((addedChar >= 'a' && addedChar <= 'z') || (addedChar >= 'A' && addedChar <= 'Z') || (addedChar >= '0' && addedChar <= '9'))
+        {
+            return addedChar;
+        }
+        else
+        {
+            return '\0';
+        }
     }
 
     IEnumerator Register() {
