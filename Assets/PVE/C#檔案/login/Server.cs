@@ -19,6 +19,7 @@ namespace ServerMethod{
         public int slingshotLevel;
         public int[] clearance;
         public int energy;
+        public int remainTime;
         public string updateTime;
         public int volume;
         public int backVolume;
@@ -70,6 +71,7 @@ namespace ServerMethod{
         public int slingshotLevel;
         public int[] clearance;
         public int energy;
+        public int remainTime;
         public string updateTime;
         public int volume;
         public int backVolume;
@@ -117,7 +119,7 @@ namespace ServerMethod{
 
             if(www.result == UnityWebRequest.Result.Success){
                 string response = www.downloadHandler.text;
-                
+                Debug.Log(response);
                 data playerData = JsonUtility.FromJson<data>(response);
 
                 success = playerData.success;
@@ -130,6 +132,7 @@ namespace ServerMethod{
                 slingshotLevel = playerData.slingshotLevel;
                 clearance = playerData.clearance;
                 energy = playerData.energy;
+                remainTime = playerData.remainTime;
                 updateTime = playerData.updateTime;
                 volume = playerData.volume;
                 backVolume = playerData.backVolume;

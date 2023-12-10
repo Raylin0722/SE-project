@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using Small_ranking_list_Method;
+using System;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class ButtonManager : MonoBehaviour
     public Text tear; // tear value
     public Text username;
     public Text level;
+    public Text timetoGetEnergy;
     public AudioSource Music_Main_Scene; // the Music in Main Scene
     private ServerMethod.Server ServerScript; // Server.cs
 
@@ -159,11 +161,23 @@ public class ButtonManager : MonoBehaviour
     // Update energy && money && tear
     public void Update_values()
     {
+        DateTime now = DateTime.Now;
+        TimeSpan timediff = now - DateTime.Parse(ServerScript.updateTime);
+        int during = ServerScript.remainTime + (int)timediff.TotalSeconds;
+        if(during > 1200){
+            during -= 1200;
+            ServerScript.energy += 1;
+        }
+        int tempTime = 1200 - (during);
+        int min = tempTime / 60;
+        int sec = tempTime % 60;
+        timetoGetEnergy.text = "倒數計時:" + min.ToString().PadLeft(2, '0') + ":" + sec.ToString();
         energy.text = ServerScript.energy.ToString() + "/30";
         money.text = ServerScript.money.ToString();
         tear.text = ServerScript.tear.ToString();
         username.text = ServerScript.username.ToString();
         level.text = "Lv"+ServerScript.exp[0].ToString();
+        
     }
 
     // Play Music
