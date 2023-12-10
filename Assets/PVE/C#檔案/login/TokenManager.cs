@@ -16,8 +16,9 @@ public class TokenManager : MonoBehaviour
       Destroy(gameObject);
       return;
     }
-
     Instance = this;
+    Instance.tag = "DontDestroy";
     DontDestroyOnLoad(gameObject);
   }
+  
 }

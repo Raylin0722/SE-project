@@ -163,15 +163,25 @@ public class ButtonManager : MonoBehaviour
     {
         DateTime now = DateTime.Now;
         TimeSpan timediff = now - DateTime.Parse(ServerScript.updateTime);
-        int during = ServerScript.remainTime + (int)timediff.TotalSeconds;
+        Debug.Log(ServerScript.updateTime);
+        int during = ServerScript.remainTime + (int)timediff.TotalSeconds, min = 0, sec = 0, tempTime = 0;
         if(during > 1200){
-            during -= 1200;
-            ServerScript.energy += 1;
+            ServerScript.CallUpdateUserData();
+            now = DateTime.Now;
+            timediff = now - DateTime.Parse(ServerScript.updateTime);
+            during = ServerScript.remainTime + (int)timediff.TotalSeconds;
         }
-        int tempTime = 1200 - (during);
-        int min = tempTime / 60;
-        int sec = tempTime % 60;
-        timetoGetEnergy.text = "倒數計時:" + min.ToString().PadLeft(2, '0') + ":" + sec.ToString();
+        
+        tempTime = 1200 - (during);
+        min = tempTime / 60;
+        sec = tempTime % 60;
+        
+        
+        if(ServerScript.energy==30){
+            min = 0;
+            sec = 0;
+        }
+        timetoGetEnergy.text = "倒數計時:" + min.ToString().PadLeft(2, '0') + ":" + sec.ToString().PadLeft(2, '0');
         energy.text = ServerScript.energy.ToString() + "/30";
         money.text = ServerScript.money.ToString();
         tear.text = ServerScript.tear.ToString();

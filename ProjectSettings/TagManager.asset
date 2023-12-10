@@ -26,6 +26,7 @@ TagManager:
   - 24
   - 25
   - 26
+  - DontDestroy
   layers:
   - Default
   - TransparentFX

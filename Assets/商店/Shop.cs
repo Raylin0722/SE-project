@@ -247,7 +247,7 @@ public class Shop : MonoBehaviour
             int days = timeDifference.Days;
             int hours = timeDifference.Hours + 24 * days;
             int minutes = timeDifference.Minutes;
-            chestRemaid.text = hours.ToString() + ":" + minutes.ToString();
+            chestRemaid.text = hours.ToString().PadLeft(2, '0') + ":" + minutes.ToString().PadLeft(2, '0');
         }
 
         
