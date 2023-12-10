@@ -273,9 +273,10 @@ namespace ServerMethod{
         public IEnumerator updateLineup(int[] lineup){
             WWWForm form = new WWWForm();
             string lineupString = string.Join(",", lineup);
+            lineupString = "["+lineupString+"]";
+            Debug.Log(lineupString);
             form.AddField("lineup", lineupString);
             form.AddField("token", token);
-
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateLineup", form);
             
             yield return www.SendWebRequest();
@@ -292,6 +293,7 @@ namespace ServerMethod{
 
             yield return result;
             
+        
         }   
         public IEnumerator updateRank(){
             WWWForm form = new WWWForm();
