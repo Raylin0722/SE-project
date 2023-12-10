@@ -246,6 +246,10 @@ public class ButtonFunction : MonoBehaviour
         Exit.SetActive(false);
         //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         ServerScript.CallUpdateUserData();
+        GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+        foreach (GameObject obj in dontDestroyObjects){
+            Destroy(obj);
+        }
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
     public void StartGame()
@@ -450,6 +454,10 @@ public class ButtonFunction : MonoBehaviour
             *Math.Pow(2.0f, -(ServerScript.clearance[index]-1)))).ToString();
             Tear.text = ((int)(Award_List[index].tear)).ToString();
             if(ServerScript.clearance[index]!=1) Tear.text = "0";
+        }
+        GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+        foreach (GameObject obj in dontDestroyObjects){
+            Destroy(obj);
         }
         
     }

@@ -96,8 +96,10 @@ namespace ServerMethod{
             username = TokenManager.Instance.Username;
             CallUpdateUserData();
             GameObject serverObj = GameObject.Find("Server");
-            if(serverObj != null)
+            if(serverObj != null){
                 DontDestroyOnLoad(serverObj);
+                serverObj.tag = "DontDestroy";
+            }
         }
         private void Start() {
             StartCoroutine(autoUpdate());
@@ -144,11 +146,19 @@ namespace ServerMethod{
 
             }
             else{ //非法token需跳回登入頁面
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("未連接至伺服器");
             }
 
             if(success == false){
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("Error2");
             }
