@@ -5,6 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
+
+using ServerMethod;
+using System;
 public class FruitSelect : MonoBehaviour
 {
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
@@ -33,6 +36,21 @@ public class FruitSelect : MonoBehaviour
         Play_Video(); // This is only for you to test,and you can delete it.
     }
 
+    private IEnumerator Surver_Before_Game(Action<bool> callback)
+    {
+        IEnumerator coroutine = ServerScript.initFaction(2);
+        yield return StartCoroutine(coroutine);
+        
+        Return result = coroutine.Current as Return;
+        bool bool_success = false;
+        if(result!=null)
+        {
+            bool_success = result.success;
+        }
+
+        callback.Invoke(bool_success);
+    }
+
     // Check Button
     public void Check()
     {
@@ -43,11 +61,13 @@ public class FruitSelect : MonoBehaviour
         {
             ServerScript.faction[2] = 1;
             ServerScript.faction[3] = 0;
+            StartCoroutine(ServerScript.initFaction(2));
         }
         else
         {
             ServerScript.faction[2] = 0;
             ServerScript.faction[3] = 1;
+            StartCoroutine(ServerScript.initFaction(3));      
         }
         ServerScript.faction[0] = 0;
         ServerScript.faction[1] = fruit + 2;
@@ -83,15 +103,6 @@ public class FruitSelect : MonoBehaviour
 
     public void Play_Video()
     {
-        /*
-        if(ServerScript.faction[0]==1)
-        {
-            Music_main_scene.SetActive(false); // Close music in Main_Scene
-            ALL_Button.SetActive(false); // Close All button in Main_Scene
-            Fruit_Select();
-        }
-        */
-        ///*
         if(ServerScript.faction[0]==1 && bool_play==false)
         {
             Music_main_scene.SetActive(false); // Close music in Main_Scene
@@ -106,7 +117,6 @@ public class FruitSelect : MonoBehaviour
         {
             Skip.gameObject.SetActive(true);
         }
-        //*/
     }
 
     void End_Video(VideoPlayer video)

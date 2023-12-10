@@ -22,7 +22,13 @@ public class Friends : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input_Field.text.Length>0)
+        {
+            if(Input_Field.text[Input_Field.text.Length-1]>=48 && Input_Field.text[Input_Field.text.Length-1]<=57)
+            {
+                Input_Field.text = Input_Field.text.Substring(0,Input_Field.text.Length-1);
+            }
+        }
     }
 
     // When click < X >
