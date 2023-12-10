@@ -20,12 +20,16 @@ public class CharacterManage : MonoBehaviour
     [SerializeField] GameObject[] XinBaouGuPrefabs;//xin baou gu
     [SerializeField] GameObject[] XioJenGuPrefabs;//xio jen gu
     [SerializeField] GameObject[] MyWatermelonPrefabs;
+    [SerializeField] GameObject[] MyBananaPrefabs;
+    [SerializeField] GameObject[] MyPepperSPrefabs;
+    [SerializeField] GameObject[] MyXianGuPrefabs;
     [SerializeField] GameObject[] w1coolbar;
     [SerializeField] GameObject[] w2coolbar;
     [SerializeField] GameObject[] w3coolbar;
     [SerializeField] GameObject[] w4coolbar;
     [SerializeField] GameObject[] w5coolbar;
-    private GameObject[][] PepperPrefabs;
+    private GameObject[][] EnemyPrefabs;
+    private GameObject[][] WarriorPrefabs;
     private GameObject[][] wcoolbar;
     public GameObject castle1;
     float passtime;
@@ -33,13 +37,26 @@ public class CharacterManage : MonoBehaviour
     static public int CharacterIdInCd=0;
     int GoOnShoot = 0;
     public TextMeshProUGUI Level_Title; //  Level Title
+    private ServerMethod.Server ServerScript;
+    private float[] wCoolTimeUnit_builtin=new float[7]{4.77f,3f,7f,4.77f,5.88f,4f,4.5f};
+    private int[] wEnergy_builtin=new int[7]{150,70,250,150,200,150,200};
+    private float[] wCoolTimeUnit=new float[5];
+    private int[] wEnergy=new int[5];
     void Start()
     {
+        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        for(int i=0;i<5;i++){
+            wCoolTimeUnit[i]=wCoolTimeUnit_builtin[ServerScript.lineup[i]-1];
+            wEnergy[i]=wEnergy_builtin[ServerScript.lineup[i]-1];
+        }
         passtime=0f;
         record=0;
-        PepperPrefabs = new GameObject[][] {
+        EnemyPrefabs = new GameObject[][] {
             PepperOPrefabs,PepperGPrefabs,PepperYPrefabs,PepperRPrefabs,PepperSPrefabs,new GameObject[0],
             YangGuPrefabs,JinJenGuRPrefabs,XianGuPrefabs,XinBaouGuPrefabs,XioJenGuPrefabs,new GameObject[0]
+        };
+        WarriorPrefabs = new GameObject[][] {
+            MyWatermelonPrefabs,MyBananaPrefabs,MyPepperSPrefabs,MyXianGuPrefabs
         };
         wcoolbar = new GameObject[][] {w1coolbar,w2coolbar,w3coolbar,w4coolbar,w5coolbar};
         EnemySeq = new int[][] {
@@ -57,13 +74,12 @@ public class CharacterManage : MonoBehaviour
     private float[] wCoolTime=new float[5]{0f,0f,0f,0f,0f};
     private float[] temp=new float[5]{0f,0f,0f,0f,0f};
     private int[] wi=new int[5]{0,0,0,0,0};
-    private float[] wCoolTimeUnit=new float[5]{4.77f,3f,7f,4.77f,5.88f};
-    private int[] wEnergy=new int[5]{150,70,250,150,200};
+
     void Update()
     {
         //判斷是否進入CD
         if(CharacterIdInCd!=0){
-            watermelonProduct(CharacterIdInCd-1);
+            warriorProduct(CharacterIdInCd-1);
             CharacterIdInCd=0;
         }
         //
@@ -102,7 +118,7 @@ public class CharacterManage : MonoBehaviour
         }
     }
 
-    public void watermelonProduct(int index)
+    public void warriorProduct(int index)
     {
         if(wisUseable[index]&&GoOnShoot==1&&CharacterIdInCd==index+1)
         {
@@ -121,10 +137,10 @@ public class CharacterManage : MonoBehaviour
             }
             shot.SetEnergy(wEnergy[index]);
             //ButtonFunction.currentEnergy-=150;
-            GameObject Watermelon=Instantiate(MyWatermelonPrefabs[index], transform);
+            GameObject Warrior=Instantiate(WarriorPrefabs[ServerScript.faction[1]-2][ServerScript.lineup[index]-1], transform);
             //Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
             shot.CharacterIdInCd_shoot=index+1;
-            shot.Rock=Watermelon;
+            shot.Rock=Warrior;
             if (shot != null)
             {
                 shot.slingshotState = SlingshotState.Idle;
@@ -173,7 +189,7 @@ public class CharacterManage : MonoBehaviour
             {
                 int PrefabIndex;
                 if(index%6==5)PrefabIndex=index/6*6+record%5;else PrefabIndex=index;
-                GameObject enemies=Instantiate(PepperPrefabs[PrefabIndex][EnemySeq[index][record]-1], transform);
+                GameObject enemies=Instantiate(EnemyPrefabs[PrefabIndex][EnemySeq[index][record]-1], transform);
                 enemies.transform.position=new Vector3(15.0f, 0.0f, 0f);
                 enemies.transform.rotation = Quaternion.Euler(0, 180f, 0);
             }

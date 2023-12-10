@@ -84,7 +84,7 @@ public class START : MonoBehaviour
                 GameManage.currentLevel=26;
                 break;
         }
-        
+
         // 虛假關卡前同步
         StartCoroutine(ServerScript.beforeGame());
         SceneManager.LoadScene("Background", LoadSceneMode.Single);
@@ -94,6 +94,15 @@ public class START : MonoBehaviour
             Debug.Log(result);
             if(result==true)
             {
+                int index = 6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1);
+                for(int i = 0; i<index ; i++)
+                {
+                    if(ServerScript.clearance[i]==0)
+                    {
+                        Debug.Log("不好笑");
+                        return;
+                    }
+                }
                 SceneManager.LoadScene("Background", LoadSceneMode.Single);
             }
             else

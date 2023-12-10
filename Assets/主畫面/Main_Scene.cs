@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Small_ranking_list_Method;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class ButtonManager : MonoBehaviour
     public AudioSource Music_Main_Scene; // the Music in Main Scene
     private ServerMethod.Server ServerScript; // Server.cs
 
+    public GameObject ranking_list; 
+    public Image[] Rank; 
+
 
     private void Start()
     {
@@ -53,6 +57,7 @@ public class ButtonManager : MonoBehaviour
     void Update()
     {
         Update_values(); // Update energy && money && tear
+        Update_Ranking_List(); // Update Ranking_List in Main_Scene
     }
 
 
@@ -61,6 +66,47 @@ public class ButtonManager : MonoBehaviour
     {
         page_Ranking_list.SetActive(true);
         //ALL_Button.SetActive(false); // Close All button in Main_Scene
+    }
+
+    private void Update_Ranking_List()
+    {
+        int index = -1;
+        for(int i = 0; i<ServerScript.rankName.Count; i++)
+        {
+            if(ServerScript.rankName[i]==ServerScript.username)
+            {
+                index = i;
+                break;
+            }
+        }
+        if(index==0)
+        {
+            Rank[2].rectTransform.anchoredPosition = new Vector2(0.5f,179f);
+            Rank[0].rectTransform.anchoredPosition = new Vector2(0.5f,9.65f);
+            Rank[2].GetComponent<Small_ranking_list>().Set_tag(index);
+            Rank[1].GetComponent<Small_ranking_list>().Set_tag(index+1);
+            Rank[0].GetComponent<Small_ranking_list>().Set_tag(index+2);
+            Rank[3].GetComponent<Small_ranking_list>().Set_tag(index+3);
+            Rank[4].GetComponent<Small_ranking_list>().Set_tag(index+4);
+        }
+        else if(index==1)
+        {
+            Rank[2].rectTransform.anchoredPosition = new Vector2(0.5f,94f);
+            Rank[1].rectTransform.anchoredPosition = new Vector2(0.5f,9.65f);
+            Rank[0].GetComponent<Small_ranking_list>().Set_tag(index-1);
+            Rank[2].GetComponent<Small_ranking_list>().Set_tag(index);
+            Rank[1].GetComponent<Small_ranking_list>().Set_tag(index+1);
+            Rank[3].GetComponent<Small_ranking_list>().Set_tag(index+2);
+            Rank[4].GetComponent<Small_ranking_list>().Set_tag(index+3);
+        }
+        else
+        {
+            Rank[0].GetComponent<Small_ranking_list>().Set_tag(index-2);
+            Rank[1].GetComponent<Small_ranking_list>().Set_tag(index-1);
+            Rank[2].GetComponent<Small_ranking_list>().Set_tag(index);
+            Rank[3].GetComponent<Small_ranking_list>().Set_tag(index+1);
+            Rank[4].GetComponent<Small_ranking_list>().Set_tag(index+2);
+        }
     }
 
     // Click < Shop > 
