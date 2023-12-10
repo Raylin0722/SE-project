@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Small_ranking_list_Method;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -72,7 +73,6 @@ public class ButtonManager : MonoBehaviour
         int index = -1;
         for(int i = 0; i<ServerScript.rankName.Count; i++)
         {
-            
             if(ServerScript.rankName[i]==ServerScript.username)
             {
                 index = i;
@@ -83,14 +83,30 @@ public class ButtonManager : MonoBehaviour
         {
             Rank[2].rectTransform.anchoredPosition = new Vector2(0.5f,179f);
             Rank[0].rectTransform.anchoredPosition = new Vector2(0.5f,9.65f);
+            Rank[2].GetComponent<Small_ranking_list>().Set_tag(index);
+            Rank[1].GetComponent<Small_ranking_list>().Set_tag(index+1);
+            Rank[0].GetComponent<Small_ranking_list>().Set_tag(index+2);
+            Rank[3].GetComponent<Small_ranking_list>().Set_tag(index+3);
+            Rank[4].GetComponent<Small_ranking_list>().Set_tag(index+4);
         }
         else if(index==1)
         {
             Rank[2].rectTransform.anchoredPosition = new Vector2(0.5f,94f);
             Rank[1].rectTransform.anchoredPosition = new Vector2(0.5f,9.65f);
+            Rank[0].GetComponent<Small_ranking_list>().Set_tag(index-1);
+            Rank[2].GetComponent<Small_ranking_list>().Set_tag(index);
+            Rank[1].GetComponent<Small_ranking_list>().Set_tag(index+1);
+            Rank[3].GetComponent<Small_ranking_list>().Set_tag(index+2);
+            Rank[4].GetComponent<Small_ranking_list>().Set_tag(index+3);
         }
-
-
+        else
+        {
+            Rank[0].GetComponent<Small_ranking_list>().Set_tag(index-2);
+            Rank[1].GetComponent<Small_ranking_list>().Set_tag(index-1);
+            Rank[2].GetComponent<Small_ranking_list>().Set_tag(index);
+            Rank[3].GetComponent<Small_ranking_list>().Set_tag(index+1);
+            Rank[4].GetComponent<Small_ranking_list>().Set_tag(index+2);
+        }
     }
 
     // Click < Shop > 
