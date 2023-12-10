@@ -59,13 +59,14 @@ public class Setting : MonoBehaviour
         currentScale.x = -currentScale.x;
         Vibration.transform.localScale = currentScale;
 
-        if (picture_Vibration_ON.activeSelf)
+        if(picture_Vibration_ON.activeSelf)
         {
             picture_Vibration_ON.SetActive(false); // ON => false
             picture_Vibration_OFF.SetActive(true); // OFF => true
             Vector3 currentPosition = Vibration.transform.localPosition;
             currentPosition.x = currentPosition.x - 15;
             Vibration.transform.localPosition = currentPosition;
+            Vibration_function();
         }
         else
         {
@@ -74,6 +75,15 @@ public class Setting : MonoBehaviour
             Vector3 currentPosition = Vibration.transform.localPosition;
             currentPosition.x = currentPosition.x + 15;
             Vibration.transform.localPosition = currentPosition;
+        }
+    }
+
+    // Vibration
+    public void Vibration_function()
+    {
+        if(Application.platform==RuntimePlatform.Android)
+        {
+            Handheld.Vibrate();
         }
     }
 

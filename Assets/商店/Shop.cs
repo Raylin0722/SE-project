@@ -37,6 +37,9 @@ public class Shop : MonoBehaviour
     [SerializeField] Text tear; // tear value
     [SerializeField] Text chestRemaid;
     private ServerMethod.Server ServerScript; // Server.cs
+    public GameObject hint; // the hint about ont open
+    private Coroutine endCoroutine;
+    public GameObject Transparent_Background;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +59,11 @@ public class Shop : MonoBehaviour
     // When click < X > 
     public void Button_Close()
     {
+        if(endCoroutine!=null)
+        {
+            StopCoroutine(endCoroutine);
+            endCoroutine = null;
+        }
         page_Shop.SetActive(false);
         ALL_Button.SetActive(true); // Open All button in Main_Scene
     }
@@ -65,7 +73,6 @@ public class Shop : MonoBehaviour
     {
         Ordinary_Box_close.gameObject.SetActive(false); // Ordinary Box with closing
         Ordinary_Box_open.gameObject.SetActive(true); // Ordinary Box with openning
-        White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
         StartCoroutine(Fade_Screen(true)); // the fading animation before the drawing
     }
@@ -76,7 +83,6 @@ public class Shop : MonoBehaviour
         Debug.Log("我開了");
         Special_Box_close.gameObject.SetActive(false); // Special Box with closing
         Special_Box_open.gameObject.SetActive(true); // Special Box with openning
-        White_Image.gameObject.SetActive(true);
         // You can write them separately or according to parameters
         StartCoroutine(Fade_Screen(false)); // the fading animation before the drawing
     }
@@ -84,20 +90,7 @@ public class Shop : MonoBehaviour
     // the animation of drawing 
     private IEnumerator Fade_Screen(bool openType)
     {
-        float Elapsed_Time = 0f; // the time elpased now
-        Color startColor = new Color(1f, 1f, 1f, 0f); // Transparent Color
-        Color targetColor = White_Image.color;
-        Vector3 Start_Scale = new Vector3(0.1f, 0.1f, 0.1f); // min
-        Vector3 End_Scale = new Vector3(1.7f, 1.7f, 1.7f); // max
-
-        while(Elapsed_Time<Time_White)
-        {
-            White_Image.color = Color.Lerp(startColor, targetColor, Elapsed_Time / Time_White);
-            White_Image.transform.localScale = Vector3.Lerp(Start_Scale, End_Scale, Elapsed_Time / Time_White);
-            Elapsed_Time = Elapsed_Time + Time.deltaTime;
-            yield return null;
-        }
-
+        Transparent_Background.gameObject.SetActive(true);
         IEnumerator coroutine = serverdata.GetComponent<Server>().openChest(openType);
         yield return StartCoroutine(coroutine);
 
@@ -110,16 +103,49 @@ public class Shop : MonoBehaviour
             Debug.Log("角色代號 -1表示沒抽到角色: " + result.character);
             Debug.Log("是否抽到角色 若上一個有抽到這邊是false表示已擁有: " + result.get);
             Debug.Log("錯誤狀況(出現-1表示時間未到或淚水不足 出現-2請立即呼叫Raylin 感恩): " + result.situation);
+            if(result.success==true)
+            {
+                StartCoroutine(Fade_Screen_new(result.result,result.character));
+            }
+            else
+            {
+                endCoroutine = StartCoroutine(Not_Opne_Hint(1f));
+                yield return new WaitForSeconds(1f);
+                Conceal_Result();
+            }
         }
+    }
+
+    private IEnumerator Fade_Screen_new(int result,int character)
+    {
+        White_Image.gameObject.SetActive(true);
+        float Elapsed_Time = 0f; // the time elpased now
+        Color startColor = new Color(1f, 1f, 1f, 0f); // Transparent Color
+        Color targetColor = White_Image.color;
+        Vector3 Start_Scale = new Vector3(0.1f, 0.1f, 0.1f); // min
+        Vector3 End_Scale = new Vector3(1.7f, 1.7f, 1.7f); // max
+
+        while(Elapsed_Time<Time_White)
+        {
+            White_Image.color = Color.Lerp(startColor, targetColor, Elapsed_Time / Time_White);
+            White_Image.transform.localScale = Vector3.Lerp(Start_Scale, End_Scale, Elapsed_Time / Time_White);
+            Elapsed_Time = Elapsed_Time + Time.deltaTime;
+        }
+        yield return StartCoroutine(Fade_Screen_new_2(result,character));
+    }
+
+    private IEnumerator Fade_Screen_new_2(int result,int character)
+    {
         //顯示抽獎
-        StartCoroutine(Show_Result(result.result,result.character));
+        StartCoroutine(Show_Result(result,character));
         yield return new WaitForSeconds(2f);
-        Conceal_Result();
+        
         Special_Bottom.SetActive(false);
         If_Special=false;
         //
-        White_Image.gameObject.SetActive(false);
+        Conceal_Result();
     }
+
     public IEnumerator Show_Result(int result,int character_index)
     {  
         //特殊寶箱
@@ -210,6 +236,8 @@ public class Shop : MonoBehaviour
         Special_Box_open.gameObject.SetActive(false);
         Ordinary_Box_close.gameObject.SetActive(true);
         Special_Box_close.gameObject.SetActive(true);
+        White_Image.gameObject.SetActive(false);
+        Transparent_Background.gameObject.SetActive(false);
     }
 
     // Update energy && money && tear
@@ -252,5 +280,11 @@ public class Shop : MonoBehaviour
 
         
     }
-    
+    IEnumerator Not_Opne_Hint(float delay)
+    {
+        hint.SetActive(false);
+        hint.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        hint.SetActive(false);
+    }
 }
