@@ -423,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &51967665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2451,7 +2451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &492347452
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2468,7 +2468,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -916, y: 139}
+  m_AnchoredPosition: {x: -434, y: 96}
   m_SizeDelta: {x: 38.65, y: 41.1996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &492347453
@@ -2484,7 +2484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5779,8 +5779,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -398, y: 5.9537}
-  m_SizeDelta: {x: 1602.3, y: 659.43}
+  m_AnchoredPosition: {x: 434, y: -138}
+  m_SizeDelta: {x: 2691.6162, y: 1186.9333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1148417003
 MonoBehaviour:
@@ -7122,11 +7122,11 @@ MonoBehaviour:
   - {fileID: 5862840294405006216, guid: 0188244d602175b43925ff276ef18093, type: 3}
   - {fileID: 5862840294405006216, guid: 055380968e125644daaabb2606c365ca, type: 3}
   MyBananaPrefabs:
-  - {fileID: 517485063730896021, guid: 3e72e1220cf4efd4e8d643ff20ad8fba, type: 3}
-  - {fileID: 6483940979788748892, guid: 2aea3de5186636249b12889b638b8a57, type: 3}
-  - {fileID: 8472609970553967162, guid: 75b0fe32f0635fa438b78d91d3cbbcfd, type: 3}
-  - {fileID: 2560329838516628243, guid: fc3e8eb9eb3b85247b40dfb2b9cbec81, type: 3}
-  - {fileID: 6761167124937504806, guid: 45f24a46f2891ae46abfecd4e6ba9936, type: 3}
+  - {fileID: 4471287510425020502, guid: 910a7382ec4d6d049ba1cb06232c9e67, type: 3}
+  - {fileID: 8109517580012384657, guid: ff9dd393ab4aff1498dc2a645a95fc4d, type: 3}
+  - {fileID: 3923828420973348032, guid: 3ccb36725d796544ca8419d8e4f47124, type: 3}
+  - {fileID: 8139386657303700831, guid: 030fc59c43692334f978b06fd9a7a7b3, type: 3}
+  - {fileID: 5858476599678012617, guid: c48f62e324513114e8033e98253b645f, type: 3}
   - {fileID: 5862840294405006216, guid: 12b5647860d14b74b92f6df8dbff4bab, type: 3}
   - {fileID: 5862840294405006216, guid: fe0d907b594663349b97d96b2e39ac98, type: 3}
   MyPepperSPrefabs:

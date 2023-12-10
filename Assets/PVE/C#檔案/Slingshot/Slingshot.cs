@@ -145,14 +145,14 @@ public class Slingshot : MonoBehaviour
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform,  Cancel_Area.transform.position, canvas.worldCamera, out Vector2 canvasCancelPosition);
                     //Debug.Log("Mouse position in Canvas: " + canvasMousePosition);
                     float Canceldistance = Vector2.Distance(canvasMousePosition, canvasCancelPosition);
-
+                    Debug.Log("cancel"+Canceldistance);
                     // 在這裡，distance 就是滑鼠與UI元素之間的距離
                     /*Debug.Log("Distance to UI Element: " + distance);
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     location.z = 0;
-                    float CancelDistance = Vector3.Distance(location, Cancel_Area.transform.position);
-                    Debug.Log(CancelDistance);*/
-                    if(Canceldistance<42)
+                    float CancelDistance = Vector3.Distance(location, Cancel_Area.transform.position);*/
+                    
+                    if(Canceldistance<85)
                     {
                         slingshotState = SlingshotState.do_nothing;
                         Cancel_Area_UI.SetActive(false);
