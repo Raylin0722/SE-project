@@ -228,6 +228,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 400
   currentHealth: 100
+  who: 1
+  isEnemy: 1
   HpBar: {fileID: 0}
 --- !u!114 &-2921281639704888224
 MonoBehaviour:
@@ -252,3 +254,5 @@ MonoBehaviour:
   currentHealth: 0
   animator: {fileID: 0}
   isAngel: 0
+  who: 1
+  isEnemy: 1

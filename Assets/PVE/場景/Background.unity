@@ -365,7 +365,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 440, y: 350}
+  m_AnchoredPosition: {x: 299, y: 350}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &45525634
@@ -1394,7 +1394,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28, y: -22.9}
+  m_AnchoredPosition: {x: -62.4, y: -22.96}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &273617477
@@ -1786,7 +1786,7 @@ GameObject:
   - component: {fileID: 324164291}
   - component: {fileID: 324164290}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: "w4\u80FD\u91CF"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2237,7 +2237,7 @@ GameObject:
   - component: {fileID: 449486923}
   - component: {fileID: 449486922}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: "w5\u80FD\u91CF"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3440,7 +3440,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3469,7 +3469,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0.78344727, w: 0}
+  m_margin: {x: -125.59891, y: 0, z: 0.78344727, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3981,7 +3981,7 @@ GameObject:
   - component: {fileID: 841148916}
   - component: {fileID: 841148915}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: "w1\u80FD\u91CF"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4212,7 +4212,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -37.720642, y: -23}
+  m_AnchoredPosition: {x: -62.2, y: -23.17}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &876296997
@@ -4701,7 +4701,7 @@ GameObject:
   - component: {fileID: 980434473}
   - component: {fileID: 980434472}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: "w2\u80FD\u91CF"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5584,8 +5584,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b536bb59e23d1d540a5ec7ddaf7b22a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2000
-  currentHealth: 100
+  maxHealth: 3000
+  currentHealth: 3000
+  who: 0
+  isEnemy: 0
+  isTower: 1
   HpBar: {fileID: 1441001275}
 --- !u!61 &1117045836
 BoxCollider2D:
@@ -5665,7 +5668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcccdea7894ac834abb7cfcb45081f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 150
+  attackDamage: 200
   bulletPrefab: {fileID: 1544235282072782740, guid: 45a73495df46b5e4e8f4cc1cb72c6d20, type: 3}
   bulletSpawnPoint: {fileID: 1016310111}
   attackRange: 12
@@ -6004,7 +6007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -39.6, y: -22.5}
+  m_AnchoredPosition: {x: -71.6, y: -22.83}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1208067273
@@ -6415,7 +6418,7 @@ GameObject:
   - component: {fileID: 1290704531}
   - component: {fileID: 1290704530}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: "w3\u80FD\u91CF"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7170,6 +7173,12 @@ MonoBehaviour:
   - {fileID: 939826526}
   - {fileID: 824321}
   - {fileID: 1938855467}
+  wEnergy_text:
+  - {fileID: 841148915}
+  - {fileID: 980434472}
+  - {fileID: 1290704530}
+  - {fileID: 324164290}
+  - {fileID: 449486922}
   castle1: {fileID: 1117045830}
   Level_Title: {fileID: 1991189328}
 --- !u!4 &1378890970
@@ -8159,7 +8168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -40.895782, y: -23.57984}
+  m_AnchoredPosition: {x: -63.4, y: -23.57984}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669543252
@@ -8302,6 +8311,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2000
   currentHealth: 2000
+  who: 0
+  isEnemy: 0
+  isTower: 0
   HpBar: {fileID: 748016767}
 --- !u!61 &1700648070
 BoxCollider2D:
@@ -9877,7 +9889,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -46.5, y: -22.9}
+  m_AnchoredPosition: {x: -67.7, y: -23.12}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2048787879
