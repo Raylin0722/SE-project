@@ -60,6 +60,7 @@ MonoBehaviour:
   currentHealth: 0
   animator: {fileID: 5792552032868866519}
   isAngel: 0
+  who: 1
 --- !u!114 &7331412500103463772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 400
   currentHealth: 100
+  who: 1
   HpBar: {fileID: 0}
 --- !u!61 &4908247119165405483
 BoxCollider2D:
