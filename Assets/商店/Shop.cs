@@ -109,6 +109,7 @@ public class Shop : MonoBehaviour
             }
             else
             {
+                If_Special = false;
                 endCoroutine = StartCoroutine(Not_Opne_Hint(1f));
                 yield return new WaitForSeconds(1f);
                 Conceal_Result();
@@ -237,6 +238,7 @@ public class Shop : MonoBehaviour
         Ordinary_Box_close.gameObject.SetActive(true);
         Special_Box_close.gameObject.SetActive(true);
         White_Image.gameObject.SetActive(false);
+        If_Special = false;
         Transparent_Background.gameObject.SetActive(false);
     }
 
@@ -260,6 +262,8 @@ public class Shop : MonoBehaviour
     //cancel open
     public void Cancel_Open()
     {
+        If_Special = false;
+        Special_Bottom.SetActive(false);
         Check_Page.SetActive(false);
     }
 

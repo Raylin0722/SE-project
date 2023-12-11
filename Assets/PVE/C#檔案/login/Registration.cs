@@ -51,11 +51,24 @@ public class Registration : MonoBehaviour {
             {
                 nameField.text = nameField.text.Substring(0,nameField.text.Length-1);
             }
+            
+            char lastChar = nameField.text[nameField.text.Length - 1];
+            if(char.IsLower(lastChar) && nameField.text.Length==1)
+            {
+                nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToUpper(lastChar);
+            }
+            if(char.IsUpper(lastChar) && nameField.text.Length>1)
+            {
+                nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToLower(lastChar);
+            }
         }
         if(passwordField.text.Length>0)
         {
             passwordField.onValidateInput += ValidateInput;
         }
+
+
+
     }
     public void Agree()
     {
@@ -66,6 +79,11 @@ public class Registration : MonoBehaviour {
     {
         if((addedChar >= 'a' && addedChar <= 'z') || (addedChar >= 'A' && addedChar <= 'Z') || (addedChar >= '0' && addedChar <= '9'))
         {
+            if(addedChar>='A' && addedChar<='Z')
+            {
+                addedChar = char.ToLower(addedChar);
+            }
+            Debug.Log(addedChar);
             return addedChar;
         }
         else

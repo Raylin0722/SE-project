@@ -66,7 +66,6 @@ public class Setting : MonoBehaviour
             Vector3 currentPosition = Vibration.transform.localPosition;
             currentPosition.x = currentPosition.x - 15;
             Vibration.transform.localPosition = currentPosition;
-            Vibration_function();
         }
         else
         {
@@ -75,6 +74,7 @@ public class Setting : MonoBehaviour
             Vector3 currentPosition = Vibration.transform.localPosition;
             currentPosition.x = currentPosition.x + 15;
             Vibration.transform.localPosition = currentPosition;
+            Vibration_function();
         }
     }
 
