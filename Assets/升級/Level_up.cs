@@ -124,7 +124,7 @@ public class Level_up : MonoBehaviour
     public void Update_values()
     {
         money.text = ServerScript.money.ToString();
-
+        
         if(ServerScript.castleLevel>=15)
         {
             Level[0].fontSize = 15;
@@ -177,6 +177,16 @@ public class Level_up : MonoBehaviour
             Bombs[1].gameObject.SetActive(true);
             Bomb_number.gameObject.SetActive(true);
             Bomb_number.text = "x" + ServerScript.props[1].ToString();
+        }
+        if(ServerScript.lineup[5]==1)
+        {
+            props[0].gameObject.SetActive(true);
+            props[1].gameObject.SetActive(false);
+        }
+        else
+        {
+            props[0].gameObject.SetActive(false);
+            props[1].gameObject.SetActive(true);
         }
     }
     

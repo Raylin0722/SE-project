@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
 
 public class Book : MonoBehaviour
 {
@@ -12,10 +13,8 @@ public class Book : MonoBehaviour
     public GameObject Next; // Next Button
     public GameObject[] pages; // The all page in Book
     public Image[] Pictures; // The all pictures in Book
-    public Image End; // The hint pictures for next to the end
     private int Current = 0; // The current position about your location in Book
     private ServerMethod.Server ServerScript; // Server.cs
-    private Coroutine endCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -47,11 +46,6 @@ public class Book : MonoBehaviour
         Current=0;
         ShowPage(0);
         page_Book.SetActive(false);
-        if(endCoroutine!=null)
-        {
-            StopCoroutine(endCoroutine);
-            endCoroutine = null;
-        }
         ALL_Button.SetActive(true); // Open All button in Main_Scene
     }
 
@@ -65,20 +59,11 @@ public class Book : MonoBehaviour
             if(Current>=7)
             {
                 Current = 6;
-                endCoroutine = StartCoroutine(end(1f));
             }
             ShowPage(Current);
         }
     }
-
-    IEnumerator end(float delay)
-    {
-        End.gameObject.SetActive(false);
-        End.gameObject.SetActive(true);
-        yield return new WaitForSeconds(delay);
-        End.gameObject.SetActive(false);
-    }
-
+    
     private void ShowPage(int Current)
     {
         // Show current page && Hide the others
