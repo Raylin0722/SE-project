@@ -333,7 +333,7 @@ public class ButtonFunction : MonoBehaviour{
                 shot.slingshotState = SlingshotState.do_nothing;
             }
             currentEnergy=currentEnergy-(int)UpgradeEnergy;
-            if(InsideGameUpgrade==6)energyLimit=360;else energyLimit+=(160/7);
+            if(InsideGameUpgrade==6)energyLimit=360+60*slingshotLevel;else energyLimit+=(160/7);
             InsideGameUpgrade++;
             UpgradeEnergy=110+5*InsideGameUpgrade;
             Debug.Log(InsideGameUpgrade);
