@@ -802,7 +802,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 4
+  m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 40
   m_CharacterLimit: 15
@@ -1102,7 +1102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 454928040}
   m_Layer: 5
-  m_Name: "\u5132\u503C\u9801\u9762"
+  m_Name: "\u767B\u5165\u8A3B\u518A\u9801\u9762"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

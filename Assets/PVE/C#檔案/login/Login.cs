@@ -44,10 +44,6 @@ public class Login : MonoBehaviour {
                 nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToLower(lastChar);
             }
         }
-        if(passwordField.text.Length>0)
-        {
-            passwordField.onValidateInput += ValidateInput;
-        }
     }
 
     char ValidateInput(string text, int charIndex, char addedChar)
