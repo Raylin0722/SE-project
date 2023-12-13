@@ -153,7 +153,7 @@ public class START : MonoBehaviour
         {
             Unlock[i].gameObject.SetActive(false);
             Lock[i].gameObject.SetActive(true);
-            if(ServerScript.clearance[i]==0)
+            if(ServerScript.clearance[i]!=0)
             {
                 Unlock[i].gameObject.SetActive(true);
                 Lock[i].gameObject.SetActive(false);
