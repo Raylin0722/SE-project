@@ -167,6 +167,7 @@ public class ButtonFunction : MonoBehaviour{
         Award_Calculate(1);
     }
     public void go_Lobby(){
+        Time.timeScale=1.0f;
         SceneManager.LoadScene("SampleScene");
     }
     public void Defeat_End(){
@@ -246,7 +247,7 @@ public class ButtonFunction : MonoBehaviour{
                 }else judge_defeat=1;
                 Time.timeScale=0f;
                 GameIsStart=false;
-                BlackBackground.SetActive(true);
+                //BlackBackground.SetActive(true);
                 Tool.SetActive(false);
                 Upgrade.SetActive(false);
             }
@@ -302,7 +303,7 @@ public class ButtonFunction : MonoBehaviour{
         if(enemies != null && enemies.Length > 0 && enemies[0] != null){
             float centerX = enemies[0].transform.position.x;
             float centerY = enemies[0].transform.position.y;
-            if (centerX != 15 && centerX != -15) {
+            if (enemies[0].layer != 6 && enemies[0].layer != 8) {
                 Bomb.GetComponent<Bomb>().Trigger();
                 Bomb.transform.position = new Vector3(centerX, centerY, 0f);
                 Destroy(enemies[0]);

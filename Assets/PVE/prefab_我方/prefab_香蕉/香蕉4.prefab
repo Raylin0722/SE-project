@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.13, y: -0.66, z: 0}
-  m_LocalScale: {x: 1.1149, y: 1.1149, z: 1.1149}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8373371551334798819}
@@ -167,6 +167,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   isAngel: 0
   who: 3
+  isEnemy: 0
 --- !u!114 &5743223268652844858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +183,8 @@ MonoBehaviour:
   maxHealth: 600
   currentHealth: 100
   who: 3
+  isEnemy: 0
+  isTower: 0
   HpBar: {fileID: 0}
 --- !u!61 &3651269408534444430
 BoxCollider2D:

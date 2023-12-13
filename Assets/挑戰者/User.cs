@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEditor;
 using System;
+using System.Threading;
+using UnityEngine.SceneManagement;
+using TMPro;
+using ServerMethod;
 
 public class USER : MonoBehaviour
 {
@@ -36,6 +40,7 @@ public class USER : MonoBehaviour
             if(ServerScript.faction[i]==1)   
             {
                 ServerScript.faction[1] = i;
+                StartCoroutine(ServerScript.updateFaction(ServerScript.faction[1]));
                 Update_Display();
                 return;
             }
@@ -45,6 +50,7 @@ public class USER : MonoBehaviour
             if(ServerScript.faction[i]==1)   
             {
                 ServerScript.faction[1] = i;
+                StartCoroutine(ServerScript.updateFaction(ServerScript.faction[1]));
                 Update_Display();
                 return;
             }
