@@ -41,7 +41,7 @@ public class detect : MonoBehaviour
             }
             else
             {
-                Application.OpenURL("https://xmu310.github.io");
+                Application.OpenURL("https://xmu310.github.io/update.html?currentVersion="+apkVersion+"&latestVersion="+latestRelease);
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("Versions do not match!");
             }
