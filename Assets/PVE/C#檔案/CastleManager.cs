@@ -2,71 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
-public class CastleManager : MonoBehaviour
-{
+public class CastleManager : MonoBehaviour{
     [SerializeField] GameObject[] CatlePrefabs;
     private GameObject castle;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private float[] x=new float[12]{15.0f,15.0f,15.0f,15.0f,13.0f,13.0f,15.06f,15.73f,15.11f,15f,14.88f,14.88f};
+    private float[] y=new float[12]{-1.2f,-1.2f,-1.2f,-1.2f,-1.2f,-1.0f,-0.84f,-0.7f,-1.07f,-1.08f,-1.13f,-1.13f};
+    private int[] prefabnum=new int[12]{0,1,2,3,4,4,5,6,7,8,9,9};
+    private int index;
+    void Start(){
         Debug.Log(GameManage.currentLevel);
-        switch (GameManage.currentLevel)
-        {
-            case 11:
-                castle = Instantiate(CatlePrefabs[0], transform);
-                castle.transform.position = new Vector3(15.0f, -1.2f, 0f);
-                break;
-            case 12:
-                castle = Instantiate(CatlePrefabs[1], transform);
-                castle.transform.position = new Vector3(15.0f, -1.2f, 0f);
-                break;
-            case 13:
-                castle = Instantiate(CatlePrefabs[2], transform);
-                castle.transform.position = new Vector3(15.0f, -1.2f, 0f);
-                break;
-            case 14:
-                castle = Instantiate(CatlePrefabs[3], transform);
-                castle.transform.position = new Vector3(15.0f, -1.2f, 0f);
-                break;
-            case 15:
-                castle = Instantiate(CatlePrefabs[4], transform);
-                castle.transform.position = new Vector3(13.0f, -1.2f, 0f);
-                break;
-            case 16:
-                castle = Instantiate(CatlePrefabs[4], transform);
-                castle.transform.position = new Vector3(13.0f, -1.0f, 0f);
-                break;
-            case 21:
-                castle = Instantiate(CatlePrefabs[5], transform);
-                castle.transform.position = new Vector3(15.0f, -1.08f, 0f);
-                break;
-            case 22:
-                castle = Instantiate(CatlePrefabs[6], transform);
-                castle.transform.position = new Vector3(14.88f, -1.13f, 0f);
-                break;
-            case 23:
-                castle = Instantiate(CatlePrefabs[7], transform);
-                castle.transform.position = new Vector3(15.73f, -0.70f, 0f);
-                break;
-            case 24:
-                castle = Instantiate(CatlePrefabs[8], transform);
-                castle.transform.position = new Vector3(15.06f, -0.84f, 0f);
-                break;
-            case 25:
-                castle = Instantiate(CatlePrefabs[9], transform);
-                castle.transform.position = new Vector3(15.11f, -1.07f, 0f);
-                break;
-            case 26:
-                castle = Instantiate(CatlePrefabs[9], transform);
-                castle.transform.position = new Vector3(15.11f, -1.07f, 0f);
-                break;
-        }
+        index=GameManage.currentLevel;
+        index=(index/10-1)*6+index%10-1;
+        castle = Instantiate(CatlePrefabs[prefabnum[index]], transform);
+        castle.transform.position = new Vector3(x[index], y[index], 0f);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update(){
     }
 }

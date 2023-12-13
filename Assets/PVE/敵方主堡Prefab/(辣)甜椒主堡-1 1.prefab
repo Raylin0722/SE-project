@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412b1236afaee764f8f4c35bf1dfa942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 150
+  attackDamage: 200
   bulletPrefab: {fileID: 374088559337911595, guid: 997819f21114ae544bedfab2aa2bc0c9, type: 3}
   attackRange: 12
   bulletSpeed: 8
@@ -163,6 +163,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2000
   currentHealth: 2000
+  who: 0
+  isEnemy: 1
+  isTower: 1
   HpBar: {fileID: 4591375962712726897, guid: df895c2b0e1cae740a25bf2201d57219, type: 3}
 --- !u!95 &4681374778119821847
 Animator:

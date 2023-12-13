@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
+using UnityEngine.EventSystems;
 
 using ServerMethod;
 using System;
@@ -19,6 +20,7 @@ public class FruitSelect : MonoBehaviour
     private bool bool_play = false;
     public GameObject Music_main_scene; // the Music in main_scene
     public GameObject Skip;
+    public static int start_tutorial = 0;
 
     // Server.cs
     private ServerMethod.Server ServerScript;
@@ -28,6 +30,7 @@ public class FruitSelect : MonoBehaviour
     {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
         Skip.gameObject.SetActive(false);
+        //start_tutorial = 1;
     }
 
     // Update is called once per frame
@@ -76,6 +79,8 @@ public class FruitSelect : MonoBehaviour
         page_FruitSelect.SetActive(false); // Close All button in Fruit Select
         ALL_Button.SetActive(true); // Open All button in Main_Scene
         Music_main_scene.SetActive(true); // Opne music in Main_Scene
+    
+        start_tutorial = 1;
     }
 
     // Close All button in Main_Scene

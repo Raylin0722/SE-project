@@ -122,6 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 600
   currentHealth: 100
+  who: 3
+  isEnemy: 1
   HpBar: {fileID: 0}
 --- !u!114 &-4604628362258604577
 MonoBehaviour:
@@ -146,6 +148,8 @@ MonoBehaviour:
   currentHealth: 0
   animator: {fileID: 0}
   isAngel: 0
+  who: 3
+  isEnemy: 1
 --- !u!1 &3716896054057497157
 GameObject:
   m_ObjectHideFlags: 0
