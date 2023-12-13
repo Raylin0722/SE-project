@@ -5,6 +5,7 @@ using System;
 using Assets.Scripts;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 public class CharacterManage : MonoBehaviour{
     [SerializeField] GameObject[] PepperOPrefabs;//orange
     [SerializeField] GameObject[] PepperRPrefabs;//red
@@ -26,6 +27,7 @@ public class CharacterManage : MonoBehaviour{
     [SerializeField] GameObject[] w4coolbar;
     [SerializeField] GameObject[] w5coolbar;
     [SerializeField] TextMeshProUGUI[] wEnergy_text;
+    public Image[] Pictures; // The all pictures in under PVE
     private GameObject[][] EnemyPrefabs;
     private GameObject[][] WarriorPrefabs;
     private GameObject[][] wcoolbar;
@@ -34,10 +36,20 @@ public class CharacterManage : MonoBehaviour{
     static public int record;
     static public int CharacterIdInCd=0;
     int GoOnShoot = 0;
+    private int faction;
     public TextMeshProUGUI Level_Title; //  Level Title
     private ServerMethod.Server ServerScript;
+    private struct Location
+    {
+        public Vector2 position;
+        public float offset;
+    }
+    private List<Location> Location_List = new List<Location>();
+    
     void Start(){
         ServerScript = FindObjectOfType<ServerMethod.Server>();
+        faction = ServerScript.faction[1];
+        Character_Location();
         ShowMyCastle(ServerScript.faction[1]);
         passtime=0f;
         record=0;
@@ -66,6 +78,7 @@ public class CharacterManage : MonoBehaviour{
     private int[] wEnergy=new int[5];
     private int who;
     private int wholevel;
+    
     void Update()
     {
         for(int i=0;i<5;i++){
@@ -101,6 +114,20 @@ public class CharacterManage : MonoBehaviour{
                 }
             }else wi[i] = 0;
         }
+
+        // Image under PVE
+        for(int i = 0; i<7; i++)
+        {
+            for(int j = 0; j<4 ; j++)
+            {
+                Pictures[7*j+i].gameObject.SetActive(false);
+            }
+        }
+        for(int i = 0; i<5 ; i++)
+        {
+            Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].gameObject.SetActive(true);
+            Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].rectTransform.anchoredPosition = new Vector2(Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.x+i*Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].offset,Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.y);
+        }
     }
     public void warriorProduct(int index){
         if(wisUseable[index]&&GoOnShoot==1&&CharacterIdInCd==index+1){
@@ -109,7 +136,7 @@ public class CharacterManage : MonoBehaviour{
             CharacterIdInCd=0;
             GoOnShoot=0;
         }else if(ButtonFunction.currentEnergy>=wEnergy[index] && wisUseable[index]){
-            Slingshot shot = castles[ServerScript.faction[1]-2].GetComponent<Slingshot>();
+            Slingshot shot = castles[faction-2].GetComponent<Slingshot>();
             if(shot.Rock!=null){
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
@@ -172,4 +199,178 @@ public class CharacterManage : MonoBehaviour{
     {
         castles[tower-2].SetActive(true);
     }
+
+    // Character Display Definition
+    private void Character_Location()
+    {
+        Location W1 = new Location
+        {
+            position = new Vector2(-672f,-280f),
+            offset = 271.0f
+        };
+        Location_List.Add(W1);
+        Location W2 = new Location
+        {
+            position = new Vector2(-672f,-281f),
+            offset = 271.0f
+        };
+        Location_List.Add(W2);
+        Location W3 = new Location
+        {
+            position = new Vector2(-673f,-285f),
+            offset = 271.0f
+        };
+        Location_List.Add(W3);
+        Location W4 = new Location
+        {
+            position = new Vector2(-671f,-284f),
+            offset = 271.0f
+        };
+        Location_List.Add(W4);
+        Location W5 = new Location
+        {
+            position = new Vector2(-670f,-288f),
+            offset = 271.0f
+        };
+        Location_List.Add(W5);
+        Location W6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 271.0f
+        };
+        Location_List.Add(W6);
+        Location W7 = new Location
+        {
+            position = new Vector2(-666f,-282.8f),
+            offset = 271.0f
+        };
+        Location_List.Add(W7);
+        Location B1 = new Location
+        {
+            position = new Vector2(-672f,-280f),
+            offset = 271.0f
+        };
+        Location_List.Add(B1);
+        Location B2 = new Location
+        {
+            position = new Vector2(-673f,-284f),
+            offset = 271.0f
+        };
+        Location_List.Add(B2);
+        Location B3 = new Location
+        {
+            position = new Vector2(-673f,-285f),
+            offset = 271.0f
+        };
+        Location_List.Add(B3);
+        Location B4 = new Location
+        {
+            position = new Vector2(-672f,-297.195f),
+            offset = 271.0f
+        };
+        Location_List.Add(B4);
+        Location B5 = new Location
+        {
+            position = new Vector2(-673f,-274.385f),
+            offset = 271.0f
+        };
+        Location_List.Add(B5);
+        Location B6 = new Location
+        {
+            position = new Vector2(-665.8f,-296f),
+            offset = 271.0f
+        };
+        Location_List.Add(B6);
+        Location B7 = new Location
+        {
+            position = new Vector2(-670f,-281.9f),
+            offset = 271.0f
+        };
+        Location_List.Add(B7);
+        Location S1 = new Location
+        {
+            position = new Vector2(-671.5f,-274.5f),
+            offset = 271.0f
+        };
+        Location_List.Add(S1);
+        Location S2 = new Location
+        {
+            position = new Vector2(-673.3f,-280.5f),
+            offset = 271.0f
+        };
+        Location_List.Add(S2);
+        Location S3 = new Location
+        {
+            position = new Vector2(-673f,-296f),
+            offset = 271.0f
+        };
+        Location_List.Add(S3);
+        Location S4 = new Location
+        {
+            position = new Vector2(-674.7f,-284.6f),
+            offset = 271.0f
+        };
+        Location_List.Add(S4);
+        Location S5 = new Location
+        {
+            position = new Vector2(-673.1f,-269.3f),
+            offset = 271.0f
+        };
+        Location_List.Add(S5);
+        Location S6 = new Location
+        {
+            position = new Vector2(-673f,-299f),
+            offset = 271.0f
+        };
+        Location_List.Add(S6);
+        Location S7 = new Location
+        {
+            position = new Vector2(-681.6f,-268.3f),
+            offset = 271.0f
+        };
+        Location_List.Add(S7);
+        Location M1 = new Location
+        {
+            position = new Vector2(-672f,-270f),
+            offset = 271.0f
+        };
+        Location_List.Add(M1);
+        Location M2 = new Location
+        {
+            position = new Vector2(-680.8f,-275.4f),
+            offset = 271.0f
+        };
+        Location_List.Add(M2);
+        Location M3 = new Location
+        {
+            position = new Vector2(-673f,-281.9f),
+            offset = 271.0f
+        };
+        Location_List.Add(M3);
+        Location M4 = new Location
+        {
+            position = new Vector2(-651.8f,-281.8f),
+            offset = 271.0f
+        };
+        Location_List.Add(M4);
+        Location M5 = new Location
+        {
+            position = new Vector2(-665.5f,-281.9f),
+            offset = 271.0f
+        };
+        Location_List.Add(M5);
+        Location M6 = new Location
+        {
+            position = new Vector2(-673f,-301f),
+            offset = 271.0f
+        };
+        Location_List.Add(M6);
+        Location M7 = new Location
+        {
+            position = new Vector2(-664.5f,-286f),
+            offset = 271.0f
+        };
+        Location_List.Add(M7);
+    }
+
 }

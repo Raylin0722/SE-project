@@ -47,7 +47,7 @@ public class Health : MonoBehaviour{
     }
     public void TakeDamage(int damage){
         int currentFrame = Time.frameCount;
-        Debug.Log("Current Frame: " + currentFrame);
+        //Debug.Log("Current Frame: " + currentFrame);
         Debug.Log(gameObject+" -50");
         if(gameObject.layer==6){
             currentHealth =(currentHealth-damage<=maxHealth) ? currentHealth-damage : maxHealth ;
