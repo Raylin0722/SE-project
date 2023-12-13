@@ -15,10 +15,9 @@ public class tutorial : MonoBehaviour
     }
     void Update()
     {
-
         if(FruitSelect.start_tutorial == 1) {
-            starttutorial();
             Debug.Log("start tutorial");
+            starttutorial();
             tutorial_ing = 1;
             FruitSelect.start_tutorial = 0;
         }
