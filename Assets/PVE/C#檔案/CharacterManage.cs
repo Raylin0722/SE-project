@@ -29,7 +29,7 @@ public class CharacterManage : MonoBehaviour{
     private GameObject[][] EnemyPrefabs;
     private GameObject[][] WarriorPrefabs;
     private GameObject[][] wcoolbar;
-    public GameObject castle1;
+    public GameObject[] castles;
     float passtime;
     static public int record;
     static public int CharacterIdInCd=0;
@@ -38,6 +38,7 @@ public class CharacterManage : MonoBehaviour{
     private ServerMethod.Server ServerScript;
     void Start(){
         ServerScript = FindObjectOfType<ServerMethod.Server>();
+        ShowMyCastle(ServerScript.faction[1]);
         passtime=0f;
         record=0;
         EnemyPrefabs = new GameObject[][] {
@@ -108,7 +109,7 @@ public class CharacterManage : MonoBehaviour{
             CharacterIdInCd=0;
             GoOnShoot=0;
         }else if(ButtonFunction.currentEnergy>=wEnergy[index] && wisUseable[index]){
-            Slingshot shot = castle1.GetComponent<Slingshot>();
+            Slingshot shot = castles[ServerScript.faction[1]-2].GetComponent<Slingshot>();
             if(shot.Rock!=null){
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
@@ -166,5 +167,9 @@ public class CharacterManage : MonoBehaviour{
                 record=0;
             }
         }
+    }
+    void ShowMyCastle(int tower)
+    {
+        castles[tower-2].SetActive(true);
     }
 }
