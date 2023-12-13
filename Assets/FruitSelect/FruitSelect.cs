@@ -36,7 +36,8 @@ public class FruitSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Play_Video(); // This is only for you to test,and you can delete it.
+        Fruit_Select();
+        //Play_Video(); // This is only for you to test,and you can delete it.
     }
 
     private IEnumerator Surver_Before_Game(Action<bool> callback)
@@ -88,6 +89,8 @@ public class FruitSelect : MonoBehaviour
     {
         if(ServerScript.faction[0]==1)
         {
+            Music_main_scene.SetActive(false); // Close music in Main_Scene
+            ALL_Button.SetActive(false); // Close All button in Main_Scene
             page_FruitSelect.SetActive(true); // Open All button in Fruit Select
             video.gameObject.SetActive(false); // Close story vedio
         }

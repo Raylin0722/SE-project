@@ -35,13 +35,19 @@ public class ButtonManager : MonoBehaviour
     public Text tear; // tear value
     public Text username;
     public Text level;
-    public Text timetoGetEnergy;
+    //public Text timetoGetEnergy;
+    public TextMeshProUGUI timetoGetEnergy;
+    
     public AudioSource Music_Main_Scene; // the Music in Main Scene
     private ServerMethod.Server ServerScript; // Server.cs
 
     public GameObject ranking_list; 
     public Image[] Rank; 
     public bool bool_level_up = false;
+
+    //
+    public Image NOT_YET; // Can Delete
+    public GameObject HAHA; // Can Delete
 
 
     private void Start()
@@ -90,8 +96,16 @@ public class ButtonManager : MonoBehaviour
     // Click < Ranking_list > 
     public void Button_Ranking_list()
     {
-        page_Ranking_list.SetActive(true);
+        StartCoroutine(Button_Ranking_list_tmp());
+        //page_Ranking_list.SetActive(true);
         //ALL_Button.SetActive(false); // Close All button in Main_Scene
+    }
+
+    public IEnumerator Button_Ranking_list_tmp()
+    {
+        NOT_YET.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        NOT_YET.gameObject.SetActive(false);
     }
 
     private void Update_Ranking_List()
@@ -172,7 +186,15 @@ public class ButtonManager : MonoBehaviour
     // Click < Friends > 
     public void Button_Friends()
     {
-        page_Friends.SetActive(true);
+        StartCoroutine(HAHA_tmp());
+        //page_Friends.SetActive(true);
+    }
+
+    public IEnumerator HAHA_tmp()
+    {
+        HAHA.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        HAHA.gameObject.SetActive(false);
     }
 
     // Click < Top up > 
@@ -205,7 +227,8 @@ public class ButtonManager : MonoBehaviour
             min = 0;
             sec = 0;
         }
-        timetoGetEnergy.text = "倒數計時:" + min.ToString().PadLeft(2, '0') + ":" + sec.ToString().PadLeft(2, '0');
+        //timetoGetEnergy.text = "倒數計時:" + min.ToString().PadLeft(2, '0') + ":" + sec.ToString().PadLeft(2, '0');
+        timetoGetEnergy.text = min.ToString().PadLeft(2, '0') + ":" + sec.ToString().PadLeft(2, '0');
         energy.text = ServerScript.energy.ToString() + "/30";
         money.text = ServerScript.money.ToString();
         tear.text = ServerScript.tear.ToString();

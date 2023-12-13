@@ -40,6 +40,7 @@ public class Shop : MonoBehaviour
     public GameObject hint; // the hint about ont open
     private Coroutine endCoroutine;
     public GameObject Transparent_Background;
+    private int OLD_money;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +74,7 @@ public class Shop : MonoBehaviour
     {
         Ordinary_Box_close.gameObject.SetActive(false); // Ordinary Box with closing
         Ordinary_Box_open.gameObject.SetActive(true); // Ordinary Box with openning
+        If_Special = false;
         // You can write them separately or according to parameters
         StartCoroutine(Fade_Screen(true)); // the fading animation before the drawing
     }
@@ -81,6 +83,7 @@ public class Shop : MonoBehaviour
     public void Button_special_OPEN()
     {
         Debug.Log("我開了");
+        If_Special = true;
         Special_Box_close.gameObject.SetActive(false); // Special Box with closing
         Special_Box_open.gameObject.SetActive(true); // Special Box with openning
         // You can write them separately or according to parameters
@@ -105,6 +108,7 @@ public class Shop : MonoBehaviour
             Debug.Log("錯誤狀況(出現-1表示時間未到或淚水不足 出現-2請立即呼叫Raylin 感恩): " + result.situation);
             if(result.success==true)
             {
+                OLD_money = ServerScript.money;
                 StartCoroutine(Fade_Screen_new(result.result,result.character));
             }
             else
@@ -142,7 +146,6 @@ public class Shop : MonoBehaviour
         yield return new WaitForSeconds(2f);
         
         Special_Bottom.SetActive(false);
-        If_Special=false;
         //
         Conceal_Result();
     }
@@ -170,15 +173,28 @@ public class Shop : MonoBehaviour
                     Results[3].SetActive(true);
                     break;
                 case 4:
-                    Characters[character_index-1].SetActive(true);
+                    Characters[7*(ServerScript.faction[1]-2)+character_index-1].SetActive(true);
+                    if(ServerScript.character[character_index-1]!=0)
+                    {
+                        MoneyRecharacter.SetActive(true);
+                        InfoRecharacter.gameObject.SetActive(true);
+                        yield return new WaitForSeconds(1f);
+                        InfoRecharacter.gameObject.SetActive(false);
+                        MoneyRecharacterNum.gameObject.SetActive(true);
+                        MoneyRecharacterNum.text = (ServerScript.money-OLD_money).ToString();
+                    }
                     break;
                 case 5:
-                    Characters[character_index-1].SetActive(true);
-                    MoneyRecharacter.SetActive(true);
-                    InfoRecharacter.gameObject.SetActive(true);
-                    yield return new WaitForSeconds(1f);
-                    InfoRecharacter.gameObject.SetActive(false);
-                    MoneyRecharacterNum.gameObject.SetActive(true);
+                    Characters[7*(ServerScript.faction[1]-2)+character_index-1].SetActive(true);
+                    if(ServerScript.character[character_index-1]!=0)
+                    {
+                        MoneyRecharacter.SetActive(true);
+                        InfoRecharacter.gameObject.SetActive(true);
+                        yield return new WaitForSeconds(1f);
+                        InfoRecharacter.gameObject.SetActive(false);
+                        MoneyRecharacterNum.gameObject.SetActive(true);
+                        MoneyRecharacterNum.text = (ServerScript.money-OLD_money).ToString();
+                    }
                     break;
             }
         }
@@ -203,15 +219,28 @@ public class Shop : MonoBehaviour
                     Results[3].SetActive(true);
                     break;
                 case 4:
-                    Characters[character_index-1].SetActive(true);
+                    Characters[7*(ServerScript.faction[1]-2)+character_index-1].SetActive(true);
+                    if(ServerScript.character[character_index-1]!=0)
+                    {
+                        MoneyRecharacter.SetActive(true);
+                        InfoRecharacter.gameObject.SetActive(true);
+                        yield return new WaitForSeconds(1f);
+                        InfoRecharacter.gameObject.SetActive(false);
+                        MoneyRecharacterNum.gameObject.SetActive(true);
+                        MoneyRecharacterNum.text = (ServerScript.money-OLD_money).ToString();
+                    }
                     break;
                 case 5:
-                    Characters[character_index-1].SetActive(true);
-                    MoneyRecharacter.SetActive(true);
-                    InfoRecharacter.gameObject.SetActive(true);
-                    yield return new WaitForSeconds(1f);
-                    InfoRecharacter.gameObject.SetActive(false);
-                    MoneyRecharacterNum.gameObject.SetActive(true);
+                    Characters[7*(ServerScript.faction[1]-2)+character_index-1].SetActive(true);
+                    if(ServerScript.character[character_index-1]!=0)
+                    {
+                        MoneyRecharacter.SetActive(true);
+                        InfoRecharacter.gameObject.SetActive(true);
+                        yield return new WaitForSeconds(1f);
+                        InfoRecharacter.gameObject.SetActive(false);
+                        MoneyRecharacterNum.gameObject.SetActive(true);
+                        MoneyRecharacterNum.text = (ServerScript.money-OLD_money).ToString();
+                    }
                     break;
             }
         }
@@ -227,7 +256,7 @@ public class Shop : MonoBehaviour
             Texts[i].gameObject.SetActive(false);
             Texts_Special[i].gameObject.SetActive(false);
         }
-        for(int i=0 ; i<7 ; i++)
+        for(int i=0 ; i<28 ; i++)
         {
             Characters[i].SetActive(false);
         }
@@ -262,7 +291,7 @@ public class Shop : MonoBehaviour
     //cancel open
     public void Cancel_Open()
     {
-        If_Special = false;
+        //If_Special = false;
         Special_Bottom.SetActive(false);
         Check_Page.SetActive(false);
     }
