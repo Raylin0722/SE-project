@@ -142,6 +142,7 @@ def checkLegal():#判斷是否可開啟寶箱
 
     openType = True if openType == "True" else False
 
+    getMoney = [400, 300, 700, 600, 500, 650, 750]
 
 
     if len(result) == 1 and openType: #normal
@@ -194,7 +195,8 @@ def checkLegal():#判斷是否可開啟寶箱
                         cur.execute("update usersdata set `character`=%s where token=%s;", (character, token,))
                         cnx.commit()
                     else:
-                        money = timeresult[0][0] + 500
+                        
+                        money = timeresult[0][0] + getMoney[data['normalCharacter']]
                         returnResult['get'] = False
                         cur.execute("update usersdata set money=%s where token=%s;", (money, token,))
                         cnx.commit()
@@ -257,7 +259,7 @@ def checkLegal():#判斷是否可開啟寶箱
                     cur.execute("update usersdata set `character`=%s where token=%s;", (str(character), token,))
                     cnx.commit()
                 else:
-                    money = tearresult[0][0] + 500
+                    money = tearresult[0][0] + + getMoney[data['normalCharacter']]
                     returnResult['get'] = False
                     cur.execute("update usersdata set money=%s where token=%s;", (money, token,))
                     cnx.commit()
@@ -273,7 +275,7 @@ def checkLegal():#判斷是否可開啟寶箱
                     cur.execute("update usersdata set `character`=%s where token=%s;", (str(character), token,))
                     cnx.commit()
                 else:
-                    money = tearresult[0][0] + 500
+                    money = tearresult[0][0] + getMoney[data['rareCharacter']]
                     returnResult['get'] = False
                     cur.execute("update usersdata set money=%s where token=%s;", (money, token,))
                     cnx.commit()
@@ -669,8 +671,6 @@ def updateFaction():
 
     if token == None or target == None:
         return resultReturn
-
-    cnx = mysql.connector.connect(**config)
 
     try:
        target = int(target)

@@ -293,6 +293,7 @@ namespace ServerMethod{
 
             yield return result;
             
+        
         }   
         public IEnumerator updateRank(){
             WWWForm form = new WWWForm();
