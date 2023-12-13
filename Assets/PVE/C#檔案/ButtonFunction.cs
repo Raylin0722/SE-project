@@ -8,6 +8,7 @@ using Assets.Scripts;
 using ServerMethod;
 using System;
 using System.Linq;
+using System.Data.SqlTypes;
 public class ButtonFunction : MonoBehaviour{
     public GameObject Bomb;
     [SerializeField] GameObject WhiteBack;
@@ -67,6 +68,10 @@ public class ButtonFunction : MonoBehaviour{
         public float tear;
     }
     private List<Award> Award_List = new List<Award>();
+    private float level;
+    private float exp;
+    private float dollar;
+    private float tear;
     void Start(){
         ServerScript = FindObjectOfType<ServerMethod.Server>();
         WhiteBack.SetActive(false);
@@ -145,10 +150,19 @@ public class ButtonFunction : MonoBehaviour{
             }
         }
         else GameManage.toolIsUseable=true;
-        if(judge_victory==1)Victory_1_End();
+        if(judge_victory==1)    
+        {
+           Victory_1_End();    
+        }
         if(judge_defeat==1)Defeat_End();
     }
     public void Victory_1_End(){
+        level = ServerScript.exp[0];
+        exp = ServerScript.exp[1];
+        dollar = ServerScript.money;
+        tear = ServerScript.tear;
+        string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
+        StartCoroutine(AfterGame_1());
         WhiteBack.SetActive(true);
         Time.timeScale=0f;
         Victory_1.SetActive(true);
@@ -164,20 +178,49 @@ public class ButtonFunction : MonoBehaviour{
         Victory_2.SetActive(true);
         Close.SetActive(true);
         Close_bottom.SetActive(true);
-        Award_Calculate(1);
     }
+
+    public IEnumerator AfterGame_1()
+    {
+        string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
+        yield return StartCoroutine(ServerScript.afterGame(true,target));
+        yield return StartCoroutine(AfterGame_2());
+    }
+    public IEnumerator AfterGame_2()
+    {
+        string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
+        yield return StartCoroutine(ServerScript.updateData());
+        yield return StartCoroutine(AfterGame_3());
+    }
+    public IEnumerator AfterGame_3()
+    {
+        Dollar.text = ((int)(ServerScript.money-dollar)).ToString();
+        if(ServerScript.exp[0]==level)  Exp.text = ((int)(ServerScript.exp[1]-exp)).ToString();
+        else                            Exp.text = ((int)((500*Math.Pow(2.5,level-1)-exp+ServerScript.exp[1]))).ToString();
+        Tear.text = ((int)(ServerScript.tear-tear)).ToString();
+        yield return new WaitForSeconds(0.5f);
+    }
+
     public void go_Lobby(){
         Time.timeScale=1.0f;
         SceneManager.LoadScene("SampleScene");
     }
     public void Defeat_End(){
+        string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
+        StartCoroutine(ServerScript.afterGame(false,target));
         WhiteBack.SetActive(true);
         judge_defeat=0;
         Time.timeScale=0f;
         Defeat.SetActive(true);
         Close.SetActive(true);
         Close_bottom.SetActive(true);
-        Award_Calculate(0);
+        
+        Dollar.text = "0";
+        Exp.text = "0";
+        Tear.text = "0";
+        GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+        foreach (GameObject obj in dontDestroyObjects)Destroy(obj);
+        //Award_Calculate(0);
     }
     public void pause(){
         Time.timeScale=0f;
