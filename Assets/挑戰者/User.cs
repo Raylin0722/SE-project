@@ -30,6 +30,13 @@ public class USER : MonoBehaviour
     void Update()
     {
         if(ServerScript.faction.Length!=0)   Update_Display();
+        int num = 0;
+        for(int i = 2; i<6 ; i++)
+        {
+            if(ServerScript.faction[i]==1)      num = num + 1;
+        }
+        if(num>1)       Change.gameObject.SetActive(true);
+        else            Change.gameObject.SetActive(false);
     }
 
     // When click < Change >

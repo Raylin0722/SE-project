@@ -89,17 +89,25 @@ public class START : MonoBehaviour
                 break;
         }
 
-        // 虛假關卡前同步
+        /* 虛假關卡前同步
         StartCoroutine(ServerScript.beforeGame());
         SceneManager.LoadScene("Background", LoadSceneMode.Single);
-        /* 真實關卡前同步  
+        */
+        // 真實關卡前同步
+                for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
+                {
+                    if(ServerScript.clearance[i]==0)
+                    {
+                        Debug.Log("不好笑");
+                        return;
+                    }
+                }  
         StartCoroutine(Surver_Before_Game((result) => 
         {
             Debug.Log(result);
             if(result==true)
             {
-                int index = 6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1);
-                for(int i = 0; i<index ; i++)
+                for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
                 {
                     if(ServerScript.clearance[i]==0)
                     {
@@ -115,7 +123,7 @@ public class START : MonoBehaviour
                 return;
             }
         }));
-        */
+        //*/
     }
 
     private IEnumerator Surver_Before_Game(Action<bool> callback)
