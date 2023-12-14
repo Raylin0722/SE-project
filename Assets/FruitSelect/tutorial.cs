@@ -26,6 +26,7 @@ public class tutorial : MonoBehaviour
     public GameObject[] banana_tutorial;
     public GameObject[] highlight;
     public GameObject[] arrow;
+    public GameObject[] next;
     public GameObject[] NoticeMessage;
     int tutorial_image_count = 0;
 
@@ -70,6 +71,7 @@ public class tutorial : MonoBehaviour
         }
 
         highlight[0].SetActive(false);
+        next[0].SetActive(true);
         arrow[0].SetActive(true);
     }
     public void image3() {
@@ -95,6 +97,7 @@ public class tutorial : MonoBehaviour
         }
 
         arrow[1].SetActive(false);
+        next[0].SetActive(false);
         highlight[1].SetActive(true);
         NoticeMessage[0].SetActive(true);
     }
@@ -135,6 +138,7 @@ public class tutorial : MonoBehaviour
         }
 
         highlight[2].SetActive(false);
+        next[1].SetActive(true);
         arrow[2].SetActive(true);
     }
 
@@ -148,7 +152,9 @@ public class tutorial : MonoBehaviour
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
 
+        next[1].SetActive(false);
         arrow[2].SetActive(false);
+        next[0].SetActive(true);
     }
 
     public void quit2() {
@@ -161,6 +167,7 @@ public class tutorial : MonoBehaviour
             banana_tutorial[tutorial_image_count].SetActive(false);
         }
 
+        next[0].SetActive(false);
         highlight[3].SetActive(true);
         NoticeMessage[1].SetActive(true);
     }
@@ -219,6 +226,7 @@ public class tutorial : MonoBehaviour
 
         highlight[5].SetActive(false);
         NoticeMessage[2].SetActive(false);
+        next[2].SetActive(true);
         arrow[3].SetActive(true);
     }
 
@@ -261,6 +269,8 @@ public class tutorial : MonoBehaviour
         }
 
         arrow[5].SetActive(false);
+        next[2].SetActive(false);
+        next[0].SetActive(true);
     }
 
     public void image12() {
@@ -275,6 +285,7 @@ public class tutorial : MonoBehaviour
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
 
+        next[0].SetActive(false);
         highlight[6].SetActive(true);
     }
 
