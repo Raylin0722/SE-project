@@ -29971,8 +29971,8 @@ MonoBehaviour:
   - {fileID: 1201987358}
   - {fileID: 68662401}
   bool_level_up: 0
-  NOT_YET: {fileID: 0}
-  HAHA: {fileID: 0}
+  NOT_YET: {fileID: 908020552}
+  HAHA: {fileID: 1639366189}
 --- !u!1 &1084044294
 GameObject:
   m_ObjectHideFlags: 0
