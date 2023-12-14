@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 200
   bulletPrefab: {fileID: 4976483561929263923, guid: 78e33fca522b00a439b5d00c9da7842c, type: 3}
-  attackRange: 0
+  attackRange: 12
   bulletSpeed: 8
 --- !u!114 &6692241333407411624
 MonoBehaviour:
