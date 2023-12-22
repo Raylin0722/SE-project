@@ -167,6 +167,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   isAngel: 0
   who: 6
+  isEnemy: 0
 --- !u!114 &3288625224914291831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +183,8 @@ MonoBehaviour:
   maxHealth: 800
   currentHealth: 100
   who: 6
+  isEnemy: 0
+  isTower: 0
   HpBar: {fileID: 0}
 --- !u!61 &3705255953214247432
 BoxCollider2D:
@@ -215,7 +218,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.045768976, y: -0.08346078}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -226,7 +229,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 2}
+  m_Size: {x: 0.9038482, y: 1.5207722}
   m_EdgeRadius: 0
 --- !u!114 &2240596338905544792
 MonoBehaviour:
