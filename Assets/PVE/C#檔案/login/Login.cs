@@ -128,8 +128,14 @@ public class Login : MonoBehaviour {
             }
         }
     }
-
     public void GoToMain() {
         SceneManager.LoadScene("MainMenu");
+    }
+    public void LogOut() {
+        GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+
+        foreach (GameObject obj in dontDestroyObjects) {
+            Destroy(obj);
+        }
     }
 }
