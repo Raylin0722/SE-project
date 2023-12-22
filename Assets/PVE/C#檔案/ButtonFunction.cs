@@ -37,6 +37,8 @@ public class ButtonFunction : MonoBehaviour{
     [SerializeField] GameObject Next;
     [SerializeField] GameObject Close_bottom;
     [SerializeField] GameObject Next_bottom;
+    public GameObject[] castles;
+    private int faction;
     [SerializeField] GameObject castle1;
     [SerializeField] GameObject castle2;
     static public int judge_victory=0;
@@ -125,6 +127,7 @@ public class ButtonFunction : MonoBehaviour{
         GameIsStart=true;
         ServerScript = FindObjectOfType<ServerMethod.Server>();
         Award_Definition();
+        faction = ServerScript.faction[1];
     }
     void Update(){
         if(GameIsStart){
@@ -283,11 +286,12 @@ public class ButtonFunction : MonoBehaviour{
             minute=60;
             ShowMinute--;
             if(ShowMinute==(-1)){
-                Health health_mine = castle1.GetComponent<Health>();
+                judge_defeat=1;
+                /*Health health_mine = castles[faction-2].GetComponent<Health>();
                 Health health_yours = castle2.GetComponent<Health>();
                 if(health_mine.currentHealth>health_yours.currentHealth){
                     judge_victory=1;
-                }else judge_defeat=1;
+                }else judge_defeat=1;*/
                 Time.timeScale=0f;
                 GameIsStart=false;
                 //BlackBackground.SetActive(true);
@@ -371,7 +375,7 @@ public class ButtonFunction : MonoBehaviour{
     [SerializeField] TextMeshProUGUI Upgradetext;
     public void upgrade(){
         if(currentEnergy>=(UpgradeEnergy) && InsideGameUpgrade<7){
-            Slingshot shot = castle1.GetComponent<Slingshot>();
+            Slingshot shot = castles[faction-2].GetComponent<Slingshot>();
             if(shot.Rock!=null){
                 Destroy(shot.Rock);
                 shot.slingshotState = SlingshotState.do_nothing;
