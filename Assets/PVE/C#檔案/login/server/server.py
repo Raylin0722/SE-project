@@ -1084,7 +1084,7 @@ def topUp():
         return resultReturn
 
     try:
-        cardID = int(cardId)
+        cardID = int(cardID)
     except:
         return resultReturn
 
@@ -1119,15 +1119,15 @@ def topUp():
     cnx.close()
 
     return resultReturn
+@app.route("/setting", methods=['get', 'post'])
 def setting():
     token = request.form.get("token")
     volume = request.form.get("volume")
     backVolume = request.form.get("backVolume")
     shock = request.form.get("shock")
-    remind = request.form.get("remind")
 
     resultReturn = {"success" : False}
-    if token == None or volume == None or backVolume == None or shock == None or remind == None:
+    if token == None or volume == None or backVolume == None or shock == None:
         return resultReturn
 
     try:
@@ -1139,13 +1139,7 @@ def setting():
             shock = False
         else:
             return resultReturn
-        if remind == "True":
-            remind = True
-        elif remind == "False":
-            remind = False
-        else:
-            return resultReturn
-
+        
         if volume >= 100:
             volume = 100
         elif volume <= 0:
@@ -1168,7 +1162,7 @@ def setting():
 
     if len(result) == 1:
         try:
-            cur.execute("update usersdata set volume=%s, backVolume=%s, shock=%s, remind=%s where token=%s;", (volume, backVolume, shock, remind))
+            cur.execute("update usersdata set volume=%s, backVolume=%s, shock=%s where token=%s;", (volume, backVolume, shock))
             cnx.commit()
             resultReturn["success"] = True
         except:

@@ -556,7 +556,7 @@ namespace ServerMethod{
 
         }
 
-        public IEnumerator setting(int volume, int backVolume, bool shock, bool remind){
+        public IEnumerator setting(int volume, int backVolume, bool shock){
             WWWForm form = new WWWForm();
             form.AddField("token", token);
             form.AddField("volume", volume);
@@ -565,10 +565,7 @@ namespace ServerMethod{
                 form.AddField("shock", "True");
             else
                 form.AddField("shock", "False");
-            if(remind == true)
-                form.AddField("remind", "True");
-            else
-                form.AddField("remind", "False");
+            
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/setting", form);
 
