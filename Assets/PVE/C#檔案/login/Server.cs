@@ -592,5 +592,17 @@ namespace ServerMethod{
 
         }
     
+        public void LogOut() {
+            GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+
+            foreach (GameObject obj in dontDestroyObjects) {
+                Destroy(obj);
+            }
+
+            SceneManager.LoadScene("MainMenu");
+        }
+
+    
     }
+    
 }
