@@ -90,6 +90,7 @@ namespace ServerMethod{
         public List<string> waitAccept = new List<string>(); // 待對方回覆名單
         public List<string> energyGet = new List<string>(); // 獲得體力未領取名單
         public List<string> energySend = new List<string>(); // 贈送體力未領取名單
+        [SerializeField] GameObject NetWorkWarning;
  
         void Awake(){
             token = TokenManager.Instance.Token;
@@ -116,10 +117,10 @@ namespace ServerMethod{
             form.AddField("token", token);
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
-            
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 Debug.Log(response);
                 data playerData = JsonUtility.FromJson<data>(response);
@@ -146,10 +147,14 @@ namespace ServerMethod{
 
             }
             else{ //非法token需跳回登入頁面
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                print("out of time!");
                 GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
                 foreach (GameObject obj in dontDestroyObjects){
                     Destroy(obj);
                 }
+                
                 SceneManager.LoadScene("MainMenu");
                 Debug.Log("未連接至伺服器");
             }
@@ -183,18 +188,28 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/openChest", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
             chestReturn result = new chestReturn();
 
 
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<chestReturn>(response);
                 CallUpdateUserData();
             }
             else{
-                result.success = false;
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+                
             }
 
             yield return result;
@@ -206,16 +221,26 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/beforeGame", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
             Return result = new Return();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
             
             yield return result;
         }
@@ -232,15 +257,25 @@ namespace ServerMethod{
             Return result = new Return();
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
             }
-            else    
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
 
@@ -253,19 +288,29 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateCard", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
             Return result = new Return();
 
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
-                Debug.Log(response);
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
                 
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
+                
 
             yield return result;
             
@@ -279,17 +324,27 @@ namespace ServerMethod{
             print(lineupString);
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateLineup", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
             Return result = new Return();
 
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();    
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
             
@@ -300,13 +355,12 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateRank", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
 
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
-                
-                Debug.Log(response);
 
                 rankName = new List<string>();
                 rankClear = new List<string>();
@@ -323,6 +377,17 @@ namespace ServerMethod{
                 foreach(int fac in rankReturn.Faction)
                     rankFaction.Add(fac);
             }
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
             
             
         }
@@ -333,15 +398,25 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFaction", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
             Return result = new Return();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
 
@@ -353,15 +428,25 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/initFaction", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
             Return result = new Return();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
 
@@ -372,8 +457,9 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFriend", form);
             
+            www.timeout = 3;
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 
                 friends = new List<string>();
@@ -400,6 +486,17 @@ namespace ServerMethod{
                 foreach(string wait in data.waitAccept)
                     waitAccept.Add(wait);
             }
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
         }
         public IEnumerator addFriend(string friendName){
@@ -409,14 +506,24 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/addFriend", form);
             Return result = new Return();
+            www.timeout = 3;
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateFriend();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
         }
@@ -427,15 +534,26 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/deleteFriend", form);
             
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateFriend();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
+                
 
             yield return result;
         }
@@ -446,15 +564,25 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/acceptFriend", form);
             
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateFriend();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
         }
@@ -465,15 +593,25 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/rejectFriend", form);
 
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateFriend();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
         }
@@ -484,15 +622,25 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/blackListFriend", form);
             
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateFriend();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
         }
@@ -503,15 +651,25 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/sendFriendEnergy", form);
 
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateFriend();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
         }
@@ -523,15 +681,25 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/getFriendEnergy", form);
 
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateFriend();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
         }
@@ -542,21 +710,31 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/topUp", form);
 
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             yield return result;
 
         }
 
-        public IEnumerator setting(int volume, int backVolume, bool shock, bool remind){
+        public IEnumerator setting(int volume, int backVolume, bool shock){
             WWWForm form = new WWWForm();
             form.AddField("token", token);
             form.AddField("volume", volume);
@@ -565,22 +743,29 @@ namespace ServerMethod{
                 form.AddField("shock", "True");
             else
                 form.AddField("shock", "False");
-            if(remind == true)
-                form.AddField("remind", "True");
-            else
-                form.AddField("remind", "False");
+            
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/setting", form);
 
+            www.timeout = 3;
             Return result = new Return();
             yield return www.SendWebRequest();
-            if(www.result == UnityWebRequest.Result.Success){
+            if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
                 result = JsonUtility.FromJson<Return>(response);
                 CallUpdateUserData();
             }
-            else
-                result.success = false;
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                
+                SceneManager.LoadScene("MainMenu");
+                Debug.Log("未連接至伺服器");
+            }
 
             if(result.success == true)
                 Debug.Log("Success!");

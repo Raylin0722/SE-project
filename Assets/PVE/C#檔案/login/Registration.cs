@@ -18,6 +18,7 @@ public class Registration : MonoBehaviour {
     public Image incorrect_password;
     public Image User_Low_Length;
     [SerializeField] string token;
+    public GameObject NetWorkWarning;
 
     public GameObject page_Rigister; // the page of rigister
     public GameObject page_User_consent; // the page of user consent
@@ -102,48 +103,59 @@ public class Registration : MonoBehaviour {
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/register", form);
             // UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/register", form);
-            
+            www.timeout = 3;
             yield return www.SendWebRequest();
 
-            if(www.downloadHandler.text[0] == '0') {
-                Debug.Log("User Created Successfully.");
-                TokenManager.Instance.Token = www.downloadHandler.text.Split('\t')[1];
-                TokenManager.Instance.Username = nameField.text;
-                UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
-            }else {
-                Debug.Log("User Creation Failed. Error #" + www.downloadHandler.text);
-                switch(www.downloadHandler.text[0]) {
-                    case '1':
-                        password_too_short.enabled = true;
-                        submitButton.interactable = false;
-                        yield return new WaitForSeconds(2f);
-                        password_too_short.enabled = false;
-                        submitButton.interactable = true;
-                        break;
-                    case '2':
-                        user_existed.enabled = true;
-                        submitButton.interactable = false;
-                        yield return new WaitForSeconds(2f);
-                        user_existed.enabled = false;
-                        submitButton.interactable = true;
-                        break;
-                    case '3':
-                        user_not_found.enabled = true;
-                        submitButton.interactable = false;
-                        yield return new WaitForSeconds(2f);
-                        user_not_found.enabled = false;
-                        submitButton.interactable = true;
-                        break;
-                    case '4':
-                        incorrect_password.enabled = true;
-                        submitButton.interactable = false;
-                        yield return new WaitForSeconds(2f);
-                        incorrect_password.enabled = false;
-                        submitButton.interactable = true;
-                        break;
-                    default:
-                        break;
+            if(!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
+                if(www.downloadHandler.text[0] == '0') {
+                    Debug.Log("User Created Successfully.");
+                    TokenManager.Instance.Token = www.downloadHandler.text.Split('\t')[1];
+                    TokenManager.Instance.Username = nameField.text;
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+                }else {
+                    Debug.Log("User Creation Failed. Error #" + www.downloadHandler.text);
+                    switch(www.downloadHandler.text[0]) {
+                        case '1':
+                            password_too_short.enabled = true;
+                            submitButton.interactable = false;
+                            yield return new WaitForSeconds(2f);
+                            password_too_short.enabled = false;
+                            submitButton.interactable = true;
+                            break;
+                        case '2':
+                            user_existed.enabled = true;
+                            submitButton.interactable = false;
+                            yield return new WaitForSeconds(2f);
+                            user_existed.enabled = false;
+                            submitButton.interactable = true;
+                            break;
+                        case '3':
+                            user_not_found.enabled = true;
+                            submitButton.interactable = false;
+                            yield return new WaitForSeconds(2f);
+                            user_not_found.enabled = false;
+                            submitButton.interactable = true;
+                            break;
+                        case '4':
+                            incorrect_password.enabled = true;
+                            submitButton.interactable = false;
+                            yield return new WaitForSeconds(2f);
+                            incorrect_password.enabled = false;
+                            submitButton.interactable = true;
+                            break;
+                        default:
+                            break;
+                    }
                 }
+            }
+            else{
+                NetWorkWarning.SetActive(true);
+                yield return new WaitForSeconds(3f);
+                GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
+                foreach (GameObject obj in dontDestroyObjects){
+                    Destroy(obj);
+                }
+                GoToMain();
             }
         }
     }
