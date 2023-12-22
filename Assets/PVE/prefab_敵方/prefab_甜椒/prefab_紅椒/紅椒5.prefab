@@ -136,7 +136,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.125, y: 0.009, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.71428573}
+  m_LocalScale: {x: 0.77, y: 0.77, z: 0.55}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1187338671041304078}
@@ -255,4 +255,5 @@ MonoBehaviour:
   currentHealth: 100
   who: 4
   isEnemy: 1
+  isTower: 0
   HpBar: {fileID: 0}
