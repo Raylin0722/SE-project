@@ -21,12 +21,14 @@ public class START : MonoBehaviour
     private Coroutine endCoroutine;
 
     public GameObject Cat;
+    public Image upperUIElement; 
 
     private int[] Cat_x=new int[13]{-698,-524,-221,-78,-137,-80,128,333,366,537,730,814,-893};
     private int[] Cat_y=new int[13]{-118,-236,-252,-147,46,228,378,126,-70,-211,13,213,-100};
     // Start is called before the first frame update
     void Start()
     {
+        upperUIElement.raycastTarget = false;
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
