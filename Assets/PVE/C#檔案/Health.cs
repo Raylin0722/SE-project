@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Assets.Scripts;
+using System.Data.Common;
 public class Health : MonoBehaviour{
     //ButtonFunction buttonFunction = new ButtonFunction(); 
     //public ButtonFunction buttonFunction;   
@@ -20,13 +21,26 @@ public class Health : MonoBehaviour{
         if (gameObject.layer == 8)CreateHpBar();
     }
     private void Start(){
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
-        if(isTower){
-            wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.castleLevel;
-            maxHealth+=(wholevel-1)*500;
-        }else{
-            wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.character[who];
-            maxHealth=(int)((double)maxHealth*Math.Pow(1.2,wholevel-1));
+        if(MainMenu.message==100)
+        {
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+            if(isTower){
+                wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.castleLevel;
+                maxHealth+=(wholevel-1)*500;
+            }else{
+                wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.character[who];
+                maxHealth=(int)((double)maxHealth*Math.Pow(1.2,wholevel-1));
+            }
+        }
+        else
+        {
+            if(isTower){
+                wholevel=isEnemy?(GameManage.currentLevel/10):MainMenu.castleLevel;
+                maxHealth+=(wholevel-1)*500;
+            }else{
+                wholevel=isEnemy?(GameManage.currentLevel/10):MainMenu.character[who];
+                maxHealth=(int)((double)maxHealth*Math.Pow(1.2,wholevel-1));
+            }
         }
         currentHealth = maxHealth;
     }

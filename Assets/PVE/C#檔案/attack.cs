@@ -24,8 +24,12 @@ public class Attack : MonoBehaviour{
     private int wholevel;
     public bool isEnemy;
     private void Start() {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
-        wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.character[who];
+        if(MainMenu.message==87)    wholevel=isEnemy?(GameManage.currentLevel/10):MainMenu.character[who];
+        else
+        {   
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+            wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.character[who];
+        }
         moveSpeed=(float)((double)moveSpeed*Math.Pow(1.1,wholevel-1));
         maxHealth=(int)((double)maxHealth*Math.Pow(1.2,wholevel-1));
         attackDamage=(int)((double)attackDamage*Math.Pow(attackRate[who],wholevel-1));

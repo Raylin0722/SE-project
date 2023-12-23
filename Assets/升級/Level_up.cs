@@ -215,8 +215,9 @@ public class Level_up : MonoBehaviour
             Bomb_number.gameObject.SetActive(true);
             Bomb_number.text = "x" + Props[1].ToString();
         }
-        int lineup_five = MainMenu.lineup[5];
+        int lineup_five = 0;
         if(MainMenu.message!=87)    lineup_five = ServerScript.lineup[5];
+        else        lineup_five = MainMenu.lineup[5];
         if(lineup_five==1)
         {
             props[0].gameObject.SetActive(true);

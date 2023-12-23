@@ -78,8 +78,11 @@ public class START : MonoBehaviour
         string buttonTag = clickedButton.tag;
         GameManage.currentLevel = int.Parse(buttonTag);
         
-        if(MainMenu.message==87)    SceneManager.LoadScene("Background", LoadSceneMode.Single);
-
+        if(MainMenu.message==87)    
+        {
+            SceneManager.LoadScene("Background", LoadSceneMode.Single);
+            return;
+        }
         // detect whether your energy is sufficient
         if(ServerScript.energy<5)   
         {

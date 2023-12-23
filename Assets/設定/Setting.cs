@@ -45,12 +45,6 @@ public class Setting : MonoBehaviour
         page_Setting.SetActive(false);
     }
 
-    // When drag < Sound_effects >
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    // When drag < Background_music >
-    ///////////////////////////////////////////////////////////////////////////////////////
-
     // When click < Vibration >
     public void Button_Vibration()
     {
