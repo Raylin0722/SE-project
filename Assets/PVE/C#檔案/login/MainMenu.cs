@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using TreeEditor;
 using System;
 
 public class MainMenu : MonoBehaviour {
