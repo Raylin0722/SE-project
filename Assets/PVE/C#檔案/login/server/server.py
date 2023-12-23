@@ -594,7 +594,7 @@ def afterGame():
 
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
-    checkQuery = "select token from users where token=%s;"
+    checkQuery = "select token, username from users where token=%s;"
     clearQuery = "select money, expLevel, expTotal, clearance, tear, playerName from usersdata where token=%s"
     updateQuery = "update usersdata set money=%s, expLevel=%s, expTotal=%s, clearance=%s, updateTime=%s, tear=%s where token=%s;"
     rankQuery = "update `rank` set chapter=%s, level=%s where playerName=%s"
@@ -628,9 +628,7 @@ def afterGame():
                 clearance = str(clearance).replace("'", "\"")
                 #print(updateQuery %(money, expLevel, expTotal, clearance, datetime.now(), tear, token))
                 cur.execute(updateQuery, (money, expLevel, expTotal, clearance, datetime.now(), tear, token))
-                cnx.commit()
-
-                cur.execute(rankQuery, (chapter, level, result[0][5]))
+                cur.execute(rankQuery, (chapter, level, result[0][1]))
                 cnx.commit()
 
                 success["success"] = True
