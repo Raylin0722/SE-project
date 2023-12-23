@@ -22,8 +22,8 @@ public class FruitSelect : MonoBehaviour
         Skip.gameObject.SetActive(false);
     }
     void Update() {
-        Fruit_Select();
-        //Play_Video(); // This is only for you to test,and you can delete it.
+        //Fruit_Select();
+        Play_Video(); // This is only for you to test,and you can delete it.
     }
 
     // Check Button
