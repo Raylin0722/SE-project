@@ -21,6 +21,7 @@ public class Bullets : MonoBehaviour{
         speed = newSpeed;
     }
     void Update(){
+        
         if (target != null){
             // 计算子弹的方向
             Vector2 direction = (target.position - transform.position).normalized;
@@ -35,11 +36,13 @@ public class Bullets : MonoBehaviour{
                 //transform.localScale = new Vector3(1, 1, 1);   
             }
             // 更新子弹的位置，以追踪目标位置
-            transform.Translate(direction * speed * Time.deltaTime);
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            rb.velocity = direction * speed;
         }else if(target == null)Destroy(gameObject);
     }
     // 当子弹碰撞到其他碰撞器时触发碰撞事件
     void OnTriggerEnter2D(Collider2D collision){
+        Debug.Log(collision.gameObject.name);
         if(target.tag=="enemy"){
             if (collision.CompareTag("enemy")){
                 Destroy(gameObject);

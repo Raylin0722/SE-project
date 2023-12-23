@@ -20,9 +20,15 @@ public class START : MonoBehaviour
     public GameObject[] Lock; // the locked level image
     private Coroutine endCoroutine;
 
+    public GameObject Cat;
+    public Image upperUIElement; 
+
+    private int[] Cat_x=new int[13]{-698,-524,-221,-78,-137,-80,128,333,366,537,730,814,-893};
+    private int[] Cat_y=new int[13]{-118,-236,-252,-147,46,228,378,126,-70,-211,13,213,-100};
     // Start is called before the first frame update
     void Start()
     {
+        upperUIElement.raycastTarget = false;
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
@@ -33,8 +39,26 @@ public class START : MonoBehaviour
         {
             Update_values(); // Update energy
         }
+        RectTransform catRectTransform = Cat.GetComponent<RectTransform>();
+        catRectTransform.anchoredPosition = new Vector2(Cat_x[CurrentStage()], Cat_y[CurrentStage()]);
     }
 
+    private int CurrentStage()
+    {
+        int stage = 12;  // 初始化为一个不可能的值
+
+        for (int i = 0; i < 12; i++)
+        {
+            if (ServerScript.clearance[i] == 0)
+            {
+                stage = i-1;
+                break;
+            }
+        }
+        if(stage==-1)stage=12;
+        
+        return stage;
+    }
     // When click < Level >
     public void Button_Level()
     {
