@@ -1,13 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.Video;
-using UnityEngine.EventSystems;
 using ServerMethod;
-using System;
 
 public class FruitSelect : MonoBehaviour
 {
@@ -21,41 +15,28 @@ public class FruitSelect : MonoBehaviour
     public GameObject Music_main_scene; // the Music in main_scene
     public GameObject Skip;
     public static int start_tutorial = 0;
+    private ServerMethod.Server ServerScript; // Server.cs
 
-    // Server.cs
-    private ServerMethod.Server ServerScript;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        if(MainMenu.message!=87)
-        {
-            ServerScript = FindObjectOfType<ServerMethod.Server>();
-        }
+    void Start() {
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
         Skip.gameObject.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         Fruit_Select();
         //Play_Video(); // This is only for you to test,and you can delete it.
     }
 
     // Check Button
-    public void Check()
-    {
+    public void Check() {
         wFrame.SetActive(false);
         bFrame.SetActive(false);
         if(fruit==-1)   return;
-        else if(fruit==0)
-        {
+        else if(fruit==0) {
             ServerScript.faction[2] = 1;
             ServerScript.faction[3] = 0;
             StartCoroutine(ServerScript.initFaction(2));
         }
-        else
-        {
+        else {
             ServerScript.faction[2] = 0;
             ServerScript.faction[3] = 1;
             StartCoroutine(ServerScript.initFaction(3));      
@@ -67,47 +48,28 @@ public class FruitSelect : MonoBehaviour
         page_FruitSelect.SetActive(false); // Close All button in Fruit Select
         ALL_Button.SetActive(true); // Open All button in Main_Scene
         Music_main_scene.SetActive(true); // Opne music in Main_Scene
-    
         start_tutorial = 1;
     }
 
     // Close All button in Main_Scene
-    public void Fruit_Select()
-    {
-        if(MainMenu.message==87)
-        {
-            return;    
-        }
-        if(ServerScript.faction[0]==1)
-        {
+    public void Fruit_Select() {
+        if(MainMenu.message==87)    return;    
+        if(ServerScript.faction[0]==1) {
             Music_main_scene.SetActive(false); // Close music in Main_Scene
             ALL_Button.SetActive(false); // Close All button in Main_Scene
             page_FruitSelect.SetActive(true); // Open All button in Fruit Select
             video.gameObject.SetActive(false); // Close story vedio
         }
     }
-
-    public void bhighlight()
-    {
-        bFrame.SetActive(true);
-        wFrame.SetActive(false);
+    public void bhighlight() {
         fruit=1;
     }
-    public void whighlight()
-    {
-        wFrame.SetActive(true);
-        bFrame.SetActive(false);
+    public void whighlight() {
         fruit=0;
     }
-
-    public void Play_Video()
-    {
-        if(MainMenu.message==87)
-        {
-            return;    
-        }
-        if(ServerScript.faction[0]==1 && bool_play==false)
-        {
+    public void Play_Video() {
+        if(MainMenu.message==87)    return;    
+        if(ServerScript.faction[0]==1 && bool_play==false) {
             Music_main_scene.SetActive(false); // Close music in Main_Scene
             ALL_Button.SetActive(false); // Close All button in Main_Scene
             video.gameObject.SetActive(true); // Open story vedio
@@ -116,21 +78,17 @@ public class FruitSelect : MonoBehaviour
             Skip.gameObject.SetActive(false);
         }
         video.loopPointReached += End_Video;
-        if(video.time>5f)   
-        {
+        if(video.time>5f) {
             Skip.gameObject.SetActive(true);
         }
     }
 
-    void End_Video(VideoPlayer video)
-    {
+    void End_Video(VideoPlayer video) {
         Skip_Video();
     }
 
-    public void Skip_Video()
-    {
-        if(ServerScript.faction[0]==1 && bool_play==true)
-        {
+    public void Skip_Video() {
+        if(ServerScript.faction[0]==1 && bool_play==true) {
             video.Pause();
             Fruit_Select();
         }
