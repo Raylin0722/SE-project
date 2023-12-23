@@ -35,7 +35,7 @@ public class Level_up : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
         //
         contentRect = scrollRect.content;
         int itemCount = contentRect.childCount;
@@ -45,7 +45,6 @@ public class Level_up : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(value);
         Update_values(); // Update money and charactor level and money and bombs
         CalculateDistances();
         UpgradeIndex = FindNearestCenter();
@@ -74,7 +73,15 @@ public class Level_up : MonoBehaviour
         //升級主保
         if(UpgradeIndex==0)
         {
-            if(ServerScript.castleLevel==15)
+            if(MainMenu.message==87)
+            {
+                if(MainMenu.castleLevel==15)
+                {
+                    StartCoroutine(MaxGrade());
+                    return;
+                }
+            }
+            else if(ServerScript.castleLevel==15)
             {
                 StartCoroutine(MaxGrade());
                 return;
@@ -82,13 +89,34 @@ public class Level_up : MonoBehaviour
         }
         else if(UpgradeIndex!=0)
         {
-            if(ServerScript.character[UpgradeIndex-1]==5)
+            if(MainMenu.message==87)
+            {
+                if(MainMenu.character[UpgradeIndex-1]==5)
+                {
+                    StartCoroutine(MaxGrade());
+                    return;
+                }
+            }
+            else if(ServerScript.character[UpgradeIndex-1]==5)
             {
                 StartCoroutine(MaxGrade());
                 return;
             }
         }
         
+        if(MainMenu.message==87) 
+        {
+            if(UpgradeIndex==0)
+            {
+                MainMenu.castleLevel = MainMenu.castleLevel + 1;
+                MainMenu.slingshotLevel = MainMenu.slingshotLevel + 1;
+            }
+            else
+            {
+                MainMenu.character[UpgradeIndex-1] = MainMenu.character[UpgradeIndex-1] + 1;
+            }
+            return;
+        }   
         //算出來在更新到sever
         Debug.Log(UpgradeIndex);
         page_Check_upGrade.SetActive(false);
@@ -123,9 +151,18 @@ public class Level_up : MonoBehaviour
     // Update energy && money && tear
     public void Update_values()
     {
-        money.text = ServerScript.money.ToString();
-        
-        if(ServerScript.castleLevel>=15)
+        money.text = MainMenu.money.ToString();
+        int castleLevel = MainMenu.castleLevel;
+        int[] character = MainMenu.character;
+        int[] Props = MainMenu.props;
+        if(MainMenu.message!=87)
+        {  
+            money.text = ServerScript.money.ToString();
+            castleLevel = ServerScript.castleLevel;
+            character = ServerScript.character;
+            Props = ServerScript.props;
+        }
+        if(castleLevel>=15)
         {
             Level[0].fontSize = 15;
             Level[0].text = "MAX";
@@ -133,26 +170,26 @@ public class Level_up : MonoBehaviour
         }
         else
         {
-            Level[0].text = ServerScript.castleLevel.ToString();
-            Dollar[0].text = (Money[0]+500*(ServerScript.castleLevel-1)).ToString();
+            Level[0].text = castleLevel.ToString();
+            Dollar[0].text = (Money[0]+500*(castleLevel-1)).ToString();
         }
         
-        for(int i = 0; i<ServerScript.character.Length; i++)
+        for(int i = 0; i<character.Length; i++)
         {
             Level[i+1].fontSize = 25;
-            Level[i+1].text = ServerScript.character[i].ToString();
+            Level[i+1].text = character[i].ToString();
             Level[i+1].color = new Color(0f,0f,0f,1f);
             Dollar[i+1].color = new Color(0f,0f,0f,1f);
-            if(ServerScript.character[i]==0)
+            if(character[i]==0)
             {
                 Level[i+1].color = new Color(0f,0f,0f,0f);
                 Dollar[i+1].color = new Color(0f,0f,0f,0f);
             }
-            else if(ServerScript.character[i]==1)
+            else if(character[i]==1)
             {
                 Dollar[i+1].text = Money[i+1].ToString();
             }
-            else if(ServerScript.character[i]>=5)
+            else if(character[i]>=5)
             {
                 Level[i+1].fontSize = 15;
                 Level[i+1].text = "MAX";
@@ -160,12 +197,12 @@ public class Level_up : MonoBehaviour
             }
             else
             {
-                Dollar[i+1].text = (Money[i+1]*1.5*(ServerScript.character[i]-1)).ToString();
+                Dollar[i+1].text = (Money[i+1]*1.5*(character[i]-1)).ToString();
             }
         }
 
         // whether you have Bombs can use
-        if(ServerScript.props[1]==0)
+        if(Props[1]==0)
         {
             Bombs[0].color = new Color(0f,0f,0f,1f);
             Bombs[1].gameObject.SetActive(false);
@@ -176,9 +213,12 @@ public class Level_up : MonoBehaviour
             Bombs[0].color = new Color(1f,1f,1f,1f);
             Bombs[1].gameObject.SetActive(true);
             Bomb_number.gameObject.SetActive(true);
-            Bomb_number.text = "x" + ServerScript.props[1].ToString();
+            Bomb_number.text = "x" + Props[1].ToString();
         }
-        if(ServerScript.lineup[5]==1)
+        int lineup_five = 0;
+        if(MainMenu.message!=87)    lineup_five = ServerScript.lineup[5];
+        else        lineup_five = MainMenu.lineup[5];
+        if(lineup_five==1)
         {
             props[0].gameObject.SetActive(true);
             props[1].gameObject.SetActive(false);
@@ -193,6 +233,13 @@ public class Level_up : MonoBehaviour
     // Update Bomb
     public void Change()
     {   
+        if(MainMenu.message==87)    
+        {
+            props[0].SetActive(0==MainMenu.lineup[5]-1);
+            props[1].SetActive(1==MainMenu.lineup[5]-1);
+            MainMenu.lineup[5] = MainMenu.lineup[5]%2 + 1;
+            return;
+        }
         props[0].SetActive(0==ServerScript.lineup[5]-1);
         props[1].SetActive(1==ServerScript.lineup[5]-1);
         ServerScript.lineup[5] = ServerScript.lineup[5]%2 + 1;

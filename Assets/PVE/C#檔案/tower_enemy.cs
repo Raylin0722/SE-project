@@ -16,7 +16,7 @@ public class tower_enemy : MonoBehaviour{
     private ServerMethod.Server ServerScript;
     private int wholevel;
     void Start(){
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message==100)   ServerScript = FindObjectOfType<ServerMethod.Server>();
         wholevel=GameManage.currentLevel/10;
         attackDamage+=(wholevel-1)*50;
         bulletSpawnPoint = new GameObject().transform;

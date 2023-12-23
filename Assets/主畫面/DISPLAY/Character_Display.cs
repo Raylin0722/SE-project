@@ -22,27 +22,39 @@ public class Charactor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
         Character_Location();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(ServerScript.lineup.Length!=0)
+        if(MainMenu.message==87)    
         {
             Update_Display();
+            return;
         }
+        if(ServerScript.lineup.Length!=0)    Update_Display();
     }
 
     // Update Display images
     private void Update_Display()
     {
-        if(ServerScript.faction[0]==1)  return;
-
         for(int i = 0; i<Pictures.Length; i++)
         {
             Pictures[i].gameObject.SetActive(false);
+        }
+        if(MainMenu.message==87)
+        {
+            for(int i = 0; i<MainMenu.lineup.Length-1; i++)
+            {
+                Pictures[7*(MainMenu.faction[1]-1-1)+MainMenu.lineup[i]-1].gameObject.SetActive(true);
+            }
+            for(int i = 0; i<MainMenu.lineup.Length-1; i++)
+            {
+                Pictures[7*(MainMenu.faction[1]-1-1)+MainMenu.lineup[i]-1].rectTransform.anchoredPosition = new Vector3(Location_List[7*(MainMenu.faction[1]-1-1)+MainMenu.lineup[i]-1].position.x+i*Location_List[7*(MainMenu.faction[1]-1-1)+MainMenu.lineup[i]-1].offset,Location_List[7*(MainMenu.faction[1]-1-1)+MainMenu.lineup[i]-1].position.y,Location_List[7*(MainMenu.faction[1]-1-1)+MainMenu.lineup[i]-1].position.z);
+            }
+            return;
         }
         for(int i = 0; i<ServerScript.lineup.Length-1; i++)
         {

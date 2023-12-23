@@ -93,6 +93,7 @@ namespace ServerMethod{
         [SerializeField] GameObject NetWorkWarning;
  
         void Awake(){
+            if(MainMenu.message==87)    return;
             token = TokenManager.Instance.Token;
             username = TokenManager.Instance.Username;
             CallUpdateUserData();
@@ -103,6 +104,7 @@ namespace ServerMethod{
             }
         }
         private void Start() {
+            if(MainMenu.message==87)    return;
             StartCoroutine(autoUpdate());
         }
         public void CallUpdateUserData() {

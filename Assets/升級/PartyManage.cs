@@ -23,7 +23,7 @@ public class PartyManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
         Character_Location();
     }
 
@@ -35,7 +35,6 @@ public class PartyManage : MonoBehaviour
 
     private void Up_Update()
     {
-        if(ServerScript.faction[0]==1)  return;
         // Show current page && Hide the others
         for(int i = 0; i<8; i++)
         {
@@ -46,14 +45,21 @@ public class PartyManage : MonoBehaviour
             
             if(i==0)
             {
-                Up_Pictures[8*(ServerScript.faction[1]-2)+i].gameObject.SetActive(true);
+                if(MainMenu.message==87)    Up_Pictures[8*(MainMenu.faction[1]-2)+i].gameObject.SetActive(true);
+                else if(MainMenu.message!=87)    Up_Pictures[8*(ServerScript.faction[1]-2)+i].gameObject.SetActive(true);
             }
             else
             {
                 Up_Pictures[32+i-1].gameObject.SetActive(false); // Close chain
+                if(MainMenu.message==87)
+                {
+                    Up_Pictures[8*(MainMenu.faction[1]-2)+i].gameObject.SetActive(true);
+                    Up_Pictures[8*(MainMenu.faction[1]-2)+i].color = new Color(1f,1f,1f,1f);
+                    continue;
+                }
+
                 Up_Pictures[8*(ServerScript.faction[1]-2)+i].gameObject.SetActive(true);
                 Up_Pictures[8*(ServerScript.faction[1]-2)+i].color = new Color(1f,1f,1f,1f);
-
                 if(ServerScript.character[i-1]==0)
                 {
                     Up_Pictures[32+i-1].gameObject.SetActive(true); // Open chain
@@ -71,6 +77,12 @@ public class PartyManage : MonoBehaviour
         }
         for(int i = 0; i<5 ; i++)
         {
+            if(MainMenu.message==87)
+            {
+                Pictures[7*(MainMenu.faction[1]-2)+MainMenu.lineup[i]-1].gameObject.SetActive(true);
+                Pictures[7*(MainMenu.faction[1]-2)+MainMenu.lineup[i]-1].rectTransform.anchoredPosition = new Vector2(Location_List[7*(MainMenu.faction[1]-2)+MainMenu.lineup[i]-1].position.x+i*Location_List[7*(MainMenu.faction[1]-2)+MainMenu.lineup[i]-1].offset,Location_List[7*(MainMenu.faction[1]-2)+MainMenu.lineup[i]-1].position.y);
+                continue;
+            }
             Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].gameObject.SetActive(true);
             Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].rectTransform.anchoredPosition = new Vector2(Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.x+i*Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].offset,Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.y);
         }

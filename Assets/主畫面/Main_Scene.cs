@@ -26,8 +26,8 @@ public class ButtonManager : MonoBehaviour
     public GameObject page_Start; // the page for PVE
     public GameObject Setting; // Settings
     public GameObject page_Setting; // the page for Settings
-    public GameObject Friends; // Friends
-    public GameObject page_Friends; // the page for Friends
+    public GameObject Log_out; // Friends
+    public GameObject page_Log_out; // the page for Friends
     public GameObject Top_up; // Top up
     public GameObject page_Top_up; // the page for Top up
     public Text energy; // energy value
@@ -35,7 +35,6 @@ public class ButtonManager : MonoBehaviour
     public Text tear; // tear value
     public Text username;
     public Text level;
-    //public Text timetoGetEnergy;
     public TextMeshProUGUI timetoGetEnergy;
     
     public AudioSource Music_Main_Scene; // the Music in Main Scene
@@ -45,11 +44,6 @@ public class ButtonManager : MonoBehaviour
     public Image[] Rank; 
     public bool bool_level_up = false;
 
-    //
-    public Image NOT_YET; // Can Delete
-    public GameObject HAHA; // Can Delete
-
-
     private void Start()
     {
         ALL_Button.SetActive(true);
@@ -58,28 +52,37 @@ public class ButtonManager : MonoBehaviour
         page_Book.SetActive(false);
         page_Level_up.SetActive(false);
         page_Setting.SetActive(false);
-        page_Friends.SetActive(false);
+        page_Log_out.SetActive(false);
+        Top_up.SetActive(false);
         page_Top_up.SetActive(false);
         page_Start.SetActive(false);
         Play_Music();
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)
+        {
+            Top_up.SetActive(true);
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(ServerScript.rankClear.Count!=0)
+        if(MainMenu.message!=87)
         {
-            Update_values(); // Update energy && money && tear
-            Update_Ranking_List(); // Update Ranking_List in Main_Scene
+            if(ServerScript.rankClear.Count!=0)
+            {
+                Update_Ranking_List(); // Update Ranking_List in Main_Scene
+            }
         }
+        Update_values(); // Update energy && money && tear
         if(bool_level_up==false && page_Level_up.activeSelf==true)
         {
             bool_level_up = true;
         }
         if(bool_level_up==true && page_Level_up.activeSelf==false)
         {
-            StartCoroutine(Lineup_to_Surver());
+            if(MainMenu.message==87)    bool_level_up = false;
+            else    StartCoroutine(Lineup_to_Surver());
         }
     }
 
@@ -96,16 +99,7 @@ public class ButtonManager : MonoBehaviour
     // Click < Ranking_list > 
     public void Button_Ranking_list()
     {
-        StartCoroutine(Button_Ranking_list_tmp());
-        //page_Ranking_list.SetActive(true);
-        //ALL_Button.SetActive(false); // Close All button in Main_Scene
-    }
-
-    public IEnumerator Button_Ranking_list_tmp()
-    {
-        NOT_YET.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        NOT_YET.gameObject.SetActive(false);
+        if(MainMenu.message!=87)    page_Ranking_list.SetActive(true);
     }
 
     private void Update_Ranking_List()
@@ -152,8 +146,11 @@ public class ButtonManager : MonoBehaviour
     // Click < Shop > 
     public void Button_Shop()
     {
-        page_Shop.SetActive(true);
-        ALL_Button.SetActive(false); // Close All button in Main_Scene
+        if(MainMenu.message!=87)    
+        {
+            page_Shop.SetActive(true);
+            ALL_Button.SetActive(false); // Close All button in Main_Scene
+        }
     }
 
     // Click < Book > 
@@ -184,17 +181,9 @@ public class ButtonManager : MonoBehaviour
     }
 
     // Click < Friends > 
-    public void Button_Friends()
+    public void Button_Log_out()
     {
-        StartCoroutine(HAHA_tmp());
-        //page_Friends.SetActive(true);
-    }
-
-    public IEnumerator HAHA_tmp()
-    {
-        HAHA.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        HAHA.gameObject.SetActive(false);
+        page_Log_out.SetActive(true);
     }
 
     // Click < Top up > 
@@ -207,6 +196,17 @@ public class ButtonManager : MonoBehaviour
     // Update energy && money && tear
     public void Update_values()
     {
+        if(MainMenu.message==87)
+        {
+            timetoGetEnergy.text = "00:00";
+            energy.text = MainMenu.energy.ToString() + "/30";
+            money.text = MainMenu.money.ToString();
+            tear.text = MainMenu.tear.ToString();
+            username.text = MainMenu.username.ToString();
+            level.text = "Lv"+MainMenu.exp[0].ToString();
+            return;
+        }
+
         DateTime now = DateTime.Now;
         TimeSpan timediff = now - DateTime.Parse(ServerScript.updateTime);
         //Debug.Log(ServerScript.updateTime);
@@ -222,19 +222,16 @@ public class ButtonManager : MonoBehaviour
         min = tempTime / 60;
         sec = tempTime % 60;
         
-        
         if(ServerScript.energy==30){
             min = 0;
             sec = 0;
         }
-        //timetoGetEnergy.text = "倒數計時:" + min.ToString().PadLeft(2, '0') + ":" + sec.ToString().PadLeft(2, '0');
         timetoGetEnergy.text = min.ToString().PadLeft(2, '0') + ":" + sec.ToString().PadLeft(2, '0');
         energy.text = ServerScript.energy.ToString() + "/30";
         money.text = ServerScript.money.ToString();
         tear.text = ServerScript.tear.ToString();
         username.text = ServerScript.username.ToString();
         level.text = "Lv"+ServerScript.exp[0].ToString();
-        
     }
 
     // Play Music

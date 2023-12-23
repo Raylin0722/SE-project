@@ -21,20 +21,31 @@ public class START : MonoBehaviour
     private Coroutine endCoroutine;
 
     public GameObject Cat;
-    public Image upperUIElement; 
 
     private int[] Cat_x=new int[13]{-698,-524,-221,-78,-137,-80,128,333,366,537,730,814,-893};
     private int[] Cat_y=new int[13]{-118,-236,-252,-147,46,228,378,126,-70,-211,13,213,-100};
     // Start is called before the first frame update
     void Start()
     {
-        upperUIElement.raycastTarget = false;
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(MainMenu.message==87)
+        {
+            energy.text = "30/30";
+            for(int i = 0; i<12 ; i++)
+            {
+                Unlock[i].gameObject.SetActive(true);
+                Lock[i].gameObject.SetActive(false);
+            }
+            RectTransform cat_position = Cat.GetComponent<RectTransform>();
+            cat_position.anchoredPosition = new Vector2(Cat_x[11], Cat_y[11]);
+            return;
+        }
+
         if(ServerScript.clearance.Length!=0)
         {
             Update_values(); // Update energy
@@ -55,6 +66,7 @@ public class START : MonoBehaviour
                 break;
             }
         }
+        if(stage==12 && ServerScript.clearance[11]!=0)  stage = 11;
         if(stage==-1)stage=12;
         
         return stage;
@@ -62,70 +74,26 @@ public class START : MonoBehaviour
     // When click < Level >
     public void Button_Level()
     {
+        GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        string buttonTag = clickedButton.tag;
+        GameManage.currentLevel = int.Parse(buttonTag);
+        
+        if(MainMenu.message==87)    
+        {
+            SceneManager.LoadScene("Background", LoadSceneMode.Single);
+            return;
+        }
         // detect whether your energy is sufficient
         if(ServerScript.energy<5)   
         {
             endCoroutine = StartCoroutine(Enengy_Hint(1f));
             return;
         }
-
-        GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-        string buttonTag = clickedButton.tag;
-        Debug.Log("Clicked button tag: " + buttonTag);
-        switch(buttonTag)
-        {
-            case "11":
-                GameManage.currentLevel=11;
-                //Debug.Log("START:"+GameManage.currentLevel);
-                break;
-            case "12":
-                GameManage.currentLevel=12;
-                break;
-            case "13":
-                GameManage.currentLevel=13;
-                break;
-            case "14":
-                GameManage.currentLevel=14;
-                break;
-            case "15":
-                GameManage.currentLevel=15;
-                break;
-            case "16":
-                GameManage.currentLevel=16;
-                break;
-            case "21":
-                GameManage.currentLevel=21;
-                break;
-            case "22":
-                GameManage.currentLevel=22;
-                break;
-            case "23":
-                GameManage.currentLevel=23;
-                break;
-            case "24":
-                GameManage.currentLevel=24;
-                break;
-            case "25":
-                GameManage.currentLevel=25;
-                break;
-            case "26":
-                GameManage.currentLevel=26;
-                break;
-        }
-
-        /* 虛假關卡前同步
-        StartCoroutine(ServerScript.beforeGame());
-        SceneManager.LoadScene("Background", LoadSceneMode.Single);
-        */
         // 真實關卡前同步
-                for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
-                {
-                    if(ServerScript.clearance[i]==0)
-                    {
-                        Debug.Log("不好笑");
-                        return;
-                    }
-                }  
+        for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
+        {
+            if(ServerScript.clearance[i]==0)    return;
+        }  
         StartCoroutine(Surver_Before_Game((result) => 
         {
             Debug.Log(result);
@@ -133,11 +101,7 @@ public class START : MonoBehaviour
             {
                 for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
                 {
-                    if(ServerScript.clearance[i]==0)
-                    {
-                        Debug.Log("不好笑");
-                        return;
-                    }
+                    if(ServerScript.clearance[i]==0)           return;
                 }
                 SceneManager.LoadScene("Background", LoadSceneMode.Single);
             }
@@ -147,7 +111,6 @@ public class START : MonoBehaviour
                 return;
             }
         }));
-        //*/
     }
 
     private IEnumerator Surver_Before_Game(Action<bool> callback)

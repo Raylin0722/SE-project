@@ -46,11 +46,28 @@ public class CharacterManage : MonoBehaviour{
     }
     private List<Location> Location_List = new List<Location>();
     
+    public int[] Character;
+    public int[] Faction;
+    public int[] Lineup;
+
+
     void Start(){
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
-        faction = ServerScript.faction[1];
+        if(MainMenu.message==87)   
+        {   
+            Character = MainMenu.character;
+            Faction = MainMenu.faction;
+            Lineup = MainMenu.lineup;
+        }
+        else
+        {
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+            Character = ServerScript.character;
+            Faction = ServerScript.faction;
+            Lineup = ServerScript.lineup;
+        }
+        faction = Faction[1];
         Character_Location();
-        ShowMyCastle(ServerScript.faction[1]);
+        ShowMyCastle(Faction[1]);
         passtime=0f;
         record=0;
         EnemyPrefabs = new GameObject[][] {
@@ -82,8 +99,8 @@ public class CharacterManage : MonoBehaviour{
     void Update()
     {
         for(int i=0;i<5;i++){
-            who=ServerScript.lineup[i]-1;
-            wholevel=ServerScript.character[who];
+            who=Lineup[i]-1;
+            wholevel=Character[who];
             wCoolTimeUnit[i]=wCoolTimeUnit_builtin[who]*(float)Math.Pow(1.15,wholevel-1);
             wEnergy[i]=(int)((double)wEnergy_builtin[who]*Math.Pow(1.4,wholevel-1));
             wEnergy_text[i].text=wEnergy[i].ToString();
@@ -125,8 +142,8 @@ public class CharacterManage : MonoBehaviour{
         }
         for(int i = 0; i<5 ; i++)
         {
-            Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].gameObject.SetActive(true);
-            Pictures[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].rectTransform.anchoredPosition = new Vector2(Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.x+i*Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].offset,Location_List[7*(ServerScript.faction[1]-2)+ServerScript.lineup[i]-1].position.y);
+            Pictures[7*(Faction[1]-2)+Lineup[i]-1].gameObject.SetActive(true);
+            Pictures[7*(Faction[1]-2)+Lineup[i]-1].rectTransform.anchoredPosition = new Vector2(Location_List[7*(Faction[1]-2)+Lineup[i]-1].position.x+i*Location_List[7*(Faction[1]-2)+Lineup[i]-1].offset,Location_List[7*(Faction[1]-2)+Lineup[i]-1].position.y);
         }
     }
     public void warriorProduct(int index){
@@ -143,7 +160,7 @@ public class CharacterManage : MonoBehaviour{
             }
             shot.SetEnergy(wEnergy[index]);
             //ButtonFunction.currentEnergy-=150;
-            GameObject Warrior=Instantiate(WarriorPrefabs[ServerScript.faction[1]-2][ServerScript.lineup[index]-1], transform);
+            GameObject Warrior=Instantiate(WarriorPrefabs[Faction[1]-2][Lineup[index]-1], transform);
             //Watermelon1.transform.position=new Vector3(-7.08f, -1f, 0f);
             shot.CharacterIdInCd_shoot=index+1;
             shot.Rock=Warrior;

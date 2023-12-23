@@ -13,8 +13,12 @@ public class tower : MonoBehaviour{
     private ServerMethod.Server ServerScript;
     private int wholevel;
     void Start(){
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
-        wholevel=ServerScript.castleLevel;
+        if(MainMenu.message==87)    wholevel=MainMenu.castleLevel;
+        else
+        {
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+            wholevel=ServerScript.castleLevel;
+        }
         attackDamage+=(wholevel-1)*50;
     }
     void Update(){

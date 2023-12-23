@@ -74,8 +74,22 @@ public class ButtonFunction : MonoBehaviour{
     private float exp;
     private float dollar;
     private float tear;
+    private int[] Lineup;
     void Start(){
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message==87)
+        {
+            slingshotLevel=MainMenu.slingshotLevel;
+            faction = MainMenu.faction[1];
+            Lineup = MainMenu.lineup;
+        }
+        else
+        {
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+            slingshotLevel=ServerScript.slingshotLevel;
+            faction = ServerScript.faction[1];
+            Lineup = ServerScript.lineup;
+        }
+        
         WhiteBack.SetActive(false);
         //BlackBackground.SetActive(true);
         //StartButton.SetActive(true);
@@ -104,7 +118,6 @@ public class ButtonFunction : MonoBehaviour{
         pastTime=0f;
         oneSec=0f;
         InsideGameUpgrade=0;
-        slingshotLevel=ServerScript.slingshotLevel;
         increment=(12+slingshotLevel*3+(5/7)*InsideGameUpgrade)*doubleEnergy;
         currentEnergy=100+(int)increment;
         temp=currentEnergy;
@@ -125,9 +138,7 @@ public class ButtonFunction : MonoBehaviour{
         for(int i=0;i<5;i++)frames[i].SetActive(true);
         Time.timeScale=1f;
         GameIsStart=true;
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
         Award_Definition();
-        faction = ServerScript.faction[1];
     }
     void Update(){
         if(GameIsStart){
@@ -138,7 +149,7 @@ public class ButtonFunction : MonoBehaviour{
         //判斷我方冷風能不能用以及冷風使用時間過3秒要將移動速度調整回來
         //12-09新增炸彈,功能是炸死離主堡最近的,冷卻一律用windCooldown
         if(windCooldown>0.0f){
-            if(ServerScript.lineup[5]==1){
+            if(Lineup[5]==1){
                 float last=windCooldown;
                 windCooldown-=Time.deltaTime;
                 if(last>7.0f&&windCooldown<=7.0f){
@@ -146,7 +157,7 @@ public class ButtonFunction : MonoBehaviour{
                     GameManage.toolIsActive=false;
                 }
                 if(windCooldown<0) windCooldown=0.0f;
-            }else if(ServerScript.lineup[5]==2){
+            }else if(Lineup[5]==2){
                 windCooldown-=Time.deltaTime;
                 GameManage.toolIsActive=false;
                 if(windCooldown<0) windCooldown=0.0f;
@@ -160,12 +171,16 @@ public class ButtonFunction : MonoBehaviour{
         if(judge_defeat==1)Defeat_End();
     }
     public void Victory_1_End(){
-        level = ServerScript.exp[0];
-        exp = ServerScript.exp[1];
-        dollar = ServerScript.money;
-        tear = ServerScript.tear;
-        string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
-        StartCoroutine(AfterGame_1());
+        if(MainMenu.message==100)
+        {
+            level = ServerScript.exp[0];
+            exp = ServerScript.exp[1];
+            dollar = ServerScript.money;
+            tear = ServerScript.tear;
+            StartCoroutine(AfterGame_1());
+        }
+        else    Award_Calculate(1);
+        
         WhiteBack.SetActive(true);
         Time.timeScale=0f;
         Victory_1.SetActive(true);
@@ -191,7 +206,6 @@ public class ButtonFunction : MonoBehaviour{
     }
     public IEnumerator AfterGame_2()
     {
-        string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
         yield return StartCoroutine(ServerScript.updateData());
         yield return StartCoroutine(AfterGame_3());
     }
@@ -210,7 +224,7 @@ public class ButtonFunction : MonoBehaviour{
     }
     public void Defeat_End(){
         string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
-        StartCoroutine(ServerScript.afterGame(false,target));
+        if(MainMenu.message==100)   StartCoroutine(ServerScript.afterGame(false,target));
         WhiteBack.SetActive(true);
         judge_defeat=0;
         Time.timeScale=0f;
@@ -223,7 +237,7 @@ public class ButtonFunction : MonoBehaviour{
         Tear.text = "0";
         GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
         foreach (GameObject obj in dontDestroyObjects)Destroy(obj);
-        //Award_Calculate(0);
+        Award_Calculate(0);
     }
     public void pause(){
         Time.timeScale=0f;
@@ -249,7 +263,7 @@ public class ButtonFunction : MonoBehaviour{
         Exit.SetActive(false);
         Time.timeScale=1f;
         SceneManager.LoadScene("Background");
-        StartCoroutine(ServerScript.beforeGame());
+        if(MainMenu.message==100)   StartCoroutine(ServerScript.beforeGame());
     }
     public void exit(){
         Time.timeScale=1f;
@@ -258,7 +272,7 @@ public class ButtonFunction : MonoBehaviour{
         Replay.SetActive(false);
         Exit.SetActive(false);
         //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-        ServerScript.CallUpdateUserData();
+        if(MainMenu.message==100)   ServerScript.CallUpdateUserData();
         GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
         foreach (GameObject obj in dontDestroyObjects)Destroy(obj);
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
@@ -362,7 +376,7 @@ public class ButtonFunction : MonoBehaviour{
         }
     }
     public void tool(){
-        if(GameManage.toolIsUseable&&ServerScript.lineup[5]==1){
+        if(GameManage.toolIsUseable&&Lineup[5]==1){
             GameManage.toolIsUseable=false;
             GameManage.toolIsActive=true;
             itemWind(true,false);
@@ -370,7 +384,7 @@ public class ButtonFunction : MonoBehaviour{
             Wind[] Winds = FindObjectsOfType<Wind>();
             foreach (Wind Wind in Winds)if(!Wind.who)Wind.ActivateWind();
             windCooldown=10.0f;
-        }else if(GameManage.toolIsUseable&&ServerScript.lineup[5]==2)itemBomb(true);
+        }else if(GameManage.toolIsUseable&&Lineup[5]==2)itemBomb(true);
     }
     [SerializeField] TextMeshProUGUI Upgradetext;
     public void upgrade(){
@@ -392,13 +406,13 @@ public class ButtonFunction : MonoBehaviour{
         }
     }
     public void Award_Calculate(int state){ // 0 => Lose  ,   1 => Win
-        //int[] clearance = [0,0,0,0,0,0,0,0,0,0,0,0];
         int index = 6*(GameManage.currentLevel/10-1)+(GameManage.currentLevel%10-1);
+        MainMenu.clearance[index] = MainMenu.clearance[index] + 1;
         if(state==1){
-            Dollar.text = ((int)((Award_List[index].dollar)*Math.Pow(2.0f,-(ServerScript.clearance[index]-1)))).ToString();
-            Exp.text = ((int)((Award_List[index].exp)*Math.Pow(2.0f, -(ServerScript.clearance[index]-1)))).ToString();
+            Dollar.text = ((int)((Award_List[index].dollar)*Math.Pow(2.0f,-(MainMenu.clearance[index]-1)))).ToString();
+            Exp.text = ((int)((Award_List[index].exp)*Math.Pow(2.0f, -(MainMenu.clearance[index]-1)))).ToString();
             Tear.text = ((int)(Award_List[index].tear)).ToString();
-            if(ServerScript.clearance[index]!=1) Tear.text = "0";
+            if(MainMenu.clearance[index]!=1) Tear.text = "0";
         }
         GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
         foreach (GameObject obj in dontDestroyObjects)Destroy(obj);

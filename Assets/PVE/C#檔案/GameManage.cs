@@ -17,10 +17,7 @@ public class GameManage : MonoBehaviour{
     private ServerMethod.Server ServerScript;
     private GameObject[] WB;
     void Start(){
-        //toolIsActive=false;
-        //level=1;
-        //toolFrame.SetActive(false);
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message==100)   ServerScript = FindObjectOfType<ServerMethod.Server>();
         Ground.SetActive(false);
         WB=new GameObject[]{W1B,W2B,W3B,W4B,W5B};
         for(int i=0;i<5;i++)WB[i].SetActive(false);
@@ -32,9 +29,22 @@ public class GameManage : MonoBehaviour{
     private int who;
     private int wholevel;
     void Update(){
+        int[] lineup;
+        int[] character;
+        if(MainMenu.message==87)
+        {   
+            lineup = MainMenu.lineup;
+            character = MainMenu.character;
+        }
+        else
+        {
+            lineup = ServerScript.lineup;
+            character = ServerScript.character;
+        }
+
         for(int i=0;i<5;i++){
-            who=ServerScript.lineup[i]-1;
-            wholevel=ServerScript.character[who];
+            who=lineup[i]-1;
+            wholevel=character[who];
             wEnergy[i]=(int)((double)wEnergy_builtin[who]*Math.Pow(1.4,wholevel-1));
         }
         if(ButtonFunction.GameIsStart){
@@ -43,7 +53,7 @@ public class GameManage : MonoBehaviour{
         }
         if(!toolIsUseable){
             remaintime+=Time.deltaTime;
-            if(remaintime>=toolcooltime[ServerScript.lineup[5]-1]){
+            if(remaintime>=toolcooltime[lineup[5]-1]){
                 remaintime=0f;
                 toolIsActive=true;
             }

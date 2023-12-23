@@ -22,27 +22,48 @@ public class USER : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
-        if(ServerScript.faction[0]==1)    return;
+        int message = MainMenu.message;
+        if(MainMenu.message!=87)
+        {
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(ServerScript.faction.Length!=0)   Update_Display();
-        int num = 0;
-        for(int i = 2; i<6 ; i++)
+        if(MainMenu.message==87)
         {
-            if(ServerScript.faction[i]==1)      num = num + 1;
+            for(int i = 0; i<portraits.Length; i++)
+            {
+                portraits[i].SetActive(i==4);
+            }
         }
-        if(num>1)       Change.gameObject.SetActive(true);
-        else            Change.gameObject.SetActive(false);
+        else
+        {
+            if(ServerScript.faction.Length!=0)   Update_Display();
+            int num = 0;
+            for(int i = 2; i<6 ; i++)
+            {
+                if(ServerScript.faction[i]==1)      num = num + 1;
+            }
+            if(num>1)       Change.gameObject.SetActive(true);
+            else            Change.gameObject.SetActive(false);
+        }
     }
 
     // When click < Change >
     public void Button_Change()
     {
-        for(int i = ServerScript.faction[1] + 1; i<ServerScript.faction.Length; i++)
+        if(MainMenu.message==87)
+        {
+            MainMenu.faction[1] = MainMenu.faction[1] + 1;
+            if(MainMenu.faction[1]>=6)     MainMenu.faction[1] = 2;
+            Experience_line.fillAmount = (float)(MainMenu.exp[1] / (500 * Math.Pow(2.5,MainMenu.exp[0]-1)));
+            return;
+        }
+
+        for(int i = ServerScript.faction[1] + 1; i<6; i++)
         {
             if(ServerScript.faction[i]==1)   
             {
