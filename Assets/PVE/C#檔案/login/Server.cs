@@ -119,12 +119,11 @@ namespace ServerMethod{
             form.AddField("token", token);
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateData", form);
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
 
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
-                Debug.Log(response);
                 data playerData = JsonUtility.FromJson<data>(response);
 
                 success = playerData.success;
@@ -190,7 +189,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/openChest", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
 
             chestReturn result = new chestReturn();
@@ -223,7 +222,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/beforeGame", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
 
             Return result = new Return();
@@ -259,7 +258,7 @@ namespace ServerMethod{
             Return result = new Return();
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/afterGame", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
 
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -290,7 +289,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateCard", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
 
             Return result = new Return();
@@ -326,7 +325,7 @@ namespace ServerMethod{
             print(lineupString);
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateLineup", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
 
             Return result = new Return();
@@ -357,7 +356,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateRank", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
 
 
@@ -400,7 +399,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFaction", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
             Return result = new Return();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -430,7 +429,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/initFaction", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
             Return result = new Return();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -459,7 +458,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/updateFriend", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
@@ -508,7 +507,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/addFriend", form);
             Return result = new Return();
-            www.timeout = 10;
+            www.timeout = 5;
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 string response = www.downloadHandler.text;
@@ -536,7 +535,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/deleteFriend", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -566,7 +565,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/acceptFriend", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -595,7 +594,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/rejectFriend", form);
 
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -624,7 +623,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/blackListFriend", form);
             
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -653,7 +652,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/sendFriendEnergy", form);
 
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -683,7 +682,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/getFriendEnergy", form);
 
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -712,7 +711,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/topUp", form);
 
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
@@ -749,7 +748,7 @@ namespace ServerMethod{
 
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/setting", form);
 
-            www.timeout = 10;
+            www.timeout = 5;
             Return result = new Return();
             yield return www.SendWebRequest();
             if (!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){

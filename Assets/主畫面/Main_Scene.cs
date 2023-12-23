@@ -81,8 +81,12 @@ public class ButtonManager : MonoBehaviour
         }
         if(bool_level_up==true && page_Level_up.activeSelf==false)
         {
-            if(MainMenu.message==87)    bool_level_up = false;
-            else    StartCoroutine(Lineup_to_Surver());
+            if(MainMenu.message==87)    
+                bool_level_up = false;
+            else{
+                bool_level_up = false;
+                StartCoroutine(Lineup_to_Surver());
+            }
         }
     }
 
