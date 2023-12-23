@@ -20,10 +20,12 @@ public class MainMenu : MonoBehaviour {
         ALL_DEFINE();
     }
     public void GoToRegister() {
+        message = 100;
         SceneManager.LoadScene("RegisterMenu");
     }
 
     public void GoToLogin() {
+        message = 100;
         SceneManager.LoadScene("LoginMenu");
     }
 
