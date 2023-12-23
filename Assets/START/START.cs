@@ -21,14 +21,12 @@ public class START : MonoBehaviour
     private Coroutine endCoroutine;
 
     public GameObject Cat;
-    public Image upperUIElement; 
 
     private int[] Cat_x=new int[13]{-698,-524,-221,-78,-137,-80,128,333,366,537,730,814,-893};
     private int[] Cat_y=new int[13]{-118,-236,-252,-147,46,228,378,126,-70,-211,13,213,-100};
     // Start is called before the first frame update
     void Start()
     {
-        upperUIElement.raycastTarget = false;
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
@@ -55,6 +53,7 @@ public class START : MonoBehaviour
                 break;
             }
         }
+        if(stage==12 && ServerScript.clearance[11]!=0)  stage = 11;
         if(stage==-1)stage=12;
         
         return stage;
@@ -113,19 +112,12 @@ public class START : MonoBehaviour
                 break;
         }
 
-        /* 虛假關卡前同步
-        StartCoroutine(ServerScript.beforeGame());
-        SceneManager.LoadScene("Background", LoadSceneMode.Single);
-        */
+        
         // 真實關卡前同步
-                for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
-                {
-                    if(ServerScript.clearance[i]==0)
-                    {
-                        Debug.Log("不好笑");
-                        return;
-                    }
-                }  
+        for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
+        {
+            if(ServerScript.clearance[i]==0)    return;
+        }  
         StartCoroutine(Surver_Before_Game((result) => 
         {
             Debug.Log(result);
@@ -133,11 +125,7 @@ public class START : MonoBehaviour
             {
                 for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
                 {
-                    if(ServerScript.clearance[i]==0)
-                    {
-                        Debug.Log("不好笑");
-                        return;
-                    }
+                    if(ServerScript.clearance[i]==0)           return;
                 }
                 SceneManager.LoadScene("Background", LoadSceneMode.Single);
             }
@@ -147,7 +135,6 @@ public class START : MonoBehaviour
                 return;
             }
         }));
-        //*/
     }
 
     private IEnumerator Surver_Before_Game(Action<bool> callback)
