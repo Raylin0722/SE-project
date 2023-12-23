@@ -24,7 +24,7 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
 
     void Start()
     {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
     void Update()
     {
@@ -86,89 +86,212 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
         bool_dragging = false;
         if (Copy_image != null)
         {
+            int tmp_position = -1;
+            int tmp_value = -1;
             if (IsMouseOverSpecificUI("party_1"))
-            {
-                //partyManager.SetPartyMemberValue(0, index);
-                int tmp_position = -1;
-                int tmp_value = -1;
+            {   
+                print("one");
                 for(int i = 0; i<5 ; i++)
                 {
-                    if(ServerScript.lineup[i]==index+1)
+                    if(MainMenu.message==87)
                     {
-                        tmp_position = i;
-                        tmp_value = ServerScript.lineup[0];
+                        if(MainMenu.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = MainMenu.lineup[0];
+                        }
+                    }
+                    else
+                    {
+                        if(ServerScript.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = ServerScript.lineup[0];
+                        }
                     }
                 }
-                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
-                ServerScript.lineup[0] = index + 1;
+                if(tmp_position!=-1)    
+                {
+                    if(MainMenu.message==87)
+                    {
+                        MainMenu.lineup[tmp_position] = tmp_value;
+                        MainMenu.lineup[0] = index + 1;
+                    }
+                    else
+                    {
+                        ServerScript.lineup[tmp_position] = tmp_value;
+                        ServerScript.lineup[0] = index + 1;
+                    }
+                }
+                else
+                {
+                    if(MainMenu.message==87)    MainMenu.lineup[0] = index + 1;
+                    else        ServerScript.lineup[0] = index + 1;
+                }
                 Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_2"))
             {
-                //partyManager.SetPartyMemberValue(1, index);
-                int tmp_position = -1;
-                int tmp_value = -1;
                 for(int i = 0; i<5 ; i++)
                 {
-                    if(ServerScript.lineup[i]==index+1)
+                    if(MainMenu.message==87)
                     {
-                        tmp_position = i;
-                        tmp_value = ServerScript.lineup[1];
+                        if(MainMenu.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = MainMenu.lineup[1];
+                        }
+                    }
+                    else
+                    {
+                        if(ServerScript.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = ServerScript.lineup[1];
+                        }
                     }
                 }
-                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
-                ServerScript.lineup[1] = index + 1;
+                if(tmp_position!=-1)   
+                {
+                    if(MainMenu.message==87)
+                    {
+                        MainMenu.lineup[tmp_position] = tmp_value;
+                        MainMenu.lineup[1] = index + 1;
+                    }
+                    else
+                    {
+                        ServerScript.lineup[tmp_position] = tmp_value;
+                        ServerScript.lineup[1] = index + 1;
+                    }
+                }
+                else
+                {
+                    if(MainMenu.message==87)    MainMenu.lineup[1] = index + 1;
+                    else        ServerScript.lineup[1] = index + 1;
+                }
                 Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_3"))
             {
-                //partyManager.SetPartyMemberValue(2, index);
-                int tmp_position = -1;
-                int tmp_value = -1;
                 for(int i = 0; i<5 ; i++)
                 {
-                    if(ServerScript.lineup[i]==index+1)
+                    if(MainMenu.message==87)
                     {
-                        tmp_position = i;
-                        tmp_value = ServerScript.lineup[2];
+                        if(MainMenu.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = MainMenu.lineup[2];
+                        }
+                    }
+                    else
+                    {
+                        if(ServerScript.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = ServerScript.lineup[2];
+                        }
                     }
                 }
-                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
-                ServerScript.lineup[2] = index + 1;
+                if(tmp_position!=-1)   
+                {
+                    if(MainMenu.message==87)
+                    {
+                        MainMenu.lineup[tmp_position] = tmp_value;
+                        MainMenu.lineup[2] = index + 1;
+                    }
+                    else
+                    {
+                        ServerScript.lineup[tmp_position] = tmp_value;
+                        ServerScript.lineup[2] = index + 1;
+                    }
+                }
+                else
+                {
+                    if(MainMenu.message==87)    MainMenu.lineup[2] = index + 1;
+                    else        ServerScript.lineup[2] = index + 1;
+                }
                 Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_4"))
             {
-                //partyManager.SetPartyMemberValue(3, index);
-                int tmp_position = -1;
-                int tmp_value = -1;
                 for(int i = 0; i<5 ; i++)
                 {
-                    if(ServerScript.lineup[i]==index+1)
+                    if(MainMenu.message==87)
                     {
-                        tmp_position = i;
-                        tmp_value = ServerScript.lineup[3];
+                        if(MainMenu.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = MainMenu.lineup[3];
+                        }
+                    }
+                    else
+                    {
+                        if(ServerScript.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = ServerScript.lineup[3];
+                        }
                     }
                 }
-                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
-                ServerScript.lineup[3] = index + 1;
+                if(tmp_position!=-1)   
+                {
+                    if(MainMenu.message==87)
+                    {
+                        MainMenu.lineup[tmp_position] = tmp_value;
+                        MainMenu.lineup[3] = index + 1;
+                    }
+                    else
+                    {
+                        ServerScript.lineup[tmp_position] = tmp_value;
+                        ServerScript.lineup[3] = index + 1;
+                    }
+                }
+                else
+                {
+                    if(MainMenu.message==87)    MainMenu.lineup[3] = index + 1;
+                    else        ServerScript.lineup[3] = index + 1;
+                }
                 Destroy(Copy_image);
             }
             else if (IsMouseOverSpecificUI("party_5"))
             {
-                //partyManager.SetPartyMemberValue(4, index);
-                int tmp_position = -1;
-                int tmp_value = -1;
                 for(int i = 0; i<5 ; i++)
                 {
-                    if(ServerScript.lineup[i]==index+1)
+                    if(MainMenu.message==87)
                     {
-                        tmp_position = i;
-                        tmp_value = ServerScript.lineup[4];
+                        if(MainMenu.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = MainMenu.lineup[4];
+                        }
+                    }
+                    else
+                    {
+                        if(ServerScript.lineup[i]==index+1)
+                        {
+                            tmp_position = i;
+                            tmp_value = ServerScript.lineup[4];
+                        }
                     }
                 }
-                if(tmp_position!=-1)    ServerScript.lineup[tmp_position] = tmp_value;
-                ServerScript.lineup[4] = index + 1;
+                if(tmp_position!=-1)   
+                {
+                    if(MainMenu.message==87)
+                    {
+                        MainMenu.lineup[tmp_position] = tmp_value;
+                        MainMenu.lineup[4] = index + 1;
+                    }
+                    else
+                    {
+                        ServerScript.lineup[tmp_position] = tmp_value;
+                        ServerScript.lineup[4] = index + 1;
+                    }
+                }
+                else
+                {
+                    if(MainMenu.message==87)    MainMenu.lineup[4] = index + 1;
+                    else        ServerScript.lineup[4] = index + 1;
+                }
                 Destroy(Copy_image);
             }
             else
@@ -176,14 +299,11 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
                 Destroy(Copy_image);
             }
         }
-        // 啟用 ScrollView 滑動
-        //scrollRect.enabled = true;
     }
 
     void Copy(int index)
     {
         Vector3 mousePosition = Input.mousePosition;
-        Debug.Log(Up_Images.Length);
         // 生成物件
         Copy_image = Instantiate(Up_Images[index], Input.mousePosition, Quaternion.identity, canvas.transform);
     }

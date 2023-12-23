@@ -19,13 +19,18 @@ public class Book : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
         ShowPage(0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(MainMenu.message==87)
+        {
+            ShowPage(Current);
+            return;
+        }    
         if(ServerScript.rankClear.Count!=0)     ShowPage(Current);
     }
 
@@ -33,7 +38,7 @@ public class Book : MonoBehaviour
     public void Button_Last()
     {
         // Next page
-        if(Current > 0)
+        if(Current>0)
         {
             Current = Current - 1;
             ShowPage(Current);
@@ -79,14 +84,21 @@ public class Book : MonoBehaviour
                 pages[7].SetActive(false); // close empty page
                 pages[8].SetActive(false); // close chain
                 
-                Pictures[7*(ServerScript.faction[1]-1-1)+i].gameObject.SetActive(true);
-                Pictures[7*(ServerScript.faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
-
-                if(ServerScript.character[i]==0)
+                if(MainMenu.message==87)
                 {
-                    pages[7].SetActive(true); // open empty page
-                    pages[8].SetActive(true); // open chain
-                    Pictures[7*(ServerScript.faction[1]-1-1)+i].color = new Color(0f,0f,0f,1f);
+                    Pictures[7*(MainMenu.faction[1]-1-1)+i].gameObject.SetActive(true);
+                    Pictures[7*(MainMenu.faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
+                }
+                else
+                {
+                    Pictures[7*(ServerScript.faction[1]-1-1)+i].gameObject.SetActive(true);
+                    Pictures[7*(ServerScript.faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
+                    if(ServerScript.character[i]==0)
+                    {
+                        pages[7].SetActive(true); // open empty page
+                        pages[8].SetActive(true); // open chain
+                        Pictures[7*(ServerScript.faction[1]-1-1)+i].color = new Color(0f,0f,0f,1f);
+                    }
                 }
             }
             else

@@ -27,12 +27,25 @@ public class START : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(MainMenu.message==87)
+        {
+            energy.text = "30/30";
+            for(int i = 0; i<12 ; i++)
+            {
+                Unlock[i].gameObject.SetActive(true);
+                Lock[i].gameObject.SetActive(false);
+            }
+            RectTransform cat_position = Cat.GetComponent<RectTransform>();
+            cat_position.anchoredPosition = new Vector2(Cat_x[11], Cat_y[11]);
+            return;
+        }
+
         if(ServerScript.clearance.Length!=0)
         {
             Update_values(); // Update energy
@@ -61,58 +74,18 @@ public class START : MonoBehaviour
     // When click < Level >
     public void Button_Level()
     {
+        GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        string buttonTag = clickedButton.tag;
+        GameManage.currentLevel = int.Parse(buttonTag);
+        
+        if(MainMenu.message==87)    SceneManager.LoadScene("Background", LoadSceneMode.Single);
+
         // detect whether your energy is sufficient
         if(ServerScript.energy<5)   
         {
             endCoroutine = StartCoroutine(Enengy_Hint(1f));
             return;
         }
-
-        GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-        string buttonTag = clickedButton.tag;
-        Debug.Log("Clicked button tag: " + buttonTag);
-        switch(buttonTag)
-        {
-            case "11":
-                GameManage.currentLevel=11;
-                //Debug.Log("START:"+GameManage.currentLevel);
-                break;
-            case "12":
-                GameManage.currentLevel=12;
-                break;
-            case "13":
-                GameManage.currentLevel=13;
-                break;
-            case "14":
-                GameManage.currentLevel=14;
-                break;
-            case "15":
-                GameManage.currentLevel=15;
-                break;
-            case "16":
-                GameManage.currentLevel=16;
-                break;
-            case "21":
-                GameManage.currentLevel=21;
-                break;
-            case "22":
-                GameManage.currentLevel=22;
-                break;
-            case "23":
-                GameManage.currentLevel=23;
-                break;
-            case "24":
-                GameManage.currentLevel=24;
-                break;
-            case "25":
-                GameManage.currentLevel=25;
-                break;
-            case "26":
-                GameManage.currentLevel=26;
-                break;
-        }
-
-        
         // 真實關卡前同步
         for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++)
         {
