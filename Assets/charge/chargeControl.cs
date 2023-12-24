@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using ServerMethod;
 using System;
+using UnityEngine.UI;
 public class chargeControl : MonoBehaviour
 {
     public GameObject failed;
@@ -9,18 +10,22 @@ public class chargeControl : MonoBehaviour
     public int cardID;
     public GameObject check_page;
     private ServerMethod.Server ServerScript; // Server.cs
+    public Button close;
     
     void Start(){
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
     public void Freesia(){
         cardID = 0;
+        close.interactable = false;
     }
     public void Bank(){
         cardID = 1;
+        close.interactable = false;
     }
     public void NO(){
         cardID = 0;
+        close.interactable = true;
     }
     public void YES(){
         StartCoroutine(Surver_Top_up((result) => {
@@ -40,13 +45,17 @@ public class chargeControl : MonoBehaviour
     IEnumerator Freesia_animation(float delay) {
         failed.SetActive(false);
         failed.SetActive(true);
+        close.interactable = false;
         yield return new WaitForSeconds(delay);
         failed.SetActive(false);
+        close.interactable = true;
     }
     IEnumerator Bank_animation(float delay) {
         success.SetActive(false);
         success.SetActive(true);
+        close.interactable = false;
         yield return new WaitForSeconds(delay);
         success.SetActive(false);
+        close.interactable = true;
     }
 }
