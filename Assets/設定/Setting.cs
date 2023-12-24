@@ -9,31 +9,31 @@ public class Setting : MonoBehaviour
     public GameObject Vibration; // Vibration Button
     public GameObject picture_Vibration_ON; // ON in Vibration
     public GameObject picture_Vibration_OFF; // OFF in Vibration 
-    public GameObject Notification; // Notification Button
-    public GameObject picture_Notification_ON; // ON in Notification
-    public GameObject picture_Notification_OFF; // OFF in Notification
     public string URL_Feedback = "https://forms.gle/XSt1FpKRyCtY8qVU9"; // the website about About
     public string URL_About = "https://xmu310.github.io"; // the website about About
     public GameObject[] number; // version number about LAST
     private ServerMethod.Server ServerScript; // Server.cs
 
     void Start() {
-        picture_Vibration_ON.SetActive(false);
-        picture_Notification_ON.SetActive(false);
         Version();
         if(MainMenu.message!=87) {
             ServerScript = FindObjectOfType<ServerMethod.Server>();
-            volumeSlider.value = ServerScript.backVolume;
-            AudioListener.volume = volumeSlider.value;
+            AudioListener.volume = volumeSlider.value = Mathf.Clamp01(ServerScript.backVolume/100f);
+            print(volumeSlider.value);
             Button_Display();
         }
     }
     public void ChangeVolume() {
         AudioListener.volume = volumeSlider.value;
-        if(MainMenu.message==87)    MainMenu.backVolume = (int)(volumeSlider.value*100);
+        print(volumeSlider.value);
+        if(volumeSlider.value>0) {
+            if(MainMenu.message==87)    MainMenu.shock = false;
+            else    ServerScript.shock = false;
+            Button_Display();
+        }
+        if(MainMenu.message==87)    {   MainMenu.backVolume = (int)(volumeSlider.value*100);        }
         else {
             ServerScript.backVolume = (int)(volumeSlider.value*100);
-            StartCoroutine(Setting_to_Server());
         }
     }
     // When click < Vibration >
@@ -41,7 +41,6 @@ public class Setting : MonoBehaviour
         if(MainMenu.message==87)    MainMenu.shock = !MainMenu.shock;
         else    ServerScript.shock = !ServerScript.shock;
         Button_Display();
-        if(MainMenu.message==100)    StartCoroutine(Setting_to_Server());
     }
     public void Button_Display() {
         bool shock;
@@ -51,42 +50,16 @@ public class Setting : MonoBehaviour
             picture_Vibration_ON.SetActive(false); // ON => false
             picture_Vibration_OFF.SetActive(true); // OFF => true
             Vibration.transform.localScale = new Vector3(3.73134f,3.980096f,0f);
-            Vibration.transform.localPosition = new Vector3(202.6f,96.7f,0f);
+            Vibration.transform.localPosition = new Vector3(220.6f,30f,0f);
         }
         else {
             picture_Vibration_ON.SetActive(true); // ON => true
             picture_Vibration_OFF.SetActive(false); // OFF => false
             Vibration.transform.localScale = new Vector3(-3.73134f,3.980096f,0f);
-            Vibration.transform.localPosition = new Vector3(217.6f,96.7f,0f);
-        }
-    }
-    // Vibration
-    public IEnumerator Setting_to_Server() {
-        IEnumerator coroutine = ServerScript.setting(ServerScript.volume,ServerScript.backVolume,ServerScript.shock);
-        yield return StartCoroutine(coroutine);
-        Return result = coroutine.Current as Return;
-        if(Application.platform==RuntimePlatform.Android && picture_Vibration_ON)   Handheld.Vibrate();
-    }
-    // When click < Notification >
-    public void Button_Notification() {
-        // Modify position
-        Vector3 currentScale = Notification.transform.localScale;
-        currentScale.x = -currentScale.x;
-        Notification.transform.localScale = currentScale;
-
-        if (picture_Notification_ON.activeSelf) {
-            picture_Notification_ON.SetActive(false); // ON => false
-            picture_Notification_OFF.SetActive(true); // OFF => true
-            Vector3 currentPosition = Notification.transform.localPosition;
-            currentPosition.x = currentPosition.x - 15;
-            Notification.transform.localPosition = currentPosition;
-        }
-        else {
-            picture_Notification_ON.SetActive(true); // ON => true
-            picture_Notification_OFF.SetActive(false); // OFF => false
-            Vector3 currentPosition = Notification.transform.localPosition;
-            currentPosition.x = currentPosition.x + 15;
-            Notification.transform.localPosition = currentPosition;
+            Vibration.transform.localPosition = new Vector3(235.6f,30f,0f);
+            if(MainMenu.message==87)    AudioListener.volume = volumeSlider.value = MainMenu.backVolume = 0;
+            else    AudioListener.volume = volumeSlider.value = ServerScript.backVolume = 0;
+            if(Application.platform==RuntimePlatform.Android && picture_Vibration_ON)   Handheld.Vibrate();
         }
     }
     // When click < Feedback >

@@ -5,6 +5,7 @@ using System.Collections;
 using Small_ranking_list_Method;
 using System;
 using ServerMethod;
+using Unity.VisualScripting;
 public class ButtonManager : MonoBehaviour
 {
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
@@ -27,6 +28,7 @@ public class ButtonManager : MonoBehaviour
     private ServerMethod.Server ServerScript; // Server.cs
     public Image[] Rank; 
     public bool bool_level_up = false;
+    public bool bool_setting = false;
 
     private void Start() {
         ALL_Button.SetActive(true);
@@ -39,11 +41,11 @@ public class ButtonManager : MonoBehaviour
         Top_up.SetActive(false);
         page_Top_up.SetActive(false);
         page_Start.SetActive(false);
-        Play_Music();
         if(MainMenu.message!=87) {
             Top_up.SetActive(true);
             ServerScript = FindObjectOfType<ServerMethod.Server>();
         }
+        Play_Music();
     }
     void Update() {
         if(MainMenu.message!=87)    if(ServerScript.rankClear.Count!=0)    Update_Ranking_List(); // Update Ranking_List in Main_Scene
@@ -56,6 +58,14 @@ public class ButtonManager : MonoBehaviour
                 StartCoroutine(Lineup_to_Surver());
             }
         }
+        if(bool_setting==false && page_Setting.activeSelf==true)      bool_setting = true;
+        if(bool_setting==true && page_Setting.activeSelf==false) {
+            if(MainMenu.message==87)        bool_setting = false;
+            else{
+                bool_setting = false;
+                StartCoroutine(Setting_to_Server());
+            }
+        }
     }
     private IEnumerator Lineup_to_Surver() {
         IEnumerator coroutine = ServerScript.updateLineup(ServerScript.lineup);
@@ -63,6 +73,12 @@ public class ButtonManager : MonoBehaviour
         Return result = coroutine.Current as Return;
         Debug.Log(result.success);
         bool_level_up = false;
+    }
+    public IEnumerator Setting_to_Server() {
+        IEnumerator coroutine = ServerScript.setting(ServerScript.volume,ServerScript.backVolume,ServerScript.shock);
+        yield return StartCoroutine(coroutine);
+        Return result = coroutine.Current as Return;
+        bool_setting = false;
     }
 
     // Click < Ranking_list > 
@@ -152,5 +168,13 @@ public class ButtonManager : MonoBehaviour
     // Play Music
     private void Play_Music() {
         Music_Main_Scene.Play();
+        if(MainMenu.message==87) {
+            if(MainMenu.shock==true)   AudioListener.volume = 0;
+            else        AudioListener.volume = MainMenu.backVolume/100;
+        }
+        else {
+            if(ServerScript.shock==true)   AudioListener.volume = 0;
+            else    AudioListener.volume = Mathf.Clamp01(ServerScript.backVolume/100f);
+        }
     }
 }
