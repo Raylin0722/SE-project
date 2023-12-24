@@ -17,12 +17,12 @@ public class Health : MonoBehaviour{
     [SerializeField] GameObject HpBar;
     private GameObject hpBarInstance;
     private ServerMethod.Server ServerScript;
+    private bool shock = false;
     void Awake(){
         if (gameObject.layer == 8)CreateHpBar();
     }
     private void Start(){
-        if(MainMenu.message==100)
-        {
+        if(MainMenu.message==100) {
             ServerScript = FindObjectOfType<ServerMethod.Server>();
             if(isTower){
                 wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.castleLevel;
@@ -31,9 +31,9 @@ public class Health : MonoBehaviour{
                 wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.character[who];
                 maxHealth=(int)((double)maxHealth*Math.Pow(1.2,wholevel-1));
             }
+            shock = ServerScript.shock;
         }
-        else
-        {
+        else {
             if(isTower){
                 wholevel=isEnemy?(GameManage.currentLevel/10):MainMenu.castleLevel;
                 maxHealth+=(wholevel-1)*500;
@@ -41,6 +41,7 @@ public class Health : MonoBehaviour{
                 wholevel=isEnemy?(GameManage.currentLevel/10):MainMenu.character[who];
                 maxHealth=(int)((double)maxHealth*Math.Pow(1.2,wholevel-1));
             }
+            shock = MainMenu.shock;
         }
         currentHealth = maxHealth;
     }
@@ -82,13 +83,13 @@ public class Health : MonoBehaviour{
         if(gameObject.layer==6){
             //主塔死亡並觸發動畫
             GetComponent<Animator>().SetTrigger("crash");
+            if(Application.platform==RuntimePlatform.Android && shock)   Handheld.Vibrate();
             yield return new WaitForSeconds(1.5f);
             ButtonFunction.judge_defeat=1;
-            //Time.timeScale=0f;
         }else if(gameObject.layer==8){
             //主塔死亡並觸發動畫
-            Debug.Log("敵方主堡爆掉");
             GetComponent<Animator>().SetTrigger("crash");
+            if(Application.platform==RuntimePlatform.Android && shock)   Handheld.Vibrate();
             yield return new WaitForSeconds(1.5f);
             ButtonFunction.judge_victory=1;
         }else{   
