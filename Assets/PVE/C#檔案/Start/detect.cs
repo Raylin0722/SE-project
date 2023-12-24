@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class detect : MonoBehaviour{
     public GameObject GotoUpdatePageTip;
     string latestRelease;
@@ -11,6 +12,8 @@ public class detect : MonoBehaviour{
     public class data{
         public string tag_name;
     }
+    public Text Your_version;
+    public Text Latest_version;
     IEnumerator Start(){
         latestRelease = "";
         apkVersion = "";
@@ -28,6 +31,8 @@ public class detect : MonoBehaviour{
             AndroidJavaObject packageInfo = packageManager.Call<AndroidJavaObject>("getPackageInfo", packageName, 0);
             apkVersion = "v" + packageInfo.Get<string>("versionName");
             if (latestRelease == apkVersion)SceneManager.LoadScene("MainMenu");else GotoUpdatePageTip.SetActive(true);
+            Your_version.text = apkVersion;
+            Latest_version.text = latestRelease;
         }
     }
     public void GotoUpdatePage(){

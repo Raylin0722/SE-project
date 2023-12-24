@@ -40991,8 +40991,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 909.8, y: 348.8}
-  m_SizeDelta: {x: 96, y: 93}
+  m_AnchoredPosition: {x: 909.8, y: 353.8}
+  m_SizeDelta: {x: 97, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1559352401
 MonoBehaviour:
@@ -41070,7 +41070,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd3579114abd748419eefcc2bdfdbedd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5d987ae6ac06b544b98b2614cee0aba4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -55700,12 +55700,6 @@ MonoBehaviour:
   rankName: []
   rankClear: []
   rankFaction: 
-  friends: []
-  needCheck: []
-  blackList: []
-  waitAccept: []
-  energyGet: []
-  energySend: []
   NetWorkWarning: {fileID: 810761628}
 --- !u!4 &2104943743
 Transform:
