@@ -16,6 +16,4 @@ public class CastleManager : MonoBehaviour{
         castle = Instantiate(CatlePrefabs[prefabnum[index]], transform);
         castle.transform.position = new Vector3(x[index], y[index], 0f);
     }
-    void Update(){
-    }
 }

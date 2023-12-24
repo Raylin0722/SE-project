@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using ServerMethod;
 using UnityEngine.Networking;
 public class Setting : MonoBehaviour
 {
-    public GameObject page_Setting; // the page which you want to close
+    [SerializeField] Slider volumeSlider;
     public GameObject Vibration; // Vibration Button
     public GameObject picture_Vibration_ON; // ON in Vibration
     public GameObject picture_Vibration_OFF; // OFF in Vibration 
@@ -13,40 +15,58 @@ public class Setting : MonoBehaviour
     public string URL_Feedback = "https://forms.gle/XSt1FpKRyCtY8qVU9"; // the website about About
     public string URL_About = "https://xmu310.github.io"; // the website about About
     public GameObject[] number; // version number about LAST
+    private ServerMethod.Server ServerScript; // Server.cs
 
     void Start() {
         picture_Vibration_ON.SetActive(false);
         picture_Notification_ON.SetActive(false);
         Version();
+        if(MainMenu.message!=87) {
+            ServerScript = FindObjectOfType<ServerMethod.Server>();
+            volumeSlider.value = ServerScript.backVolume;
+            AudioListener.volume = volumeSlider.value;
+            Button_Display();
+        }
+    }
+    public void ChangeVolume() {
+        AudioListener.volume = volumeSlider.value;
+        if(MainMenu.message==87)    MainMenu.backVolume = (int)(volumeSlider.value*100);
+        else {
+            ServerScript.backVolume = (int)(volumeSlider.value*100);
+            StartCoroutine(Setting_to_Server());
+        }
     }
     // When click < Vibration >
     public void Button_Vibration() {
-        // Modify position
-        Vector3 currentScale = Vibration.transform.localScale;
-        currentScale.x = -currentScale.x;
-        Vibration.transform.localScale = currentScale;
-
-        if(picture_Vibration_ON.activeSelf) {
+        if(MainMenu.message==87)    MainMenu.shock = !MainMenu.shock;
+        else    ServerScript.shock = !ServerScript.shock;
+        Button_Display();
+        if(MainMenu.message==100)    StartCoroutine(Setting_to_Server());
+    }
+    public void Button_Display() {
+        bool shock;
+        if(MainMenu.message==87)    shock = MainMenu.shock;
+        else    shock = ServerScript.shock;
+        if(shock==false) {
             picture_Vibration_ON.SetActive(false); // ON => false
             picture_Vibration_OFF.SetActive(true); // OFF => true
-            Vector3 currentPosition = Vibration.transform.localPosition;
-            currentPosition.x = currentPosition.x - 15;
-            Vibration.transform.localPosition = currentPosition;
+            Vibration.transform.localScale = new Vector3(3.73134f,3.980096f,0f);
+            Vibration.transform.localPosition = new Vector3(202.6f,96.7f,0f);
         }
         else {
             picture_Vibration_ON.SetActive(true); // ON => true
             picture_Vibration_OFF.SetActive(false); // OFF => false
-            Vector3 currentPosition = Vibration.transform.localPosition;
-            currentPosition.x = currentPosition.x + 15;
-            Vibration.transform.localPosition = currentPosition;
-            Vibration_function();
+            Vibration.transform.localScale = new Vector3(-3.73134f,3.980096f,0f);
+            Vibration.transform.localPosition = new Vector3(217.6f,96.7f,0f);
         }
     }
     // Vibration
-    public void Vibration_function() {
-        if(Application.platform==RuntimePlatform.Android)   Handheld.Vibrate();
+    public IEnumerator Setting_to_Server() {
+        IEnumerator coroutine = ServerScript.setting(ServerScript.volume,ServerScript.backVolume,ServerScript.shock);
+        yield return StartCoroutine(coroutine);
+        Return result = coroutine.Current as Return;
+        if(Application.platform==RuntimePlatform.Android && picture_Vibration_ON)   Handheld.Vibrate();
     }
-
     // When click < Notification >
     public void Button_Notification() {
         // Modify position
@@ -73,13 +93,11 @@ public class Setting : MonoBehaviour
     public void Button_Feedback() {
         Application.OpenURL(URL_Feedback); // Open Website
     }
-
     // When click < About >
     public void Button_About() {
         Application.OpenURL(URL_About); // Open Website
     }
-
-    // 
+    // Show current version 
     public void Version() {
         if(Application.platform!=RuntimePlatform.Android) {
             Debug.Log("你設定下面的版本號無法顯示，因為你不是用手機!!!!");
