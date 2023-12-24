@@ -14,8 +14,7 @@ public class tower : MonoBehaviour{
     private int wholevel;
     void Start(){
         if(MainMenu.message==87)    wholevel=MainMenu.castleLevel;
-        else
-        {
+        else{
             ServerScript = FindObjectOfType<ServerMethod.Server>();
             wholevel=ServerScript.castleLevel;
         }
@@ -25,9 +24,7 @@ public class tower : MonoBehaviour{
         timer += Time.deltaTime;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
         enemies = enemies.OrderBy(col => col.transform.position.x).ToArray();
-        if(gameObject.tag=="enemy") {
-            enemies = enemies.Reverse().ToArray();
-        }
+        if(gameObject.tag=="enemy") enemies = enemies.Reverse().ToArray();
         foreach (GameObject enemy in enemies){
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
             float judge_front = enemy.transform.position.x - transform.position.x;

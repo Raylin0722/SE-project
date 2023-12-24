@@ -1,12 +1,9 @@
-namespace Assets.Scripts
-{
-    public enum  RockState
-    {
+namespace Assets.Scripts{
+    public enum  RockState{
         BeforeThrown,
         Thrown
     }
-    public enum SlingshotState
-    {
+    public enum SlingshotState{
         Idle,
         Pulling,
         do_nothing,

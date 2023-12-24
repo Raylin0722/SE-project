@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ServerMethod;
 using System;
-public class Shop : MonoBehaviour
-{
+public class Shop : MonoBehaviour{
     public GameObject Check_Page;
     public Text[] Texts;
     public Text[] Texts_Special;
@@ -32,7 +31,6 @@ public class Shop : MonoBehaviour
     private Coroutine endCoroutine;
     public GameObject Transparent_Background;
     private int OLD_money;
-
     void Start() {
         White_Image.gameObject.SetActive(false); // Initialization ( close )
         ServerScript = FindObjectOfType<ServerMethod.Server>();
@@ -43,7 +41,6 @@ public class Shop : MonoBehaviour
         tear.text = ServerScript.tear.ToString(); //Update tear
         Update_chest_time();
     }
-
     // When click < X > 
     public void Button_Close() {
         if(endCoroutine!=null) {
@@ -72,9 +69,7 @@ public class Shop : MonoBehaviour
         Transparent_Background.gameObject.SetActive(true);
         IEnumerator coroutine = serverdata.GetComponent<Server>().openChest(openType);
         yield return StartCoroutine(coroutine);
-
         chestReturn result = coroutine.Current as chestReturn;
-
         if(result != null){
             Debug.Log(result.success);
             Debug.Log("0: money 1 : exp 2: taer 3: props 4: normalcharacter 5: rarecharacter \nresult: " + result.result);
@@ -84,8 +79,7 @@ public class Shop : MonoBehaviour
             if(result.success==true) {
                 OLD_money = ServerScript.money;
                 StartCoroutine(Fade_Screen_new(result.result,result.character));
-            }
-            else {
+            }else {
                 If_Special = false;
                 endCoroutine = StartCoroutine(Not_Opne_Hint(1f));
                 yield return new WaitForSeconds(1f);
@@ -100,7 +94,6 @@ public class Shop : MonoBehaviour
         Color targetColor = White_Image.color;
         Vector3 Start_Scale = new Vector3(0.1f, 0.1f, 0.1f); // min
         Vector3 End_Scale = new Vector3(1.7f, 1.7f, 1.7f); // max
-
         while(Elapsed_Time<Time_White) {
             White_Image.color = Color.Lerp(startColor, targetColor, Elapsed_Time / Time_White);
             White_Image.transform.localScale = Vector3.Lerp(Start_Scale, End_Scale, Elapsed_Time / Time_White);
@@ -114,7 +107,6 @@ public class Shop : MonoBehaviour
         Special_Bottom.SetActive(false);
         Conceal_Result();
     }
-
     public IEnumerator Show_Result(int result,int character_index) {  
         //特殊寶箱
         if(If_Special==true) {
@@ -157,9 +149,7 @@ public class Shop : MonoBehaviour
                     }
                     break;
             }
-        }
-        //普通寶箱
-        else {
+        }else {//普通寶箱
             switch(result) {
                 case 0:
                     Results[0].SetActive(true);
@@ -232,10 +222,7 @@ public class Shop : MonoBehaviour
         DateTime nowTime = DateTime.Now;
         DateTime canOpenTime = DateTime.Parse(ServerScript.chestTime);
         TimeSpan timeDifference = canOpenTime - nowTime;
-        
-        if(timeDifference.TotalSeconds < 0f){
-            chestRemaid.text = "00:00";
-        }
+        if(timeDifference.TotalSeconds < 0f)chestRemaid.text = "00:00";
         else{
             int days = timeDifference.Days;
             int hours = timeDifference.Hours + 24 * days;

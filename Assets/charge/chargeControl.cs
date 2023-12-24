@@ -3,15 +3,13 @@ using UnityEngine;
 using ServerMethod;
 using System;
 using UnityEngine.UI;
-public class chargeControl : MonoBehaviour
-{
+public class chargeControl : MonoBehaviour{
     public GameObject failed;
     public GameObject success;
     public int cardID;
     public GameObject check_page;
     private ServerMethod.Server ServerScript; // Server.cs
     public Button close;
-    
     void Start(){
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }

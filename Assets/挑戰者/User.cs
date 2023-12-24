@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using ServerMethod;
-public class USER : MonoBehaviour
-{
+public class USER : MonoBehaviour{
     public GameObject Change; // Change portrait Button
     public GameObject[] portraits; // The all portraits in USER
     private ServerMethod.Server ServerScript; // Server.cs
@@ -30,7 +29,6 @@ public class USER : MonoBehaviour
             Experience_line.fillAmount = (float)(MainMenu.exp[1] / (500 * Math.Pow(2.5,MainMenu.exp[0]-1)));
             return;
         }
-
         for(int i = ServerScript.faction[1] + 1; i<6; i++) {
             if(ServerScript.faction[i]==1) {
                 ServerScript.faction[1] = i;

@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class TokenManager : MonoBehaviour
-{
+public class TokenManager : MonoBehaviour{
   public static TokenManager Instance;
-
   public string Token;
   public string Username;
-
-  private void Awake()
-  {
-    if(Instance != null)
-    {
+  private void Awake(){
+    if(Instance != null){
       Destroy(gameObject);
       return;
     }
@@ -20,5 +14,4 @@ public class TokenManager : MonoBehaviour
     Instance.tag = "DontDestroy";
     DontDestroyOnLoad(gameObject);
   }
-  
 }

@@ -2,9 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
 using ServerMethod;
-
-public class FruitSelect : MonoBehaviour
-{
+public class FruitSelect : MonoBehaviour{
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject page_FruitSelect; // the page for page_FruitSelect
     [SerializeField] GameObject bFrame;
@@ -16,7 +14,6 @@ public class FruitSelect : MonoBehaviour
     public GameObject Skip;
     public static int start_tutorial = 0;
     private ServerMethod.Server ServerScript; // Server.cs
-
     void Start() {
         if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
         Skip.gameObject.SetActive(false);
@@ -25,7 +22,6 @@ public class FruitSelect : MonoBehaviour
         //Fruit_Select();
         Play_Video(); // This is only for you to test,and you can delete it.
     }
-
     // Check Button
     public void Check() {
         wFrame.SetActive(false);
@@ -35,8 +31,7 @@ public class FruitSelect : MonoBehaviour
             ServerScript.faction[2] = 1;
             ServerScript.faction[3] = 0;
             StartCoroutine(ServerScript.initFaction(2));
-        }
-        else {
+        }else {
             ServerScript.faction[2] = 0;
             ServerScript.faction[3] = 1;
             StartCoroutine(ServerScript.initFaction(3));      
@@ -50,7 +45,6 @@ public class FruitSelect : MonoBehaviour
         Music_main_scene.SetActive(true); // Opne music in Main_Scene
         start_tutorial = 1;
     }
-
     // Close All button in Main_Scene
     public void Fruit_Select() {
         if(MainMenu.message==87)    return;    
@@ -78,15 +72,11 @@ public class FruitSelect : MonoBehaviour
             Skip.gameObject.SetActive(false);
         }
         video.loopPointReached += End_Video;
-        if(video.time>5f) {
-            Skip.gameObject.SetActive(true);
-        }
+        if(video.time>5f) Skip.gameObject.SetActive(true);
     }
-
     void End_Video(VideoPlayer video) {
         Skip_Video();
     }
-
     public void Skip_Video() {
         if(ServerScript.faction[0]==1 && bool_play==true) {
             video.Pause();

@@ -17,7 +17,7 @@ public class GameManage : MonoBehaviour{
     private ServerMethod.Server ServerScript;
     private GameObject[] WB;
     void Start(){
-        if(MainMenu.message==100)   ServerScript = FindObjectOfType<ServerMethod.Server>();
+        if(MainMenu.message==100)ServerScript = FindObjectOfType<ServerMethod.Server>();
         Ground.SetActive(false);
         WB=new GameObject[]{W1B,W2B,W3B,W4B,W5B};
         for(int i=0;i<5;i++)WB[i].SetActive(false);
@@ -31,17 +31,13 @@ public class GameManage : MonoBehaviour{
     void Update(){
         int[] lineup;
         int[] character;
-        if(MainMenu.message==87)
-        {   
+        if(MainMenu.message==87){   
             lineup = MainMenu.lineup;
             character = MainMenu.character;
-        }
-        else
-        {
+        }else{
             lineup = ServerScript.lineup;
             character = ServerScript.character;
         }
-
         for(int i=0;i<5;i++){
             who=lineup[i]-1;
             wholevel=character[who];

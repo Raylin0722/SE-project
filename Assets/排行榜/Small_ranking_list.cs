@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 namespace Small_ranking_list_Method {
-public class Small_ranking_list : MonoBehaviour
-{
+public class Small_ranking_list : MonoBehaviour{
     private ServerMethod.Server ServerScript; // Server.cs
     public Text Rank_number; // the ranking number of the player(text)
     private int Rank_number_index = -1; // the ranking number of the player(int)
     public Image[] Faction; // the faction of the player
     public Text User_name; // the name of the player
-    
     void Start() {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }

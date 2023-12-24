@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 namespace Ranking_player_information_Method {
-public class Ranking_player_information : MonoBehaviour
-{
+public class Ranking_player_information : MonoBehaviour{
     public Text Rank_number; // the ranking number of the player(text)
     public int Rank_number_index = 3; // the ranking number of the player(int)
     public Image[] Faction; // the faction of the player
@@ -11,16 +10,13 @@ public class Ranking_player_information : MonoBehaviour
     public Image Myself;
     public GameObject[] Frame;
     private ServerMethod.Server ServerScript; // Server.cs
-    
     void Start() {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
         if(Myself.tag=="15")    Rank_number_index = -1;
     }
-
     void Update() {
         if(ServerScript.rankFaction.Count!=0)    Update_Ranking_player_information();
     }
-
     // Update the player's ranking information
     public void Update_Ranking_player_information() {   
         if(Rank_number_index>=3 && Myself.tag!="15")    Myself.rectTransform.anchoredPosition = new Vector3(2f,3085f-140*(Rank_number_index-3),0f);
@@ -33,7 +29,6 @@ public class Ranking_player_information : MonoBehaviour
                 else if(Rank_number_index>3)    Frame[3].gameObject.SetActive(true);
             }
         }
-
         Rank_number.text = (Rank_number_index+1).ToString();
         User_name.text = ServerScript.rankName[Rank_number_index];
         for(int i = 0; i<5 ; i++)   Faction[i].gameObject.SetActive(false);
