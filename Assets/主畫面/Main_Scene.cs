@@ -23,7 +23,7 @@ public class ButtonManager : MonoBehaviour{
     public Text username;
     public Text level;
     public TextMeshProUGUI timetoGetEnergy;
-    public AudioSource Music_Main_Scene; // the Music in Main Scene
+    public GameObject Music_Main_Scene; // the Music in Main Scene
     private ServerMethod.Server ServerScript; // Server.cs
     public Image[] Rank; 
     public bool bool_level_up = false;
@@ -43,7 +43,7 @@ public class ButtonManager : MonoBehaviour{
             Top_up.SetActive(true);
             ServerScript = FindObjectOfType<ServerMethod.Server>();
         }
-        Play_Music();
+        StartCoroutine(Play_Music());
     }
     void Update() {
         if(MainMenu.message!=87)    if(ServerScript.rankClear.Count!=0)    Update_Ranking_List(); // Update Ranking_List in Main_Scene
@@ -159,18 +159,15 @@ public class ButtonManager : MonoBehaviour{
         level.text = "Lv"+ServerScript.exp[0].ToString();
     }
     // Play Music
-    private void Play_Music() {
-        Music_Main_Scene.Play();
+    private IEnumerator Play_Music() {
+        yield return new WaitForSeconds(1.0f);
+        Music_Main_Scene.SetActive(true);
+        AudioListener.volume = 0f;
         if(MainMenu.message==87)    {
-            MainMenu.energy = (int)AudioListener.volume;
             AudioListener.volume =  Mathf.Clamp01(MainMenu.backVolume/100f);
-            MainMenu.energy = (int)AudioListener.volume;
+            MainMenu.backVolume = (int)AudioListener.volume;
         }
-        else    
-        {
-            AudioListener.volume = Mathf.Clamp01((float)ServerScript.backVolume/100f);
-            
-        }
+        else    AudioListener.volume = Mathf.Clamp01((float)ServerScript.backVolume/100f);
         ServerScript.tear = (int)ServerScript.volume;
         
         ServerScript.money = (int)(AudioListener.volume*1000);
