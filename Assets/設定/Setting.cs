@@ -17,19 +17,12 @@ public class Setting : MonoBehaviour{
         if(MainMenu.message!=87) {
             ServerScript = FindObjectOfType<ServerMethod.Server>();
             AudioListener.volume = volumeSlider.value = Mathf.Clamp01(ServerScript.backVolume/100f);
-            print(volumeSlider.value);
             Button_Display();
         }
     }
     public void ChangeVolume() {
         AudioListener.volume = volumeSlider.value;
-        print(volumeSlider.value);
-        if(volumeSlider.value>0) {
-            if(MainMenu.message==87)    MainMenu.shock = false;
-            else    ServerScript.shock = false;
-            Button_Display();
-        }
-        if(MainMenu.message==87)    {   MainMenu.backVolume = (int)(volumeSlider.value*100);        }
+        if(MainMenu.message==87)    MainMenu.backVolume = (int)(volumeSlider.value*100);
         else ServerScript.backVolume = (int)(volumeSlider.value*100);
     }
     // When click < Vibration >
@@ -52,8 +45,6 @@ public class Setting : MonoBehaviour{
             picture_Vibration_OFF.SetActive(false); // OFF => false
             Vibration.transform.localScale = new Vector3(-3.73134f,3.980096f,0f);
             Vibration.transform.localPosition = new Vector3(235.6f,30f,0f);
-            if(MainMenu.message==87)    AudioListener.volume = volumeSlider.value = MainMenu.backVolume = 0;
-            else    AudioListener.volume = volumeSlider.value = ServerScript.backVolume = 0;
             if(Application.platform==RuntimePlatform.Android && picture_Vibration_ON)   Handheld.Vibrate();
         }
     }
