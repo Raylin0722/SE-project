@@ -7,11 +7,13 @@ public class Small_ranking_list : MonoBehaviour{
     private int Rank_number_index = -1; // the ranking number of the player(int)
     public Image[] Faction; // the faction of the player
     public Text User_name; // the name of the player
+    public GameObject Myself;
     void Start() {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
     void Update() {
-        if(Rank_number_index!=-1 && ServerScript.rankFaction.Count!=0)  Update_Ranking_player_information();
+        if(ServerScript.rankFaction.Count!=0)   Myself.SetActive(Rank_number_index<ServerScript.rankFaction.Count);
+        if(Rank_number_index!=-1 && ServerScript.rankFaction.Count!=0 && Myself.activeSelf)  Update_Ranking_player_information();
     }
     // Update the player's ranking information
     public void Update_Ranking_player_information() {   
