@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class ScrollZoom : MonoBehaviour
-{
+public class ScrollZoom : MonoBehaviour{
     public GameObject MidPoint;
     public ScrollRect scrollRect;
     public float zoomFactor = 2.0f;
     private RectTransform contentRect;
     private float[] distances;
-
     void Start() {
         contentRect = scrollRect.content;
         int itemCount = contentRect.childCount;
@@ -26,8 +24,7 @@ public class ScrollZoom : MonoBehaviour
             rectTransform.localPosition = newPosition;
         }
     }
-    void CalculateDistances()
-    {
+    void CalculateDistances(){
         for (int i = 0; i < contentRect.childCount; i++) {
             RectTransform item = contentRect.GetChild(i) as RectTransform;
             distances[i] = Mathf.Abs(MidPoint.transform.position.x - item.position.x);

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
-
 public class MainMenu : MonoBehaviour {
     public Button registerButton;
     public Button loginButton;
@@ -22,23 +21,18 @@ public class MainMenu : MonoBehaviour {
         message = 100;
         SceneManager.LoadScene("RegisterMenu");
     }
-
     public void GoToLogin() {
         message = 100;
         SceneManager.LoadScene("LoginMenu");
     }
-
     public int Click_times;
     private float time = 5f;
     public static int message = 100;
-    private void Update()
-    {
-        if(Click_times>0)
-        {
+    private void Update(){
+        if(Click_times>0){
             //time -= Time.deltaTime;
         }
-        if(time<=0f)
-        {
+        if(time<=0f){
             Click_times = 0;
             time = 5f;
         }
@@ -46,13 +40,11 @@ public class MainMenu : MonoBehaviour {
     public void GoToSampleSCene() {
         Click_times = Click_times + 1;
         Debug.Log(Click_times);
-        if(Click_times>=7)      
-        {
+        if(Click_times>=7){
             message = 87;
             SceneManager.LoadScene("SampleScene");
         }
     }
-
     public static string username;
     public static int money;
     public static int[] exp;
@@ -72,8 +64,7 @@ public class MainMenu : MonoBehaviour {
     public static string chestTime;
     public static int[] faction;
     public static int[] props;
-    private void ALL_DEFINE()
-    {
+    private void ALL_DEFINE(){
         username = "87";
         money = 9999;
         exp = new int[2];

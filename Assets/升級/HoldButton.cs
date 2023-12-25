@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
-{
+public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler{
     [SerializeField] GameObject[] Up_Images; // The all pictures in up level_up
     private bool bool_dragging = false;
     private GameObject Copy_image; // the upper image when you drag
@@ -16,7 +15,6 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
         { "香菇1", 0 }, { "香菇2", 1 }, { "香菇3", 2 }, { "香菇4", 3 }, { "香菇5", 4 }, { "香菇6", 5 }, { "香菇7", 6 },
     };
     private ServerMethod.Server ServerScript; // Server.cs
-
     void Start() {
         if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
@@ -27,19 +25,15 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
             if(Image_Dictionary.TryGetValue(Clicked_Object.name, out int value)) {
                 index = value;
                 Copy(index);
-            }
-            else    index = 0;
+            }else index = 0;
         }
     }
     bool IsMouseOverSpecificUI(string target){
         PointerEventData eventData = new PointerEventData(EventSystem.current); // 检查是否有鼠标悬停在UI元素上
         eventData.position = Input.mousePosition;
-
         List<RaycastResult> results = new List<RaycastResult>();// 获取射线碰撞的所有UI元素
         EventSystem.current.RaycastAll(eventData, results);
-
         foreach (RaycastResult result in results)    if (result.gameObject.tag == target)    return true; // 检查射线碰撞的物体是否是特定UI物体
-
         return false; // 如果没有碰撞的UI元素或者碰撞的不是特定UI物体，返回 false
     }
     public void OnDrag(PointerEventData eventData) {
@@ -47,8 +41,7 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     }
     public void OnPointerUp(PointerEventData eventData) {
         bool_dragging = false;
-        if (Copy_image != null)
-        {
+        if (Copy_image != null){
             int tmp_position = -1;
             int tmp_value = -1;
             int party_num = 0;
@@ -64,8 +57,7 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
                             tmp_position = i;
                             tmp_value = MainMenu.lineup[party_num];
                         }
-                    }
-                    else {
+                    }else {
                         if(ServerScript.lineup[i]==index+1) {
                             tmp_position = i;
                             tmp_value = ServerScript.lineup[party_num];
@@ -76,13 +68,11 @@ public class HoldButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
                     if(MainMenu.message==87) {
                         MainMenu.lineup[tmp_position] = tmp_value;
                         MainMenu.lineup[party_num] = index + 1;
-                    }
-                    else {
+                    }else {
                         ServerScript.lineup[tmp_position] = tmp_value;
                         ServerScript.lineup[party_num] = index + 1;
                     }
-                }
-                else {
+                }else {
                     if(MainMenu.message==87)    MainMenu.lineup[party_num] = index + 1;
                     else        ServerScript.lineup[party_num] = index + 1;
                 }

@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Text;
-
 public class Registration : MonoBehaviour {
     public TMP_InputField nameField;
     public TMP_InputField passwordField;
@@ -19,11 +18,9 @@ public class Registration : MonoBehaviour {
     public Image User_Low_Length;
     [SerializeField] string token;
     public GameObject NetWorkWarning;
-
     public GameObject page_Rigister; // the page of rigister
     public GameObject page_User_consent; // the page of user consent
     private bool bool_agree = false; // whether you agree to the user consent
-
     private void Start() {
         password_too_short.enabled = false;
         user_existed.enabled = false;
@@ -33,79 +30,51 @@ public class Registration : MonoBehaviour {
     public void CallRegister() {
         StartCoroutine(Register());
     }
-
-    private void Update()
-    {
-        if(bool_agree==false)
-        {
+    private void Update(){
+        if(bool_agree==false){
             page_Rigister.gameObject.SetActive(false);
             page_User_consent.gameObject.SetActive(true);
-        }
-        else
-        {
+        }else{
             page_Rigister.gameObject.SetActive(true);
             page_User_consent.gameObject.SetActive(false);
         }
-
-        if(nameField.text.Length>0)
-        {
-            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57)
-            {
+        if(nameField.text.Length>0){
+            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57){
                 nameField.text = nameField.text.Substring(0,nameField.text.Length-1);
             }
-            
             char lastChar = nameField.text[nameField.text.Length - 1];
-            if(char.IsLower(lastChar) && nameField.text.Length==1)
-            {
+            if(char.IsLower(lastChar) && nameField.text.Length==1){
                 nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToUpper(lastChar);
             }
-            if(char.IsUpper(lastChar) && nameField.text.Length>1)
-            {
+            if(char.IsUpper(lastChar) && nameField.text.Length>1){
                 nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToLower(lastChar);
             }
         }
     }
-    public void Agree()
-    {
+    public void Agree(){
         bool_agree = true;
     }
-
-    char ValidateInput(string text, int charIndex, char addedChar)
-    {
-        if((addedChar >= 'a' && addedChar <= 'z') || (addedChar >= 'A' && addedChar <= 'Z') || (addedChar >= '0' && addedChar <= '9'))
-        {
-            if(addedChar>='A' && addedChar<='Z')
-            {
-                addedChar = char.ToLower(addedChar);
-            }
+    char ValidateInput(string text, int charIndex, char addedChar){
+        if((addedChar >= 'a' && addedChar <= 'z') || (addedChar >= 'A' && addedChar <= 'Z') || (addedChar >= '0' && addedChar <= '9')){
+            if(addedChar>='A' && addedChar<='Z')addedChar = char.ToLower(addedChar);
             return addedChar;
-        }
-        else
-        {
-            return '\0';
-        }
+        }else return '\0';
     }
-
     IEnumerator Register() {
-        if(nameField.text.Length<4)
-        {
+        if(nameField.text.Length<4){
             User_Low_Length.gameObject.SetActive(true);
             submitButton.interactable = false;
             yield return new WaitForSeconds(2f);
             User_Low_Length.gameObject.SetActive(false);
             submitButton.interactable = true;
-        }
-        else
-        {
+        }else{
             WWWForm form = new WWWForm();
             form.AddField("username", nameField.text);
             form.AddField("password", passwordField.text);
-
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/register", form);
             // UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/register", form);
             www.timeout = 3;
             yield return www.SendWebRequest();
-
             if(!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 if(www.downloadHandler.text[0] == '0') {
                     Debug.Log("User Created Successfully.");
@@ -147,19 +116,15 @@ public class Registration : MonoBehaviour {
                             break;
                     }
                 }
-            }
-            else{
+            }else{
                 NetWorkWarning.SetActive(true);
                 yield return new WaitForSeconds(3f);
                 GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
-                foreach (GameObject obj in dontDestroyObjects){
-                    Destroy(obj);
-                }
+                foreach (GameObject obj in dontDestroyObjects)Destroy(obj);
                 GoToMain();
             }
         }
     }
-
     public void GoToMain() {
         SceneManager.LoadScene("MainMenu");
     }

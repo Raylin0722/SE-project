@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using TMPro;
-
 public class Login : MonoBehaviour {
     public TMP_InputField nameField;
     public TMP_InputField passwordField;
@@ -17,76 +16,50 @@ public class Login : MonoBehaviour {
     public Image User_Low_Length;
     public GameObject NetWorkWarning;
     [SerializeField] string token;
-
     private void Start() {
         password_too_short.enabled = false;
         user_existed.enabled = false;
         user_not_found.enabled = false;
         incorrect_password.enabled = false;
     }
-
-    private void Update()
-    {
-        if(nameField.text.Length>0)
-        {
-            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57)
-            {
+    private void Update(){
+        if(nameField.text.Length>0){
+            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57){
                 nameField.text = nameField.text.Substring(0,nameField.text.Length-1);
             }
-            
-            
             char lastChar = nameField.text[nameField.text.Length - 1];
-            if(char.IsLower(lastChar) && nameField.text.Length==1)
-            {
+            if(char.IsLower(lastChar) && nameField.text.Length==1){
                 nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToUpper(lastChar);
             }
-            if(char.IsUpper(lastChar) && nameField.text.Length>1)
-            {
+            if(char.IsUpper(lastChar) && nameField.text.Length>1){
                 nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToLower(lastChar);
             }
         }
     }
-
-    char ValidateInput(string text, int charIndex, char addedChar)
-    {
-        if((addedChar>='a' && addedChar<='z') || (addedChar>='A' && addedChar<='Z') || (addedChar>='0' && addedChar<='9'))
-        {
-            if(addedChar>='A' && addedChar<='Z')
-            {
-                addedChar = char.ToLower(addedChar);
-            }
+    char ValidateInput(string text, int charIndex, char addedChar){
+        if((addedChar>='a' && addedChar<='z') || (addedChar>='A' && addedChar<='Z') || (addedChar>='0' && addedChar<='9')){
+            if(addedChar>='A' && addedChar<='Z')addedChar = char.ToLower(addedChar);
             return addedChar;
-        }
-        else
-        {
-            return '\0';
-        }
+        }else return '\0';
     }
-    
     public void CallLogin() {
         StartCoroutine(LoginPlayer());
     }
-
     IEnumerator LoginPlayer() {
-        if(nameField.text.Length<4)
-        {
+        if(nameField.text.Length<4){
             User_Low_Length.gameObject.SetActive(true);
             submitButton.interactable = false;
             yield return new WaitForSeconds(2f);
             User_Low_Length.gameObject.SetActive(false);
             submitButton.interactable = true;
-        }
-        else
-        {
+        }else{
             WWWForm form = new WWWForm();
             form.AddField("username", nameField.text);
             form.AddField("password", passwordField.text);
-
             UnityWebRequest www = UnityWebRequest.Post("https://pc167.csie.ntnu.edu.tw/login", form);
             // UnityWebRequest www = UnityWebRequest.Post("http://localhost:5000/login", form);
             www.timeout = 3;
             yield return www.SendWebRequest();
-
             if(!(www.result == UnityWebRequest.Result.ConnectionError) && !(www.result == UnityWebRequest.Result.ProtocolError)){
                 if(www.downloadHandler.text[0] == '0') {
                     Debug.Log("User Login Successfully.");
@@ -128,15 +101,12 @@ public class Login : MonoBehaviour {
                             break;
                     }
                 }
-            }
-            else{
+            }else{
                 print("Out of time!");
                 NetWorkWarning.SetActive(true);
                 yield return new WaitForSeconds(3f);
                 GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
-                foreach (GameObject obj in dontDestroyObjects){
-                    Destroy(obj);
-                }
+                foreach (GameObject obj in dontDestroyObjects)Destroy(obj);
                 GoToMain();
             }
         }

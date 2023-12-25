@@ -4,8 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using ServerMethod;
 using System;
-public class START : MonoBehaviour
-{
+public class START : MonoBehaviour{
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject page_START; // the page which you want to close
     public Text energy; // energy value
@@ -17,11 +16,9 @@ public class START : MonoBehaviour
     public GameObject Cat;
     private int[] Cat_x=new int[13]{-698,-524,-221,-78,-137,-80,128,333,366,537,730,814,-893};
     private int[] Cat_y=new int[13]{-118,-236,-252,-147,46,228,378,126,-70,-211,13,213,-100};
-    
     void Start() {
         if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
-
     void Update() {
         if(MainMenu.message==87) {
             energy.text = "30/30";
@@ -37,7 +34,6 @@ public class START : MonoBehaviour
         RectTransform catRectTransform = Cat.GetComponent<RectTransform>();
         catRectTransform.anchoredPosition = new Vector2(Cat_x[CurrentStage()], Cat_y[CurrentStage()]);
     }
-
     private int CurrentStage() {
         int stage = 12;  // 初始化为一个不可能的值
         for (int i = 0; i < 12; i++) {
@@ -54,8 +50,7 @@ public class START : MonoBehaviour
     public void Button_Level() {
         GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
         string buttonTag = clickedButton.tag;
-        GameManage.currentLevel = int.Parse(buttonTag);
-        
+        GameManage.currentLevel = int.Parse(buttonTag);   
         if(MainMenu.message==87) {
             SceneManager.LoadScene("Background", LoadSceneMode.Single);
             return;
@@ -70,25 +65,20 @@ public class START : MonoBehaviour
             if(result==true) {
                 for(int i = 0; i<6*((GameManage.currentLevel/10)-1) + (GameManage.currentLevel%10-1) ; i++) if(ServerScript.clearance[i]==0)           return;
                 SceneManager.LoadScene("Background", LoadSceneMode.Single);
-            }
-            else {
+            }else {
                 endCoroutine = StartCoroutine(Enengy_Hint(1f));
                 return;
             }
         }));
     }
-
     private IEnumerator Surver_Before_Game(Action<bool> callback) {
         IEnumerator coroutine = ServerScript.beforeGame();
-        yield return StartCoroutine(coroutine);
-        
+        yield return StartCoroutine(coroutine);   
         Return result = coroutine.Current as Return;
         bool bool_success = false;
         if(result!=null)    bool_success = result.success;
-
         callback.Invoke(bool_success);
     }
-
     // When click < BACK > 
     public void Button_Close() {
         if(endCoroutine!=null) {

@@ -3,8 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using ServerMethod;
 using UnityEngine.Networking;
-public class Setting : MonoBehaviour
-{
+public class Setting : MonoBehaviour{
     [SerializeField] Slider volumeSlider;
     public GameObject Vibration; // Vibration Button
     public GameObject picture_Vibration_ON; // ON in Vibration
@@ -13,7 +12,6 @@ public class Setting : MonoBehaviour
     public string URL_About = "https://xmu310.github.io"; // the website about About
     public GameObject[] number; // version number about LAST
     private ServerMethod.Server ServerScript; // Server.cs
-
     void Start() {
         Version();
         if(MainMenu.message!=87) {
@@ -32,9 +30,7 @@ public class Setting : MonoBehaviour
             Button_Display();
         }
         if(MainMenu.message==87)    {   MainMenu.backVolume = (int)(volumeSlider.value*100);        }
-        else {
-            ServerScript.backVolume = (int)(volumeSlider.value*100);
-        }
+        else ServerScript.backVolume = (int)(volumeSlider.value*100);
     }
     // When click < Vibration >
     public void Button_Vibration() {
@@ -51,8 +47,7 @@ public class Setting : MonoBehaviour
             picture_Vibration_OFF.SetActive(true); // OFF => true
             Vibration.transform.localScale = new Vector3(3.73134f,3.980096f,0f);
             Vibration.transform.localPosition = new Vector3(220.6f,30f,0f);
-        }
-        else {
+        }else {
             picture_Vibration_ON.SetActive(true); // ON => true
             picture_Vibration_OFF.SetActive(false); // OFF => false
             Vibration.transform.localScale = new Vector3(-3.73134f,3.980096f,0f);
@@ -81,7 +76,6 @@ public class Setting : MonoBehaviour
         string packageName = currentActivity.Call<string>("getPackageName");
         AndroidJavaObject packageInfo = packageManager.Call<AndroidJavaObject>("getPackageInfo", packageName, 0);
         string apkVersion = "v" + packageInfo.Get<string>("versionName");
-        
         string[] Version_Parts = apkVersion.Split('.');
         string LAST = Version_Parts[2];
         if(int.TryParse(LAST, out int LAST_number)) {
@@ -89,8 +83,7 @@ public class Setting : MonoBehaviour
             else if(LAST_number<100) {
                 number[LAST_number/10].gameObject.SetActive(true);
                 number[10+LAST_number%10].gameObject.SetActive(true);
-            }
-            else {
+            }else {
                 number[LAST_number/100].gameObject.SetActive(true);
                 number[10+(LAST_number/10)%10].gameObject.SetActive(true);
                 number[20+LAST_number%10].gameObject.SetActive(true);

@@ -1,20 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
-
-public class Book : MonoBehaviour
-{
+public class Book : MonoBehaviour{
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scen
     public GameObject page_Book; // the page which you want to close
     public GameObject[] pages; // The all page in Book
     public Image[] Pictures; // The all pictures in Book
     private int Current = 0; // The current position about your location in Book
     private ServerMethod.Server ServerScript; // Server.cs
-
     void Start() {
         if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
     }
-
     // Update is called once per frame
     void Update() {
         if(MainMenu.message==87) {
@@ -53,12 +49,10 @@ public class Book : MonoBehaviour
                 pages[i].SetActive(true);
                 pages[7].SetActive(false); // close empty page
                 pages[8].SetActive(false); // close chain
-                
                 if(MainMenu.message==87) {
                     Pictures[7*(MainMenu.faction[1]-1-1)+i].gameObject.SetActive(true);
                     Pictures[7*(MainMenu.faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
-                }
-                else {
+                }else {
                     Pictures[7*(ServerScript.faction[1]-1-1)+i].gameObject.SetActive(true);
                     Pictures[7*(ServerScript.faction[1]-1-1)+i].material.color = new Color(1f,1f,1f,1f);
                     if(ServerScript.character[i]==0) {
@@ -67,8 +61,7 @@ public class Book : MonoBehaviour
                         Pictures[7*(ServerScript.faction[1]-1-1)+i].color = new Color(0f,0f,0f,1f);
                     }
                 }
-            }
-            else    pages[i].SetActive(false);
+            }else pages[i].SetActive(false);
         }
     }
 }

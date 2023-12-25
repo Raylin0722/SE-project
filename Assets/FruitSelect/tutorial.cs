@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class tutorial : MonoBehaviour
-{
+public class tutorial : MonoBehaviour{
     public Button shop, book, levelUp, startGame, friend, setting, rank, change, tears;
     public Button open1, open2, cancelbutton;
     public Button rankUp, back;
@@ -52,8 +51,7 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
@@ -65,8 +63,7 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
@@ -99,8 +96,7 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
@@ -112,8 +108,7 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
@@ -163,8 +158,7 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
@@ -175,8 +169,7 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
@@ -188,8 +181,7 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
@@ -203,15 +195,13 @@ public class tutorial : MonoBehaviour
         if(ServerScript.faction[2] == 1) {
             watermelon_tutorial[tutorial_image_count++].SetActive(false);
             watermelon_tutorial[tutorial_image_count].SetActive(true);
-        }
-        else if(ServerScript.faction[3] == 1) {
+        }else if(ServerScript.faction[3] == 1) {
             banana_tutorial[tutorial_image_count++].SetActive(false);
             banana_tutorial[tutorial_image_count].SetActive(true);
         }
         next[0].SetActive(false);
         highlight[6].SetActive(true);
     }
-
     public GameObject background;
     public GameObject gamingScene;
     public GameObject nextPage;
@@ -220,7 +210,6 @@ public class tutorial : MonoBehaviour
     public GameObject[] inGameWaterMelon;
     public GameObject[] inGameBanana;
     int inGamePhotoCount = 0;
-
     public void InGameTutorial() {
         if(tutorial_ing != 1)    return;
         startGame.interactable = false;
@@ -244,7 +233,6 @@ public class tutorial : MonoBehaviour
         if(inGamePhotoCount >= 1 && inGamePhotoCount <= 8)    inGameArrow[inGamePhotoCount-1].SetActive(true);
         if(inGamePhotoCount == 9)   nextPage.SetActive(false);
     }
-
     public void canceltutorial() {
         background.SetActive(false);
         gamingScene.SetActive(false);

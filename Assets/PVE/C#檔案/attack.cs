@@ -24,9 +24,8 @@ public class Attack : MonoBehaviour{
     private int wholevel;
     public bool isEnemy;
     private void Start() {
-        if(MainMenu.message==87)    wholevel=isEnemy?(GameManage.currentLevel/10):MainMenu.character[who];
-        else
-        {   
+        if(MainMenu.message==87)wholevel=isEnemy?(GameManage.currentLevel/10):MainMenu.character[who];
+        else{   
             ServerScript = FindObjectOfType<ServerMethod.Server>();
             wholevel=isEnemy?(GameManage.currentLevel/10):ServerScript.character[who];
         }

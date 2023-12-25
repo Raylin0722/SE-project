@@ -1,13 +1,11 @@
 using UnityEngine;
 using Ranking_player_information_Method;
-public class Ranking_list : MonoBehaviour
-{
+public class Ranking_list : MonoBehaviour{
     public GameObject page_Ranking_list; // the page which you want to close
     private ServerMethod.Server ServerScript; // Server.cs
     public GameObject Last_Prefab; // 玩家條目的Prefab
     public Transform Ranking_List; // 容納條目的容器
     public bool bool_update = true; // whether is the ranking list update
-
     void Start() {
         ServerScript = FindObjectOfType<ServerMethod.Server>();
     }

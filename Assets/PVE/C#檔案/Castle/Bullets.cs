@@ -10,7 +10,6 @@ public class Bullets : MonoBehaviour{
     public void SetVelocity(Vector2 newVelocity){
         velocity = newVelocity;
     }
-
     public void SetTarget(Transform newTarget){
         target = newTarget;
     }
@@ -20,8 +19,7 @@ public class Bullets : MonoBehaviour{
     public void SetBulletSpeed(float newSpeed){
         speed = newSpeed;
     }
-    void Update(){
-        
+    void Update(){   
         if (target != null){
             // 计算子弹的方向
             Vector2 direction = (target.position - transform.position).normalized;

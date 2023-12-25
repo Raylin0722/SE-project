@@ -6,8 +6,7 @@ using Small_ranking_list_Method;
 using System;
 using ServerMethod;
 using Unity.VisualScripting;
-public class ButtonManager : MonoBehaviour
-{
+public class ButtonManager : MonoBehaviour{
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject page_Ranking_list; // the page for Ranking list
     public GameObject page_Shop; // the page for Shop
@@ -29,7 +28,6 @@ public class ButtonManager : MonoBehaviour
     public Image[] Rank; 
     public bool bool_level_up = false;
     public bool bool_setting = false;
-
     private void Start() {
         ALL_Button.SetActive(true);
         page_Ranking_list.SetActive(false);
@@ -80,12 +78,10 @@ public class ButtonManager : MonoBehaviour
         Return result = coroutine.Current as Return;
         bool_setting = false;
     }
-
     // Click < Ranking_list > 
     public void Button_Ranking_list() {
         if(MainMenu.message!=87)    page_Ranking_list.SetActive(true);
     }
-
     private void Update_Ranking_List() {
         int index = -1;
         for(int i = 0; i<ServerScript.rankName.Count; i++) {
@@ -138,7 +134,6 @@ public class ButtonManager : MonoBehaviour
             level.text = "Lv"+MainMenu.exp[0].ToString();
             return;
         }
-
         DateTime now = DateTime.Now;
         TimeSpan timediff = now - DateTime.Parse(ServerScript.updateTime);
         //Debug.Log(ServerScript.updateTime);
@@ -149,11 +144,9 @@ public class ButtonManager : MonoBehaviour
             timediff = now - DateTime.Parse(ServerScript.updateTime);
             during = ServerScript.remainTime + (int)timediff.TotalSeconds;
         }
-        
         tempTime = 1200 - (during);
         min = tempTime / 60;
         sec = tempTime % 60;
-        
         if(ServerScript.energy==30){
             min = 0;
             sec = 0;
@@ -171,8 +164,7 @@ public class ButtonManager : MonoBehaviour
         if(MainMenu.message==87) {
             if(MainMenu.shock==true)   AudioListener.volume = 0;
             else        AudioListener.volume = MainMenu.backVolume/100;
-        }
-        else {
+        }else {
             if(ServerScript.shock==true)   AudioListener.volume = 0;
             else    AudioListener.volume = Mathf.Clamp01(ServerScript.backVolume/100f);
         }

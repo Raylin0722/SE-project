@@ -7,8 +7,7 @@ public class ItemImageSwitcher : MonoBehaviour{
     public Sprite coldWindSprite; 
     public Sprite bombSprite; 
     void Start(){
-        if(MainMenu.message==87 && image!=null)
-        {
+        if(MainMenu.message==87 && image!=null){
             if(MainMenu.lineup[5]==1)image.sprite=coldWindSprite;else image.sprite=bombSprite;
             return;
         }

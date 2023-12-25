@@ -76,20 +76,16 @@ public class ButtonFunction : MonoBehaviour{
     private float tear;
     private int[] Lineup;
     void Start(){
-        if(MainMenu.message==87)
-        {
+        if(MainMenu.message==87){
             slingshotLevel=MainMenu.slingshotLevel;
             faction = MainMenu.faction[1];
             Lineup = MainMenu.lineup;
-        }
-        else
-        {
+        }else{
             ServerScript = FindObjectOfType<ServerMethod.Server>();
             slingshotLevel=ServerScript.slingshotLevel;
             faction = ServerScript.faction[1];
             Lineup = ServerScript.lineup;
         }
-        
         WhiteBack.SetActive(false);
         //BlackBackground.SetActive(true);
         //StartButton.SetActive(true);
@@ -162,25 +158,18 @@ public class ButtonFunction : MonoBehaviour{
                 GameManage.toolIsActive=false;
                 if(windCooldown<0) windCooldown=0.0f;
             }
-        }
-        else GameManage.toolIsUseable=true;
-        if(judge_victory==1)    
-        {
-           Victory_1_End();    
-        }
+        }else GameManage.toolIsUseable=true;
+        if(judge_victory==1)Victory_1_End();    
         if(judge_defeat==1)Defeat_End();
     }
     public void Victory_1_End(){
-        if(MainMenu.message==100)
-        {
+        if(MainMenu.message==100){
             level = ServerScript.exp[0];
             exp = ServerScript.exp[1];
             dollar = ServerScript.money;
             tear = ServerScript.tear;
             StartCoroutine(AfterGame_1());
-        }
-        else    Award_Calculate(1);
-        
+        }else Award_Calculate(1);
         WhiteBack.SetActive(true);
         Time.timeScale=0f;
         Victory_1.SetActive(true);
@@ -197,27 +186,22 @@ public class ButtonFunction : MonoBehaviour{
         Close.SetActive(true);
         Close_bottom.SetActive(true);
     }
-
-    public IEnumerator AfterGame_1()
-    {
+    public IEnumerator AfterGame_1(){
         string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
         yield return StartCoroutine(ServerScript.afterGame(true,target));
         yield return StartCoroutine(AfterGame_2());
     }
-    public IEnumerator AfterGame_2()
-    {
+    public IEnumerator AfterGame_2(){
         yield return StartCoroutine(ServerScript.updateData());
         yield return StartCoroutine(AfterGame_3());
     }
-    public IEnumerator AfterGame_3()
-    {
+    public IEnumerator AfterGame_3(){
         Dollar.text = ((int)(ServerScript.money-dollar)).ToString();
         if(ServerScript.exp[0]==level)  Exp.text = ((int)(ServerScript.exp[1]-exp)).ToString();
         else                            Exp.text = ((int)((500*Math.Pow(2.5,level-1)-exp+ServerScript.exp[1]))).ToString();
         Tear.text = ((int)(ServerScript.tear-tear)).ToString();
         yield return new WaitForSeconds(0.5f);
     }
-
     public void go_Lobby(){
         Time.timeScale=1.0f;
         SceneManager.LoadScene("SampleScene");
@@ -230,8 +214,7 @@ public class ButtonFunction : MonoBehaviour{
         Time.timeScale=0f;
         Defeat.SetActive(true);
         Close.SetActive(true);
-        Close_bottom.SetActive(true);
-        
+        Close_bottom.SetActive(true);   
         Dollar.text = "0";
         Exp.text = "0";
         Tear.text = "0";

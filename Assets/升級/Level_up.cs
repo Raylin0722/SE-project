@@ -2,8 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using ServerMethod;
-public class Level_up : MonoBehaviour
-{
+public class Level_up : MonoBehaviour{
     private float[] distances;
     public GameObject MidPoint;
     public ScrollRect scrollRect;
@@ -26,7 +25,6 @@ public class Level_up : MonoBehaviour
     public Text[] Dollar; // The all dollar of pictures in ScrollView
     private int[] Money = new int[] {1200,400,300,700,600,500,650,750};   // the Money for upper charactor and tower
     private ServerMethod.Server ServerScript; // Server.cs
-
     void Start() {
         if(MainMenu.message!=87)    ServerScript = FindObjectOfType<ServerMethod.Server>();
         contentRect = scrollRect.content;
@@ -44,39 +42,33 @@ public class Level_up : MonoBehaviour
         ALL_Button.SetActive(true); // Open All button in Main_Scene
     }
     //when click <sure upgrade>
-    public void Sure_Upgrade()
-    {
+    public void Sure_Upgrade(){
         if(UpgradeIndex==0) {
             if(MainMenu.message==87) {
                 if(MainMenu.castleLevel==15) {
                     StartCoroutine(MaxGrade());
                     return;
                 }
-            }
-            else if(ServerScript.castleLevel==15) {
+            }else if(ServerScript.castleLevel==15) {
                 StartCoroutine(MaxGrade());
                 return;
             }
-        }
-        else if(UpgradeIndex!=0) {
+        }else if(UpgradeIndex!=0) {
             if(MainMenu.message==87) {
                 if(MainMenu.character[UpgradeIndex-1]==5) {
                     StartCoroutine(MaxGrade());
                     return;
                 }
-            }
-            else if(ServerScript.character[UpgradeIndex-1]==5) {
+            }else if(ServerScript.character[UpgradeIndex-1]==5) {
                 StartCoroutine(MaxGrade());
                 return;
             }
         }
-        
         if(MainMenu.message==87) {
             if(UpgradeIndex==0) {
                 MainMenu.castleLevel = MainMenu.castleLevel + 1;
                 MainMenu.slingshotLevel = MainMenu.slingshotLevel + 1;
-            }
-            else    MainMenu.character[UpgradeIndex-1] = MainMenu.character[UpgradeIndex-1] + 1;
+            }else MainMenu.character[UpgradeIndex-1] = MainMenu.character[UpgradeIndex-1] + 1;
             return;
         }   
         StartCoroutine(Upgrade_Surver(UpgradeIndex)); //算出來在更新到sever
@@ -86,7 +78,6 @@ public class Level_up : MonoBehaviour
         yield return new WaitForSeconds(1);
         MaxGradeFigure.gameObject.SetActive(false);
     }
-
     //Send the data to server
     private IEnumerator Upgrade_Surver(int UpgradeIndex) {
         if(UpgradeIndex!=0) {
@@ -94,8 +85,7 @@ public class Level_up : MonoBehaviour
             yield return StartCoroutine(coroutine);
             Return result = coroutine.Current as Return;
             Debug.Log(result.success);
-        }
-        else {
+        }else {
             IEnumerator coroutine = ServerScript.updateCard(UpgradeIndex,1);
             yield return StartCoroutine(coroutine);
             Return result = coroutine.Current as Return;
@@ -103,8 +93,7 @@ public class Level_up : MonoBehaviour
         }
     }
     // Update energy && money && tear
-    public void Update_values()
-    {
+    public void Update_values(){
         money.text = MainMenu.money.ToString();
         int castleLevel = MainMenu.castleLevel;
         int[] character = MainMenu.character;
@@ -119,12 +108,10 @@ public class Level_up : MonoBehaviour
             Level[0].fontSize = 15;
             Level[0].text = "MAX";
             Dollar[0].text = "-";
-        }
-        else {
+        }else {
             Level[0].text = castleLevel.ToString();
             Dollar[0].text = (Money[0]+500*(castleLevel-1)).ToString();
         }
-        
         for(int i = 0; i<character.Length; i++) {
             Level[i+1].fontSize = 25;
             Level[i+1].text = character[i].ToString();
@@ -142,14 +129,12 @@ public class Level_up : MonoBehaviour
             }
             else    Dollar[i+1].text = (Money[i+1]*1.5*(character[i]-1)).ToString();
         }
-
         // whether you have Bombs can use
         if(Props[1]==0) {
             Bombs[0].color = new Color(0f,0f,0f,1f);
             Bombs[1].gameObject.SetActive(false);
             Bomb_number.text = "x0";
-        }
-        else {
+        }else {
             Bombs[0].color = new Color(1f,1f,1f,1f);
             Bombs[1].gameObject.SetActive(true);
             Bomb_number.gameObject.SetActive(true);
