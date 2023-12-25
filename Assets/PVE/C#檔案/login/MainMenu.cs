@@ -10,9 +10,7 @@ public class MainMenu : MonoBehaviour {
     public Button loginButton;
     public TMP_Text playerDisplay;
     private void Start() {
-        if(DBManager.LoggedIn) {
-            playerDisplay.text = "Player: " + DBManager.username; 
-        }
+        if(DBManager.LoggedIn)    playerDisplay.text = "Player: " + DBManager.username; 
         registerButton.interactable = !DBManager.LoggedIn;
         loginButton.interactable = !DBManager.LoggedIn;
         ALL_DEFINE();
@@ -29,9 +27,6 @@ public class MainMenu : MonoBehaviour {
     private float time = 5f;
     public static int message = 100;
     private void Update(){
-        if(Click_times>0){
-            //time -= Time.deltaTime;
-        }
         if(time<=0f){
             Click_times = 0;
             time = 5f;
@@ -85,8 +80,6 @@ public class MainMenu : MonoBehaviour {
         volume = 100;
         backVolume = 100;
         shock = false;
-        remind = false;
-        chestTime = "2023-12-25 10:10:10";
         faction = new int[6];
         faction[1] = 2;
         for(int i = 2; i<6; i++)    faction[i] = 1;

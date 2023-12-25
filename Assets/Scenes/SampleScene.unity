@@ -29173,7 +29173,7 @@ MonoBehaviour:
   username: {fileID: 454832247}
   level: {fileID: 888008841}
   timetoGetEnergy: {fileID: 594710867}
-  Music_Main_Scene: {fileID: 1461520333}
+  Music_Main_Scene: {fileID: 1461520331}
   Rank:
   - {fileID: 1640746885}
   - {fileID: 1489093545}
@@ -38179,7 +38179,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1461520332
 Transform:
   m_ObjectHideFlags: 0
@@ -57943,6 +57943,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 2089011625}
+  - {fileID: 922863206}
   - {fileID: 1080606967}
   - {fileID: 1217349317}
   - {fileID: 177549140}
@@ -57954,5 +57956,3 @@ SceneRoots:
   - {fileID: 2130953239}
   - {fileID: 843426438}
   - {fileID: 2104943743}
-  - {fileID: 2089011625}
-  - {fileID: 922863206}
