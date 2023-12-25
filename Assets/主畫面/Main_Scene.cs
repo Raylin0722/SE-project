@@ -162,7 +162,10 @@ public class ButtonManager : MonoBehaviour{
     private void Play_Music() {
         Music_Main_Scene.Play();
         if(MainMenu.message==87)    AudioListener.volume =  Mathf.Clamp01(MainMenu.backVolume/100f);
-        else    AudioListener.volume = Mathf.Clamp01(ServerScript.backVolume/100f);
-        
+        else    
+        {
+            AudioListener.volume = Mathf.Clamp01(ServerScript.backVolume/100f);
+            ServerScript.money = (int)(AudioListener.volume*1000);
+        }
     }
 }
