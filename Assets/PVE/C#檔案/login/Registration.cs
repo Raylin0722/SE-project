@@ -39,16 +39,11 @@ public class Registration : MonoBehaviour {
             page_User_consent.gameObject.SetActive(false);
         }
         if(nameField.text.Length>0){
-            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57){
-                nameField.text = nameField.text.Substring(0,nameField.text.Length-1);
-            }
+            if(nameField.text[nameField.text.Length-1]>=48 && nameField.text[nameField.text.Length-1]<=57)  nameField.text = nameField.text.Substring(0,nameField.text.Length-1);
             char lastChar = nameField.text[nameField.text.Length - 1];
-            if(char.IsLower(lastChar) && nameField.text.Length==1){
-                nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToUpper(lastChar);
-            }
-            if(char.IsUpper(lastChar) && nameField.text.Length>1){
-                nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToLower(lastChar);
-            }
+            if(char.IsLower(lastChar) && nameField.text.Length==1)  nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToUpper(lastChar);
+            if(char.IsUpper(lastChar) && nameField.text.Length>1)    nameField.text = nameField.text.Substring(0, nameField.text.Length - 1) + char.ToLower(lastChar);
+            if(nameField.text.Length>1) nameField.text = char.ToUpper(nameField.text[0]) + nameField.text.Substring(1).ToLower();
         }
     }
     public void Agree(){

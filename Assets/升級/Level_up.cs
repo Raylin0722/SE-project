@@ -130,7 +130,7 @@ public class Level_up : MonoBehaviour{
             else    Dollar[i+1].text = (Money[i+1]*1.5*(character[i]-1)).ToString();
         }
         // whether you have Bombs can use
-        if(Props[1]==0) {
+        if(Props[1]<=0) {
             Bombs[0].color = new Color(0f,0f,0f,1f);
             Bombs[1].gameObject.SetActive(false);
             Bomb_number.text = "x0";
