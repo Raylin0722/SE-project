@@ -47,7 +47,7 @@ public class ButtonManager : MonoBehaviour{
         else    StartCoroutine(Play_Music());
     }
     void Update() {
-        if(ServerScript.faction[0]==0 && Music_Main_Scene==false)  StartCoroutine(Play_Music());
+        if(MainMenu.message!=87) if(ServerScript.faction[0]==0 && Music_Main_Scene==false)  StartCoroutine(Play_Music());
         if(MainMenu.message!=87)    if(ServerScript.rankClear.Count!=0)    Update_Ranking_List(); // Update Ranking_List in Main_Scene
         Update_values(); // Update energy && money && tear
         if(bool_level_up==false && page_Level_up.activeSelf==true)      bool_level_up = true;
@@ -165,10 +165,7 @@ public class ButtonManager : MonoBehaviour{
         yield return new WaitForSeconds(0.5f);
         Music_Main_Scene.SetActive(true);
         AudioListener.volume = 0f;
-        if(MainMenu.message==87)    {
-            AudioListener.volume =  Mathf.Clamp01(MainMenu.backVolume/100f);
-            MainMenu.backVolume = (int)AudioListener.volume;
-        }
+        if(MainMenu.message==87)    AudioListener.volume =  Mathf.Clamp01(MainMenu.backVolume/100f);
         else    AudioListener.volume = Mathf.Clamp01((float)ServerScript.backVolume/100f);
     }
 }
