@@ -42,10 +42,12 @@ public class ButtonManager : MonoBehaviour{
         if(MainMenu.message!=87) {
             Top_up.SetActive(true);
             ServerScript = FindObjectOfType<ServerMethod.Server>();
+            if(ServerScript.faction[0]==0)  StartCoroutine(Play_Music());
         }
-        StartCoroutine(Play_Music());
+        else    StartCoroutine(Play_Music());
     }
     void Update() {
+        if(ServerScript.faction[0]==0 && Music_Main_Scene==false)  StartCoroutine(Play_Music());
         if(MainMenu.message!=87)    if(ServerScript.rankClear.Count!=0)    Update_Ranking_List(); // Update Ranking_List in Main_Scene
         Update_values(); // Update energy && money && tear
         if(bool_level_up==false && page_Level_up.activeSelf==true)      bool_level_up = true;
@@ -160,7 +162,7 @@ public class ButtonManager : MonoBehaviour{
     }
     // Play Music
     private IEnumerator Play_Music() {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         Music_Main_Scene.SetActive(true);
         AudioListener.volume = 0f;
         if(MainMenu.message==87)    {
