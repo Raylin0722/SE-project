@@ -60,7 +60,7 @@ public class MainMenu : MonoBehaviour {
     public static int[] faction;
     public static int[] props;
     private void ALL_DEFINE(){
-        username = "87";
+        username = "neokent";
         money = 9999;
         exp = new int[2];
         exp[0] = 15;

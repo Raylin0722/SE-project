@@ -18,11 +18,11 @@ public class ButtonManager : MonoBehaviour{
     public GameObject page_Log_out; // the page for Friends
     public GameObject Top_up; // Top up
     public GameObject page_Top_up; // the page for Top up
-    public Text energy; // energy value
-    public Text money; // money value
-    public Text tear; // tear value
-    public Text username;
-    public Text level;
+    public TextMeshProUGUI energy; // energy value
+    public TextMeshProUGUI money; // money value
+    public TextMeshProUGUI tear; // tear value
+    public TextMeshProUGUI username;
+    public TextMeshProUGUI level;
     public TextMeshProUGUI timetoGetEnergy;
     public GameObject Music_Main_Scene; // the Music in Main Scene
     private ServerMethod.Server ServerScript; // Server.cs
