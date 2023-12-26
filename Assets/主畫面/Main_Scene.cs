@@ -7,11 +7,15 @@ using System;
 using ServerMethod;
 public class ButtonManager : MonoBehaviour{
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
+    public Button Change;
     public GameObject page_Ranking_list; // the page for Ranking list
+    public Button Shop;
     public GameObject page_Shop; // the page for Shop
+    public Button Book;
     public GameObject page_Book; // the page for Book
     public Button Level_up;
     public GameObject page_Level_up; // the page for Level up
+    public Button START;
     public GameObject page_Start; // the page for PVE
     public Button Setting;
     public GameObject page_Setting; // the page for Settings
@@ -66,17 +70,39 @@ public class ButtonManager : MonoBehaviour{
                 StartCoroutine(Setting_to_Server());
             }
         }
+        if(Change.interactable==false) {
+            Shop.interactable = false;
+            Level_up.interactable = false;
+            Book.interactable = false;
+            START.interactable = false;
+        }
+        else {
+            Shop.interactable = true;
+            Level_up.interactable = true;
+            Book.interactable = true;
+            START.interactable = true;
+        }
     }
     private IEnumerator Lineup_to_Surver() {
+        Shop.interactable = false;
         Level_up.interactable = false;
+        Book.interactable = false;
+        START.interactable = false;
         IEnumerator coroutine = ServerScript.updateLineup(ServerScript.lineup);
         yield return StartCoroutine(coroutine);
         Return result = coroutine.Current as Return;
         bool_level_up = false;
         yield return new WaitForSeconds(0.2f);
+        Shop.interactable = true;
         Level_up.interactable = true;
+        Book.interactable = true;
+        START.interactable = true;
     }
     public IEnumerator Setting_to_Server() {
+        Shop.interactable = false;
+        Level_up.interactable = false;
+        Book.interactable = false;
+        START.interactable = false;
         Setting.interactable = false;
         IEnumerator coroutine = ServerScript.setting(ServerScript.volume,ServerScript.backVolume,ServerScript.shock);
         yield return StartCoroutine(coroutine);
@@ -84,6 +110,10 @@ public class ButtonManager : MonoBehaviour{
         bool_setting = false;
         yield return new WaitForSeconds(0.2f);
         Setting.interactable = true;
+        Shop.interactable = true;
+        Level_up.interactable = true;
+        Book.interactable = true;
+        START.interactable = true;
     }
     // Click < Ranking_list > 
     public void Button_Ranking_list() {

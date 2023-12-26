@@ -28896,11 +28896,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ALL_Button: {fileID: 1525475799}
+  Change: {fileID: 1763354941}
   page_Ranking_list: {fileID: 177549138}
+  Shop: {fileID: 801755230}
   page_Shop: {fileID: 348033557}
+  Book: {fileID: 736452333}
   page_Book: {fileID: 473518404}
   Level_up: {fileID: 626545502}
   page_Level_up: {fileID: 679032856}
+  START: {fileID: 1626667278}
   page_Start: {fileID: 586526259}
   Setting: {fileID: 1677593194}
   page_Setting: {fileID: 2130953238}
