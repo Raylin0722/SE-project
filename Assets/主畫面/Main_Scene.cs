@@ -5,14 +5,15 @@ using System.Collections;
 using Small_ranking_list_Method;
 using System;
 using ServerMethod;
-using Unity.VisualScripting;
 public class ButtonManager : MonoBehaviour{
     public GameObject ALL_Button; // ALL Button in Canvas of Main_Scene
     public GameObject page_Ranking_list; // the page for Ranking list
     public GameObject page_Shop; // the page for Shop
     public GameObject page_Book; // the page for Book
+    public Button Level_up;
     public GameObject page_Level_up; // the page for Level up
     public GameObject page_Start; // the page for PVE
+    public Button Setting;
     public GameObject page_Setting; // the page for Settings
     public GameObject page_Log_out; // the page for Friends
     public GameObject Top_up; // Top up
@@ -42,12 +43,11 @@ public class ButtonManager : MonoBehaviour{
         if(MainMenu.message!=87) {
             Top_up.SetActive(true);
             ServerScript = FindObjectOfType<ServerMethod.Server>();
-            if(ServerScript.faction[0]==0)  StartCoroutine(Play_Music());
         }
         else    StartCoroutine(Play_Music());
     }
     void Update() {
-        if(MainMenu.message!=87) if(ServerScript.faction[0]==0 && Music_Main_Scene==false)  StartCoroutine(Play_Music());
+        if(MainMenu.message!=87) if(ServerScript.faction[0]==0 && Music_Main_Scene.activeSelf==false)  StartCoroutine(Play_Music());
         if(MainMenu.message!=87)    if(ServerScript.rankClear.Count!=0)    Update_Ranking_List(); // Update Ranking_List in Main_Scene
         Update_values(); // Update energy && money && tear
         if(bool_level_up==false && page_Level_up.activeSelf==true)      bool_level_up = true;
@@ -68,17 +68,22 @@ public class ButtonManager : MonoBehaviour{
         }
     }
     private IEnumerator Lineup_to_Surver() {
+        Level_up.interactable = false;
         IEnumerator coroutine = ServerScript.updateLineup(ServerScript.lineup);
         yield return StartCoroutine(coroutine);
         Return result = coroutine.Current as Return;
-        Debug.Log(result.success);
         bool_level_up = false;
+        yield return new WaitForSeconds(0.2f);
+        Level_up.interactable = true;
     }
     public IEnumerator Setting_to_Server() {
+        Setting.interactable = false;
         IEnumerator coroutine = ServerScript.setting(ServerScript.volume,ServerScript.backVolume,ServerScript.shock);
         yield return StartCoroutine(coroutine);
         Return result = coroutine.Current as Return;
         bool_setting = false;
+        yield return new WaitForSeconds(0.2f);
+        Setting.interactable = true;
     }
     // Click < Ranking_list > 
     public void Button_Ranking_list() {

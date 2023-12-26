@@ -29161,8 +29161,10 @@ MonoBehaviour:
   page_Ranking_list: {fileID: 177549138}
   page_Shop: {fileID: 348033557}
   page_Book: {fileID: 473518404}
+  Level_up: {fileID: 626545502}
   page_Level_up: {fileID: 679032856}
   page_Start: {fileID: 586526259}
+  Setting: {fileID: 1677593194}
   page_Setting: {fileID: 2130953238}
   page_Log_out: {fileID: 843426437}
   Top_up: {fileID: 1861754573}
@@ -34114,7 +34116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94546e5b83006f3428edf994038d7355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Change: {fileID: 1763354939}
+  Change: {fileID: 1763354941}
   portraits:
   - {fileID: 1719969303}
   - {fileID: 80122034}

@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System;
 using ServerMethod;
 public class USER : MonoBehaviour{
-    public GameObject Change; // Change portrait Button
+    public Button Change; // Change portrait Button
     public GameObject[] portraits; // The all portraits in USER
     private ServerMethod.Server ServerScript; // Server.cs
     public Image Experience_line;
@@ -32,19 +33,25 @@ public class USER : MonoBehaviour{
         for(int i = ServerScript.faction[1] + 1; i<6; i++) {
             if(ServerScript.faction[i]==1) {
                 ServerScript.faction[1] = i;
-                StartCoroutine(ServerScript.updateFaction(ServerScript.faction[1]));
-                Update_Display();
+                StartCoroutine(Faction_to_Surver());
                 return;
             }
         }
         for(int i = 2; i<=ServerScript.faction[1]; i++) {
             if(ServerScript.faction[i]==1) {
                 ServerScript.faction[1] = i;
-                StartCoroutine(ServerScript.updateFaction(ServerScript.faction[1]));
-                Update_Display();
+                StartCoroutine(Faction_to_Surver());
                 return;
             }
         }
+    }
+    private IEnumerator Faction_to_Surver() {
+        Change.interactable = false;
+        IEnumerator coroutine = ServerScript.updateFaction(ServerScript.faction[1]);
+        yield return StartCoroutine(coroutine);
+        Return result = coroutine.Current as Return;
+        yield return new WaitForSeconds(0.2f);
+        Change.interactable = true;
     }
     // Display your portraits
     private void Update_Display() {
