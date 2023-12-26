@@ -170,8 +170,5 @@ public class ButtonManager : MonoBehaviour{
             MainMenu.backVolume = (int)AudioListener.volume;
         }
         else    AudioListener.volume = Mathf.Clamp01((float)ServerScript.backVolume/100f);
-        ServerScript.tear = (int)ServerScript.volume;
-        
-        ServerScript.money = (int)(AudioListener.volume*1000);
     }
 }

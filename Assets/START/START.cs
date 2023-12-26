@@ -38,7 +38,7 @@ public class START : MonoBehaviour{
     private int CurrentStage() {
         int stage = 12;  // 初始化为一个不可能的值
         for (int i = 0; i < 12; i++) {
-            if (ServerScript.clearance[i] == 0 && stage!=12) {
+            if (ServerScript.clearance[i] == 0) {
                 stage = i-1;
                 break;
             }
