@@ -76,19 +76,19 @@ public class ButtonFunction : MonoBehaviour{
     private float tear;
     private int[] Lineup;
     void Start(){
-        if(MainMenu.message==87){
+        if(MainMenu.message==87) {
             slingshotLevel=MainMenu.slingshotLevel;
             faction = MainMenu.faction[1];
             Lineup = MainMenu.lineup;
-        }else{
+        }
+        else {
             ServerScript = FindObjectOfType<ServerMethod.Server>();
             slingshotLevel=ServerScript.slingshotLevel;
             faction = ServerScript.faction[1];
             Lineup = ServerScript.lineup;
         }
+        
         WhiteBack.SetActive(false);
-        //BlackBackground.SetActive(true);
-        //StartButton.SetActive(true);
         Tool.SetActive(false);
         Upgrade.SetActive(false);
         Wicon1.SetActive(false);
@@ -120,10 +120,8 @@ public class ButtonFunction : MonoBehaviour{
         energyLimit=140+slingshotLevel*60+(160/7)*InsideGameUpgrade;
         recovery=3*slingshotLevel;
         UpgradeEnergy=110+5f*InsideGameUpgrade;
-        //BlackBackground.SetActive(false);
         Tool.SetActive(true);
         Upgrade.SetActive(true);
-        //StartButton.SetActive(false);
         Wicon1.SetActive(true);
         Wicon2.SetActive(true);
         Wicon3.SetActive(true);
@@ -140,7 +138,6 @@ public class ButtonFunction : MonoBehaviour{
         if(GameIsStart){
             countDown();
             energy();
-            //currentEnergy=200;
         }
         //判斷我方冷風能不能用以及冷風使用時間過3秒要將移動速度調整回來
         //12-09新增炸彈,功能是炸死離主堡最近的,冷卻一律用windCooldown
@@ -158,18 +155,21 @@ public class ButtonFunction : MonoBehaviour{
                 GameManage.toolIsActive=false;
                 if(windCooldown<0) windCooldown=0.0f;
             }
-        }else GameManage.toolIsUseable=true;
-        if(judge_victory==1)Victory_1_End();    
-        if(judge_defeat==1)Defeat_End();
+        }
+        else GameManage.toolIsUseable=true;
+        if(judge_victory==1)    Victory_1_End();    
+        if(judge_defeat==1)     Defeat_End();
     }
     public void Victory_1_End(){
-        if(MainMenu.message==100){
+        if(MainMenu.message==100) {
             level = ServerScript.exp[0];
             exp = ServerScript.exp[1];
             dollar = ServerScript.money;
             tear = ServerScript.tear;
             StartCoroutine(AfterGame_1());
-        }else Award_Calculate(1);
+        }
+        else    Award_Calculate(1);
+        
         WhiteBack.SetActive(true);
         Time.timeScale=0f;
         Victory_1.SetActive(true);
@@ -186,22 +186,24 @@ public class ButtonFunction : MonoBehaviour{
         Close.SetActive(true);
         Close_bottom.SetActive(true);
     }
-    public IEnumerator AfterGame_1(){
+
+    public IEnumerator AfterGame_1() {
         string target = (GameManage.currentLevel/10) + "-" + (GameManage.currentLevel%10);
         yield return StartCoroutine(ServerScript.afterGame(true,target));
         yield return StartCoroutine(AfterGame_2());
     }
-    public IEnumerator AfterGame_2(){
+    public IEnumerator AfterGame_2() {
         yield return StartCoroutine(ServerScript.updateData());
         yield return StartCoroutine(AfterGame_3());
     }
-    public IEnumerator AfterGame_3(){
+    public IEnumerator AfterGame_3() {
         Dollar.text = ((int)(ServerScript.money-dollar)).ToString();
         if(ServerScript.exp[0]==level)  Exp.text = ((int)(ServerScript.exp[1]-exp)).ToString();
         else                            Exp.text = ((int)((500*Math.Pow(2.5,level-1)-exp+ServerScript.exp[1]))).ToString();
         Tear.text = ((int)(ServerScript.tear-tear)).ToString();
         yield return new WaitForSeconds(0.5f);
     }
+
     public void go_Lobby(){
         Time.timeScale=1.0f;
         SceneManager.LoadScene("SampleScene");
@@ -214,7 +216,8 @@ public class ButtonFunction : MonoBehaviour{
         Time.timeScale=0f;
         Defeat.SetActive(true);
         Close.SetActive(true);
-        Close_bottom.SetActive(true);   
+        Close_bottom.SetActive(true);
+        
         Dollar.text = "0";
         Exp.text = "0";
         Tear.text = "0";
@@ -254,7 +257,6 @@ public class ButtonFunction : MonoBehaviour{
         Continue.SetActive(false);
         Replay.SetActive(false);
         Exit.SetActive(false);
-        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         if(MainMenu.message==100)   ServerScript.CallUpdateUserData();
         GameObject[] dontDestroyObjects = GameObject.FindGameObjectsWithTag("DontDestroy");
         foreach (GameObject obj in dontDestroyObjects)Destroy(obj);
@@ -284,14 +286,9 @@ public class ButtonFunction : MonoBehaviour{
             ShowMinute--;
             if(ShowMinute==(-1)){
                 judge_defeat=1;
-                /*Health health_mine = castles[faction-2].GetComponent<Health>();
-                Health health_yours = castle2.GetComponent<Health>();
-                if(health_mine.currentHealth>health_yours.currentHealth){
-                    judge_victory=1;
-                }else judge_defeat=1;*/
+                
                 Time.timeScale=0f;
                 GameIsStart=false;
-                //BlackBackground.SetActive(true);
                 Tool.SetActive(false);
                 Upgrade.SetActive(false);
             }
@@ -305,7 +302,7 @@ public class ButtonFunction : MonoBehaviour{
         int detect=0;
         if(oneSec>1f){
             oneSec=0f;
-            currentEnergy=currentEnergy+(int)increment;
+            currentEnergy=currentEnergy+(int)(increment*doubleEnergy);
             temp=currentEnergy;
             if(currentEnergy<=energyLimit){
                 Energy.text=currentEnergy.ToString()+"/"+energyLimit.ToString();

@@ -29,6 +29,7 @@ public class Setting : MonoBehaviour{
     public void Button_Vibration() {
         if(MainMenu.message==87)    MainMenu.shock = !MainMenu.shock;
         else    ServerScript.shock = !ServerScript.shock;
+        if(Application.platform==RuntimePlatform.Android && !picture_Vibration_ON.activeSelf)   Handheld.Vibrate();
         Button_Display();
     }
     public void Button_Display() {
@@ -45,7 +46,6 @@ public class Setting : MonoBehaviour{
             picture_Vibration_OFF.SetActive(false); // OFF => false
             Vibration.transform.localScale = new Vector3(-3.73134f,3.980096f,0f);
             Vibration.transform.localPosition = new Vector3(235.6f,30f,0f);
-            if(Application.platform==RuntimePlatform.Android && picture_Vibration_ON)   Handheld.Vibrate();
         }
     }
     // When click < Feedback >
