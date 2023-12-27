@@ -70,18 +70,6 @@ public class ButtonManager : MonoBehaviour{
                 StartCoroutine(Setting_to_Server());
             }
         }
-        if(Change.interactable==false) {
-            Shop.interactable = false;
-            Level_up.interactable = false;
-            Book.interactable = false;
-            START.interactable = false;
-        }
-        else {
-            Shop.interactable = true;
-            Level_up.interactable = true;
-            Book.interactable = true;
-            START.interactable = true;
-        }
     }
     private IEnumerator Lineup_to_Surver() {
         Shop.interactable = false;
