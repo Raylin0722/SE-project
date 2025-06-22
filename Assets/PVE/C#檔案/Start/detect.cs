@@ -36,7 +36,7 @@ public class detect : MonoBehaviour{
         }
     }
     public void GotoUpdatePage(){
-        Application.OpenURL("https://xmu310.github.io");
+        Application.OpenURL("https://somebody.github.io");
         SceneManager.LoadScene("MainMenu");
     }
     public void GoToGame(){
